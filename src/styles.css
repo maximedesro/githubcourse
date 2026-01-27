@@ -3,12 +3,12 @@
 
 /* Retro Gaming Color Scheme - Inspired by classic NES gamepad */
 :root {
-  --retro-dark: #2d2d2d;
-  --retro-grey: #3d3d3d;
+  --retro-dark: #222222;
+  --retro-grey: #333333;
   --retro-light: #f7f7f7;
   --retro-red: #d32f2f;
-  --retro-white: #ffffff;
-  --retro-shadow: rgba(42, 42, 42, 0.3);
+  --retro-white: #fff;
+  --retro-shadow: rgba(41, 41, 41, 0.3);
   --retro-letter-spacing: 2px;
 }
 
