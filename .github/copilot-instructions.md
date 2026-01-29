@@ -75,12 +75,12 @@ start index.html  # Windows
 **Option 2: Simple HTTP Server** (recommended - fonts load properly)
 ```bash
 # Using Python 3 (always available)
-cd /home/runner/work/githubcourse/githubcourse
+cd <repository-root>  # Navigate to the repository directory
 python3 -m http.server 8080 --bind 127.0.0.1
 
 # Then open browser to: http://127.0.0.1:8080/
 # Test all pages: index.html, about.html, contact.html, new.html
-# Kill server when done: kill <PID>  (get PID from ps aux | grep http.server)
+# Stop server: Press Ctrl+C in the terminal running the server
 ```
 
 **Option 3: Using Node.js http-server** (if Node.js is available)
@@ -89,10 +89,11 @@ python3 -m http.server 8080 --bind 127.0.0.1
 npm install -g http-server
 
 # Run server
-cd /home/runner/work/githubcourse/githubcourse
+cd <repository-root>  # Navigate to the repository directory
 http-server -p 8080
 
 # Open: http://127.0.0.1:8080/
+# Stop server: Press Ctrl+C in the terminal running the server
 ```
 
 ### Testing Changes
@@ -218,7 +219,7 @@ http-server -p 8080
 4. Test all modified pages
 5. Test navigation between pages
 6. Test responsive design (resize browser)
-7. Kill server process
+7. Stop server with Ctrl+C
 8. Commit changes
 
 ## File Size and Performance
