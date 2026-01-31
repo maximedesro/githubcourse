@@ -335,7 +335,7 @@ h6 {
   margin: 0;
 }
 
-.contact-submit-btn {
+.contact-submit-button {
   background: var(--retro-red);
   color: var(--retro-white);
   padding: 1rem 2rem;
@@ -350,12 +350,12 @@ h6 {
   box-shadow: 0 4px 0 #b71c1c;
 }
 
-.contact-submit-btn:hover {
+.contact-submit-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 0 #b71c1c;
 }
 
-.contact-submit-btn:active {
+.contact-submit-button:active {
   transform: translateY(2px);
   box-shadow: 0 2px 0 #b71c1c;
 }
@@ -456,7 +456,7 @@ h6 {
   gap: 0.8rem;
 }
 
-.action-btn {
+.action-button {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -473,30 +473,30 @@ h6 {
   box-shadow: 0 5px 0 #b71c1c;
 }
 
-.action-btn:active {
+.action-button:active {
   transform: translateY(3px);
   box-shadow: 0 2px 0 #b71c1c;
 }
 
-.action-btn .arrow {
+.action-button .arrow {
   font-size: 1.2rem;
   font-weight: bold;
 }
 
-.action-btn .initials {
+.action-button .initials {
   font-size: 0.9rem;
   font-weight: 600;
 }
 
 /* Author button styling */
-.author-btn {
+.author-button {
   background: var(--retro-white);
   color: var(--retro-red);
   border: 3px solid var(--retro-red);
   box-shadow: 0 5px 0 #b71c1c;
 }
 
-.author-btn:hover {
+.author-button:hover {
   background: var(--retro-red);
   color: var(--retro-white);
 }
