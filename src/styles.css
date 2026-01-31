@@ -111,13 +111,17 @@ h6 {
   border: 2px solid var(--retro-red);
   background: var(--retro-white);
   color: var(--retro-red);
-  padding: 0.4rem 0.9rem;
+  padding: 0.4rem 0.6rem;
   border-radius: 999px;
   font-family: "Inter", sans-serif;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 3px 0 var(--retro-red-dark);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4rem;
 }
 
 .theme-toggle:hover {
@@ -128,6 +132,11 @@ h6 {
 .theme-toggle:active {
   transform: translateY(2px);
   box-shadow: 0 1px 0 var(--retro-red-dark);
+}
+
+.theme-toggle__icon {
+  font-size: 1rem;
+  line-height: 1;
 }
 
 /* Main title styling */
