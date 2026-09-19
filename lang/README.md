@@ -1,4 +1,4 @@
-# Vectorize This language research
+# VectorizeThis language research
 
 This folder contains machine-readable terminology research for translating and reviewing VectorizeThis.com.
 
@@ -48,7 +48,7 @@ For translation:
 4. Use `ui_variant` for short buttons, labels and settings when supplied.
 5. Respect `avoid`, `keep_english`, `register`, `notes`, and `confidence`.
 6. Inflect and restructure naturally. Do not freeze glossary strings when grammar, particles, gender, number, case, suffixes, code-switching, or word order require changes.
-7. Never translate or alter PNG, JPG, JPEG, SVG, CNC, Vectorize This, Adobe Illustrator, Cricut or Tinkercad.
+7. Never translate or alter PNG, JPG, JPEG, SVG, CNC, VectorizeThis, Adobe Illustrator, Cricut or Tinkercad.
 8. Never reverse input/output direction. “PNG to SVG” must remain PNG source → SVG output.
 9. Preserve privacy claims precisely. “Runs locally/in your browser” means image processing occurs on the user’s device; it must not become generic cloud/security wording or “works offline.”
 10. Do not turn “scales without losing quality” into a claim that the tool improves, restores or invents image detail.
