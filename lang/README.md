@@ -30,6 +30,11 @@ This folder contains machine-readable terminology research for translating and r
 - `fa-IR.json` — Persian.
 - `ur-PK.json` — Urdu.
 - `tr-TR.json` — Turkish.
+- `ru-RU.json` — Russian.
+- `uk-UA.json` — Ukrainian.
+- `pl-PL.json` — Polish.
+- `el-GR.json` — Greek.
+- `sw-KE.json` — Swahili (Kenya-oriented default).
 
 ## How to use these files
 
@@ -63,6 +68,11 @@ For review:
 - **SEO wording vs natural prose:** short query language can differ from complete-sentence localization.
 - **Filipino, Hindi, Persian, Urdu:** established graphics/software usage often mixes local grammar with English-derived technical terminology. Do not over-localize these into obscure terms.
 - **Turkish:** allow natural Turkish case suffixes and vowel harmony around file-format tokens, e.g. `SVG'ye`, `PNG'yi`.
+- **Russian:** distinguish `Трассировка изображения` (tracing) from `векторизация` (general vectorization) and `контур` (path geometry).
+- **Ukrainian:** use `Трасування зображення`, `векторизація`, and `контур`; avoid Russian-influenced UI wording such as `скачати` when standard Ukrainian `завантажити` is appropriate.
+- **Polish:** Adobe uses `Obrys obrazu`, `ścieżka`, and `punkt kontrolny`; allow natural case inflection rather than freezing glossary forms.
+- **Greek:** prefer `διανυσματοποίηση` / `διανυσματικά γραφικά` for vectorization concepts; some Adobe feature labels may remain English.
+- **Swahili:** authoritative localized graphics terminology is sparse. Prefer clear standard Swahili plus familiar English technical loans over obscure coined terminology, and respect lower confidence markers.
 - **Arabic:** use neutral Modern Standard Arabic rather than a regional dialect.
 - **Hebrew:** modern Israeli software terminology often retains English product feature names such as `Image Trace` while localizing surrounding explanations.
 
@@ -95,6 +105,7 @@ Vendor localization coverage is uneven:
 - Arabic, Hebrew and Turkish currently have strong localized Adobe terminology.
 - Persian and Urdu have weaker authoritative Illustrator localization coverage, so specialist terminology is intentionally more conservative and several decisions are marked medium/low confidence.
 - Bengali similarly remains conservative because authoritative localized graphics terminology is sparse.
+- Swahili also has sparse authoritative localized Illustrator terminology, so specialist terms are intentionally conservative and lower-confidence items permit familiar English loans.
 - Filipino intentionally preserves natural code-switching because Adobe Philippines does so itself.
 
 ## Stable concept IDs
@@ -122,5 +133,6 @@ Completed research batches:
 - **Run 3:** Simplified Chinese, Japanese, Korean, Vietnamese, Thai.
 - **Run 4:** Indonesian, Malaysian Malay, Filipino, Hindi, Bengali.
 - **Run 5:** Modern Standard Arabic, Hebrew, Persian, Urdu, Turkish.
+- **Run 6:** Russian, Ukrainian, Polish, Greek, Swahili.
 
-The folder currently contains **25 locale datasets**.
+The folder currently contains **30 locale datasets**.
