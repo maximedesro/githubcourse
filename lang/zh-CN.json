@@ -1,0 +1,596 @@
+{
+  "schema_version": 1,
+  "language": "Chinese",
+  "locale": "zh-CN",
+  "recommended_locale_reason": "Use Simplified Chinese (zh-CN) as the default Chinese locale for an international software/SEO site. It aligns with Adobe's Mainland China localization and the largest Simplified-Chinese web audience. Add zh-TW later if Traditional Chinese is required.",
+  "register": {
+    "default": "neutral-direct",
+    "pronoun_strategy": "Prefer concise software wording and omit pronouns where possible. When direct address is necessary, use 您 sparingly in help/marketing prose; UI labels should normally be pronoun-free.",
+    "notes": "Avoid literal English word order. Chinese SEO and UI often favor compact noun/verb phrases."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "矢量",
+      "seo_variants": [
+        "矢量"
+      ],
+      "ui_variant": "矢量",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "矢量图像",
+      "seo_variants": [
+        "矢量图",
+        "矢量图像"
+      ],
+      "ui_variant": "矢量图像",
+      "alternatives": [
+        "矢量图片"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "矢量图形",
+      "seo_variants": [
+        "矢量图形",
+        "矢量图"
+      ],
+      "ui_variant": "矢量图形",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "矢量化",
+      "seo_variants": [
+        "图像矢量化",
+        "图片矢量化"
+      ],
+      "ui_variant": "矢量化",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "矢量化",
+      "seo_variants": [
+        "图像矢量化"
+      ],
+      "ui_variant": "矢量化",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "光栅",
+      "seo_variants": [
+        "光栅",
+        "栅格"
+      ],
+      "ui_variant": "光栅",
+      "alternatives": [
+        "栅格"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe China commonly uses 光栅 in Illustrator documentation; 栅格 also appears in technical contexts.",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "光栅图像",
+      "seo_variants": [
+        "光栅图像",
+        "栅格图像"
+      ],
+      "ui_variant": "光栅图像",
+      "alternatives": [
+        "栅格图像"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "位图",
+      "seo_variants": [
+        "位图"
+      ],
+      "ui_variant": "位图",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "图像描摹",
+      "seo_variants": [
+        "图像描摹",
+        "图像矢量化"
+      ],
+      "ui_variant": "图像描摹",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Exact Adobe Illustrator localized feature name.",
+      "confidence": "high"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "描摹",
+      "seo_variants": [
+        "图像描摹",
+        "矢量化"
+      ],
+      "ui_variant": "描摹",
+      "alternatives": [
+        "自动描摹"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use 描摹 for tracing mechanics; 矢量化 for the broader conversion goal.",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "路径",
+      "seo_variants": [
+        "SVG 路径",
+        "矢量路径"
+      ],
+      "ui_variant": "路径",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "锚点",
+      "seo_variants": [
+        "锚点"
+      ],
+      "ui_variant": "锚点",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "曲线",
+      "seo_variants": [
+        "矢量曲线"
+      ],
+      "ui_variant": "曲线",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "形状",
+      "seo_variants": [
+        "矢量形状"
+      ],
+      "ui_variant": "形状",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "像素",
+      "seo_variants": [
+        "像素"
+      ],
+      "ui_variant": "像素",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "分辨率",
+      "seo_variants": [
+        "图像分辨率"
+      ],
+      "ui_variant": "分辨率",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "可缩放",
+      "seo_variants": [
+        "可缩放",
+        "任意缩放"
+      ],
+      "ui_variant": "可缩放",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "缩放时不会降低质量",
+      "seo_variants": [
+        "无损缩放",
+        "放大不失真",
+        "缩放不损失质量"
+      ],
+      "ui_variant": "缩放不损失质量",
+      "alternatives": [
+        "任意缩放仍保持清晰"
+      ],
+      "avoid": [
+        "提升画质"
+      ],
+      "keep_english": false,
+      "notes": "Do not imply that vectorization restores missing detail.",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "透明背景",
+      "seo_variants": [
+        "透明背景"
+      ],
+      "ui_variant": "透明背景",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "移除背景",
+      "seo_variants": [
+        "去除背景",
+        "移除背景"
+      ],
+      "ui_variant": "移除背景",
+      "alternatives": [
+        "删除背景"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "上传",
+      "seo_variants": [
+        "上传图片"
+      ],
+      "ui_variant": "上传",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "下载",
+      "seo_variants": [
+        "下载 SVG"
+      ],
+      "ui_variant": "下载",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "预览",
+      "seo_variants": [
+        "预览"
+      ],
+      "ui_variant": "预览",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "预设",
+      "seo_variants": [
+        "预设"
+      ],
+      "ui_variant": "预设",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "优化",
+      "seo_variants": [
+        "SVG 优化"
+      ],
+      "ui_variant": "优化",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "文件大小",
+      "seo_variants": [
+        "SVG 文件大小"
+      ],
+      "ui_variant": "文件大小",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "源图像",
+      "seo_variants": [
+        "源图像",
+        "原始图像"
+      ],
+      "ui_variant": "源图像",
+      "alternatives": [
+        "原始图像"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "输出文件",
+      "seo_variants": [
+        "SVG 输出文件"
+      ],
+      "ui_variant": "输出文件",
+      "alternatives": [
+        "生成的文件"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "在浏览器中运行",
+      "seo_variants": [
+        "浏览器在线工具",
+        "在浏览器中"
+      ],
+      "ui_variant": "在浏览器中",
+      "alternatives": [
+        "基于浏览器"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Prefer idiomatic phrasing over a literal calque.",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "在浏览器中本地处理",
+      "seo_variants": [
+        "本地处理",
+        "设备端处理"
+      ],
+      "ui_variant": "本地处理",
+      "alternatives": [
+        "在设备上处理"
+      ],
+      "avoid": [
+        "离线处理"
+      ],
+      "keep_english": false,
+      "notes": "Do not imply offline operation.",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "闭合路径",
+      "seo_variants": [
+        "闭合路径",
+        "闭合 SVG 路径"
+      ],
+      "ui_variant": "闭合路径",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "开放路径",
+      "seo_variants": [
+        "开放路径",
+        "开放 SVG 路径"
+      ],
+      "ui_variant": "开放路径",
+      "alternatives": [
+        "未闭合路径"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "转换",
+      "seo_variants": [
+        "PNG 转 SVG",
+        "转换 PNG 为 SVG"
+      ],
+      "ui_variant": "转换",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "转换器",
+      "seo_variants": [
+        "PNG 转 SVG 转换器",
+        "SVG 转换器"
+      ],
+      "ui_variant": "转换器",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG 转 SVG",
+      "PNG转SVG转换器",
+      "图片转 SVG",
+      "图像矢量化",
+      "光栅转矢量"
+    ],
+    "keyword_rules": [
+      "Compact 'PNG 转 SVG' / 'PNG转SVG' is natural for headings and queries.",
+      "Use 图像矢量化 for the true raster-to-vector concept.",
+      "Keep PNG/JPG/JPEG/SVG unchanged and uppercase.",
+      "Do not overuse spaces inside compact Chinese SEO phrases, but normal prose may include spacing around Latin abbreviations according to house style."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer 上传、转换/矢量化、下载、预览、预设.",
+      "Use 图像描摹 specifically for tracing; use 路径 for vector/SVG geometry.",
+      "Keep labels short and omit unnecessary pronouns."
+    ]
+  },
+  "translation_rules": [
+    "Preserve input/output direction exactly.",
+    "Do not translate brands or file-format acronyms.",
+    "Use Simplified Chinese consistently; do not mix Traditional characters.",
+    "Keep local-processing/privacy meaning explicit and distinct from generic online/cloud processing."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "图像追踪",
+      "preferred_meaning": "图像描摹",
+      "reason": "Adobe Illustrator uses 图像描摹."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "本地运行",
+      "preferred_meaning": "在您的设备/浏览器中本地处理",
+      "reason": "Clarifies on-device privacy semantics."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "干净的 SVG",
+      "preferred_meaning": "优化后的 SVG / 路径简洁的 SVG",
+      "reason": "Clarify whether clean refers to markup or geometry."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_trace": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/cn/illustrator/desktop/manage-objects/traces-mockups-symbols/trace-images-to-convert-raster-into-vector-artwork.html",
+      "locale": "zh-CN",
+      "notes": "Uses 图像描摹, 光栅图稿/光栅图像, 矢量图形, 矢量路径, 预设, 分辨率."
+    },
+    "adobe_paths": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/cn/illustrator/desktop/draw-shapes-and-paths/learn-drawing-basics/paths-overview.html",
+      "locale": "zh-CN",
+      "notes": "Uses 路径, 锚点, 开放路径, 闭合路径, 曲线."
+    },
+    "search_usage": {
+      "publisher": "Observed Simplified Chinese search-result wording",
+      "url": "https://convertio.co/zh/png-svg/",
+      "locale": "zh-CN",
+      "notes": "Uses PNG转SVG转换器, 光栅转矢量, 可缩放 SVG 图形, 浏览器, 下载."
+    }
+  }
+}
