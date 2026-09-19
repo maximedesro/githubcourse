@@ -10,6 +10,11 @@ This folder contains machine-readable terminology research for translating and r
 - `es-ES.json` — Spanish (Spain / neutral international starting point).
 - `it-IT.json` — Italian.
 - `pt-BR.json` — Brazilian Portuguese, selected as the default Portuguese locale for the larger Portuguese-language web/search audience.
+- `nl-NL.json` — Dutch (Netherlands / international Dutch default).
+- `da-DK.json` — Danish.
+- `nb-NO.json` — Norwegian Bokmål, selected as the default Norwegian written locale.
+- `sv-SE.json` — Swedish.
+- `fi-FI.json` — Finnish.
 
 ## How to use these files
 
@@ -22,7 +27,7 @@ For translation:
 3. Use `seo_variants` in SEO-sensitive titles, headings, FAQs and links when they are more natural for search intent.
 4. Use `ui_variant` for short buttons, labels and settings when supplied.
 5. Respect `avoid`, `keep_english`, `register`, and `notes`.
-6. Inflect terms naturally. Do not freeze glossary strings when grammar requires gender, case, articles, contractions, conjugation or word-order changes.
+6. Inflect terms naturally. Do not freeze glossary strings when grammar requires gender, case, articles, contractions, conjugation, compounds or word-order changes.
 7. Never translate or alter PNG, JPG, JPEG, SVG, CNC, Vectorize This, Adobe Illustrator, Cricut or Tinkercad.
 8. Never reverse input/output direction. “PNG to SVG” must always remain PNG source → SVG output.
 9. Preserve privacy claims precisely. “Runs locally/in your browser” means image processing occurs on the user’s device; it must not be weakened to generic “secure online processing” or strengthened to “works offline.”
@@ -40,7 +45,10 @@ For review:
 - **Vectorization vs tracing:** these overlap but are not always the same localized word. Each locale JSON records the preferred general vectorization term and the localized Illustrator-style tracing term.
 - **Path vs tracing:** a vector/SVG “path” is geometry; “tracing” is the process. Do not use one term indiscriminately for both.
 - **Raster vs bitmap:** some languages prefer a localized technical term while others commonly retain “raster” or “bitmap.”
-- **SEO wording vs natural prose:** short query patterns such as “PNG a SVG”, “PNG en SVG”, “PNG zu SVG”, etc. can differ from the best wording in a complete sentence.
+- **SEO wording vs natural prose:** compact search phrases can differ from the best wording in a complete sentence.
+- **Nordic UI wording:** Danish, Norwegian, Swedish and Finnish often use concise native verbs for upload/download/conversion, but English technical loans remain normal in some design contexts.
+- **Finnish morphology:** terms must be inflected and compounded naturally. Concept IDs are semantic anchors, not frozen translated strings.
+- **Norwegian locale:** use Bokmål (`nb-NO`) consistently unless a separate Nynorsk locale is intentionally introduced.
 
 ## Evidence and confidence
 
@@ -50,7 +58,7 @@ The research prioritizes:
 2. localized Adobe Illustrator / Adobe Express terminology,
 3. observed localized search-result wording and established converter/design terminology.
 
-Each locale file includes a `sources` object and per-term confidence. Lower-confidence items should be rechecked when they become central to a page or UI.
+Each locale file includes a `sources` object and per-term confidence. Lower-confidence items should be rechecked when they become central to a page or UI. In particular, some Norwegian Illustrator UI terminology is less consistently localized in current Adobe pages than the other languages, so generic user-facing recommendations may deliberately differ from an untranslated Adobe feature label.
 
 ## Stable concept IDs
 
@@ -69,4 +77,9 @@ When adding or revising terminology:
 
 ## Scope
 
-This is Run 1 of the multilingual terminology research and covers French, German, Spanish, Italian and Brazilian Portuguese.
+Completed research batches:
+
+- **Run 1:** French, German, Spanish, Italian, Brazilian Portuguese.
+- **Run 2:** Dutch, Danish, Norwegian Bokmål, Swedish, Finnish.
+
+The folder currently contains 10 locale datasets.
