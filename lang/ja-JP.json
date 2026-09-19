@@ -1,0 +1,590 @@
+{
+  "schema_version": 1,
+  "language": "Japanese",
+  "locale": "ja-JP",
+  "recommended_locale_reason": "Use standard Japanese for Japan. Adobe Japan provides mature localized Illustrator terminology and is a strong reference for professional graphics vocabulary.",
+  "register": {
+    "default": "neutral-polite",
+    "pronoun_strategy": "Prefer concise UI labels. In explanatory prose, use standard polite です/ます style without unnecessary second-person pronouns.",
+    "notes": "Avoid literal English noun stacking; Japanese often prefers action phrases such as PNGをSVGに変換."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "ベクター",
+      "seo_variants": [
+        "ベクター"
+      ],
+      "ui_variant": "ベクター",
+      "alternatives": [
+        "ベクトル"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "For graphics/design contexts, Adobe and search results favor ベクター; ベクトル is mathematical/general.",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "ベクター画像",
+      "seo_variants": [
+        "ベクター画像"
+      ],
+      "ui_variant": "ベクター画像",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "ベクターグラフィック",
+      "seo_variants": [
+        "ベクターグラフィック"
+      ],
+      "ui_variant": "ベクターグラフィック",
+      "alternatives": [
+        "ベクターアートワーク"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "ベクトル化",
+      "seo_variants": [
+        "画像をベクトル化",
+        "ベクター化"
+      ],
+      "ui_variant": "ベクトル化",
+      "alternatives": [
+        "ベクター化"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe uses ベクトル化 in help content while ベクター化 is also natural in general design usage.",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "ベクトル化",
+      "seo_variants": [
+        "ベクトル化",
+        "ベクター化"
+      ],
+      "ui_variant": "ベクトル化",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "ラスター",
+      "seo_variants": [
+        "ラスター"
+      ],
+      "ui_variant": "ラスター",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "ラスター画像",
+      "seo_variants": [
+        "ラスター画像"
+      ],
+      "ui_variant": "ラスター画像",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "ビットマップ",
+      "seo_variants": [
+        "ビットマップ"
+      ],
+      "ui_variant": "ビットマップ",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "画像トレース",
+      "seo_variants": [
+        "画像トレース",
+        "画像のベクトル化"
+      ],
+      "ui_variant": "画像トレース",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Exact Adobe Illustrator localized feature name.",
+      "confidence": "high"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "トレース",
+      "seo_variants": [
+        "画像トレース",
+        "ベクトル化"
+      ],
+      "ui_variant": "トレース",
+      "alternatives": [
+        "自動トレース"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Use トレース for tracing mechanics; ベクトル化 for the broader conversion outcome.",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "パス",
+      "seo_variants": [
+        "SVGパス",
+        "ベクターパス"
+      ],
+      "ui_variant": "パス",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "アンカーポイント",
+      "seo_variants": [
+        "アンカーポイント"
+      ],
+      "ui_variant": "アンカーポイント",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "曲線",
+      "seo_variants": [
+        "ベクター曲線"
+      ],
+      "ui_variant": "曲線",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "シェイプ",
+      "seo_variants": [
+        "シェイプ",
+        "ベクターシェイプ"
+      ],
+      "ui_variant": "シェイプ",
+      "alternatives": [
+        "形状"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "ピクセル",
+      "seo_variants": [
+        "ピクセル"
+      ],
+      "ui_variant": "ピクセル",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "解像度",
+      "seo_variants": [
+        "画像解像度"
+      ],
+      "ui_variant": "解像度",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "拡大・縮小可能",
+      "seo_variants": [
+        "スケーラブル",
+        "拡大しても鮮明"
+      ],
+      "ui_variant": "拡大・縮小可能",
+      "alternatives": [
+        "スケーラブル"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "品質を損なわずに拡大・縮小できる",
+      "seo_variants": [
+        "拡大しても画質が劣化しない",
+        "品質を損なわずに拡大縮小"
+      ],
+      "ui_variant": "品質を損なわずに拡大・縮小",
+      "alternatives": [],
+      "avoid": [
+        "画質が向上する"
+      ],
+      "keep_english": false,
+      "notes": "Do not imply enhancement.",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "透明な背景",
+      "seo_variants": [
+        "背景を透明に",
+        "透明背景"
+      ],
+      "ui_variant": "透明な背景",
+      "alternatives": [
+        "透明背景"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "背景を削除",
+      "seo_variants": [
+        "背景を削除",
+        "背景除去"
+      ],
+      "ui_variant": "背景を削除",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "アップロード",
+      "seo_variants": [
+        "画像をアップロード"
+      ],
+      "ui_variant": "アップロード",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "ダウンロード",
+      "seo_variants": [
+        "SVGをダウンロード"
+      ],
+      "ui_variant": "ダウンロード",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "プレビュー",
+      "seo_variants": [
+        "プレビュー"
+      ],
+      "ui_variant": "プレビュー",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "プリセット",
+      "seo_variants": [
+        "プリセット"
+      ],
+      "ui_variant": "プリセット",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "最適化",
+      "seo_variants": [
+        "SVG最適化"
+      ],
+      "ui_variant": "最適化",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "ファイルサイズ",
+      "seo_variants": [
+        "SVGファイルサイズ"
+      ],
+      "ui_variant": "ファイルサイズ",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "元の画像",
+      "seo_variants": [
+        "元画像",
+        "ソース画像"
+      ],
+      "ui_variant": "元の画像",
+      "alternatives": [
+        "ソース画像"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "出力ファイル",
+      "seo_variants": [
+        "SVG出力ファイル"
+      ],
+      "ui_variant": "出力ファイル",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "ブラウザ上で動作",
+      "seo_variants": [
+        "ブラウザだけで完結",
+        "ブラウザ上"
+      ],
+      "ui_variant": "ブラウザ上",
+      "alternatives": [
+        "ブラウザベース"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "ブラウザ内でローカル処理",
+      "seo_variants": [
+        "ローカル処理",
+        "端末上で処理"
+      ],
+      "ui_variant": "ローカル処理",
+      "alternatives": [
+        "デバイス上で処理"
+      ],
+      "avoid": [
+        "オフライン"
+      ],
+      "keep_english": false,
+      "notes": "Do not imply offline operation.",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "閉じたパス",
+      "seo_variants": [
+        "閉じたSVGパス"
+      ],
+      "ui_variant": "閉じたパス",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "開いたパス",
+      "seo_variants": [
+        "開いたSVGパス"
+      ],
+      "ui_variant": "開いたパス",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "変換",
+      "seo_variants": [
+        "PNGをSVGに変換",
+        "PNGからSVGへ変換"
+      ],
+      "ui_variant": "変換",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "コンバーター",
+      "seo_variants": [
+        "PNGからSVGコンバーター",
+        "SVGコンバーター"
+      ],
+      "ui_variant": "コンバーター",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNGをSVGに変換",
+      "PNGからSVGへ変換",
+      "PNGからSVGコンバーター",
+      "画像をベクトル化",
+      "ラスターからベクター"
+    ],
+    "keyword_rules": [
+      "Japanese commonly uses both 'PNGをSVGに変換' and compact 'PNGからSVG'.",
+      "Use ベクトル化/ベクター化 for true raster-to-vector intent.",
+      "Keep SVG/PNG/JPG/JPEG unchanged.",
+      "コンバーター is a normal loanword in search/UI contexts."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer アップロード、変換/ベクトル化、ダウンロード、プレビュー、プリセット.",
+      "Use 画像トレース for the tracing feature and パス for vector geometry.",
+      "Keep UI concise; use polite prose outside buttons."
+    ]
+  },
+  "translation_rules": [
+    "Preserve input/output direction.",
+    "Do not translate brands/file-format acronyms.",
+    "Use Japanese punctuation/spacing naturally rather than mirroring English.",
+    "Keep local-processing claim explicit."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "画像追跡",
+      "preferred_meaning": "画像トレース",
+      "reason": "Adobe Illustrator uses 画像トレース."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "ローカルで実行",
+      "preferred_meaning": "ブラウザ内/端末上でローカル処理",
+      "reason": "Clarifies privacy semantics."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "クリーンなSVG",
+      "preferred_meaning": "最適化されたSVG / パスが整理されたSVG",
+      "reason": "Specify the intended technical meaning."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_trace": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/jp/illustrator/desktop/manage-objects/traces-mockups-symbols/trace-images-to-convert-raster-into-vector-artwork.html",
+      "locale": "ja-JP",
+      "notes": "Uses 画像トレース, ラスター画像, ベクターパス, プリセット, 品質を損なうことなく."
+    },
+    "adobe_optimize": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/jp/illustrator/using/image-trace-results-optimization.html",
+      "locale": "ja-JP",
+      "notes": "Uses ベクトル化, ベクターグラフィックス, パス, 元の画像."
+    },
+    "search_usage": {
+      "publisher": "Observed Japanese search-result wording",
+      "url": "https://convertio.co/ja/png-svg/",
+      "locale": "ja-JP",
+      "notes": "Uses PNGからSVGコンバーター, ラスターからベクター, ブラウザだけで完結, ダウンロード."
+    }
+  }
+}
