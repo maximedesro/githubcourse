@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "project": "Vectorize This",
-  "run": 3,
+  "run": 4,
   "generated_for": "translation and translation-review agents",
   "languages": [
     {
@@ -123,6 +123,46 @@
       "concept_count": 35,
       "register_summary": "neutral-friendly",
       "overall_confidence": "high"
+    },
+    {
+      "language": "Indonesian",
+      "locale": "id-ID",
+      "filename": "id-ID.json",
+      "concept_count": 35,
+      "register_summary": "neutral-friendly",
+      "overall_confidence": "high"
+    },
+    {
+      "language": "Malay",
+      "locale": "ms-MY",
+      "filename": "ms-MY.json",
+      "concept_count": 35,
+      "register_summary": "neutral-friendly",
+      "overall_confidence": "high"
+    },
+    {
+      "language": "Filipino",
+      "locale": "fil-PH",
+      "filename": "fil-PH.json",
+      "concept_count": 35,
+      "register_summary": "neutral-friendly",
+      "overall_confidence": "high"
+    },
+    {
+      "language": "Hindi",
+      "locale": "hi-IN",
+      "filename": "hi-IN.json",
+      "concept_count": 35,
+      "register_summary": "neutral-polite",
+      "overall_confidence": "high"
+    },
+    {
+      "language": "Bengali",
+      "locale": "bn-BD",
+      "filename": "bn-BD.json",
+      "concept_count": 35,
+      "register_summary": "neutral-friendly",
+      "overall_confidence": "medium"
     }
   ]
 }
