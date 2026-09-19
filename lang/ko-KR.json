@@ -1,0 +1,576 @@
+{
+  "schema_version": 1,
+  "language": "Korean",
+  "locale": "ko-KR",
+  "recommended_locale_reason": "Use standard South Korean Korean (ko-KR). Adobe Korea provides strong localized Illustrator terminology that aligns well with current design/software usage.",
+  "register": {
+    "default": "neutral-polite",
+    "pronoun_strategy": "Use concise UI labels. In prose, use consistent polite 합니다/하세요 style; avoid explicit second-person pronouns unless necessary.",
+    "notes": "Korean software copy often combines Korean terminology with established English acronyms and loanwords."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "벡터",
+      "seo_variants": [
+        "벡터"
+      ],
+      "ui_variant": "벡터",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "벡터 이미지",
+      "seo_variants": [
+        "벡터 이미지"
+      ],
+      "ui_variant": "벡터 이미지",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "벡터 그래픽",
+      "seo_variants": [
+        "벡터 그래픽"
+      ],
+      "ui_variant": "벡터 그래픽",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "벡터화",
+      "seo_variants": [
+        "이미지 벡터화",
+        "PNG 벡터화"
+      ],
+      "ui_variant": "벡터화",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "벡터화",
+      "seo_variants": [
+        "이미지 벡터화"
+      ],
+      "ui_variant": "벡터화",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "래스터",
+      "seo_variants": [
+        "래스터"
+      ],
+      "ui_variant": "래스터",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "래스터 이미지",
+      "seo_variants": [
+        "래스터 이미지"
+      ],
+      "ui_variant": "래스터 이미지",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "비트맵",
+      "seo_variants": [
+        "비트맵"
+      ],
+      "ui_variant": "비트맵",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "이미지 추적",
+      "seo_variants": [
+        "이미지 추적",
+        "이미지 벡터화"
+      ],
+      "ui_variant": "이미지 추적",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Exact Adobe Illustrator localized feature name.",
+      "confidence": "high"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "추적",
+      "seo_variants": [
+        "이미지 추적",
+        "벡터화"
+      ],
+      "ui_variant": "추적",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use 추적 for tracing mechanics and 벡터화 for the broader conversion goal.",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "패스",
+      "seo_variants": [
+        "SVG 패스",
+        "벡터 패스"
+      ],
+      "ui_variant": "패스",
+      "alternatives": [
+        "경로"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Adobe Illustrator uses 패스 in graphics terminology.",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "고정점",
+      "seo_variants": [
+        "고정점"
+      ],
+      "ui_variant": "고정점",
+      "alternatives": [
+        "앵커 포인트"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe Korea uses 고정점.",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "곡선",
+      "seo_variants": [
+        "벡터 곡선"
+      ],
+      "ui_variant": "곡선",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "모양",
+      "seo_variants": [
+        "벡터 모양"
+      ],
+      "ui_variant": "모양",
+      "alternatives": [
+        "셰이프"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "픽셀",
+      "seo_variants": [
+        "픽셀"
+      ],
+      "ui_variant": "픽셀",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "해상도",
+      "seo_variants": [
+        "이미지 해상도"
+      ],
+      "ui_variant": "해상도",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "확대·축소 가능",
+      "seo_variants": [
+        "확대해도 선명",
+        "확장 가능한"
+      ],
+      "ui_variant": "확대·축소 가능",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "품질 저하 없이 크기를 조절할 수 있음",
+      "seo_variants": [
+        "품질 저하 없이 확대",
+        "확대해도 선명"
+      ],
+      "ui_variant": "품질 저하 없이 확대·축소",
+      "alternatives": [],
+      "avoid": [
+        "품질 향상"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "투명 배경",
+      "seo_variants": [
+        "투명 배경"
+      ],
+      "ui_variant": "투명 배경",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "배경 제거",
+      "seo_variants": [
+        "배경 제거"
+      ],
+      "ui_variant": "배경 제거",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "업로드",
+      "seo_variants": [
+        "이미지 업로드"
+      ],
+      "ui_variant": "업로드",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "다운로드",
+      "seo_variants": [
+        "SVG 다운로드"
+      ],
+      "ui_variant": "다운로드",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "미리보기",
+      "seo_variants": [
+        "미리보기"
+      ],
+      "ui_variant": "미리보기",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "사전 설정",
+      "seo_variants": [
+        "사전 설정"
+      ],
+      "ui_variant": "사전 설정",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "최적화",
+      "seo_variants": [
+        "SVG 최적화"
+      ],
+      "ui_variant": "최적화",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "파일 크기",
+      "seo_variants": [
+        "SVG 파일 크기"
+      ],
+      "ui_variant": "파일 크기",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "원본 이미지",
+      "seo_variants": [
+        "원본 이미지",
+        "소스 이미지"
+      ],
+      "ui_variant": "원본 이미지",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "출력 파일",
+      "seo_variants": [
+        "SVG 출력 파일"
+      ],
+      "ui_variant": "출력 파일",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "브라우저에서 작동",
+      "seo_variants": [
+        "브라우저에서",
+        "웹 브라우저"
+      ],
+      "ui_variant": "브라우저에서",
+      "alternatives": [
+        "브라우저 기반"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "브라우저에서 로컬 처리",
+      "seo_variants": [
+        "로컬 처리",
+        "기기에서 처리"
+      ],
+      "ui_variant": "로컬 처리",
+      "alternatives": [
+        "기기 내 처리"
+      ],
+      "avoid": [
+        "오프라인"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "닫힌 패스",
+      "seo_variants": [
+        "닫힌 SVG 패스"
+      ],
+      "ui_variant": "닫힌 패스",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "열린 패스",
+      "seo_variants": [
+        "열린 SVG 패스"
+      ],
+      "ui_variant": "열린 패스",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "변환",
+      "seo_variants": [
+        "PNG를 SVG로 변환",
+        "PNG에서 SVG로 변환"
+      ],
+      "ui_variant": "변환",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "변환기",
+      "seo_variants": [
+        "PNG to SVG 변환기",
+        "SVG 변환기"
+      ],
+      "ui_variant": "변환기",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG to SVG 변환기",
+      "PNG를 SVG로 변환",
+      "이미지 벡터화",
+      "래스터에서 벡터로",
+      "SVG 변환기"
+    ],
+    "keyword_rules": [
+      "Korean search pages often retain 'PNG to SVG' alongside Korean 변환기.",
+      "Use 이미지 벡터화 for true vectorization.",
+      "Keep format acronyms unchanged.",
+      "Do not translate established technical loans such as 벡터, 래스터, 패스 into awkward native substitutes."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer 업로드, 변환/벡터화, 다운로드, 미리보기, 사전 설정.",
+      "Use 이미지 추적 for tracing and 패스 for vector geometry.",
+      "Use concise labels with polite prose around them."
+    ]
+  },
+  "translation_rules": [
+    "Preserve source/output direction.",
+    "Do not translate brands/file-format acronyms.",
+    "Keep honorific/polite style consistent.",
+    "Preserve local-processing privacy claim accurately."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "이미지 트레이싱",
+      "preferred_meaning": "이미지 추적",
+      "reason": "Adobe Korea uses 이미지 추적."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "로컬에서 실행",
+      "preferred_meaning": "기기/브라우저에서 로컬로 처리",
+      "reason": "Clarifies privacy meaning."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "깨끗한 SVG",
+      "preferred_meaning": "최적화된 SVG / 패스가 정리된 SVG",
+      "reason": "Literal wording is underspecified."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_trace": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/kr/illustrator/desktop/manage-objects/traces-mockups-symbols/trace-images-to-convert-raster-into-vector-artwork.html",
+      "locale": "ko-KR",
+      "notes": "Uses 이미지 추적, 래스터 이미지, 벡터 그래픽, 벡터 패스, 사전 설정."
+    },
+    "adobe_vectorize": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/kr/products/illustrator/vectorize-image.html",
+      "locale": "ko-KR",
+      "notes": "Uses 이미지 벡터화, 래스터 이미지, 벡터 그래픽, 품질 저하 없이, 기준점."
+    },
+    "search_usage": {
+      "publisher": "Observed Korean search-result wording",
+      "url": "https://convertio.co/kr/png-svg/",
+      "locale": "ko-KR",
+      "notes": "Uses PNG to SVG 변환기, 래스터에서 벡터로, 웹 브라우저, 다운로드."
+    }
+  }
+}
