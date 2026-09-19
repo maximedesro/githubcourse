@@ -1,0 +1,586 @@
+{
+  "schema_version": 1,
+  "language": "Indonesian",
+  "locale": "id-ID",
+  "recommended_locale_reason": "Use standard Indonesian for Indonesia. Adobe Indonesia provides strong localized Illustrator and Adobe Express terminology suitable for both professional graphics and general software copy.",
+  "register": {
+    "default": "neutral-friendly",
+    "pronoun_strategy": "Use concise UI labels. In prose, use Anda sparingly and consistently when direct address is useful.",
+    "notes": "Prefer natural Indonesian verbs while retaining internationally established technical terms such as SVG, raster, bitmap, and vector where common."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "vektor",
+      "seo_variants": [
+        "vektor"
+      ],
+      "ui_variant": "vektor",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "gambar vektor",
+      "seo_variants": [
+        "gambar vektor"
+      ],
+      "ui_variant": "gambar vektor",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "grafis vektor",
+      "seo_variants": [
+        "grafis vektor"
+      ],
+      "ui_variant": "grafis vektor",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "memvektorkan",
+      "seo_variants": [
+        "vektorkan gambar",
+        "memvektorkan gambar"
+      ],
+      "ui_variant": "Vektorkan",
+      "alternatives": [
+        "ubah menjadi vektor"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "pengvektoran",
+      "seo_variants": [
+        "pengvektoran gambar",
+        "vektorisasi"
+      ],
+      "ui_variant": "Pengvektoran",
+      "alternatives": [
+        "vektorisasi"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "raster",
+      "seo_variants": [
+        "raster"
+      ],
+      "ui_variant": "raster",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "gambar raster",
+      "seo_variants": [
+        "gambar raster"
+      ],
+      "ui_variant": "gambar raster",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "bitmap",
+      "seo_variants": [
+        "bitmap",
+        "gambar bitmap"
+      ],
+      "ui_variant": "bitmap",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "Jejak Gambar",
+      "seo_variants": [
+        "Jejak Gambar",
+        "pengvektoran gambar"
+      ],
+      "ui_variant": "Jejak Gambar",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe Indonesia localizes the Illustrator feature as Jejak Gambar.",
+      "confidence": "high"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "menjiplak / menelusuri",
+      "seo_variants": [
+        "Jejak Gambar",
+        "memvektorkan"
+      ],
+      "ui_variant": "Jejak",
+      "alternatives": [
+        "menelusuri"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use memvektorkan for broad raster-to-vector intent; Jejak Gambar for the Adobe tracing feature.",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "jalur",
+      "seo_variants": [
+        "jalur SVG",
+        "jalur vektor"
+      ],
+      "ui_variant": "jalur",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "titik jangkar",
+      "seo_variants": [
+        "titik jangkar"
+      ],
+      "ui_variant": "titik jangkar",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "kurva",
+      "seo_variants": [
+        "kurva vektor"
+      ],
+      "ui_variant": "kurva",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "bentuk",
+      "seo_variants": [
+        "bentuk vektor"
+      ],
+      "ui_variant": "bentuk",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "piksel",
+      "seo_variants": [
+        "piksel"
+      ],
+      "ui_variant": "piksel",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "resolusi",
+      "seo_variants": [
+        "resolusi gambar"
+      ],
+      "ui_variant": "resolusi",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "dapat diskalakan",
+      "seo_variants": [
+        "dapat diskalakan",
+        "dapat diubah ukurannya"
+      ],
+      "ui_variant": "dapat diskalakan",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "dapat diskalakan tanpa kehilangan kualitas",
+      "seo_variants": [
+        "tanpa kehilangan kualitas",
+        "tidak pecah saat diperbesar"
+      ],
+      "ui_variant": "tanpa kehilangan kualitas",
+      "alternatives": [],
+      "avoid": [
+        "meningkatkan kualitas"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "latar belakang transparan",
+      "seo_variants": [
+        "latar belakang transparan"
+      ],
+      "ui_variant": "Latar belakang transparan",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "hapus latar belakang",
+      "seo_variants": [
+        "hapus latar belakang"
+      ],
+      "ui_variant": "Hapus latar belakang",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "unggah",
+      "seo_variants": [
+        "unggah gambar"
+      ],
+      "ui_variant": "Unggah",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "unduh",
+      "seo_variants": [
+        "unduh SVG"
+      ],
+      "ui_variant": "Unduh",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "pratinjau",
+      "seo_variants": [
+        "pratinjau"
+      ],
+      "ui_variant": "Pratinjau",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "preset",
+      "seo_variants": [
+        "preset",
+        "pengaturan awal"
+      ],
+      "ui_variant": "Preset",
+      "alternatives": [
+        "pengaturan awal"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "pengoptimalan",
+      "seo_variants": [
+        "pengoptimalan SVG",
+        "optimasi SVG"
+      ],
+      "ui_variant": "Pengoptimalan",
+      "alternatives": [
+        "optimasi"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "ukuran file",
+      "seo_variants": [
+        "ukuran file SVG"
+      ],
+      "ui_variant": "Ukuran file",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "gambar sumber",
+      "seo_variants": [
+        "gambar sumber",
+        "gambar asli"
+      ],
+      "ui_variant": "Gambar sumber",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "file keluaran",
+      "seo_variants": [
+        "file SVG keluaran"
+      ],
+      "ui_variant": "File keluaran",
+      "alternatives": [
+        "file hasil"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "berjalan di browser",
+      "seo_variants": [
+        "di browser",
+        "berbasis browser"
+      ],
+      "ui_variant": "Di browser",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "pemrosesan lokal di browser",
+      "seo_variants": [
+        "pemrosesan lokal",
+        "di perangkat Anda"
+      ],
+      "ui_variant": "Pemrosesan lokal",
+      "alternatives": [
+        "pemrosesan di perangkat"
+      ],
+      "avoid": [
+        "offline"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "jalur tertutup",
+      "seo_variants": [
+        "jalur SVG tertutup"
+      ],
+      "ui_variant": "jalur tertutup",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "jalur terbuka",
+      "seo_variants": [
+        "jalur SVG terbuka"
+      ],
+      "ui_variant": "jalur terbuka",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "konversi / mengonversi",
+      "seo_variants": [
+        "konversi PNG ke SVG",
+        "mengonversi PNG ke SVG"
+      ],
+      "ui_variant": "Konversi",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "pengonversi",
+      "seo_variants": [
+        "pengonversi PNG ke SVG",
+        "pengonversi SVG"
+      ],
+      "ui_variant": "Pengonversi",
+      "alternatives": [
+        "konverter"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG ke SVG",
+      "konversi PNG ke SVG",
+      "pengonversi PNG ke SVG",
+      "vektorkan gambar",
+      "gambar ke vektor"
+    ],
+    "keyword_rules": [
+      "Use 'PNG ke SVG' for compact search headings.",
+      "Adobe Express strongly uses pengonversi and mengonversi.",
+      "Use memvektorkan/vektorkan for true raster-to-vector intent.",
+      "Keep PNG/JPG/JPEG/SVG unchanged."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer Unggah, Konversi/Vektorkan, Unduh, Pratinjau, Preset.",
+      "Use Jejak Gambar for Adobe-style tracing and jalur for path geometry.",
+      "Keep labels concise."
+    ]
+  },
+  "translation_rules": [
+    "Preserve source/output direction.",
+    "Do not translate brand names or file-format acronyms.",
+    "Keep Indonesian pronoun style consistent.",
+    "Preserve the local-processing privacy meaning exactly."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "pelacakan gambar",
+      "preferred_meaning": "Jejak Gambar / pengvektoran gambar",
+      "reason": "Pelacakan suggests tracking; Adobe uses Jejak Gambar."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "berjalan secara lokal",
+      "preferred_meaning": "diproses secara lokal di perangkat/browser",
+      "reason": "Clarifies privacy semantics."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "SVG bersih",
+      "preferred_meaning": "SVG yang dioptimalkan / SVG dengan jalur rapi",
+      "reason": "Clarify the technical meaning."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_vectorize": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/id_id/products/illustrator/vectorize-image.html",
+      "locale": "id-ID",
+      "notes": "Uses vektor, raster, memvektorkan, Jejak Gambar, titik jangkar, dapat diskalakan."
+    },
+    "adobe_png_svg": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/id_id/express/feature/image/convert/png-to-svg",
+      "locale": "id-ID",
+      "notes": "Uses Pengonversi PNG ke SVG, unggah, konversikan, unduh, file vektor, tanpa kehilangan kualitas."
+    },
+    "adobe_svg": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/id_id/express/feature/image/convert/svg",
+      "locale": "id-ID",
+      "notes": "Uses Pengonversi SVG, gambar raster, grafis vektor, browser."
+    }
+  }
+}
