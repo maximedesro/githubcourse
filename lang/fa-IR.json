@@ -1,0 +1,578 @@
+{
+  "schema_version": 1,
+  "language": "Persian",
+  "locale": "fa-IR",
+  "recommended_locale_reason": "Use standard Iranian Persian (fa-IR). Adobe does not currently provide equally deep Persian Illustrator localization, so recommendations rely on established Persian graphics/software usage and retain familiar technical loans where safer.",
+  "register": {
+    "default": "neutral-polite",
+    "pronoun_strategy": "Prefer concise UI wording. Use شما consistently in prose when direct address is necessary.",
+    "notes": "RTL layout must isolate LTR formats, URLs, code, numbers and measurement strings. Specialist terms should favor familiar professional usage over artificial Persianization."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "وکتور",
+      "seo_variants": [
+        "وکتور",
+        "برداری"
+      ],
+      "ui_variant": "وکتور",
+      "alternatives": [
+        "بردار"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "وکتور is dominant in graphics usage; برداری works adjectivally in technical prose.",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "تصویر وکتور",
+      "seo_variants": [
+        "تصویر وکتور",
+        "تصویر برداری"
+      ],
+      "ui_variant": "تصویر وکتور",
+      "alternatives": [
+        "تصویر برداری"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "گرافیک برداری",
+      "seo_variants": [
+        "گرافیک برداری",
+        "گرافیک وکتور"
+      ],
+      "ui_variant": "گرافیک برداری",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "وکتور کردن",
+      "seo_variants": [
+        "وکتور کردن تصویر",
+        "تبدیل تصویر به وکتور"
+      ],
+      "ui_variant": "وکتور کردن",
+      "alternatives": [
+        "برداری‌سازی"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "وکتورسازی",
+      "seo_variants": [
+        "وکتورسازی تصویر",
+        "برداری‌سازی"
+      ],
+      "ui_variant": "وکتورسازی",
+      "alternatives": [
+        "برداری‌سازی"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "رستر",
+      "seo_variants": [
+        "رستر"
+      ],
+      "ui_variant": "رستر",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "تصویر رستری",
+      "seo_variants": [
+        "تصویر رستری"
+      ],
+      "ui_variant": "تصویر رستری",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "بیت‌مپ",
+      "seo_variants": [
+        "بیت‌مپ",
+        "bitmap"
+      ],
+      "ui_variant": "بیت‌مپ",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "Image Trace",
+      "seo_variants": [
+        "Image Trace",
+        "ردیابی تصویر",
+        "وکتورسازی تصویر"
+      ],
+      "ui_variant": "Image Trace",
+      "alternatives": [
+        "ردیابی تصویر"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Keep Adobe feature name in English when referring specifically to Illustrator; use ردیابی/وکتورسازی descriptively.",
+      "confidence": "medium"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "ردیابی",
+      "seo_variants": [
+        "ردیابی تصویر",
+        "وکتورسازی"
+      ],
+      "ui_variant": "ردیابی",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "مسیر",
+      "seo_variants": [
+        "مسیر SVG",
+        "مسیر وکتور"
+      ],
+      "ui_variant": "مسیر",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "نقطه لنگر",
+      "seo_variants": [
+        "نقطه لنگر"
+      ],
+      "ui_variant": "نقطه لنگر",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "منحنی",
+      "seo_variants": [
+        "منحنی وکتور"
+      ],
+      "ui_variant": "منحنی",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "شکل",
+      "seo_variants": [
+        "شکل وکتور"
+      ],
+      "ui_variant": "شکل",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "پیکسل",
+      "seo_variants": [
+        "پیکسل"
+      ],
+      "ui_variant": "پیکسل",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "رزولوشن",
+      "seo_variants": [
+        "رزولوشن تصویر",
+        "وضوح تصویر"
+      ],
+      "ui_variant": "رزولوشن",
+      "alternatives": [
+        "وضوح"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "مقیاس‌پذیر",
+      "seo_variants": [
+        "مقیاس‌پذیر",
+        "بدون افت کیفیت"
+      ],
+      "ui_variant": "مقیاس‌پذیر",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "بدون افت کیفیت قابل تغییر اندازه است",
+      "seo_variants": [
+        "بدون افت کیفیت",
+        "بزرگ‌نمایی بدون افت کیفیت"
+      ],
+      "ui_variant": "بدون افت کیفیت",
+      "alternatives": [],
+      "avoid": [
+        "کیفیت را افزایش می‌دهد"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "پس‌زمینه شفاف",
+      "seo_variants": [
+        "پس‌زمینه شفاف"
+      ],
+      "ui_variant": "پس‌زمینه شفاف",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "حذف پس‌زمینه",
+      "seo_variants": [
+        "حذف پس‌زمینه"
+      ],
+      "ui_variant": "حذف پس‌زمینه",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "آپلود",
+      "seo_variants": [
+        "آپلود تصویر"
+      ],
+      "ui_variant": "آپلود",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "دانلود",
+      "seo_variants": [
+        "دانلود SVG"
+      ],
+      "ui_variant": "دانلود",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "پیش‌نمایش",
+      "seo_variants": [
+        "پیش‌نمایش"
+      ],
+      "ui_variant": "پیش‌نمایش",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "پریست",
+      "seo_variants": [
+        "پریست",
+        "تنظیم از پیش تعیین‌شده"
+      ],
+      "ui_variant": "پریست",
+      "alternatives": [
+        "تنظیم از پیش تعیین‌شده"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "بهینه‌سازی",
+      "seo_variants": [
+        "بهینه‌سازی SVG"
+      ],
+      "ui_variant": "بهینه‌سازی",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "حجم فایل",
+      "seo_variants": [
+        "حجم فایل SVG"
+      ],
+      "ui_variant": "حجم فایل",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "تصویر منبع",
+      "seo_variants": [
+        "تصویر منبع",
+        "تصویر اصلی"
+      ],
+      "ui_variant": "تصویر منبع",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "فایل خروجی",
+      "seo_variants": [
+        "فایل خروجی SVG"
+      ],
+      "ui_variant": "فایل خروجی",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "در مرورگر اجرا می‌شود",
+      "seo_variants": [
+        "در مرورگر",
+        "مبتنی بر مرورگر"
+      ],
+      "ui_variant": "در مرورگر",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "پردازش محلی در مرورگر",
+      "seo_variants": [
+        "پردازش محلی",
+        "روی دستگاه شما"
+      ],
+      "ui_variant": "پردازش محلی",
+      "alternatives": [
+        "پردازش روی دستگاه"
+      ],
+      "avoid": [
+        "آفلاین"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "مسیر بسته",
+      "seo_variants": [
+        "مسیر بسته SVG"
+      ],
+      "ui_variant": "مسیر بسته",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "مسیر باز",
+      "seo_variants": [
+        "مسیر باز SVG"
+      ],
+      "ui_variant": "مسیر باز",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "تبدیل",
+      "seo_variants": [
+        "تبدیل PNG به SVG"
+      ],
+      "ui_variant": "تبدیل",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "مبدل",
+      "seo_variants": [
+        "مبدل PNG به SVG",
+        "مبدل SVG"
+      ],
+      "ui_variant": "مبدل",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "تبدیل PNG به SVG",
+      "PNG به SVG",
+      "مبدل PNG به SVG",
+      "تبدیل عکس به وکتور",
+      "وکتور کردن تصویر"
+    ],
+    "keyword_rules": [
+      "Keep SVG/PNG/JPG/JPEG unchanged and LTR.",
+      "Use وکتور in SEO/design contexts; برداری remains useful in formal technical prose.",
+      "Use به to preserve source→output direction.",
+      "Do not invent search-volume claims where localized source data is weak."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer آپلود، تبدیل، دانلود، پیش‌نمایش، پریست.",
+      "Use مسیر for vector/SVG path geometry.",
+      "Keep Image Trace in English when naming Adobe's feature unless a localized product UI is confirmed."
+    ]
+  },
+  "translation_rules": [
+    "Preserve input/output direction.",
+    "Do not translate brands/file-format acronyms.",
+    "Use Iranian Persian consistently.",
+    "Preserve local-processing/privacy semantics.",
+    "Use bidi isolation around LTR tokens in RTL UI."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "دنبال کردن تصویر",
+      "preferred_meaning": "ردیابی تصویر / وکتورسازی تصویر",
+      "reason": "Literal 'following' is misleading."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "به‌صورت محلی اجرا می‌شود",
+      "preferred_meaning": "پردازش روی دستگاه شما/در مرورگر انجام می‌شود",
+      "reason": "Clarifies privacy semantics."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "SVG تمیز",
+      "preferred_meaning": "SVG بهینه‌شده / SVG با مسیرهای مرتب",
+      "reason": "Specify the technical meaning."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_reference": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/illustrator/desktop/manage-objects/traces-mockups-symbols/trace-images-to-convert-raster-into-vector-artwork.html",
+      "locale": "en",
+      "notes": "Conceptual reference only; current Persian Illustrator localization was insufficiently available for strong term-level claims."
+    }
+  }
+}
