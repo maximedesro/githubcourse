@@ -1,0 +1,583 @@
+{
+  "schema_version": 1,
+  "language": "German",
+  "locale": "de-DE",
+  "recommended_locale_reason": "Use standard German for Germany. Adobe's German terminology is mature and appropriate for international DACH-facing software; avoid Swiss orthographic specialization unless a separate de-CH locale is introduced.",
+  "register": {
+    "default": "neutral-direct",
+    "pronoun_strategy": "Prefer concise UI labels and neutral constructions. In instructional/marketing prose, modern Adobe/SaaS German commonly uses 'du'; use it consistently if direct address is necessary.",
+    "notes": "Do not mix du/Sie within a page."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Keep acronym.",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "Vektor",
+      "seo_variants": [
+        "Vektor"
+      ],
+      "ui_variant": "Vektor",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard.",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "Vektorgrafik",
+      "seo_variants": [
+        "Vektorgrafik",
+        "Vektorbild"
+      ],
+      "ui_variant": "Vektorgrafik",
+      "alternatives": [
+        "Vektorbild"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe strongly uses Vektorgrafik.",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "Vektorgrafik",
+      "seo_variants": [
+        "Vektorgrafik"
+      ],
+      "ui_variant": "Vektorgrafik",
+      "alternatives": [
+        "Vektorgrafiken"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Inflect plural normally.",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "vektorisieren",
+      "seo_variants": [
+        "Bild vektorisieren",
+        "PNG vektorisieren"
+      ],
+      "ui_variant": "Vektorisieren",
+      "alternatives": [
+        "in Vektorgrafik umwandeln"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Strong Adobe and search usage.",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "Vektorisierung",
+      "seo_variants": [
+        "Vektorisierung",
+        "Vektorisieren"
+      ],
+      "ui_variant": "Vektorisierung",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard.",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "Raster",
+      "seo_variants": [
+        "Raster",
+        "Rastergrafik"
+      ],
+      "ui_variant": "Raster",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Established German technical term.",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "Rasterbild",
+      "seo_variants": [
+        "Rasterbild",
+        "Rastergrafik"
+      ],
+      "ui_variant": "Rasterbild",
+      "alternatives": [
+        "pixelbasiertes Bild"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe uses Rasterbild/Rastergrafik and pixelbasiert.",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "Bitmap",
+      "seo_variants": [
+        "Bitmap"
+      ],
+      "ui_variant": "Bitmap",
+      "alternatives": [
+        "Bitmap-Bild"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Loanword is standard.",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "Bildnachzeichner",
+      "seo_variants": [
+        "Bild nachzeichnen",
+        "Bildnachzeichner"
+      ],
+      "ui_variant": "Bildnachzeichner",
+      "alternatives": [
+        "Nachzeichnen"
+      ],
+      "avoid": [
+        "Image Trace"
+      ],
+      "keep_english": false,
+      "notes": "Adobe Illustrator's localized feature name.",
+      "confidence": "high"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "nachzeichnen",
+      "seo_variants": [
+        "nachzeichnen",
+        "vektorisieren"
+      ],
+      "ui_variant": "Nachzeichnen",
+      "alternatives": [
+        "vektorisieren"
+      ],
+      "avoid": [
+        "tracen"
+      ],
+      "keep_english": false,
+      "notes": "Use 'vektorisieren' for outcome/action in general SEO copy; 'nachzeichnen' for tracing mechanics.",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "Pfad",
+      "seo_variants": [
+        "SVG-Pfad",
+        "Vektorpfad"
+      ],
+      "ui_variant": "Pfad",
+      "alternatives": [
+        "Vektorpfad"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard graphics/SVG term.",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "Ankerpunkt",
+      "seo_variants": [
+        "Ankerpunkt"
+      ],
+      "ui_variant": "Ankerpunkt",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe term.",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "Kurve",
+      "seo_variants": [
+        "Vektorkurve"
+      ],
+      "ui_variant": "Kurve",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard.",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "Form",
+      "seo_variants": [
+        "Vektorform"
+      ],
+      "ui_variant": "Form",
+      "alternatives": [
+        "Objekt"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use Objekt when referring to an editor object.",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "Pixel",
+      "seo_variants": [
+        "Pixel"
+      ],
+      "ui_variant": "Pixel",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Standard.",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "Auflösung",
+      "seo_variants": [
+        "Bildauflösung"
+      ],
+      "ui_variant": "Auflösung",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard.",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "skalierbar",
+      "seo_variants": [
+        "beliebig skalierbar",
+        "ohne Qualitätsverlust skalierbar"
+      ],
+      "ui_variant": "skalierbar",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe uses skalierbar.",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "ohne Qualitätsverlust skalierbar",
+      "seo_variants": [
+        "ohne Qualitätsverlust vergrößern"
+      ],
+      "ui_variant": "ohne Qualitätsverlust",
+      "alternatives": [
+        "verlustfrei skalierbar"
+      ],
+      "avoid": [
+        "verbessert die Qualität"
+      ],
+      "keep_english": false,
+      "notes": "Do not imply quality enhancement.",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "transparenter Hintergrund",
+      "seo_variants": [
+        "transparenter Hintergrund"
+      ],
+      "ui_variant": "Transparenter Hintergrund",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard.",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "Hintergrund entfernen",
+      "seo_variants": [
+        "Hintergrund entfernen"
+      ],
+      "ui_variant": "Hintergrund entfernen",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard CTA.",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "hochladen",
+      "seo_variants": [
+        "Bild hochladen"
+      ],
+      "ui_variant": "Hochladen",
+      "alternatives": [
+        "Datei auswählen"
+      ],
+      "avoid": [
+        "uploaden"
+      ],
+      "keep_english": false,
+      "notes": "Use native verb.",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "herunterladen",
+      "seo_variants": [
+        "SVG herunterladen"
+      ],
+      "ui_variant": "Herunterladen",
+      "alternatives": [
+        "Download"
+      ],
+      "avoid": [],
+      "keep_english": "context-dependent",
+      "notes": "Verb should usually be 'herunterladen'; noun 'Download' is common.",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "Vorschau",
+      "seo_variants": [
+        "Vorschau"
+      ],
+      "ui_variant": "Vorschau",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard UI.",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "Vorgabe",
+      "seo_variants": [
+        "Vorgabe",
+        "Preset"
+      ],
+      "ui_variant": "Vorgabe",
+      "alternatives": [
+        "Preset"
+      ],
+      "avoid": [],
+      "keep_english": "context-dependent",
+      "notes": "Adobe uses Vorgabe; Preset is common in design communities but not necessary.",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "Optimierung",
+      "seo_variants": [
+        "SVG-Optimierung"
+      ],
+      "ui_variant": "Optimierung",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard.",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "Dateigröße",
+      "seo_variants": [
+        "SVG-Dateigröße"
+      ],
+      "ui_variant": "Dateigröße",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard.",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "Quellbild",
+      "seo_variants": [
+        "Quellbild",
+        "Ausgangsbild"
+      ],
+      "ui_variant": "Quellbild",
+      "alternatives": [
+        "Ausgangsbild"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Both natural; Quellbild is technical.",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "Ausgabedatei",
+      "seo_variants": [
+        "SVG-Ausgabedatei"
+      ],
+      "ui_variant": "Ausgabedatei",
+      "alternatives": [
+        "erzeugte Datei"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard.",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "browserbasiert",
+      "seo_variants": [
+        "im Browser",
+        "browserbasiert"
+      ],
+      "ui_variant": "Im Browser",
+      "alternatives": [
+        "direkt im Browser"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Both compact compound and idiomatic phrase are natural.",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "lokale Verarbeitung im Browser",
+      "seo_variants": [
+        "lokal im Browser",
+        "auf deinem Gerät"
+      ],
+      "ui_variant": "Lokale Verarbeitung",
+      "alternatives": [
+        "Verarbeitung auf dem Gerät"
+      ],
+      "avoid": [
+        "offline"
+      ],
+      "keep_english": false,
+      "notes": "Do not imply offline operation.",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "geschlossener Pfad",
+      "seo_variants": [
+        "geschlossener SVG-Pfad"
+      ],
+      "ui_variant": "geschlossener Pfad",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard geometry wording.",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "offener Pfad",
+      "seo_variants": [
+        "offener SVG-Pfad"
+      ],
+      "ui_variant": "offener Pfad",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard geometry wording.",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG in SVG umwandeln",
+      "PNG zu SVG",
+      "Bild vektorisieren",
+      "JPG in SVG umwandeln",
+      "Raster zu Vektor",
+      "SVG Konverter"
+    ],
+    "keyword_rules": [
+      "Both 'PNG in SVG umwandeln' and compact 'PNG zu SVG' occur naturally.",
+      "Use 'vektorisieren' for true raster-to-vector conversion; 'umwandeln/konvertieren' describes format conversion more generally.",
+      "Keep SVG/PNG/JPG uppercase.",
+      "Avoid forcing English 'converter' when 'Konverter' or 'umwandeln' is natural."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Use compact German nouns and verbs: Hochladen, Vektorisieren, Herunterladen, Vorschau, Vorgabe.",
+      "Use compound nouns where natural: Dateigröße, Bildauflösung, Vektorpfad.",
+      "Do not mix du and Sie."
+    ]
+  },
+  "translation_rules": [
+    "Preserve source/output direction exactly.",
+    "Do not translate brand names or file-format acronyms.",
+    "Use Vektorisierung/vektorisieren for the raster-to-vector concept; use Nachzeichnen when specifically describing tracing mechanics or Illustrator's Bildnachzeichner.",
+    "German compounds may change surface form; concept IDs are not literal phrase templates."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "Image Tracing / Tracing",
+      "preferred_meaning": "Bild nachzeichnen / Vektorisierung",
+      "reason": "German design software uses localized terminology."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "läuft lokal",
+      "preferred_meaning": "wird lokal auf deinem Gerät / im Browser verarbeitet",
+      "reason": "Clarifies the privacy meaning."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "sauberes SVG",
+      "preferred_meaning": "SVG mit sauberen Pfaden / optimiertes SVG",
+      "reason": "Specify whether 'clean' means geometry or markup."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary source terminology for product concepts, UI, browser-local processing, vectorization, paths, use cases, and privacy."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster pixels, vector paths, tracing, geometry, topology, complexity, and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings including simplify, background, max colors, clustering, merge paths, precision, preview, and optimization."
+    },
+    "adobe_vectorize": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/de/products/illustrator/vectorize-image.html",
+      "locale": "de-DE",
+      "notes": "Uses vektorisieren, Vektorgrafik, Rasterbild, Bildnachzeichner, skalierbar, Qualitätsverlust."
+    },
+    "adobe_trace": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/de/illustrator/desktop/manage-objects/traces-mockups-symbols/trace-images-to-convert-raster-into-vector-artwork.html",
+      "locale": "de-DE",
+      "notes": "Uses Bildnachzeichner, Rastergrafiken, Vektorpfade, nachzeichnen."
+    },
+    "serp_png_svg": {
+      "publisher": "Observed German search result wording",
+      "url": "https://convertio.co/de/png-svg/",
+      "locale": "de",
+      "notes": "Observed 'PNG zu SVG Konverter', 'PNG in SVG umwandeln', Raster zu Vektor."
+    }
+  }
+}
