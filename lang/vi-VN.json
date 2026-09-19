@@ -1,0 +1,604 @@
+{
+  "schema_version": 1,
+  "language": "Vietnamese",
+  "locale": "vi-VN",
+  "recommended_locale_reason": "Use standard Vietnamese for Vietnam (vi-VN). Adobe's Vietnamese marketing localization is partial, so recommendations combine localized Adobe usage with established Vietnamese graphics/search terminology.",
+  "register": {
+    "default": "neutral-friendly",
+    "pronoun_strategy": "Prefer concise UI labels and neutral/impersonal constructions. Avoid overusing bạn in every sentence; use it naturally in instructions when needed.",
+    "notes": "Vietnamese technical copy often retains format acronyms and some English technical nouns, but established Vietnamese verbs are preferable for core actions."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "véc-tơ",
+      "seo_variants": [
+        "vector",
+        "véc-tơ"
+      ],
+      "ui_variant": "véc-tơ",
+      "alternatives": [
+        "vector"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe Vietnam uses véc-tơ; search/design communities also commonly use English vector.",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "hình ảnh véc-tơ",
+      "seo_variants": [
+        "ảnh vector",
+        "hình ảnh véc-tơ"
+      ],
+      "ui_variant": "ảnh véc-tơ",
+      "alternatives": [
+        "ảnh vector"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "đồ họa véc-tơ",
+      "seo_variants": [
+        "đồ họa vector",
+        "đồ họa véc-tơ"
+      ],
+      "ui_variant": "đồ họa véc-tơ",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "vector hóa",
+      "seo_variants": [
+        "vector hóa hình ảnh",
+        "chuyển ảnh thành vector"
+      ],
+      "ui_variant": "Vector hóa",
+      "alternatives": [
+        "véc-tơ hóa"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Vietnamese search/design usage commonly writes vector hóa; Adobe uses véc-tơ in prose.",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "vector hóa",
+      "seo_variants": [
+        "vector hóa ảnh",
+        "chuyển ảnh sang vector"
+      ],
+      "ui_variant": "Vector hóa",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "raster",
+      "seo_variants": [
+        "raster",
+        "ảnh raster"
+      ],
+      "ui_variant": "raster",
+      "alternatives": [
+        "mành"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Raster is widely understood in technical/design contexts.",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "ảnh raster",
+      "seo_variants": [
+        "ảnh raster",
+        "hình ảnh raster"
+      ],
+      "ui_variant": "ảnh raster",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "bitmap",
+      "seo_variants": [
+        "bitmap",
+        "ảnh bitmap"
+      ],
+      "ui_variant": "bitmap",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "dò ảnh",
+      "seo_variants": [
+        "Image Trace",
+        "dò ảnh",
+        "vector hóa ảnh"
+      ],
+      "ui_variant": "Dò ảnh",
+      "alternatives": [
+        "truy vết hình ảnh"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe Vietnamese Illustrator localization is incomplete; use a concise native generic term while retaining Image Trace when matching an untranslated Adobe UI.",
+      "confidence": "medium"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "dò / vector hóa",
+      "seo_variants": [
+        "vector hóa",
+        "dò ảnh"
+      ],
+      "ui_variant": "Dò",
+      "alternatives": [
+        "truy vết"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use vector hóa for user intent; dò for tracing mechanics.",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "đường dẫn",
+      "seo_variants": [
+        "đường dẫn SVG",
+        "path SVG"
+      ],
+      "ui_variant": "đường dẫn",
+      "alternatives": [
+        "path"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "In vector design, path may remain English among professionals; use đường dẫn in general UI.",
+      "confidence": "medium"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "điểm neo",
+      "seo_variants": [
+        "điểm neo"
+      ],
+      "ui_variant": "điểm neo",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "đường cong",
+      "seo_variants": [
+        "đường cong vector"
+      ],
+      "ui_variant": "đường cong",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "hình dạng",
+      "seo_variants": [
+        "hình dạng vector"
+      ],
+      "ui_variant": "hình dạng",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "pixel",
+      "seo_variants": [
+        "pixel"
+      ],
+      "ui_variant": "pixel",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "độ phân giải",
+      "seo_variants": [
+        "độ phân giải hình ảnh"
+      ],
+      "ui_variant": "độ phân giải",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "có thể thay đổi kích thước",
+      "seo_variants": [
+        "có thể phóng to thu nhỏ",
+        "không giảm chất lượng"
+      ],
+      "ui_variant": "có thể thay đổi kích thước",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "có thể thay đổi kích thước mà không giảm chất lượng",
+      "seo_variants": [
+        "phóng to không vỡ",
+        "không giảm chất lượng"
+      ],
+      "ui_variant": "không giảm chất lượng",
+      "alternatives": [],
+      "avoid": [
+        "cải thiện chất lượng"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "nền trong suốt",
+      "seo_variants": [
+        "nền trong suốt"
+      ],
+      "ui_variant": "Nền trong suốt",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "xóa nền",
+      "seo_variants": [
+        "xóa nền",
+        "tách nền"
+      ],
+      "ui_variant": "Xóa nền",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "tải lên",
+      "seo_variants": [
+        "tải ảnh lên"
+      ],
+      "ui_variant": "Tải lên",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "tải xuống",
+      "seo_variants": [
+        "tải SVG xuống"
+      ],
+      "ui_variant": "Tải xuống",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "xem trước",
+      "seo_variants": [
+        "xem trước"
+      ],
+      "ui_variant": "Xem trước",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "cài đặt sẵn",
+      "seo_variants": [
+        "cài đặt sẵn",
+        "preset"
+      ],
+      "ui_variant": "Cài đặt sẵn",
+      "alternatives": [
+        "preset"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "tối ưu hóa",
+      "seo_variants": [
+        "tối ưu hóa SVG"
+      ],
+      "ui_variant": "Tối ưu hóa",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "kích thước tệp",
+      "seo_variants": [
+        "kích thước file",
+        "kích thước tệp SVG"
+      ],
+      "ui_variant": "Kích thước tệp",
+      "alternatives": [
+        "dung lượng tệp"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "ảnh nguồn",
+      "seo_variants": [
+        "ảnh nguồn",
+        "ảnh gốc"
+      ],
+      "ui_variant": "Ảnh nguồn",
+      "alternatives": [
+        "ảnh gốc"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "tệp đầu ra",
+      "seo_variants": [
+        "file SVG đầu ra"
+      ],
+      "ui_variant": "Tệp đầu ra",
+      "alternatives": [
+        "tệp kết quả"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "chạy trong trình duyệt",
+      "seo_variants": [
+        "trên trình duyệt",
+        "trực tuyến"
+      ],
+      "ui_variant": "Trong trình duyệt",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "xử lý cục bộ trong trình duyệt",
+      "seo_variants": [
+        "xử lý cục bộ",
+        "xử lý trên thiết bị"
+      ],
+      "ui_variant": "Xử lý cục bộ",
+      "alternatives": [
+        "xử lý trên thiết bị"
+      ],
+      "avoid": [
+        "ngoại tuyến"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "đường dẫn khép kín",
+      "seo_variants": [
+        "đường dẫn SVG khép kín",
+        "path kín"
+      ],
+      "ui_variant": "đường dẫn khép kín",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "đường dẫn mở",
+      "seo_variants": [
+        "đường dẫn SVG mở",
+        "path hở"
+      ],
+      "ui_variant": "đường dẫn mở",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "chuyển đổi",
+      "seo_variants": [
+        "chuyển PNG sang SVG"
+      ],
+      "ui_variant": "Chuyển đổi",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "công cụ chuyển đổi",
+      "seo_variants": [
+        "công cụ chuyển đổi PNG sang SVG",
+        "bộ chuyển đổi SVG"
+      ],
+      "ui_variant": "Công cụ chuyển đổi",
+      "alternatives": [
+        "bộ chuyển đổi"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG sang SVG",
+      "chuyển PNG sang SVG",
+      "công cụ chuyển đổi PNG sang SVG",
+      "vector hóa hình ảnh",
+      "ảnh sang vector"
+    ],
+    "keyword_rules": [
+      "Use 'PNG sang SVG' as the compact search pattern.",
+      "Use vector hóa hình ảnh / chuyển ảnh thành vector for vectorization intent.",
+      "Keep format acronyms unchanged.",
+      "English 'vector' is common in Vietnamese search/design usage and can be retained in SEO variants."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer Tải lên, Chuyển đổi/Vector hóa, Tải xuống, Xem trước, Cài đặt sẵn.",
+      "Avoid excessive bạn in short UI strings.",
+      "Keep path/tracing terminology consistent within the product."
+    ]
+  },
+  "translation_rules": [
+    "Preserve source/output direction.",
+    "Do not translate brands/file-format acronyms.",
+    "Do not force diacritically localized 'véc-tơ' into SEO contexts where users commonly search 'vector'.",
+    "Keep local-processing claim explicit and do not imply cloud upload."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "theo dõi hình ảnh",
+      "preferred_meaning": "dò ảnh / vector hóa ảnh",
+      "reason": "Theo dõi means monitoring/following and is misleading in graphics context."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "chạy cục bộ",
+      "preferred_meaning": "xử lý cục bộ trên thiết bị/trong trình duyệt",
+      "reason": "Clarifies privacy semantics."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "SVG sạch",
+      "preferred_meaning": "SVG được tối ưu / SVG có đường dẫn gọn",
+      "reason": "Literal wording is unnatural without context."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_vectorize": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/vn_vi/products/illustrator/vectorize-image.html",
+      "locale": "vi-VN",
+      "notes": "Uses véc-tơ and localized vector-concept wording in Illustrator marketing."
+    },
+    "search_usage": {
+      "publisher": "Observed Vietnamese search-result wording",
+      "url": "https://convertio.co/vn/png-svg/",
+      "locale": "vi-VN",
+      "notes": "Uses Công cụ chuyển đổi PNG sang SVG, chuyển đổi, tải lên, tải xuống, đồ họa raster/vector."
+    },
+    "search_converter": {
+      "publisher": "Observed Vietnamese converter terminology",
+      "url": "https://convertio.co/vn/png-converter/",
+      "locale": "vi-VN",
+      "notes": "Uses Bộ chuyển đổi PNG, Chuyển đổi ảnh, Tải lên, định dạng, raster, không mất dữ liệu."
+    }
+  }
+}
