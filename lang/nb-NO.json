@@ -1,0 +1,577 @@
+{
+  "schema_version": 1,
+  "language": "Norwegian",
+  "locale": "nb-NO",
+  "recommended_locale_reason": "Use Norwegian Bokmål (nb-NO) as the default Norwegian locale. Bokmål is the dominant written standard in Norway and the practical default for software localization; do not silently mix Nynorsk forms.",
+  "register": {
+    "default": "neutral-direct",
+    "pronoun_strategy": "Use concise UI wording and 'du' consistently in prose.",
+    "notes": "Keep terminology Bokmål and avoid unnecessary English when Adobe has a natural Norwegian form."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "vektor",
+      "seo_variants": [
+        "vektor"
+      ],
+      "ui_variant": "vektor",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "vektorbilde",
+      "seo_variants": [
+        "vektorbilde"
+      ],
+      "ui_variant": "vektorbilde",
+      "alternatives": [
+        "vektorgrafikk"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "vektorgrafikk",
+      "seo_variants": [
+        "vektorgrafikk"
+      ],
+      "ui_variant": "vektorgrafikk",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "vektorisere",
+      "seo_variants": [
+        "vektorisere bilde",
+        "vektoriser bilde"
+      ],
+      "ui_variant": "Vektoriser",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "vektorisering",
+      "seo_variants": [
+        "vektorisering"
+      ],
+      "ui_variant": "Vektorisering",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "raster",
+      "seo_variants": [
+        "raster"
+      ],
+      "ui_variant": "raster",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "rasterbilde",
+      "seo_variants": [
+        "rasterbilde"
+      ],
+      "ui_variant": "rasterbilde",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "bitmap",
+      "seo_variants": [
+        "bitmap"
+      ],
+      "ui_variant": "bitmap",
+      "alternatives": [
+        "punktgrafikk"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "bildesporing",
+      "seo_variants": [
+        "bildesporing",
+        "vektorisering av bilde"
+      ],
+      "ui_variant": "Bildesporing",
+      "alternatives": [
+        "sporing"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe's Norwegian Illustrator pages are inconsistently localized, so use a natural Norwegian generic term unless the UI itself retains English Image Trace.",
+      "confidence": "medium"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "spore / vektorisere",
+      "seo_variants": [
+        "vektorisere",
+        "spore bilde"
+      ],
+      "ui_variant": "Vektoriser",
+      "alternatives": [
+        "spore"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use vektorisere for broad user intent.",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "bane",
+      "seo_variants": [
+        "vektorbane",
+        "SVG-bane"
+      ],
+      "ui_variant": "bane",
+      "alternatives": [
+        "sti"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Bane is suitable in vector-design context; developer SVG content may use sti.",
+      "confidence": "medium"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "ankerpunkt",
+      "seo_variants": [
+        "ankerpunkt"
+      ],
+      "ui_variant": "ankerpunkt",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "kurve",
+      "seo_variants": [
+        "vektorkurve"
+      ],
+      "ui_variant": "kurve",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "form",
+      "seo_variants": [
+        "vektorform"
+      ],
+      "ui_variant": "form",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "piksel",
+      "seo_variants": [
+        "piksel",
+        "pixel"
+      ],
+      "ui_variant": "piksel",
+      "alternatives": [
+        "pixel"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "oppløsning",
+      "seo_variants": [
+        "bildeoppløsning"
+      ],
+      "ui_variant": "oppløsning",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "skalerbar",
+      "seo_variants": [
+        "skalerbar",
+        "uten kvalitetstap"
+      ],
+      "ui_variant": "skalerbar",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "kan skaleres uten å miste kvalitet",
+      "seo_variants": [
+        "uten å miste kvalitet"
+      ],
+      "ui_variant": "uten kvalitetstap",
+      "alternatives": [],
+      "avoid": [
+        "forbedrer kvaliteten"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "gjennomsiktig bakgrunn",
+      "seo_variants": [
+        "gjennomsiktig bakgrunn"
+      ],
+      "ui_variant": "Gjennomsiktig bakgrunn",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "fjern bakgrunn",
+      "seo_variants": [
+        "fjern bakgrunn"
+      ],
+      "ui_variant": "Fjern bakgrunn",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "last opp",
+      "seo_variants": [
+        "last opp bilde"
+      ],
+      "ui_variant": "Last opp",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "last ned",
+      "seo_variants": [
+        "last ned SVG"
+      ],
+      "ui_variant": "Last ned",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "forhåndsvisning",
+      "seo_variants": [
+        "forhåndsvisning"
+      ],
+      "ui_variant": "Forhåndsvisning",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "forhåndsinnstilling",
+      "seo_variants": [
+        "forhåndsinnstilling"
+      ],
+      "ui_variant": "Forhåndsinnstilling",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "optimalisering",
+      "seo_variants": [
+        "SVG-optimalisering"
+      ],
+      "ui_variant": "Optimalisering",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "filstørrelse",
+      "seo_variants": [
+        "SVG-filstørrelse"
+      ],
+      "ui_variant": "Filstørrelse",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "kildebilde",
+      "seo_variants": [
+        "kildebilde",
+        "originalbilde"
+      ],
+      "ui_variant": "Kildebilde",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "utdatafil",
+      "seo_variants": [
+        "SVG-utdatafil"
+      ],
+      "ui_variant": "Utdatafil",
+      "alternatives": [
+        "resultatfil"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "i nettleseren",
+      "seo_variants": [
+        "i nettleseren",
+        "nettleserbasert"
+      ],
+      "ui_variant": "I nettleseren",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "lokal behandling i nettleseren",
+      "seo_variants": [
+        "lokal behandling",
+        "på enheten din"
+      ],
+      "ui_variant": "Lokal behandling",
+      "alternatives": [
+        "behandling på enheten"
+      ],
+      "avoid": [
+        "offline"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "lukket bane",
+      "seo_variants": [
+        "lukket SVG-bane"
+      ],
+      "ui_variant": "lukket bane",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "åpen bane",
+      "seo_variants": [
+        "åpen SVG-bane"
+      ],
+      "ui_variant": "åpen bane",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "konvertere",
+      "seo_variants": [
+        "konverter PNG til SVG"
+      ],
+      "ui_variant": "Konverter",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "konverteringsverktøy",
+      "seo_variants": [
+        "PNG til SVG-konverter",
+        "SVG-konverter"
+      ],
+      "ui_variant": "Konverter",
+      "alternatives": [
+        "konverter"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG til SVG",
+      "konverter PNG til SVG",
+      "vektoriser bilde",
+      "bilde til SVG",
+      "SVG-konverter"
+    ],
+    "keyword_rules": [
+      "'PNG til SVG' and 'konverter PNG til SVG' are natural.",
+      "Use vektoriser for true vectorization.",
+      "Keep file-format strings unchanged.",
+      "Prefer native verbs Last opp / Last ned in UI."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer Last opp, Konverter/Vektoriser, Last ned, Forhåndsvisning.",
+      "Use consistent Bokmål forms.",
+      "Keep vector geometry term consistent across path/open/closed path labels."
+    ]
+  },
+  "translation_rules": [
+    "Preserve source/output direction.",
+    "Use Bokmål consistently.",
+    "Do not translate brands or file formats.",
+    "Preserve on-device/in-browser processing meaning."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "image tracing",
+      "preferred_meaning": "bildesporing / vektorisering av bilde",
+      "reason": "Use Norwegian terminology unless referring to an untranslated Adobe UI label."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "kjører lokalt",
+      "preferred_meaning": "behandles lokalt på enheten din/i nettleseren",
+      "reason": "Clarifies privacy semantics."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "ren SVG",
+      "preferred_meaning": "optimalisert SVG / SVG med ryddige baner",
+      "reason": "Literal wording is vague."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_png_svg": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/no/express/feature/image/convert/png-to-svg",
+      "locale": "no-NO",
+      "notes": "Uses Konverter PNG til SVG, last opp, last ned, vektorfilformat, uten å miste kvalitet."
+    },
+    "adobe_svg": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/no/express/feature/image/convert/svg",
+      "locale": "no-NO",
+      "notes": "Uses SVG-konverteringsverktøy, vektorgrafikk, rasterfiler, oppløsning, piksler."
+    }
+  }
+}
