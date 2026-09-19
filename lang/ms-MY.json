@@ -1,0 +1,573 @@
+{
+  "schema_version": 1,
+  "language": "Malay",
+  "locale": "ms-MY",
+  "recommended_locale_reason": "Use standard Malaysian Malay (ms-MY). Adobe Malaysia provides localized Illustrator vectorization terminology and this is the appropriate default Malay software locale.",
+  "register": {
+    "default": "neutral-friendly",
+    "pronoun_strategy": "Prefer concise UI wording. In prose, use anda consistently when direct address is required.",
+    "notes": "Malay software copy comfortably uses technical loans such as vektor, raster, piksel, preset and SVG."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "vektor",
+      "seo_variants": [
+        "vektor"
+      ],
+      "ui_variant": "vektor",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "imej vektor",
+      "seo_variants": [
+        "imej vektor"
+      ],
+      "ui_variant": "imej vektor",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "grafik vektor",
+      "seo_variants": [
+        "grafik vektor"
+      ],
+      "ui_variant": "grafik vektor",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "vektorkan",
+      "seo_variants": [
+        "vektorkan imej",
+        "jadikan imej vektor"
+      ],
+      "ui_variant": "Vektorkan",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "pengvektoran",
+      "seo_variants": [
+        "pengvektoran imej"
+      ],
+      "ui_variant": "Pengvektoran",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "raster",
+      "seo_variants": [
+        "raster"
+      ],
+      "ui_variant": "raster",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "imej raster",
+      "seo_variants": [
+        "imej raster"
+      ],
+      "ui_variant": "imej raster",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "peta bit",
+      "seo_variants": [
+        "bitmap",
+        "peta bit"
+      ],
+      "ui_variant": "peta bit",
+      "alternatives": [
+        "bitmap"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "Penyurihan Imej",
+      "seo_variants": [
+        "Penyurihan Imej",
+        "pengvektoran imej"
+      ],
+      "ui_variant": "Penyurihan Imej",
+      "alternatives": [
+        "Penjejakan Imej"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe Malaysia uses Penyurihan Imej / Penjejakan Imej variants across localized pages; keep one term consistently per product surface.",
+      "confidence": "medium"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "surih / jejak",
+      "seo_variants": [
+        "surih imej",
+        "vektorkan imej"
+      ],
+      "ui_variant": "Surih",
+      "alternatives": [
+        "jejak"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use vektorkan for the broad user intent; surih/jejak for tracing mechanics.",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "laluan",
+      "seo_variants": [
+        "laluan SVG",
+        "laluan vektor"
+      ],
+      "ui_variant": "laluan",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "titik penambat",
+      "seo_variants": [
+        "titik penambat"
+      ],
+      "ui_variant": "titik penambat",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "lengkung",
+      "seo_variants": [
+        "lengkung vektor"
+      ],
+      "ui_variant": "lengkung",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "bentuk",
+      "seo_variants": [
+        "bentuk vektor"
+      ],
+      "ui_variant": "bentuk",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "piksel",
+      "seo_variants": [
+        "piksel"
+      ],
+      "ui_variant": "piksel",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "resolusi",
+      "seo_variants": [
+        "resolusi imej"
+      ],
+      "ui_variant": "resolusi",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "boleh diskala",
+      "seo_variants": [
+        "boleh diskala",
+        "boleh diubah saiz"
+      ],
+      "ui_variant": "boleh diskala",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "boleh diskala tanpa kehilangan kualiti",
+      "seo_variants": [
+        "tanpa kehilangan kualiti"
+      ],
+      "ui_variant": "tanpa kehilangan kualiti",
+      "alternatives": [],
+      "avoid": [
+        "meningkatkan kualiti"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "latar belakang lutsinar",
+      "seo_variants": [
+        "latar belakang lutsinar"
+      ],
+      "ui_variant": "Latar belakang lutsinar",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "alih keluar latar belakang",
+      "seo_variants": [
+        "buang latar belakang",
+        "alih keluar latar belakang"
+      ],
+      "ui_variant": "Alih keluar latar belakang",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "muat naik",
+      "seo_variants": [
+        "muat naik imej"
+      ],
+      "ui_variant": "Muat naik",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "muat turun",
+      "seo_variants": [
+        "muat turun SVG"
+      ],
+      "ui_variant": "Muat turun",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "pratonton",
+      "seo_variants": [
+        "pratonton"
+      ],
+      "ui_variant": "Pratonton",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "praset",
+      "seo_variants": [
+        "praset"
+      ],
+      "ui_variant": "Praset",
+      "alternatives": [
+        "preset"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "pengoptimuman",
+      "seo_variants": [
+        "pengoptimuman SVG"
+      ],
+      "ui_variant": "Pengoptimuman",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "saiz fail",
+      "seo_variants": [
+        "saiz fail SVG"
+      ],
+      "ui_variant": "Saiz fail",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "imej sumber",
+      "seo_variants": [
+        "imej sumber",
+        "imej asal"
+      ],
+      "ui_variant": "Imej sumber",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "fail output",
+      "seo_variants": [
+        "fail SVG output"
+      ],
+      "ui_variant": "Fail output",
+      "alternatives": [
+        "fail hasil"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "dalam pelayar",
+      "seo_variants": [
+        "dalam pelayar",
+        "berasaskan pelayar"
+      ],
+      "ui_variant": "Dalam pelayar",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "pemprosesan setempat dalam pelayar",
+      "seo_variants": [
+        "pemprosesan setempat",
+        "pada peranti anda"
+      ],
+      "ui_variant": "Pemprosesan setempat",
+      "alternatives": [
+        "pemprosesan pada peranti"
+      ],
+      "avoid": [
+        "luar talian"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "laluan tertutup",
+      "seo_variants": [
+        "laluan SVG tertutup"
+      ],
+      "ui_variant": "laluan tertutup",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "laluan terbuka",
+      "seo_variants": [
+        "laluan SVG terbuka"
+      ],
+      "ui_variant": "laluan terbuka",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "tukar / menukar",
+      "seo_variants": [
+        "tukar PNG kepada SVG",
+        "menukar PNG kepada SVG"
+      ],
+      "ui_variant": "Tukar",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "penukar",
+      "seo_variants": [
+        "penukar PNG kepada SVG",
+        "penukar SVG"
+      ],
+      "ui_variant": "Penukar",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG kepada SVG",
+      "tukar PNG kepada SVG",
+      "penukar PNG kepada SVG",
+      "vektorkan imej",
+      "raster kepada vektor"
+    ],
+    "keyword_rules": [
+      "Use 'PNG kepada SVG' for compact search wording.",
+      "Use tukar/menukar in natural prose.",
+      "Use vektorkan/pengvektoran for actual vectorization.",
+      "Keep file-format acronyms unchanged."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer Muat naik, Tukar/Vektorkan, Muat turun, Pratonton, Praset.",
+      "Keep tracing-process terminology distinct from laluan/path geometry.",
+      "Use concise native verbs."
+    ]
+  },
+  "translation_rules": [
+    "Preserve input/output direction.",
+    "Do not translate brands/file-format acronyms.",
+    "Use Malaysian Malay consistently.",
+    "Preserve local-processing/privacy meaning precisely."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "mengekori imej",
+      "preferred_meaning": "Penyurihan Imej / pengvektoran imej",
+      "reason": "Adobe Malaysia uses localized tracing terminology."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "berjalan secara tempatan",
+      "preferred_meaning": "diproses pada peranti anda/dalam pelayar",
+      "reason": "Clarifies privacy semantics."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "SVG bersih",
+      "preferred_meaning": "SVG yang dioptimumkan / SVG dengan laluan kemas",
+      "reason": "Literal adjective is vague."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_vectorize": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/my_ms/products/illustrator/vectorize-image.html",
+      "locale": "ms-MY",
+      "notes": "Uses Vektorkan imej, Penyurihan Imej, raster, piksel, vektor, titik penambat, boleh diskala."
+    },
+    "adobe_raster_vector": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/my_ms/illustrator/desktop/use-generative-ai/generate-vector-artwork-from-images.html",
+      "locale": "ms-MY",
+      "notes": "Uses raster images, vector artwork and localized surrounding terminology."
+    }
+  }
+}
