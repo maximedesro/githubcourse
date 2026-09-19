@@ -1,0 +1,608 @@
+{
+  "schema_version": 1,
+  "language": "Swahili",
+  "locale": "sw-KE",
+  "recommended_locale_reason": "Use standard East African Swahili with a Kenya-oriented locale (sw-KE) as the default software locale. Authoritative localized graphics-vendor terminology is sparse, so recommendations prioritize clear standard Swahili while retaining familiar technical loans where needed.",
+  "register": {
+    "default": "neutral-friendly",
+    "pronoun_strategy": "Prefer concise UI labels. In prose, use neutral standard Swahili and avoid highly regional slang.",
+    "notes": "Because specialist design terminology is not consistently localized, English loans such as vector, raster, SVG and pixel may be preferable in professional contexts."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "vekta",
+      "seo_variants": [
+        "vector",
+        "vekta"
+      ],
+      "ui_variant": "Vekta",
+      "alternatives": [
+        "vector"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Use vekta in explanatory Swahili; English vector remains useful in professional/SEO contexts.",
+      "confidence": "medium"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "picha ya vekta",
+      "seo_variants": [
+        "picha ya vector",
+        "picha ya vekta"
+      ],
+      "ui_variant": "Picha ya vekta",
+      "alternatives": [
+        "vector image"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "medium"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "michoro ya vekta",
+      "seo_variants": [
+        "michoro ya vector",
+        "michoro ya vekta"
+      ],
+      "ui_variant": "Michoro ya vekta",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "medium"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "badilisha kuwa vekta",
+      "seo_variants": [
+        "badilisha picha kuwa vector",
+        "vectorize image"
+      ],
+      "ui_variant": "Badilisha kuwa vekta",
+      "alternatives": [
+        "vectorize"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "medium"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "ubadilishaji kuwa vekta",
+      "seo_variants": [
+        "ubadilishaji wa picha kuwa vector",
+        "vectorization"
+      ],
+      "ui_variant": "Ubadilishaji kuwa vekta",
+      "alternatives": [
+        "vectorization"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "medium"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "rasta",
+      "seo_variants": [
+        "raster",
+        "rasta"
+      ],
+      "ui_variant": "Rasta",
+      "alternatives": [
+        "raster"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "medium"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "picha ya rasta",
+      "seo_variants": [
+        "picha ya raster",
+        "picha ya rasta"
+      ],
+      "ui_variant": "Picha ya rasta",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "medium"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "bitmap",
+      "seo_variants": [
+        "bitmap"
+      ],
+      "ui_variant": "Bitmap",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "ufuatiliaji wa picha",
+      "seo_variants": [
+        "Image Trace",
+        "ufuatiliaji wa picha",
+        "vectorize image"
+      ],
+      "ui_variant": "Image Trace",
+      "alternatives": [
+        "kufuatilia picha"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "No strong vendor-localized evidence; retain Image Trace when naming Adobe's feature.",
+      "confidence": "low"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "fuatilia / ufuatiliaji",
+      "seo_variants": [
+        "ufuatiliaji wa picha",
+        "vectorize"
+      ],
+      "ui_variant": "Fuatilia",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "medium"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "njia",
+      "seo_variants": [
+        "njia ya SVG",
+        "vector path"
+      ],
+      "ui_variant": "Njia",
+      "alternatives": [
+        "path"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "For specialist SVG users, English path may remain clearer.",
+      "confidence": "medium"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "nukta ya nanga",
+      "seo_variants": [
+        "anchor point",
+        "nukta ya nanga"
+      ],
+      "ui_variant": "Anchor point",
+      "alternatives": [
+        "sehemu ya nanga"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Professional design usage may prefer English.",
+      "confidence": "low"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "mkunjo",
+      "seo_variants": [
+        "curve ya vector",
+        "mkunjo wa vekta"
+      ],
+      "ui_variant": "Mkunjo",
+      "alternatives": [
+        "curve"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Specialist term is low-confidence; English curve may be safer.",
+      "confidence": "low"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "umbo",
+      "seo_variants": [
+        "umbo la vekta",
+        "vector shape"
+      ],
+      "ui_variant": "Umbo",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "pikseli",
+      "seo_variants": [
+        "pixel",
+        "pikseli"
+      ],
+      "ui_variant": "Pikseli",
+      "alternatives": [
+        "pixel"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "azimio",
+      "seo_variants": [
+        "resolution",
+        "azimio la picha"
+      ],
+      "ui_variant": "Azimio",
+      "alternatives": [
+        "resolution"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "medium"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "inaweza kubadilishwa ukubwa",
+      "seo_variants": [
+        "scalable",
+        "bila kupoteza ubora"
+      ],
+      "ui_variant": "Inaweza kubadilishwa ukubwa",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "inaweza kubadilishwa ukubwa bila kupoteza ubora",
+      "seo_variants": [
+        "bila kupoteza ubora"
+      ],
+      "ui_variant": "Bila kupoteza ubora",
+      "alternatives": [],
+      "avoid": [
+        "huboresha ubora"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "mandharinyuma yenye uwazi",
+      "seo_variants": [
+        "transparent background",
+        "mandharinyuma yenye uwazi"
+      ],
+      "ui_variant": "Mandharinyuma yenye uwazi",
+      "alternatives": [
+        "mandharinyuma wazi"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "medium"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "ondoa mandharinyuma",
+      "seo_variants": [
+        "ondoa background",
+        "ondoa mandharinyuma"
+      ],
+      "ui_variant": "Ondoa mandharinyuma",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "pakia",
+      "seo_variants": [
+        "pakia picha",
+        "upload picha"
+      ],
+      "ui_variant": "Pakia",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "pakua",
+      "seo_variants": [
+        "pakua SVG"
+      ],
+      "ui_variant": "Pakua",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "hakiki",
+      "seo_variants": [
+        "preview",
+        "hakiki"
+      ],
+      "ui_variant": "Hakiki",
+      "alternatives": [
+        "Onyesho la awali"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "medium"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "mpangilio tayari",
+      "seo_variants": [
+        "preset",
+        "mpangilio tayari"
+      ],
+      "ui_variant": "Preset",
+      "alternatives": [
+        "mpangilio wa awali"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "medium"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "uboreshaji",
+      "seo_variants": [
+        "SVG optimization",
+        "uboreshaji wa SVG"
+      ],
+      "ui_variant": "Uboreshaji",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "ukubwa wa faili",
+      "seo_variants": [
+        "ukubwa wa faili ya SVG"
+      ],
+      "ui_variant": "Ukubwa wa faili",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "picha chanzo",
+      "seo_variants": [
+        "picha chanzo",
+        "picha asili"
+      ],
+      "ui_variant": "Picha chanzo",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "faili la matokeo",
+      "seo_variants": [
+        "faili la SVG la matokeo"
+      ],
+      "ui_variant": "Faili la matokeo",
+      "alternatives": [
+        "output file"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "medium"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "inafanya kazi kwenye kivinjari",
+      "seo_variants": [
+        "kwenye kivinjari",
+        "browser-based"
+      ],
+      "ui_variant": "Kwenye kivinjari",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "uchakataji wa ndani kwenye kivinjari",
+      "seo_variants": [
+        "uchakataji wa ndani",
+        "kwenye kifaa chako"
+      ],
+      "ui_variant": "Uchakataji wa ndani",
+      "alternatives": [
+        "uchakataji kwenye kifaa"
+      ],
+      "avoid": [
+        "offline"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "njia iliyofungwa",
+      "seo_variants": [
+        "closed SVG path",
+        "njia ya SVG iliyofungwa"
+      ],
+      "ui_variant": "Njia iliyofungwa",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Low-confidence specialist terminology.",
+      "confidence": "low"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "njia iliyo wazi",
+      "seo_variants": [
+        "open SVG path",
+        "njia ya SVG iliyo wazi"
+      ],
+      "ui_variant": "Njia iliyo wazi",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Low-confidence specialist terminology.",
+      "confidence": "low"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "badilisha",
+      "seo_variants": [
+        "badilisha PNG kuwa SVG",
+        "PNG hadi SVG"
+      ],
+      "ui_variant": "Badilisha",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "kibadilishaji",
+      "seo_variants": [
+        "kibadilishaji cha PNG hadi SVG",
+        "SVG converter"
+      ],
+      "ui_variant": "Kibadilishaji",
+      "alternatives": [
+        "converter"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "medium"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG hadi SVG",
+      "badilisha PNG kuwa SVG",
+      "PNG to SVG converter",
+      "badilisha picha kuwa vector",
+      "raster hadi vector"
+    ],
+    "keyword_rules": [
+      "Keep PNG/JPG/JPEG/SVG unchanged.",
+      "Use clear Swahili verbs for general audiences, but retain English vector/raster/converter variants where professional usage is more familiar.",
+      "Do not claim measured keyword dominance; localized SERP evidence is sparse.",
+      "Prefer clarity over forced localization."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer Pakia, Badilisha, Pakua, Hakiki.",
+      "Retain SVG and other format names unchanged.",
+      "Where a specialist term is low-confidence, prefer a familiar English loan rather than an obscure coined translation."
+    ]
+  },
+  "translation_rules": [
+    "Preserve source/output direction.",
+    "Do not translate brands/file-format acronyms.",
+    "Use standard Swahili rather than regional slang.",
+    "Preserve local-processing privacy meaning exactly.",
+    "Treat low-confidence specialist terms as guidance, not mandatory frozen wording."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "kufuatilia picha as ordinary following/monitoring",
+      "preferred_meaning": "ufuatiliaji wa picha / vectorization",
+      "reason": "The graphics sense must be explicit; keep Image Trace when naming Adobe's feature."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "inaendesha hapa",
+      "preferred_meaning": "uchakataji hufanyika kwenye kifaa/kivinjari chako",
+      "reason": "Clarifies privacy semantics."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "SVG safi",
+      "preferred_meaning": "SVG iliyoboreshwa / SVG yenye njia zilizopangwa vizuri",
+      "reason": "Literal safi is too vague."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_reference": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/products/illustrator/vectorize-image.html",
+      "locale": "en",
+      "notes": "Conceptual reference only because reliable Swahili-localized Illustrator terminology was not found."
+    }
+  }
+}
