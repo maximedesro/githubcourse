@@ -1,0 +1,595 @@
+{
+  "schema_version": 1,
+  "language": "Hindi",
+  "locale": "hi-IN",
+  "recommended_locale_reason": "Use Hindi for India (hi-IN). Adobe India's Hindi Illustrator pages show a strong mixed Hindi-English technical register, which should be preserved rather than over-localizing established graphics terms.",
+  "register": {
+    "default": "neutral-polite",
+    "pronoun_strategy": "Prefer concise UI labels. In prose, use आप consistently when direct address is necessary.",
+    "notes": "Hindi software/design copy commonly retains transliterated English technical terms such as वेक्टर, रास्टर, पाथ, प्रीसेट, पिक्सेल, SVG."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "वेक्टर",
+      "seo_variants": [
+        "वेक्टर"
+      ],
+      "ui_variant": "वेक्टर",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "वेक्टर इमेज",
+      "seo_variants": [
+        "वेक्टर इमेज"
+      ],
+      "ui_variant": "वेक्टर इमेज",
+      "alternatives": [
+        "वेक्टर चित्र"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "वेक्टर ग्राफ़िक्स",
+      "seo_variants": [
+        "वेक्टर ग्राफ़िक्स"
+      ],
+      "ui_variant": "वेक्टर ग्राफ़िक्स",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "वेक्टराइज़ करना",
+      "seo_variants": [
+        "इमेज वेक्टराइज़ करें",
+        "इमेज को वेक्टर में बदलें"
+      ],
+      "ui_variant": "वेक्टराइज़ करें",
+      "alternatives": [
+        "वेक्टर में कनवर्ट करें"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "वेक्टराइज़ेशन",
+      "seo_variants": [
+        "इमेज वेक्टराइज़ेशन"
+      ],
+      "ui_variant": "वेक्टराइज़ेशन",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "रास्टर",
+      "seo_variants": [
+        "रास्टर"
+      ],
+      "ui_variant": "रास्टर",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "रास्टर इमेज",
+      "seo_variants": [
+        "रास्टर इमेज"
+      ],
+      "ui_variant": "रास्टर इमेज",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "बिटमैप",
+      "seo_variants": [
+        "बिटमैप"
+      ],
+      "ui_variant": "बिटमैप",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "इमेज ट्रेस",
+      "seo_variants": [
+        "इमेज ट्रेस",
+        "इमेज वेक्टराइज़"
+      ],
+      "ui_variant": "इमेज ट्रेस",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Adobe India keeps Image Trace as a transliterated product-feature term.",
+      "confidence": "high"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "ट्रेस / ट्रेसिंग",
+      "seo_variants": [
+        "इमेज ट्रेस",
+        "ट्रेसिंग",
+        "वेक्टराइज़"
+      ],
+      "ui_variant": "ट्रेस",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "पाथ",
+      "seo_variants": [
+        "SVG पाथ",
+        "वेक्टर पाथ"
+      ],
+      "ui_variant": "पाथ",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "एंकर पॉइंट",
+      "seo_variants": [
+        "एंकर पॉइंट"
+      ],
+      "ui_variant": "एंकर पॉइंट",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "कर्व",
+      "seo_variants": [
+        "वेक्टर कर्व"
+      ],
+      "ui_variant": "कर्व",
+      "alternatives": [
+        "वक्र"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "शेप",
+      "seo_variants": [
+        "वेक्टर शेप"
+      ],
+      "ui_variant": "शेप",
+      "alternatives": [
+        "आकार"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "पिक्सेल",
+      "seo_variants": [
+        "पिक्सेल"
+      ],
+      "ui_variant": "पिक्सेल",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "रेज़ोल्यूशन",
+      "seo_variants": [
+        "इमेज रेज़ोल्यूशन"
+      ],
+      "ui_variant": "रेज़ोल्यूशन",
+      "alternatives": [
+        "रिज़ॉल्यूशन"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "स्केलेबल",
+      "seo_variants": [
+        "स्केलेबल",
+        "बिना क्वालिटी खोए स्केल करें"
+      ],
+      "ui_variant": "स्केलेबल",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "क्वालिटी खोए बिना स्केल किया जा सकता है",
+      "seo_variants": [
+        "क्वालिटी खोए बिना",
+        "बिना पिक्सेलेट हुए"
+      ],
+      "ui_variant": "क्वालिटी खोए बिना",
+      "alternatives": [],
+      "avoid": [
+        "क्वालिटी बेहतर करता है"
+      ],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "ट्रांसपेरेंट बैकग्राउंड",
+      "seo_variants": [
+        "ट्रांसपेरेंट बैकग्राउंड",
+        "पारदर्शी बैकग्राउंड"
+      ],
+      "ui_variant": "ट्रांसपेरेंट बैकग्राउंड",
+      "alternatives": [
+        "पारदर्शी पृष्ठभूमि"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "बैकग्राउंड हटाएँ",
+      "seo_variants": [
+        "बैकग्राउंड हटाएँ"
+      ],
+      "ui_variant": "बैकग्राउंड हटाएँ",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "अपलोड",
+      "seo_variants": [
+        "इमेज अपलोड करें"
+      ],
+      "ui_variant": "अपलोड",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "डाउनलोड",
+      "seo_variants": [
+        "SVG डाउनलोड करें"
+      ],
+      "ui_variant": "डाउनलोड",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "प्रीव्यू",
+      "seo_variants": [
+        "प्रीव्यू"
+      ],
+      "ui_variant": "प्रीव्यू",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "प्रीसेट",
+      "seo_variants": [
+        "ट्रेसिंग प्रीसेट",
+        "प्रीसेट"
+      ],
+      "ui_variant": "प्रीसेट",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "ऑप्टिमाइज़ेशन",
+      "seo_variants": [
+        "SVG ऑप्टिमाइज़ेशन"
+      ],
+      "ui_variant": "ऑप्टिमाइज़ेशन",
+      "alternatives": [
+        "अनुकूलन"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "फ़ाइल साइज़",
+      "seo_variants": [
+        "SVG फ़ाइल साइज़"
+      ],
+      "ui_variant": "फ़ाइल साइज़",
+      "alternatives": [
+        "फ़ाइल आकार"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "सोर्स इमेज",
+      "seo_variants": [
+        "सोर्स इमेज",
+        "ओरिजिनल इमेज"
+      ],
+      "ui_variant": "सोर्स इमेज",
+      "alternatives": [
+        "मूल इमेज"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "आउटपुट फ़ाइल",
+      "seo_variants": [
+        "SVG आउटपुट फ़ाइल"
+      ],
+      "ui_variant": "आउटपुट फ़ाइल",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "ब्राउज़र में चलता है",
+      "seo_variants": [
+        "ब्राउज़र में",
+        "ब्राउज़र-बेस्ड"
+      ],
+      "ui_variant": "ब्राउज़र में",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "ब्राउज़र में लोकल प्रोसेसिंग",
+      "seo_variants": [
+        "लोकल प्रोसेसिंग",
+        "आपके डिवाइस पर"
+      ],
+      "ui_variant": "लोकल प्रोसेसिंग",
+      "alternatives": [
+        "डिवाइस पर प्रोसेसिंग"
+      ],
+      "avoid": [
+        "ऑफ़लाइन"
+      ],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "क्लोज़्ड पाथ",
+      "seo_variants": [
+        "क्लोज़्ड SVG पाथ"
+      ],
+      "ui_variant": "क्लोज़्ड पाथ",
+      "alternatives": [
+        "बंद पाथ"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "ओपन पाथ",
+      "seo_variants": [
+        "ओपन SVG पाथ"
+      ],
+      "ui_variant": "ओपन पाथ",
+      "alternatives": [
+        "खुला पाथ"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "कनवर्ट करना",
+      "seo_variants": [
+        "PNG से SVG कनवर्ट करें",
+        "PNG को SVG में बदलें"
+      ],
+      "ui_variant": "कनवर्ट करें",
+      "alternatives": [
+        "बदलें"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "कनवर्टर",
+      "seo_variants": [
+        "PNG से SVG कनवर्टर",
+        "SVG कनवर्टर"
+      ],
+      "ui_variant": "कनवर्टर",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG से SVG",
+      "PNG से SVG कनवर्टर",
+      "PNG को SVG में कनवर्ट करें",
+      "इमेज वेक्टराइज़ करें",
+      "रास्टर से वेक्टर"
+    ],
+    "keyword_rules": [
+      "Hindi software search language commonly mixes Devanagari with transliterated English technical terms.",
+      "Use PNG से SVG / PNG को SVG में कनवर्ट करें for clear source-output direction.",
+      "Use वेक्टराइज़ for true vectorization.",
+      "Keep format acronyms unchanged."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer अपलोड, कनवर्ट/वेक्टराइज़, डाउनलोड, प्रीव्यू, प्रीसेट.",
+      "Use इमेज ट्रेस for tracing and पाथ for vector geometry.",
+      "Keep mixed Hindi-English terminology consistent rather than alternating with highly Sanskritized forms."
+    ]
+  },
+  "translation_rules": [
+    "Preserve source/output direction.",
+    "Do not translate brands/file-format acronyms.",
+    "Use आप consistently if direct address is needed.",
+    "Preserve local-processing/privacy semantics exactly."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "चित्र का पीछा करना",
+      "preferred_meaning": "इमेज ट्रेस / वेक्टराइज़ेशन",
+      "reason": "Adobe uses transliterated Image Trace terminology."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "स्थानीय रूप से चलता है",
+      "preferred_meaning": "आपके डिवाइस/ब्राउज़र में लोकल प्रोसेसिंग होती है",
+      "reason": "Clarifies privacy semantics."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "साफ़ SVG",
+      "preferred_meaning": "ऑप्टिमाइज़्ड SVG / साफ़ पाथ वाला SVG",
+      "reason": "Literal adjective is vague."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_vectorize": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/in_hi/products/illustrator/vectorize-image.html",
+      "locale": "hi-IN",
+      "notes": "Uses इमेज वेक्टराइज़, इमेज ट्रेस, रास्टर, पिक्सेल, वेक्टर, पाथ, tracing presets."
+    },
+    "adobe_trace": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/in_hi/illustrator/desktop/manage-objects/traces-mockups-symbols/trace-images-to-convert-raster-into-vector-artwork.html",
+      "locale": "hi-IN",
+      "notes": "Hindi-localized surrounding UI with many English feature labels; supports mixed register."
+    },
+    "adobe_edit_trace": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/in_hi/illustrator/desktop/manage-objects/traces-mockups-symbols/edit-image-trace-results.html",
+      "locale": "hi-IN",
+      "notes": "Uses ट्रेस result, editable paths, anchor points and Simplify in localized context."
+    }
+  }
+}
