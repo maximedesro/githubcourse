@@ -1,0 +1,594 @@
+{
+  "schema_version": 1,
+  "language": "Italian",
+  "locale": "it-IT",
+  "recommended_locale_reason": "Use standard Italian for Italy; Adobe Italy terminology is well established and appropriate for international software localization.",
+  "register": {
+    "default": "neutral-direct",
+    "pronoun_strategy": "Prefer concise UI labels and impersonal/imperative constructions. In prose, use 'tu' consistently when direct address is necessary; avoid formal Lei in modern product copy unless the whole site adopts it.",
+    "notes": "Keep tone helpful and technical, not bureaucratic."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Keep acronym.",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "vettore",
+      "seo_variants": [
+        "vettore",
+        "vettoriale"
+      ],
+      "ui_variant": "vettore",
+      "alternatives": [
+        "vettoriale"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use vettoriale adjectivally.",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "immagine vettoriale",
+      "seo_variants": [
+        "immagine vettoriale"
+      ],
+      "ui_variant": "immagine vettoriale",
+      "alternatives": [
+        "grafica vettoriale"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Both common; grafica vettoriale suits artwork.",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "grafica vettoriale",
+      "seo_variants": [
+        "grafica vettoriale"
+      ],
+      "ui_variant": "grafica vettoriale",
+      "alternatives": [
+        "grafiche vettoriali"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe uses grafica vettoriale.",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "vettorializzare",
+      "seo_variants": [
+        "vettorializzare immagine",
+        "vettorializzare PNG"
+      ],
+      "ui_variant": "Vettorializza",
+      "alternatives": [
+        "convertire in vettoriale"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Strong Adobe/professional usage.",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "vettorializzazione",
+      "seo_variants": [
+        "vettorializzazione immagini"
+      ],
+      "ui_variant": "Vettorializzazione",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard.",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "raster",
+      "seo_variants": [
+        "raster",
+        "immagine raster"
+      ],
+      "ui_variant": "raster",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Raster is standard loanword.",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "immagine raster",
+      "seo_variants": [
+        "immagine raster"
+      ],
+      "ui_variant": "immagine raster",
+      "alternatives": [
+        "immagine bitmap"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe uses immagini raster.",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "bitmap",
+      "seo_variants": [
+        "bitmap",
+        "immagine bitmap"
+      ],
+      "ui_variant": "bitmap",
+      "alternatives": [
+        "immagine bitmap"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Standard technical term.",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "Ricalco immagine",
+      "seo_variants": [
+        "ricalco immagine",
+        "vettorializzazione immagine"
+      ],
+      "ui_variant": "Ricalco immagine",
+      "alternatives": [
+        "ricalco automatico"
+      ],
+      "avoid": [
+        "tracciamento immagine"
+      ],
+      "keep_english": false,
+      "notes": "Adobe Illustrator's localized feature name.",
+      "confidence": "high"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "ricalcare / ricalco",
+      "seo_variants": [
+        "vettorializzare",
+        "ricalco"
+      ],
+      "ui_variant": "Ricalca",
+      "alternatives": [
+        "tracciare"
+      ],
+      "avoid": [
+        "tracing"
+      ],
+      "keep_english": false,
+      "notes": "Use vettorializzare for general raster-to-vector action; ricalco for Illustrator tracing mechanics.",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "tracciato",
+      "seo_variants": [
+        "tracciato SVG",
+        "tracciato vettoriale"
+      ],
+      "ui_variant": "tracciato",
+      "alternatives": [],
+      "avoid": [
+        "percorso"
+      ],
+      "keep_english": false,
+      "notes": "Established Illustrator term.",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "punto di ancoraggio",
+      "seo_variants": [
+        "punto di ancoraggio"
+      ],
+      "ui_variant": "punto di ancoraggio",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard Adobe term.",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "curva",
+      "seo_variants": [
+        "curva vettoriale"
+      ],
+      "ui_variant": "curva",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard.",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "forma",
+      "seo_variants": [
+        "forma vettoriale"
+      ],
+      "ui_variant": "forma",
+      "alternatives": [
+        "oggetto"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use oggetto for editor object semantics.",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "pixel",
+      "seo_variants": [
+        "pixel"
+      ],
+      "ui_variant": "pixel",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Standard.",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "risoluzione",
+      "seo_variants": [
+        "risoluzione immagine"
+      ],
+      "ui_variant": "risoluzione",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard.",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "scalabile",
+      "seo_variants": [
+        "scalabile",
+        "ridimensionabile senza perdita di qualità"
+      ],
+      "ui_variant": "scalabile",
+      "alternatives": [
+        "ridimensionabile"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard technical adjective.",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "ridimensionabile senza perdita di qualità",
+      "seo_variants": [
+        "senza perdita di qualità"
+      ],
+      "ui_variant": "senza perdita di qualità",
+      "alternatives": [
+        "scalabile senza perdita di qualità"
+      ],
+      "avoid": [
+        "migliora la qualità"
+      ],
+      "keep_english": false,
+      "notes": "Do not imply enhancement.",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "sfondo trasparente",
+      "seo_variants": [
+        "sfondo trasparente"
+      ],
+      "ui_variant": "Sfondo trasparente",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard.",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "rimuovere lo sfondo",
+      "seo_variants": [
+        "rimuovi sfondo",
+        "rimozione sfondo"
+      ],
+      "ui_variant": "Rimuovi sfondo",
+      "alternatives": [
+        "Elimina sfondo"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Rimuovi is natural UI action.",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "caricare",
+      "seo_variants": [
+        "carica immagine"
+      ],
+      "ui_variant": "Carica",
+      "alternatives": [
+        "Seleziona file"
+      ],
+      "avoid": [
+        "uploadare"
+      ],
+      "keep_english": false,
+      "notes": "Use native verb.",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "scaricare",
+      "seo_variants": [
+        "scarica SVG"
+      ],
+      "ui_variant": "Scarica",
+      "alternatives": [
+        "Download"
+      ],
+      "avoid": [],
+      "keep_english": "context-dependent",
+      "notes": "Verb Scarica is preferred; noun Download is common but avoid when not needed.",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "anteprima",
+      "seo_variants": [
+        "anteprima"
+      ],
+      "ui_variant": "Anteprima",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard UI.",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "predefinito",
+      "seo_variants": [
+        "predefinito",
+        "preset"
+      ],
+      "ui_variant": "Predefinito",
+      "alternatives": [
+        "preset"
+      ],
+      "avoid": [],
+      "keep_english": "context-dependent",
+      "notes": "Adobe uses predefinito; preset remains common among designers.",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "ottimizzazione",
+      "seo_variants": [
+        "ottimizzazione SVG"
+      ],
+      "ui_variant": "Ottimizzazione",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard.",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "dimensione del file",
+      "seo_variants": [
+        "dimensione file SVG"
+      ],
+      "ui_variant": "Dimensione file",
+      "alternatives": [
+        "peso del file"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Prefer dimensione in technical UI.",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "immagine sorgente",
+      "seo_variants": [
+        "immagine sorgente",
+        "immagine originale"
+      ],
+      "ui_variant": "Immagine sorgente",
+      "alternatives": [
+        "immagine originale"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Both natural.",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "file di output",
+      "seo_variants": [
+        "file SVG di output"
+      ],
+      "ui_variant": "File di output",
+      "alternatives": [
+        "file generato"
+      ],
+      "avoid": [],
+      "keep_english": "context-dependent",
+      "notes": "'Output' is established technical loanword in Italian.",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "nel browser",
+      "seo_variants": [
+        "online",
+        "nel browser"
+      ],
+      "ui_variant": "Nel browser",
+      "alternatives": [
+        "basato sul browser"
+      ],
+      "avoid": [
+        "browser-based"
+      ],
+      "keep_english": false,
+      "notes": "Prefer idiomatic phrase.",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "elaborazione locale nel browser",
+      "seo_variants": [
+        "elaborazione locale",
+        "sul dispositivo"
+      ],
+      "ui_variant": "Elaborazione locale",
+      "alternatives": [
+        "elaborazione sul dispositivo"
+      ],
+      "avoid": [
+        "offline"
+      ],
+      "keep_english": false,
+      "notes": "Do not imply offline operation.",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "tracciato chiuso",
+      "seo_variants": [
+        "tracciato SVG chiuso"
+      ],
+      "ui_variant": "tracciato chiuso",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Fabrication geometry.",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "tracciato aperto",
+      "seo_variants": [
+        "tracciato SVG aperto"
+      ],
+      "ui_variant": "tracciato aperto",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Fabrication geometry.",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG in SVG",
+      "convertire PNG in SVG",
+      "JPG in SVG",
+      "convertire JPG in SVG",
+      "immagine in SVG",
+      "vettorializzare immagine",
+      "convertitore SVG"
+    ],
+    "keyword_rules": [
+      "Use compact 'PNG in SVG' in headings and 'convertire PNG in SVG' in prose.",
+      "Use vettorializzare when true vectorization is the intent.",
+      "Keep format acronyms unchanged.",
+      "Do not overuse English 'converter'; 'convertitore' is natural."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer Carica, Converti/Vettorializza, Scarica, Anteprima, Predefinito.",
+      "Use Ricalco only for tracing mechanics and tracciato for vector path geometry.",
+      "Keep labels concise."
+    ]
+  },
+  "translation_rules": [
+    "Preserve source/output direction.",
+    "Do not translate brands/file-format acronyms.",
+    "Do not mechanically replace every English 'trace' with the same Italian word; distinguish ricalco process from tracciato geometry.",
+    "Keep local-processing claim explicit."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "tracciamento immagine",
+      "preferred_meaning": "Ricalco immagine / vettorializzazione",
+      "reason": "Adobe uses Ricalco immagine."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "funziona localmente",
+      "preferred_meaning": "l’elaborazione avviene sul dispositivo / nel browser",
+      "reason": "Clarifies privacy semantics."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "SVG pulito",
+      "preferred_meaning": "SVG ottimizzato / con tracciati puliti",
+      "reason": "Choose intended technical meaning."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary source terminology for product concepts, UI, browser-local processing, vectorization, paths, use cases, and privacy."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster pixels, vector paths, tracing, geometry, topology, complexity, and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings including simplify, background, max colors, clustering, merge paths, precision, preview, and optimization."
+    },
+    "adobe_trace": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/it/illustrator/desktop/manage-objects/traces-mockups-symbols/image-trace-panel-options.html",
+      "locale": "it-IT",
+      "notes": "Uses Ricalco immagine, immagini raster, grafica vettoriale."
+    },
+    "adobe_png_svg": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/it/express/feature/image/convert/png-to-svg",
+      "locale": "it-IT",
+      "notes": "Uses 'Converti il tuo PNG in un SVG', convertire, file vettoriale."
+    },
+    "adobe_vectorize": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/it/products/illustrator/vectorize-image.html",
+      "locale": "it-IT",
+      "notes": "Italian Illustrator vectorization terminology."
+    }
+  }
+}
