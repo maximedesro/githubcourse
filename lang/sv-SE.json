@@ -1,0 +1,585 @@
+{
+  "schema_version": 1,
+  "language": "Swedish",
+  "locale": "sv-SE",
+  "recommended_locale_reason": "Use standard Swedish for Sweden. Adobe's sv-SE terminology is well established and suitable as the default Swedish software locale.",
+  "register": {
+    "default": "neutral-direct",
+    "pronoun_strategy": "Use concise UI language and 'du' consistently in explanatory copy.",
+    "notes": "Avoid stiff formal constructions."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "vektor",
+      "seo_variants": [
+        "vektor"
+      ],
+      "ui_variant": "vektor",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "vektorbild",
+      "seo_variants": [
+        "vektorbild"
+      ],
+      "ui_variant": "vektorbild",
+      "alternatives": [
+        "vektorgrafik"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "vektorgrafik",
+      "seo_variants": [
+        "vektorgrafik"
+      ],
+      "ui_variant": "vektorgrafik",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "vektorisera",
+      "seo_variants": [
+        "vektorisera bild",
+        "vektorisera PNG"
+      ],
+      "ui_variant": "Vektorisera",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "vektorisering",
+      "seo_variants": [
+        "vektorisering"
+      ],
+      "ui_variant": "Vektorisering",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "raster",
+      "seo_variants": [
+        "raster"
+      ],
+      "ui_variant": "raster",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "rasterbild",
+      "seo_variants": [
+        "rasterbild"
+      ],
+      "ui_variant": "rasterbild",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "bitmapp",
+      "seo_variants": [
+        "bitmapp",
+        "bitmap"
+      ],
+      "ui_variant": "bitmapp",
+      "alternatives": [
+        "bitmap"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "Bildkalkering",
+      "seo_variants": [
+        "bildkalkering",
+        "vektorisering av bild"
+      ],
+      "ui_variant": "Bildkalkering",
+      "alternatives": [
+        "kalkering"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe Illustrator localized feature name.",
+      "confidence": "high"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "kalkera / vektorisera",
+      "seo_variants": [
+        "vektorisera",
+        "kalkera bild"
+      ],
+      "ui_variant": "Kalkera",
+      "alternatives": [
+        "spåra"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use vektorisera for broad conversion intent; kalkera for Illustrator tracing mechanics.",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "bana",
+      "seo_variants": [
+        "vektorbana",
+        "SVG-bana"
+      ],
+      "ui_variant": "bana",
+      "alternatives": [
+        "sökväg"
+      ],
+      "avoid": [
+        "sökväg"
+      ],
+      "keep_english": false,
+      "notes": "Adobe uses vektorbanor; avoid generic filesystem-style sökväg.",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "fästpunkt",
+      "seo_variants": [
+        "fästpunkt"
+      ],
+      "ui_variant": "fästpunkt",
+      "alternatives": [
+        "ankarpunkt"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe Swedish commonly uses fästpunkt.",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "kurva",
+      "seo_variants": [
+        "vektorkurva"
+      ],
+      "ui_variant": "kurva",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "form",
+      "seo_variants": [
+        "vektorform"
+      ],
+      "ui_variant": "form",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "pixel",
+      "seo_variants": [
+        "pixel"
+      ],
+      "ui_variant": "pixel",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "upplösning",
+      "seo_variants": [
+        "bildupplösning"
+      ],
+      "ui_variant": "upplösning",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "skalbar",
+      "seo_variants": [
+        "skalbar",
+        "utan kvalitetsförlust"
+      ],
+      "ui_variant": "skalbar",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "kan skalas utan kvalitetsförlust",
+      "seo_variants": [
+        "utan kvalitetsförlust",
+        "utan att pixelera"
+      ],
+      "ui_variant": "utan kvalitetsförlust",
+      "alternatives": [],
+      "avoid": [
+        "förbättrar kvaliteten"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "genomskinlig bakgrund",
+      "seo_variants": [
+        "genomskinlig bakgrund"
+      ],
+      "ui_variant": "Genomskinlig bakgrund",
+      "alternatives": [
+        "transparent bakgrund"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "ta bort bakgrund",
+      "seo_variants": [
+        "ta bort bakgrund"
+      ],
+      "ui_variant": "Ta bort bakgrund",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "ladda upp",
+      "seo_variants": [
+        "ladda upp bild"
+      ],
+      "ui_variant": "Ladda upp",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "ladda ned",
+      "seo_variants": [
+        "ladda ned SVG"
+      ],
+      "ui_variant": "Ladda ned",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "förhandsvisning",
+      "seo_variants": [
+        "förhandsvisning"
+      ],
+      "ui_variant": "Förhandsvisning",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "förinställning",
+      "seo_variants": [
+        "förinställning"
+      ],
+      "ui_variant": "Förinställning",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "optimering",
+      "seo_variants": [
+        "SVG-optimering"
+      ],
+      "ui_variant": "Optimering",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "filstorlek",
+      "seo_variants": [
+        "SVG-filstorlek"
+      ],
+      "ui_variant": "Filstorlek",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "källbild",
+      "seo_variants": [
+        "källbild",
+        "originalbild"
+      ],
+      "ui_variant": "Källbild",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "utdatafil",
+      "seo_variants": [
+        "SVG-utdatafil"
+      ],
+      "ui_variant": "Utdatafil",
+      "alternatives": [
+        "resultatfil"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "i webbläsaren",
+      "seo_variants": [
+        "i webbläsaren",
+        "webbläsarbaserad"
+      ],
+      "ui_variant": "I webbläsaren",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "lokal bearbetning i webbläsaren",
+      "seo_variants": [
+        "lokal bearbetning",
+        "på din enhet"
+      ],
+      "ui_variant": "Lokal bearbetning",
+      "alternatives": [
+        "bearbetning på din enhet"
+      ],
+      "avoid": [
+        "offline"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "sluten bana",
+      "seo_variants": [
+        "sluten SVG-bana"
+      ],
+      "ui_variant": "sluten bana",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "öppen bana",
+      "seo_variants": [
+        "öppen SVG-bana"
+      ],
+      "ui_variant": "öppen bana",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "konvertera",
+      "seo_variants": [
+        "konvertera PNG till SVG"
+      ],
+      "ui_variant": "Konvertera",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "konverterare",
+      "seo_variants": [
+        "PNG till SVG-konverterare",
+        "SVG-konverterare"
+      ],
+      "ui_variant": "Konverterare",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG till SVG",
+      "konvertera PNG till SVG",
+      "vektorisera bild",
+      "raster till vektor",
+      "SVG-konverterare"
+    ],
+    "keyword_rules": [
+      "Use 'PNG till SVG' for compact SEO wording.",
+      "Use vektorisera for true vectorization.",
+      "Keep format acronyms unchanged.",
+      "Konverterare is natural Swedish; no need for English converter."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer Ladda upp, Konvertera/Vektorisera, Ladda ned, Förhandsvisning, Förinställning.",
+      "Use Bildkalkering for Illustrator's tracing feature and bana for vector path geometry."
+    ]
+  },
+  "translation_rules": [
+    "Preserve input/output direction.",
+    "Do not translate brands/file-format acronyms.",
+    "Use du consistently.",
+    "Do not weaken local-processing/privacy meaning."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "bildspårning",
+      "preferred_meaning": "Bildkalkering / vektorisering av bild",
+      "reason": "Adobe Swedish uses Bildkalkering."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "körs lokalt",
+      "preferred_meaning": "bearbetas lokalt på din enhet/i webbläsaren",
+      "reason": "Clarifies privacy semantics."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "ren SVG",
+      "preferred_meaning": "optimerad SVG / SVG med rena banor",
+      "reason": "Literal wording is ambiguous."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_trace": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/se/illustrator/desktop/manage-objects/traces-mockups-symbols/trace-images-to-convert-raster-into-vector-artwork.html",
+      "locale": "sv-SE",
+      "notes": "Uses Bildkalkering, rastergrafik, vektorbanor, förinställningar, without compromising quality."
+    },
+    "adobe_panel": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/se/illustrator/desktop/manage-objects/traces-mockups-symbols/image-trace-panel-options.html",
+      "locale": "sv-SE",
+      "notes": "Uses rastergrafik, vektorgrafik, Bildkalkering, Förinställning."
+    },
+    "search_usage": {
+      "publisher": "Observed Swedish search-result wording",
+      "url": "https://everyfacts.com/tools/sv/png-till-svg/",
+      "locale": "sv",
+      "notes": "Uses PNG till SVG, vektorisera bild, konverterare, rasterbilder, vektorformer, webbläsaren."
+    }
+  }
+}
