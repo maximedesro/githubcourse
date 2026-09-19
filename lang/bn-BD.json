@@ -1,0 +1,597 @@
+{
+  "schema_version": 1,
+  "language": "Bengali",
+  "locale": "bn-BD",
+  "recommended_locale_reason": "Use Bengali for Bangladesh (bn-BD) as the default Bengali locale for this project. Current Adobe Bengali localization evidence is limited, so this dataset is more conservative and marks several professional graphics terms as English loans/transliterations rather than inventing highly formal Bengali equivalents.",
+  "register": {
+    "default": "neutral-friendly",
+    "pronoun_strategy": "Prefer concise UI labels. In prose, use আপনি consistently when direct address is required.",
+    "notes": "For specialist design terminology, established English loans such as ভেক্টর, রাস্টার, পিক্সেল, SVG and পাথ are often safer than obscure literal translations."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "ভেক্টর",
+      "seo_variants": [
+        "ভেক্টর",
+        "vector"
+      ],
+      "ui_variant": "ভেক্টর",
+      "alternatives": [
+        "vector"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "ভেক্টর ইমেজ",
+      "seo_variants": [
+        "ভেক্টর ইমেজ",
+        "ভেক্টর ছবি"
+      ],
+      "ui_variant": "ভেক্টর ইমেজ",
+      "alternatives": [
+        "ভেক্টর ছবি"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "ভেক্টর গ্রাফিক্স",
+      "seo_variants": [
+        "ভেক্টর গ্রাফিক্স"
+      ],
+      "ui_variant": "ভেক্টর গ্রাফিক্স",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "ভেক্টরাইজ করা",
+      "seo_variants": [
+        "ইমেজ ভেক্টরাইজ করুন",
+        "ছবিকে ভেক্টরে রূপান্তর"
+      ],
+      "ui_variant": "ভেক্টরাইজ করুন",
+      "alternatives": [
+        "ভেক্টরে রূপান্তর করুন"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "ভেক্টরাইজেশন",
+      "seo_variants": [
+        "ইমেজ ভেক্টরাইজেশন"
+      ],
+      "ui_variant": "ভেক্টরাইজেশন",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "রাস্টার",
+      "seo_variants": [
+        "রাস্টার"
+      ],
+      "ui_variant": "রাস্টার",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "রাস্টার ইমেজ",
+      "seo_variants": [
+        "রাস্টার ইমেজ"
+      ],
+      "ui_variant": "রাস্টার ইমেজ",
+      "alternatives": [
+        "পিক্সেল-ভিত্তিক ছবি"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "বিটম্যাপ",
+      "seo_variants": [
+        "বিটম্যাপ"
+      ],
+      "ui_variant": "বিটম্যাপ",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "ইমেজ ট্রেস",
+      "seo_variants": [
+        "ইমেজ ট্রেস",
+        "ইমেজ ভেক্টরাইজেশন"
+      ],
+      "ui_variant": "ইমেজ ট্রেস",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Adobe Bengali-specific Illustrator terminology was not found reliably; retaining the internationally familiar feature term is safer.",
+      "confidence": "low"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "ট্রেস / ট্রেসিং",
+      "seo_variants": [
+        "ইমেজ ট্রেস",
+        "ভেক্টরাইজ"
+      ],
+      "ui_variant": "ট্রেস",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "পাথ",
+      "seo_variants": [
+        "SVG পাথ",
+        "ভেক্টর পাথ"
+      ],
+      "ui_variant": "পাথ",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "অ্যাঙ্কর পয়েন্ট",
+      "seo_variants": [
+        "অ্যাঙ্কর পয়েন্ট"
+      ],
+      "ui_variant": "অ্যাঙ্কর পয়েন্ট",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "কার্ভ",
+      "seo_variants": [
+        "ভেক্টর কার্ভ"
+      ],
+      "ui_variant": "কার্ভ",
+      "alternatives": [
+        "বক্ররেখা"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "শেপ",
+      "seo_variants": [
+        "ভেক্টর শেপ"
+      ],
+      "ui_variant": "শেপ",
+      "alternatives": [
+        "আকৃতি"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "পিক্সেল",
+      "seo_variants": [
+        "পিক্সেল"
+      ],
+      "ui_variant": "পিক্সেল",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "রেজোলিউশন",
+      "seo_variants": [
+        "ইমেজ রেজোলিউশন"
+      ],
+      "ui_variant": "রেজোলিউশন",
+      "alternatives": [
+        "রেজোলিউশন"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "স্কেলযোগ্য",
+      "seo_variants": [
+        "স্কেলযোগ্য",
+        "গুণমান না হারিয়ে বড় করা যায়"
+      ],
+      "ui_variant": "স্কেলযোগ্য",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "গুণমান না হারিয়ে আকার পরিবর্তন করা যায়",
+      "seo_variants": [
+        "গুণমান না হারিয়ে স্কেল",
+        "বড় করলেও ঝাপসা হয় না"
+      ],
+      "ui_variant": "গুণমান না হারিয়ে",
+      "alternatives": [],
+      "avoid": [
+        "গুণমান বাড়ায়"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "স্বচ্ছ ব্যাকগ্রাউন্ড",
+      "seo_variants": [
+        "স্বচ্ছ ব্যাকগ্রাউন্ড",
+        "transparent background"
+      ],
+      "ui_variant": "স্বচ্ছ ব্যাকগ্রাউন্ড",
+      "alternatives": [
+        "স্বচ্ছ পটভূমি"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "ব্যাকগ্রাউন্ড সরান",
+      "seo_variants": [
+        "ব্যাকগ্রাউন্ড রিমুভ",
+        "ব্যাকগ্রাউন্ড সরান"
+      ],
+      "ui_variant": "ব্যাকগ্রাউন্ড সরান",
+      "alternatives": [
+        "পটভূমি সরান"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "আপলোড",
+      "seo_variants": [
+        "ইমেজ আপলোড"
+      ],
+      "ui_variant": "আপলোড",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "ডাউনলোড",
+      "seo_variants": [
+        "SVG ডাউনলোড"
+      ],
+      "ui_variant": "ডাউনলোড",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "প্রিভিউ",
+      "seo_variants": [
+        "প্রিভিউ"
+      ],
+      "ui_variant": "প্রিভিউ",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "প্রিসেট",
+      "seo_variants": [
+        "প্রিসেট"
+      ],
+      "ui_variant": "প্রিসেট",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "অপ্টিমাইজেশন",
+      "seo_variants": [
+        "SVG অপ্টিমাইজেশন"
+      ],
+      "ui_variant": "অপ্টিমাইজেশন",
+      "alternatives": [
+        "অনুকূলকরণ"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "ফাইল সাইজ",
+      "seo_variants": [
+        "SVG ফাইল সাইজ"
+      ],
+      "ui_variant": "ফাইল সাইজ",
+      "alternatives": [
+        "ফাইলের আকার"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "সোর্স ইমেজ",
+      "seo_variants": [
+        "সোর্স ইমেজ",
+        "মূল ছবি"
+      ],
+      "ui_variant": "সোর্স ইমেজ",
+      "alternatives": [
+        "মূল ছবি"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "আউটপুট ফাইল",
+      "seo_variants": [
+        "SVG আউটপুট ফাইল"
+      ],
+      "ui_variant": "আউটপুট ফাইল",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "ব্রাউজারেই চলে",
+      "seo_variants": [
+        "ব্রাউজারে",
+        "browser-based"
+      ],
+      "ui_variant": "ব্রাউজারে",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "ব্রাউজারে লোকাল প্রসেসিং",
+      "seo_variants": [
+        "লোকাল প্রসেসিং",
+        "আপনার ডিভাইসে প্রসেসিং"
+      ],
+      "ui_variant": "লোকাল প্রসেসিং",
+      "alternatives": [
+        "ডিভাইসে প্রসেসিং"
+      ],
+      "avoid": [
+        "অফলাইন"
+      ],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "ক্লোজড পাথ",
+      "seo_variants": [
+        "ক্লোজড SVG পাথ"
+      ],
+      "ui_variant": "ক্লোজড পাথ",
+      "alternatives": [
+        "বন্ধ পাথ"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "ওপেন পাথ",
+      "seo_variants": [
+        "ওপেন SVG পাথ"
+      ],
+      "ui_variant": "ওপেন পাথ",
+      "alternatives": [
+        "খোলা পাথ"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "কনভার্ট করা",
+      "seo_variants": [
+        "PNG থেকে SVG",
+        "PNG-কে SVG-তে কনভার্ট করুন"
+      ],
+      "ui_variant": "কনভার্ট",
+      "alternatives": [
+        "রূপান্তর"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "কনভার্টার",
+      "seo_variants": [
+        "PNG থেকে SVG কনভার্টার",
+        "SVG কনভার্টার"
+      ],
+      "ui_variant": "কনভার্টার",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG থেকে SVG",
+      "PNG থেকে SVG কনভার্টার",
+      "PNG-কে SVG-তে কনভার্ট করুন",
+      "ইমেজ ভেক্টরাইজ",
+      "রাস্টার থেকে ভেক্টর"
+    ],
+    "keyword_rules": [
+      "Bengali search/software wording commonly mixes Bengali grammar with English technical loans.",
+      "Use 'PNG থেকে SVG' for compact source-output wording.",
+      "Use ভেক্টরাইজ for true vectorization.",
+      "Keep format acronyms unchanged."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer আপলোড, কনভার্ট/ভেক্টরাইজ, ডাউনলোড, প্রিভিউ, প্রিসেট.",
+      "Retain familiar English-derived technical terms where a fully Bengali substitute would be obscure.",
+      "Keep terminology consistent within a page."
+    ]
+  },
+  "translation_rules": [
+    "Preserve source/output direction.",
+    "Do not translate brands/file-format acronyms.",
+    "Use আপনি consistently if direct address is necessary.",
+    "Because authoritative Bengali graphics localization is sparse, do not overstate confidence; prefer transparent English loans over invented formal terminology.",
+    "Preserve local-processing/privacy semantics."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "ছবি অনুসরণ করা",
+      "preferred_meaning": "ইমেজ ট্রেস / ইমেজ ভেক্টরাইজেশন",
+      "reason": "A literal 'follow' sense is misleading in graphics."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "স্থানীয়ভাবে চলে",
+      "preferred_meaning": "আপনার ডিভাইস/ব্রাউজারে লোকাল প্রসেসিং হয়",
+      "reason": "Clarifies privacy semantics."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "পরিষ্কার SVG",
+      "preferred_meaning": "অপ্টিমাইজড SVG / গোছানো পাথসহ SVG",
+      "reason": "Literal wording is too vague."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "general_adobe": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/illustrator/desktop/manage-objects/traces-mockups-symbols/trace-images-to-convert-raster-into-vector-artwork.html",
+      "locale": "en",
+      "notes": "Used only as a conceptual reference because reliable Bengali-localized Illustrator terminology was not found."
+    },
+    "bengali_search_usage": {
+      "publisher": "Observed Bengali web terminology",
+      "url": "https://trytoolhive.com/bn/image/png-to-svg",
+      "locale": "bn",
+      "notes": "Uses PNG থেকে SVG and Bengali browser/local-processing language; demonstrates mixed localized UI around SVG conversion."
+    }
+  }
+}
