@@ -1,0 +1,593 @@
+{
+  "schema_version": 1,
+  "language": "Thai",
+  "locale": "th-TH",
+  "recommended_locale_reason": "Use standard Thai for Thailand (th-TH). Thai graphics/software usage commonly mixes Thai explanatory text with English technical acronyms and some loanwords.",
+  "register": {
+    "default": "neutral-friendly",
+    "pronoun_strategy": "Prefer concise UI wording without unnecessary pronouns. In prose, use polite neutral instructions; avoid gendered sentence-final particles unless the product adopts a specific voice.",
+    "notes": "Do not over-translate established technical terms when Thai users commonly encounter the English loanword."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "เวกเตอร์",
+      "seo_variants": [
+        "เวกเตอร์"
+      ],
+      "ui_variant": "เวกเตอร์",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "ภาพเวกเตอร์",
+      "seo_variants": [
+        "ภาพเวกเตอร์"
+      ],
+      "ui_variant": "ภาพเวกเตอร์",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "กราฟิกเวกเตอร์",
+      "seo_variants": [
+        "กราฟิกเวกเตอร์"
+      ],
+      "ui_variant": "กราฟิกเวกเตอร์",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "แปลงเป็นเวกเตอร์",
+      "seo_variants": [
+        "แปลงภาพเป็นเวกเตอร์",
+        "เวกเตอร์ไรซ์"
+      ],
+      "ui_variant": "แปลงเป็นเวกเตอร์",
+      "alternatives": [
+        "เวกเตอร์ไรซ์"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "การแปลงเป็นเวกเตอร์",
+      "seo_variants": [
+        "การแปลงภาพเป็นเวกเตอร์",
+        "เวกเตอร์ไรซ์"
+      ],
+      "ui_variant": "การแปลงเป็นเวกเตอร์",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "ราสเตอร์",
+      "seo_variants": [
+        "ราสเตอร์"
+      ],
+      "ui_variant": "ราสเตอร์",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "ภาพราสเตอร์",
+      "seo_variants": [
+        "ภาพราสเตอร์"
+      ],
+      "ui_variant": "ภาพราสเตอร์",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "บิตแมป",
+      "seo_variants": [
+        "บิตแมป",
+        "bitmap"
+      ],
+      "ui_variant": "บิตแมป",
+      "alternatives": [
+        "bitmap"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "ลอกลายรูปภาพ",
+      "seo_variants": [
+        "Image Trace",
+        "ลอกลายรูปภาพ",
+        "แปลงภาพเป็นเวกเตอร์"
+      ],
+      "ui_variant": "ลอกลายรูปภาพ",
+      "alternatives": [
+        "การลอกลายภาพ"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe Thailand explicitly glosses Image Trace as ลอกลายรูปภาพ.",
+      "confidence": "high"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "ลอกลาย",
+      "seo_variants": [
+        "ลอกลายรูปภาพ",
+        "แปลงเป็นเวกเตอร์"
+      ],
+      "ui_variant": "ลอกลาย",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use ลอกลาย for tracing mechanics; แปลงเป็นเวกเตอร์ for broader conversion intent.",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "พาธ",
+      "seo_variants": [
+        "พาธ SVG",
+        "เส้นพาธ"
+      ],
+      "ui_variant": "พาธ",
+      "alternatives": [
+        "เส้นทาง"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Technical design/developer contexts commonly use พาธ.",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "จุดยึด",
+      "seo_variants": [
+        "จุดยึด"
+      ],
+      "ui_variant": "จุดยึด",
+      "alternatives": [
+        "แองเคอร์พอยต์"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "เส้นโค้ง",
+      "seo_variants": [
+        "เส้นโค้งเวกเตอร์"
+      ],
+      "ui_variant": "เส้นโค้ง",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "รูปร่าง",
+      "seo_variants": [
+        "รูปร่างเวกเตอร์"
+      ],
+      "ui_variant": "รูปร่าง",
+      "alternatives": [
+        "เชป"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "พิกเซล",
+      "seo_variants": [
+        "พิกเซล"
+      ],
+      "ui_variant": "พิกเซล",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "ความละเอียด",
+      "seo_variants": [
+        "ความละเอียดของภาพ"
+      ],
+      "ui_variant": "ความละเอียด",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "ปรับขนาดได้",
+      "seo_variants": [
+        "ปรับขนาดได้",
+        "ขยายโดยไม่เสียคุณภาพ"
+      ],
+      "ui_variant": "ปรับขนาดได้",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "ปรับขนาดได้โดยไม่เสียคุณภาพ",
+      "seo_variants": [
+        "ขยายโดยไม่แตก",
+        "ไม่เสียคุณภาพ"
+      ],
+      "ui_variant": "ไม่เสียคุณภาพ",
+      "alternatives": [],
+      "avoid": [
+        "ปรับปรุงคุณภาพ"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "พื้นหลังโปร่งใส",
+      "seo_variants": [
+        "พื้นหลังโปร่งใส"
+      ],
+      "ui_variant": "พื้นหลังโปร่งใส",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "ลบพื้นหลัง",
+      "seo_variants": [
+        "ลบพื้นหลัง"
+      ],
+      "ui_variant": "ลบพื้นหลัง",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "อัปโหลด",
+      "seo_variants": [
+        "อัปโหลดรูปภาพ"
+      ],
+      "ui_variant": "อัปโหลด",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "ดาวน์โหลด",
+      "seo_variants": [
+        "ดาวน์โหลด SVG"
+      ],
+      "ui_variant": "ดาวน์โหลด",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "ดูตัวอย่าง",
+      "seo_variants": [
+        "ดูตัวอย่าง",
+        "พรีวิว"
+      ],
+      "ui_variant": "ดูตัวอย่าง",
+      "alternatives": [
+        "พรีวิว"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "ค่าที่ตั้งไว้ล่วงหน้า",
+      "seo_variants": [
+        "ค่าที่ตั้งไว้ล่วงหน้า",
+        "พรีเซ็ต"
+      ],
+      "ui_variant": "พรีเซ็ต",
+      "alternatives": [
+        "ค่าล่วงหน้า"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "In compact design UI, พรีเซ็ต is natural; use the Thai explanatory phrase in documentation.",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "การเพิ่มประสิทธิภาพ",
+      "seo_variants": [
+        "เพิ่มประสิทธิภาพ SVG",
+        "ปรับ SVG ให้เหมาะสม"
+      ],
+      "ui_variant": "เพิ่มประสิทธิภาพ",
+      "alternatives": [
+        "การปรับให้เหมาะสม"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "ขนาดไฟล์",
+      "seo_variants": [
+        "ขนาดไฟล์ SVG"
+      ],
+      "ui_variant": "ขนาดไฟล์",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "ภาพต้นฉบับ",
+      "seo_variants": [
+        "ภาพต้นฉบับ",
+        "ภาพต้นทาง"
+      ],
+      "ui_variant": "ภาพต้นฉบับ",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "ไฟล์ผลลัพธ์",
+      "seo_variants": [
+        "ไฟล์ SVG ผลลัพธ์"
+      ],
+      "ui_variant": "ไฟล์ผลลัพธ์",
+      "alternatives": [
+        "ไฟล์เอาต์พุต"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "ทำงานในเบราว์เซอร์",
+      "seo_variants": [
+        "บนเบราว์เซอร์",
+        "ออนไลน์"
+      ],
+      "ui_variant": "ในเบราว์เซอร์",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "ประมวลผลภายในเครื่องผ่านเบราว์เซอร์",
+      "seo_variants": [
+        "ประมวลผลในเครื่อง",
+        "ประมวลผลบนอุปกรณ์"
+      ],
+      "ui_variant": "ประมวลผลในเครื่อง",
+      "alternatives": [
+        "ประมวลผลบนอุปกรณ์"
+      ],
+      "avoid": [
+        "ออฟไลน์"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "พาธปิด",
+      "seo_variants": [
+        "พาธ SVG แบบปิด"
+      ],
+      "ui_variant": "พาธปิด",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "พาธเปิด",
+      "seo_variants": [
+        "พาธ SVG แบบเปิด"
+      ],
+      "ui_variant": "พาธเปิด",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "แปลง",
+      "seo_variants": [
+        "แปลง PNG เป็น SVG"
+      ],
+      "ui_variant": "แปลง",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "ตัวแปลง",
+      "seo_variants": [
+        "ตัวแปลง PNG เป็น SVG",
+        "ตัวแปลง SVG"
+      ],
+      "ui_variant": "ตัวแปลง",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG เป็น SVG",
+      "แปลง PNG เป็น SVG",
+      "ตัวแปลง PNG เป็น SVG",
+      "แปลงภาพเป็นเวกเตอร์",
+      "ราสเตอร์เป็นเวกเตอร์"
+    ],
+    "keyword_rules": [
+      "Use 'PNG เป็น SVG' / 'แปลง PNG เป็น SVG' for natural search intent.",
+      "Use แปลงภาพเป็นเวกเตอร์ for broad user-facing vectorization.",
+      "Keep SVG/PNG/JPG/JPEG unchanged.",
+      "English-derived เวกเตอร์, ราสเตอร์, พิกเซล and อัปโหลด/ดาวน์โหลด are normal software terms."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer อัปโหลด, แปลง/แปลงเป็นเวกเตอร์, ดาวน์โหลด, ดูตัวอย่าง, พรีเซ็ต.",
+      "Use ลอกลายรูปภาพ for Image Trace mechanics.",
+      "Keep labels concise and avoid unnecessary particles."
+    ]
+  },
+  "translation_rules": [
+    "Preserve source/output direction.",
+    "Do not translate brands/file-format acronyms.",
+    "Keep technical loanwords consistent.",
+    "Preserve local-processing meaning and do not accidentally describe cloud/server processing."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "ติดตามรูปภาพ",
+      "preferred_meaning": "ลอกลายรูปภาพ",
+      "reason": "Adobe Thailand uses Image Trace (ลอกลายรูปภาพ); ติดตาม means follow/track."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "ทำงานแบบโลคัล",
+      "preferred_meaning": "ประมวลผลในเครื่อง/บนอุปกรณ์ผ่านเบราว์เซอร์",
+      "reason": "Clarifies privacy semantics."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "SVG ที่สะอาด",
+      "preferred_meaning": "SVG ที่ปรับให้เหมาะสม / SVG ที่มีพาธเรียบร้อย",
+      "reason": "Literal wording is vague."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_vector": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/th_th/products/illustrator/vectorize-image.html",
+      "locale": "th-TH",
+      "notes": "Uses เวกเตอร์, กราฟิก, รูปทรง and vector-conversion language."
+    },
+    "adobe_raster_vector": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/th_th/creativecloud/file-types/image/comparison/raster-vs-vector.html",
+      "locale": "th-TH",
+      "notes": "Uses ราสเตอร์, เวกเตอร์, พิกเซล and explicitly glosses Image Trace as ลอกลายรูปภาพ."
+    },
+    "search_usage": {
+      "publisher": "Observed Thai search-result wording",
+      "url": "https://convertio.co/th/png-svg/",
+      "locale": "th-TH",
+      "notes": "Uses ตัวแปลง PNG เป็น SVG, แปลงรูปแรสเตอร์ PNG เป็นเวกเตอร์ SVG, อัปโหลด, เบราว์เซอร์."
+    }
+  }
+}
