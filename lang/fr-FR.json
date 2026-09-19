@@ -1,0 +1,611 @@
+{
+  "schema_version": 1,
+  "language": "French",
+  "locale": "fr-FR",
+  "recommended_locale_reason": "Use metropolitan/international French as the default. It aligns with Adobe France terminology and is broadly suitable for an international software interface; avoid Quebec-specific wording unless a Canadian locale is introduced later.",
+  "register": {
+    "default": "neutral-professional",
+    "pronoun_strategy": "Prefer concise neutral UI wording and infinitives/imperatives that avoid unnecessary pronouns. In prose, use 'vous' rather than 'tu' for a broadly international software audience.",
+    "notes": "Do not mix tu/vous. Keep technical copy direct and non-promotional."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Keep the file-format acronym unchanged.",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "vecteur",
+      "seo_variants": [
+        "vecteur",
+        "vectoriel"
+      ],
+      "ui_variant": "vecteur",
+      "alternatives": [
+        "vectoriel"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use 'vectoriel' adjectivally; 'vecteur' is the noun.",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "image vectorielle",
+      "seo_variants": [
+        "image vectorielle"
+      ],
+      "ui_variant": "image vectorielle",
+      "alternatives": [
+        "illustration vectorielle"
+      ],
+      "avoid": [
+        "image vecteur"
+      ],
+      "keep_english": false,
+      "notes": "Adobe also frequently uses 'illustration vectorielle'.",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "graphisme vectoriel",
+      "seo_variants": [
+        "graphisme vectoriel",
+        "illustration vectorielle"
+      ],
+      "ui_variant": "vectoriel",
+      "alternatives": [
+        "illustration vectorielle"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Choose by context: 'illustration vectorielle' for artwork; 'graphisme vectoriel' for the general medium.",
+      "confidence": "medium"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "vectoriser",
+      "seo_variants": [
+        "vectoriser une image",
+        "vectoriser image"
+      ],
+      "ui_variant": "Vectoriser",
+      "alternatives": [
+        "convertir en vectoriel"
+      ],
+      "avoid": [
+        "tracer une image"
+      ],
+      "keep_english": false,
+      "notes": "Strong professional and Adobe-backed term.",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "vectorisation",
+      "seo_variants": [
+        "vectorisation d'image",
+        "vectorisation image"
+      ],
+      "ui_variant": "Vectorisation",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe uses 'Vectorisation de l’image'.",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "matriciel",
+      "seo_variants": [
+        "raster",
+        "image matricielle"
+      ],
+      "ui_variant": "matriciel",
+      "alternatives": [
+        "raster"
+      ],
+      "avoid": [],
+      "keep_english": "context-dependent",
+      "notes": "Professional French often uses 'image matricielle'; SEO/technical audiences may also recognize 'raster'.",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "image matricielle",
+      "seo_variants": [
+        "image raster",
+        "image matricielle"
+      ],
+      "ui_variant": "image matricielle",
+      "alternatives": [
+        "image raster",
+        "image pixellisée"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe uses both 'matricielle' and descriptions based on pixels.",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "image bitmap",
+      "seo_variants": [
+        "bitmap",
+        "image bitmap"
+      ],
+      "ui_variant": "bitmap",
+      "alternatives": [
+        "image matricielle"
+      ],
+      "avoid": [],
+      "keep_english": "context-dependent",
+      "notes": "Keep bitmap when referring to the technical bitmap concept or format family.",
+      "confidence": "medium"
+    },
+    "image_trace": {
+      "english": "image tracing",
+      "preferred": "vectorisation de l’image",
+      "seo_variants": [
+        "vectorisation d'image",
+        "tracé de contours"
+      ],
+      "ui_variant": "Vectorisation",
+      "alternatives": [
+        "vectorisation automatique"
+      ],
+      "avoid": [
+        "traçage d'image"
+      ],
+      "keep_english": false,
+      "notes": "Adobe's French Illustrator UI uses 'Vectorisation de l’image'.",
+      "confidence": "high"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "vectoriser / vectorisation",
+      "seo_variants": [
+        "tracé",
+        "vectorisation"
+      ],
+      "ui_variant": "Vectoriser",
+      "alternatives": [
+        "tracer les contours"
+      ],
+      "avoid": [
+        "tracer"
+      ],
+      "keep_english": false,
+      "notes": "Do not mechanically translate English 'trace' as 'tracer' in every context; for raster-to-vector conversion, 'vectoriser' is usually more natural.",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "tracé",
+      "seo_variants": [
+        "tracé SVG"
+      ],
+      "ui_variant": "tracé",
+      "alternatives": [
+        "chemin SVG"
+      ],
+      "avoid": [
+        "chemin"
+      ],
+      "keep_english": false,
+      "notes": "Use 'tracé' for Illustrator/SVG vector geometry. 'Chemin' may appear in web/SVG developer contexts but is less suitable for the design UI.",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "point d’ancrage",
+      "seo_variants": [
+        "point d'ancrage"
+      ],
+      "ui_variant": "point d’ancrage",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Established Adobe term.",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "courbe",
+      "seo_variants": [
+        "courbe vectorielle"
+      ],
+      "ui_variant": "courbe",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use normally.",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "forme",
+      "seo_variants": [
+        "forme vectorielle"
+      ],
+      "ui_variant": "forme",
+      "alternatives": [
+        "objet"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use 'objet' only when referring to an editor object rather than geometry.",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "pixel",
+      "seo_variants": [
+        "pixel"
+      ],
+      "ui_variant": "pixel",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "International technical term.",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "résolution",
+      "seo_variants": [
+        "résolution d'image"
+      ],
+      "ui_variant": "résolution",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard technical term.",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "redimensionnable sans perte de qualité",
+      "seo_variants": [
+        "vectoriel redimensionnable",
+        "mise à l'échelle sans perte"
+      ],
+      "ui_variant": "redimensionnable",
+      "alternatives": [
+        "adaptable à toute taille"
+      ],
+      "avoid": [
+        "scalable"
+      ],
+      "keep_english": false,
+      "notes": "Avoid anglicism 'scalable' in end-user copy.",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "se redimensionne sans perte de qualité",
+      "seo_variants": [
+        "sans perte de qualité"
+      ],
+      "ui_variant": "sans perte de qualité",
+      "alternatives": [
+        "mise à l’échelle sans perte de qualité"
+      ],
+      "avoid": [
+        "améliore la qualité"
+      ],
+      "keep_english": false,
+      "notes": "Must not imply quality improvement.",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "arrière-plan transparent",
+      "seo_variants": [
+        "fond transparent",
+        "arrière-plan transparent"
+      ],
+      "ui_variant": "Fond transparent",
+      "alternatives": [
+        "fond transparent"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "'Fond transparent' is shorter and common in UI/SEO; 'arrière-plan' is more formal.",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "supprimer l’arrière-plan",
+      "seo_variants": [
+        "supprimer le fond",
+        "suppression d'arrière-plan"
+      ],
+      "ui_variant": "Supprimer l’arrière-plan",
+      "alternatives": [
+        "supprimer le fond"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use action verb in UI.",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "importer",
+      "seo_variants": [
+        "téléverser",
+        "importer"
+      ],
+      "ui_variant": "Importer",
+      "alternatives": [
+        "téléverser"
+      ],
+      "avoid": [
+        "uploader"
+      ],
+      "keep_english": false,
+      "notes": "For fr-FR UI, 'importer' is usually more natural than Quebec 'téléverser'.",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "télécharger",
+      "seo_variants": [
+        "télécharger"
+      ],
+      "ui_variant": "Télécharger",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard.",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "aperçu",
+      "seo_variants": [
+        "aperçu"
+      ],
+      "ui_variant": "Aperçu",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard UI term.",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "paramètre prédéfini",
+      "seo_variants": [
+        "préréglage",
+        "paramètre prédéfini"
+      ],
+      "ui_variant": "Préréglage",
+      "alternatives": [
+        "paramètre prédéfini"
+      ],
+      "avoid": [
+        "preset"
+      ],
+      "keep_english": false,
+      "notes": "Adobe uses variants around 'paramètre/préréglage prédéfini'; shorter 'Préréglage' works well in UI.",
+      "confidence": "medium"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "optimisation",
+      "seo_variants": [
+        "optimisation SVG"
+      ],
+      "ui_variant": "Optimisation",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard.",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "taille du fichier",
+      "seo_variants": [
+        "taille du fichier SVG"
+      ],
+      "ui_variant": "Taille du fichier",
+      "alternatives": [
+        "poids du fichier"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "'Poids' is colloquial; prefer 'taille'.",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "image source",
+      "seo_variants": [
+        "image source"
+      ],
+      "ui_variant": "Image source",
+      "alternatives": [
+        "image d’origine"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use 'image d’origine' where more natural in prose.",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "fichier de sortie",
+      "seo_variants": [
+        "fichier SVG de sortie"
+      ],
+      "ui_variant": "Fichier de sortie",
+      "alternatives": [
+        "fichier généré"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Standard technical wording.",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "dans le navigateur",
+      "seo_variants": [
+        "outil en ligne",
+        "dans le navigateur"
+      ],
+      "ui_variant": "Dans le navigateur",
+      "alternatives": [
+        "basé sur le navigateur"
+      ],
+      "avoid": [
+        "browser-based"
+      ],
+      "keep_english": false,
+      "notes": "Prefer idiomatic phrasing rather than literal 'basé sur le navigateur'.",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "traitement local dans le navigateur",
+      "seo_variants": [
+        "traitement local",
+        "dans votre navigateur"
+      ],
+      "ui_variant": "Traitement local",
+      "alternatives": [
+        "traitement sur votre appareil"
+      ],
+      "avoid": [
+        "traitement hors ligne"
+      ],
+      "keep_english": false,
+      "notes": "Do not imply offline operation; the key claim is processing on-device/in-browser.",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "tracé fermé",
+      "seo_variants": [
+        "tracé SVG fermé"
+      ],
+      "ui_variant": "tracé fermé",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use for fabrication geometry.",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "tracé ouvert",
+      "seo_variants": [
+        "tracé SVG ouvert"
+      ],
+      "ui_variant": "tracé ouvert",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use for fabrication geometry.",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG en SVG",
+      "convertir PNG en SVG",
+      "JPG en SVG",
+      "convertir JPG en SVG",
+      "image en SVG",
+      "vectoriser une image",
+      "convertisseur SVG"
+    ],
+    "keyword_rules": [
+      "Keep PNG, JPG, JPEG and SVG unchanged.",
+      "Use 'PNG en SVG' for compact SEO headings and 'convertir PNG en SVG' in natural prose.",
+      "Prefer 'vectoriser une image' for the raster-to-vector action rather than a literal tracing verb.",
+      "Do not force 'raster' if 'image matricielle' or 'image pixellisée' reads more naturally."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer short verbs: Importer, Convertir, Vectoriser, Télécharger.",
+      "Use sentence case for labels.",
+      "Prefer 'Aperçu' for preview.",
+      "Keep format acronyms uppercase and unchanged."
+    ]
+  },
+  "translation_rules": [
+    "Preserve source/output direction exactly.",
+    "Keep privacy claims precise: processing occurs on the user's device/in browser, not merely 'securely online'.",
+    "Do not translate Vectorize This, Adobe Illustrator, Cricut, Tinkercad, SVG, PNG, JPG, JPEG or CNC.",
+    "Do not freeze glossary nouns where French grammar requires articles, contractions or gender agreement."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "traçage d’image",
+      "preferred_meaning": "vectorisation de l’image",
+      "reason": "Adobe and professional graphics usage favor vectorisation for the raster-to-vector process."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "fonctionne localement",
+      "preferred_meaning": "le traitement s’effectue sur votre appareil / dans votre navigateur",
+      "reason": "Makes the privacy meaning explicit and avoids ambiguity."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "SVG propre",
+      "preferred_meaning": "SVG optimisé / aux tracés nets",
+      "reason": "'Propre' is vague; choose the intended meaning."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary source terminology for product concepts, UI, browser-local processing, vectorization, paths, use cases, and privacy."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster pixels, vector paths, tracing, geometry, topology, complexity, and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings including simplify, background, max colors, clustering, merge paths, precision, preview, and optimization."
+    },
+    "adobe_vectorize": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/fr/products/illustrator/vectorize-image.html",
+      "locale": "fr-FR",
+      "notes": "Uses vectoriser/vectorisation, image matricielle/pixellisée, illustrations vectorielles, points d’ancrage."
+    },
+    "adobe_trace": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/fr/illustrator/desktop/manage-objects/traces-mockups-symbols/image-trace-panel-options.html",
+      "locale": "fr-FR",
+      "notes": "Illustrator UI terminology for Vectorisation de l’image."
+    },
+    "serp_png_svg": {
+      "publisher": "Observed French search result wording",
+      "url": "https://convertio.co/fr/png-svg/",
+      "locale": "fr",
+      "notes": "Observed compact phrasing 'PNG en SVG', 'Convertir PNG en SVG', 'vecteurs SVG'."
+    }
+  }
+}
