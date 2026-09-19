@@ -1,0 +1,570 @@
+{
+  "schema_version": 1,
+  "language": "Russian",
+  "locale": "ru-RU",
+  "recommended_locale_reason": "Use standard Russian for Russia (ru-RU). Adobe's current Russian Illustrator documentation provides strong localized terminology for raster/vector graphics, Image Trace, contours, anchor points and vectorization.",
+  "register": {
+    "default": "neutral-direct",
+    "pronoun_strategy": "Prefer concise UI wording. In prose, use neutral constructions and Вы sparingly and consistently when direct address is necessary.",
+    "notes": "Distinguish контур as vector path from трассировка as the tracing process."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "вектор",
+      "seo_variants": [
+        "вектор"
+      ],
+      "ui_variant": "вектор",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "векторное изображение",
+      "seo_variants": [
+        "векторное изображение"
+      ],
+      "ui_variant": "векторное изображение",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "векторная графика",
+      "seo_variants": [
+        "векторная графика"
+      ],
+      "ui_variant": "векторная графика",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "векторизовать",
+      "seo_variants": [
+        "векторизовать изображение",
+        "векторизация изображения"
+      ],
+      "ui_variant": "Векторизовать",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "векторизация",
+      "seo_variants": [
+        "векторизация изображения"
+      ],
+      "ui_variant": "Векторизация",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "растровый",
+      "seo_variants": [
+        "растр",
+        "растровый"
+      ],
+      "ui_variant": "растровый",
+      "alternatives": [
+        "растр"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "растровое изображение",
+      "seo_variants": [
+        "растровое изображение"
+      ],
+      "ui_variant": "растровое изображение",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "растровое изображение",
+      "seo_variants": [
+        "bitmap",
+        "битовая карта"
+      ],
+      "ui_variant": "Bitmap",
+      "alternatives": [
+        "битовая карта"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Keep Bitmap when the specific technical concept/format is intended.",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "Трассировка изображения",
+      "seo_variants": [
+        "Трассировка изображения",
+        "трассировка"
+      ],
+      "ui_variant": "Трассировка изображения",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "трассировать / трассировка",
+      "seo_variants": [
+        "трассировка изображения",
+        "векторизация"
+      ],
+      "ui_variant": "Трассировка",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "контур",
+      "seo_variants": [
+        "SVG-контур",
+        "векторный контур"
+      ],
+      "ui_variant": "контур",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "опорная точка",
+      "seo_variants": [
+        "опорная точка"
+      ],
+      "ui_variant": "опорная точка",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "кривая",
+      "seo_variants": [
+        "векторная кривая"
+      ],
+      "ui_variant": "кривая",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "фигура",
+      "seo_variants": [
+        "векторная фигура"
+      ],
+      "ui_variant": "фигура",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "пиксель",
+      "seo_variants": [
+        "пиксель"
+      ],
+      "ui_variant": "пиксель",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "разрешение",
+      "seo_variants": [
+        "разрешение изображения"
+      ],
+      "ui_variant": "разрешение",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "масштабируемый",
+      "seo_variants": [
+        "масштабируемый",
+        "без потери качества"
+      ],
+      "ui_variant": "масштабируемый",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "масштабируется без потери качества",
+      "seo_variants": [
+        "без потери качества"
+      ],
+      "ui_variant": "без потери качества",
+      "alternatives": [],
+      "avoid": [
+        "улучшает качество"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "прозрачный фон",
+      "seo_variants": [
+        "прозрачный фон"
+      ],
+      "ui_variant": "Прозрачный фон",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "удалить фон",
+      "seo_variants": [
+        "удалить фон"
+      ],
+      "ui_variant": "Удалить фон",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "загрузить",
+      "seo_variants": [
+        "загрузить изображение"
+      ],
+      "ui_variant": "Загрузить",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "скачать",
+      "seo_variants": [
+        "скачать SVG"
+      ],
+      "ui_variant": "Скачать",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "предпросмотр",
+      "seo_variants": [
+        "предпросмотр"
+      ],
+      "ui_variant": "Предпросмотр",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "стиль",
+      "seo_variants": [
+        "стиль трассировки",
+        "предустановка"
+      ],
+      "ui_variant": "Стиль",
+      "alternatives": [
+        "предустановка"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe Russian currently uses Стиль for Image Trace presets.",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "оптимизация",
+      "seo_variants": [
+        "оптимизация SVG"
+      ],
+      "ui_variant": "Оптимизация",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "размер файла",
+      "seo_variants": [
+        "размер файла SVG"
+      ],
+      "ui_variant": "Размер файла",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "исходное изображение",
+      "seo_variants": [
+        "исходное изображение"
+      ],
+      "ui_variant": "Исходное изображение",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "выходной файл",
+      "seo_variants": [
+        "выходной файл SVG"
+      ],
+      "ui_variant": "Выходной файл",
+      "alternatives": [
+        "результирующий файл"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "работает в браузере",
+      "seo_variants": [
+        "в браузере",
+        "браузерный"
+      ],
+      "ui_variant": "В браузере",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "локальная обработка в браузере",
+      "seo_variants": [
+        "локальная обработка",
+        "на вашем устройстве"
+      ],
+      "ui_variant": "Локальная обработка",
+      "alternatives": [
+        "обработка на устройстве"
+      ],
+      "avoid": [
+        "офлайн"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "замкнутый контур",
+      "seo_variants": [
+        "замкнутый SVG-контур"
+      ],
+      "ui_variant": "замкнутый контур",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "открытый контур",
+      "seo_variants": [
+        "открытый SVG-контур"
+      ],
+      "ui_variant": "открытый контур",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "преобразовать",
+      "seo_variants": [
+        "преобразовать PNG в SVG",
+        "PNG в SVG"
+      ],
+      "ui_variant": "Преобразовать",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "конвертер",
+      "seo_variants": [
+        "конвертер PNG в SVG",
+        "SVG-конвертер"
+      ],
+      "ui_variant": "Конвертер",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG в SVG",
+      "конвертер PNG в SVG",
+      "преобразовать PNG в SVG",
+      "векторизовать изображение",
+      "растр в вектор"
+    ],
+    "keyword_rules": [
+      "Use PNG в SVG for compact intent.",
+      "Use векторизовать/векторизация for true raster-to-vector conversion.",
+      "Use трассировка for the tracing process specifically.",
+      "Keep format acronyms unchanged."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer Загрузить, Преобразовать/Векторизовать, Скачать, Предпросмотр.",
+      "Use Трассировка изображения for tracing and контур for path geometry."
+    ]
+  },
+  "translation_rules": [
+    "Preserve source/output direction.",
+    "Do not translate brands/file-format acronyms.",
+    "Use natural Russian case inflection.",
+    "Preserve local-processing privacy meaning precisely."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "отслеживание изображения",
+      "preferred_meaning": "Трассировка изображения",
+      "reason": "Adobe uses Трассировка изображения; отслеживание suggests monitoring."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "работает локально",
+      "preferred_meaning": "обработка выполняется локально на устройстве/в браузере",
+      "reason": "Clarifies privacy semantics."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "чистый SVG",
+      "preferred_meaning": "оптимизированный SVG / SVG с аккуратными контурами",
+      "reason": "Specify markup vs geometry."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_trace": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/ru/illustrator/desktop/manage-objects/traces-mockups-symbols/trace-images-to-convert-raster-into-vector-artwork.html",
+      "locale": "ru-RU",
+      "notes": "Uses Трассировка изображения, растровые изображения, векторные изображения, векторные контуры and без потери качества."
+    },
+    "adobe_vectorize": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/ru/illustrator/ipad/draw-and-edit-objects/sketch-to-vector-ipad.html",
+      "locale": "ru-RU",
+      "notes": "Uses Векторизация, векторная графика and растровые изображения."
+    }
+  }
+}
