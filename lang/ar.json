@@ -1,0 +1,592 @@
+{
+  "schema_version": 1,
+  "language": "Arabic",
+  "locale": "ar",
+  "recommended_locale_reason": "Use neutral Modern Standard Arabic (MSA) as the default Arabic locale rather than tying the product to one country. Adobe's MENA Arabic terminology provides the primary professional reference. Regional dialect should not be used in core UI or technical/SEO copy.",
+  "register": {
+    "default": "neutral-modern-standard",
+    "pronoun_strategy": "Prefer concise imperative UI wording and neutral MSA. Avoid dialect. When direct address is required, use standard second-person forms consistently and minimize gender-marked constructions where a neutral restructuring is possible.",
+    "notes": "RTL layout must preserve LTR technical tokens such as SVG, PNG, JPG, JPEG, CSS, URLs, dimensions and code."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "متجه",
+      "seo_variants": [
+        "متجه",
+        "فيكتور"
+      ],
+      "ui_variant": "متجه",
+      "alternatives": [
+        "فيكتور"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe Arabic strongly uses متجه/متجهة; فيكتور may occur in search/design communities.",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "صورة متجهة",
+      "seo_variants": [
+        "صورة متجهة",
+        "صورة فيكتور"
+      ],
+      "ui_variant": "صورة متجهة",
+      "alternatives": [
+        "صورة فيكتور"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "رسومات متجهة",
+      "seo_variants": [
+        "رسومات متجهة",
+        "رسومات فيكتور"
+      ],
+      "ui_variant": "رسومات متجهة",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "تحويل إلى متجهات",
+      "seo_variants": [
+        "تحويل الصورة إلى متجه",
+        "تحويل إلى فيكتور"
+      ],
+      "ui_variant": "تحويل إلى متجهات",
+      "alternatives": [
+        "تحويل الصورة إلى رسومات متجهة"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "التحويل إلى متجهات",
+      "seo_variants": [
+        "تحويل الصور إلى متجهات",
+        "تحويل إلى فيكتور"
+      ],
+      "ui_variant": "التحويل إلى متجهات",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "نقطي",
+      "seo_variants": [
+        "نقطي",
+        "راستر"
+      ],
+      "ui_variant": "نقطي",
+      "alternatives": [
+        "راستر"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe Arabic uses الصور النقطية / الفن النقطي.",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "صورة نقطية",
+      "seo_variants": [
+        "صورة نقطية",
+        "صورة راستر"
+      ],
+      "ui_variant": "صورة نقطية",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "صورة نقطية",
+      "seo_variants": [
+        "bitmap",
+        "صورة نقطية"
+      ],
+      "ui_variant": "Bitmap",
+      "alternatives": [
+        "خريطة نقطية"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Keep Bitmap when specifically naming the bitmap concept/format family.",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "تتبع الصورة",
+      "seo_variants": [
+        "تتبع الصورة",
+        "Image Trace"
+      ],
+      "ui_variant": "تتبع الصورة",
+      "alternatives": [
+        "تعقب الصورة"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe Arabic uses تتبع الصورة and also تعقب الصور on some current help pages.",
+      "confidence": "high"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "تتبع",
+      "seo_variants": [
+        "تتبع الصورة",
+        "تحويل إلى متجهات"
+      ],
+      "ui_variant": "تتبع",
+      "alternatives": [
+        "تعقب"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use تتبع/تعقب for tracing mechanics and تحويل إلى متجهات for the broader conversion goal.",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "مسار",
+      "seo_variants": [
+        "مسار SVG",
+        "مسار متجه"
+      ],
+      "ui_variant": "مسار",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "نقطة ربط",
+      "seo_variants": [
+        "نقطة ربط",
+        "نقطة ارتساء"
+      ],
+      "ui_variant": "نقطة ربط",
+      "alternatives": [
+        "نقطة ارتساء"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "منحنى",
+      "seo_variants": [
+        "منحنى متجه"
+      ],
+      "ui_variant": "منحنى",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "شكل",
+      "seo_variants": [
+        "شكل متجه"
+      ],
+      "ui_variant": "شكل",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "بكسل",
+      "seo_variants": [
+        "بكسل"
+      ],
+      "ui_variant": "بكسل",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "الدقة",
+      "seo_variants": [
+        "دقة الصورة"
+      ],
+      "ui_variant": "الدقة",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "قابل للتحجيم",
+      "seo_variants": [
+        "قابل للتكبير دون فقدان الجودة",
+        "قابل للتحجيم"
+      ],
+      "ui_variant": "قابل للتحجيم",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "يمكن تغيير حجمه دون فقدان الجودة",
+      "seo_variants": [
+        "دون فقدان الجودة",
+        "تكبير دون تشوه"
+      ],
+      "ui_variant": "دون فقدان الجودة",
+      "alternatives": [],
+      "avoid": [
+        "يحسن الجودة"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "خلفية شفافة",
+      "seo_variants": [
+        "خلفية شفافة"
+      ],
+      "ui_variant": "خلفية شفافة",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "إزالة الخلفية",
+      "seo_variants": [
+        "إزالة الخلفية"
+      ],
+      "ui_variant": "إزالة الخلفية",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "رفع",
+      "seo_variants": [
+        "رفع صورة"
+      ],
+      "ui_variant": "رفع",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "تنزيل",
+      "seo_variants": [
+        "تنزيل SVG"
+      ],
+      "ui_variant": "تنزيل",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "معاينة",
+      "seo_variants": [
+        "معاينة"
+      ],
+      "ui_variant": "معاينة",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "إعداد مسبق",
+      "seo_variants": [
+        "إعداد مسبق",
+        "إعدادات مسبقة"
+      ],
+      "ui_variant": "إعداد مسبق",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "تحسين",
+      "seo_variants": [
+        "تحسين SVG"
+      ],
+      "ui_variant": "تحسين",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "حجم الملف",
+      "seo_variants": [
+        "حجم ملف SVG"
+      ],
+      "ui_variant": "حجم الملف",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "الصورة المصدر",
+      "seo_variants": [
+        "الصورة المصدر",
+        "الصورة الأصلية"
+      ],
+      "ui_variant": "الصورة المصدر",
+      "alternatives": [
+        "الصورة الأصلية"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "ملف الإخراج",
+      "seo_variants": [
+        "ملف SVG الناتج",
+        "ملف الإخراج"
+      ],
+      "ui_variant": "ملف الإخراج",
+      "alternatives": [
+        "الملف الناتج"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "يعمل في المتصفح",
+      "seo_variants": [
+        "في المتصفح",
+        "أداة عبر المتصفح"
+      ],
+      "ui_variant": "في المتصفح",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "معالجة محلية داخل المتصفح",
+      "seo_variants": [
+        "معالجة محلية",
+        "على جهازك"
+      ],
+      "ui_variant": "معالجة محلية",
+      "alternatives": [
+        "المعالجة على الجهاز"
+      ],
+      "avoid": [
+        "دون اتصال"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "مسار مغلق",
+      "seo_variants": [
+        "مسار SVG مغلق"
+      ],
+      "ui_variant": "مسار مغلق",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "مسار مفتوح",
+      "seo_variants": [
+        "مسار SVG مفتوح"
+      ],
+      "ui_variant": "مسار مفتوح",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "تحويل",
+      "seo_variants": [
+        "تحويل PNG إلى SVG"
+      ],
+      "ui_variant": "تحويل",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "محوّل",
+      "seo_variants": [
+        "محوّل PNG إلى SVG",
+        "محوّل SVG"
+      ],
+      "ui_variant": "محوّل",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "تحويل PNG إلى SVG",
+      "PNG إلى SVG",
+      "محوّل PNG إلى SVG",
+      "تحويل الصورة إلى فيكتور",
+      "تحويل الصورة إلى متجهات"
+    ],
+    "keyword_rules": [
+      "Keep PNG/JPG/JPEG/SVG in Latin script and unchanged.",
+      "Use إلى to preserve source→output direction clearly.",
+      "Use formal متجه terminology in technical copy while allowing فيكتور as an SEO variant where observed.",
+      "Avoid dialectal wording in global Arabic pages."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer رفع، تحويل، تنزيل، معاينة، إعداد مسبق.",
+      "Use تتبع الصورة for tracing mechanics and مسار for vector/SVG path geometry.",
+      "Keep format acronyms LTR inside RTL text and test bidirectional rendering."
+    ]
+  },
+  "translation_rules": [
+    "Preserve input/output direction exactly.",
+    "Use Modern Standard Arabic, not regional dialect.",
+    "Do not translate brands or file-format acronyms.",
+    "Preserve local-processing privacy meaning.",
+    "For RTL, isolate LTR format names, URLs, code and numeric technical strings so visual order remains correct."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "ملاحقة الصورة",
+      "preferred_meaning": "تتبع الصورة",
+      "reason": "Adobe uses تتبع/تعقب for Image Trace; literal pursuit wording is wrong."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "يعمل محليًا",
+      "preferred_meaning": "تتم المعالجة محليًا على جهازك/داخل المتصفح",
+      "reason": "Makes the privacy claim explicit."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "SVG نظيف",
+      "preferred_meaning": "SVG محسّن / SVG بمسارات مرتبة",
+      "reason": "Clarify whether clean refers to markup or geometry."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_trace": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/ae_ar/illustrator/desktop/manage-objects/traces-mockups-symbols/trace-images-to-convert-raster-into-vector-artwork.html",
+      "locale": "ar",
+      "notes": "Uses تحويل الصور إلى رسومات متجهة, تعقب الصور, الفن النقطي, مسارات متجهة, بكسل and إعدادات مسبقة."
+    },
+    "adobe_vector": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/mena_ar/illustrator/desktop/use-generative-ai/generate-vector-artwork-from-images.html",
+      "locale": "ar",
+      "notes": "Uses الصور النقطية, أعمال فنية متجهة, خطوط متجهة and output terminology."
+    }
+  }
+}
