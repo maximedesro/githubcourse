@@ -1,0 +1,580 @@
+{
+  "schema_version": 1,
+  "language": "Urdu",
+  "locale": "ur-PK",
+  "recommended_locale_reason": "Use Pakistani Urdu (ur-PK), the main locale for Urdu-language web/software use. Current authoritative localized graphics documentation is sparse, so retain familiar English-derived technical terms where that is clearer than rare formal translations.",
+  "register": {
+    "default": "neutral-polite",
+    "pronoun_strategy": "Prefer concise UI labels. Use آپ consistently in prose when direct address is necessary.",
+    "notes": "RTL layout must isolate LTR technical tokens. Urdu software/design usage often mixes Urdu grammar with English technical loans."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "ویکٹر",
+      "seo_variants": [
+        "ویکٹر"
+      ],
+      "ui_variant": "ویکٹر",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "ویکٹر امیج",
+      "seo_variants": [
+        "ویکٹر امیج",
+        "ویکٹر تصویر"
+      ],
+      "ui_variant": "ویکٹر امیج",
+      "alternatives": [
+        "ویکٹر تصویر"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "ویکٹر گرافکس",
+      "seo_variants": [
+        "ویکٹر گرافکس"
+      ],
+      "ui_variant": "ویکٹر گرافکس",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "ویکٹرائز کرنا",
+      "seo_variants": [
+        "امیج ویکٹرائز کریں",
+        "تصویر کو ویکٹر میں تبدیل کریں"
+      ],
+      "ui_variant": "ویکٹرائز کریں",
+      "alternatives": [
+        "ویکٹر میں تبدیل کریں"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "ویکٹرائزیشن",
+      "seo_variants": [
+        "امیج ویکٹرائزیشن"
+      ],
+      "ui_variant": "ویکٹرائزیشن",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "راسٹر",
+      "seo_variants": [
+        "راسٹر"
+      ],
+      "ui_variant": "راسٹر",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "راسٹر امیج",
+      "seo_variants": [
+        "راسٹر امیج"
+      ],
+      "ui_variant": "راسٹر امیج",
+      "alternatives": [
+        "پکسل پر مبنی تصویر"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "بٹ میپ",
+      "seo_variants": [
+        "بٹ میپ",
+        "bitmap"
+      ],
+      "ui_variant": "بٹ میپ",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "Image Trace",
+      "seo_variants": [
+        "Image Trace",
+        "امیج ٹریس",
+        "ویکٹرائزیشن"
+      ],
+      "ui_variant": "Image Trace",
+      "alternatives": [
+        "امیج ٹریس"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Retain Adobe feature name in English unless a verified Urdu Illustrator UI label is available.",
+      "confidence": "low"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "ٹریس / ٹریسنگ",
+      "seo_variants": [
+        "امیج ٹریس",
+        "ویکٹرائز"
+      ],
+      "ui_variant": "ٹریس",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "پاتھ",
+      "seo_variants": [
+        "SVG پاتھ",
+        "ویکٹر پاتھ"
+      ],
+      "ui_variant": "پاتھ",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "اینکر پوائنٹ",
+      "seo_variants": [
+        "اینکر پوائنٹ"
+      ],
+      "ui_variant": "اینکر پوائنٹ",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "کرو",
+      "seo_variants": [
+        "ویکٹر کرو"
+      ],
+      "ui_variant": "کرو",
+      "alternatives": [
+        "منحنی"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "شیپ",
+      "seo_variants": [
+        "ویکٹر شیپ"
+      ],
+      "ui_variant": "شیپ",
+      "alternatives": [
+        "شکل"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "پکسل",
+      "seo_variants": [
+        "پکسل"
+      ],
+      "ui_variant": "پکسل",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "ریزولوشن",
+      "seo_variants": [
+        "امیج ریزولوشن"
+      ],
+      "ui_variant": "ریزولوشن",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "اسکیل ایبل",
+      "seo_variants": [
+        "اسکیل ایبل",
+        "معیار کھوئے بغیر بڑا کریں"
+      ],
+      "ui_variant": "اسکیل ایبل",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "کوالٹی کھوئے بغیر سائز بدلا جا سکتا ہے",
+      "seo_variants": [
+        "کوالٹی کھوئے بغیر",
+        "بڑا کرنے پر بھی واضح"
+      ],
+      "ui_variant": "کوالٹی کھوئے بغیر",
+      "alternatives": [],
+      "avoid": [
+        "کوالٹی بہتر کرتا ہے"
+      ],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "شفاف بیک گراؤنڈ",
+      "seo_variants": [
+        "شفاف بیک گراؤنڈ"
+      ],
+      "ui_variant": "شفاف بیک گراؤنڈ",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "بیک گراؤنڈ ہٹائیں",
+      "seo_variants": [
+        "بیک گراؤنڈ ہٹائیں"
+      ],
+      "ui_variant": "بیک گراؤنڈ ہٹائیں",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "اپ لوڈ",
+      "seo_variants": [
+        "امیج اپ لوڈ کریں"
+      ],
+      "ui_variant": "اپ لوڈ",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "ڈاؤن لوڈ",
+      "seo_variants": [
+        "SVG ڈاؤن لوڈ کریں"
+      ],
+      "ui_variant": "ڈاؤن لوڈ",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "پری ویو",
+      "seo_variants": [
+        "پری ویو"
+      ],
+      "ui_variant": "پری ویو",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "پری سیٹ",
+      "seo_variants": [
+        "پری سیٹ"
+      ],
+      "ui_variant": "پری سیٹ",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "آپٹیمائزیشن",
+      "seo_variants": [
+        "SVG آپٹیمائزیشن"
+      ],
+      "ui_variant": "آپٹیمائزیشن",
+      "alternatives": [
+        "بہتر بنانا"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "فائل سائز",
+      "seo_variants": [
+        "SVG فائل سائز"
+      ],
+      "ui_variant": "فائل سائز",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "سورس امیج",
+      "seo_variants": [
+        "سورس امیج",
+        "اصل تصویر"
+      ],
+      "ui_variant": "سورس امیج",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "آؤٹ پٹ فائل",
+      "seo_variants": [
+        "SVG آؤٹ پٹ فائل"
+      ],
+      "ui_variant": "آؤٹ پٹ فائل",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "براؤزر میں چلتا ہے",
+      "seo_variants": [
+        "براؤزر میں",
+        "browser-based"
+      ],
+      "ui_variant": "براؤزر میں",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "براؤزر میں لوکل پروسیسنگ",
+      "seo_variants": [
+        "لوکل پروسیسنگ",
+        "آپ کے ڈیوائس پر"
+      ],
+      "ui_variant": "لوکل پروسیسنگ",
+      "alternatives": [
+        "ڈیوائس پر پروسیسنگ"
+      ],
+      "avoid": [
+        "آف لائن"
+      ],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "کلوزڈ پاتھ",
+      "seo_variants": [
+        "کلوزڈ SVG پاتھ"
+      ],
+      "ui_variant": "کلوزڈ پاتھ",
+      "alternatives": [
+        "بند پاتھ"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "اوپن پاتھ",
+      "seo_variants": [
+        "اوپن SVG پاتھ"
+      ],
+      "ui_variant": "اوپن پاتھ",
+      "alternatives": [
+        "کھلا پاتھ"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "کنورٹ کرنا",
+      "seo_variants": [
+        "PNG کو SVG میں کنورٹ کریں",
+        "PNG سے SVG"
+      ],
+      "ui_variant": "کنورٹ کریں",
+      "alternatives": [
+        "تبدیل کریں"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "کنورٹر",
+      "seo_variants": [
+        "PNG سے SVG کنورٹر",
+        "SVG کنورٹر"
+      ],
+      "ui_variant": "کنورٹر",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG سے SVG",
+      "PNG سے SVG کنورٹر",
+      "PNG کو SVG میں کنورٹ کریں",
+      "امیج ویکٹرائز کریں",
+      "راسٹر سے ویکٹر"
+    ],
+    "keyword_rules": [
+      "Urdu software/search copy commonly mixes Urdu grammar with transliterated English technical terms.",
+      "Keep format acronyms unchanged and LTR.",
+      "Use source/output particles carefully in RTL layout.",
+      "Do not overstate confidence for specialist terms where authoritative Urdu vendor localization is sparse."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer اپ لوڈ، کنورٹ/ویکٹرائز، ڈاؤن لوڈ، پری ویو، پری سیٹ.",
+      "Retain familiar technical loans rather than obscure formal alternatives.",
+      "Test bidi rendering around formats and arrows."
+    ]
+  },
+  "translation_rules": [
+    "Preserve source/output direction.",
+    "Do not translate brands/file-format acronyms.",
+    "Use Pakistani Urdu consistently.",
+    "Preserve local-processing privacy meaning.",
+    "Use bidi isolation for LTR technical tokens in RTL UI."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "تصویر کا پیچھا کرنا",
+      "preferred_meaning": "Image Trace / امیج ٹریس / ویکٹرائزیشن",
+      "reason": "Literal following/pursuit wording is wrong in graphics."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "مقامی طور پر چلتا ہے",
+      "preferred_meaning": "پروسیسنگ آپ کے ڈیوائس/براؤزر میں ہوتی ہے",
+      "reason": "Clarifies privacy semantics."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "صاف SVG",
+      "preferred_meaning": "آپٹیمائزڈ SVG / منظم پاتھ والا SVG",
+      "reason": "Literal wording is underspecified."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_reference": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/illustrator/desktop/manage-objects/traces-mockups-symbols/trace-images-to-convert-raster-into-vector-artwork.html",
+      "locale": "en",
+      "notes": "Conceptual reference only; current Urdu Illustrator localization was insufficiently available for strong term-level claims."
+    }
+  }
+}
