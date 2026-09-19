@@ -1,0 +1,585 @@
+{
+  "schema_version": 1,
+  "language": "Ukrainian",
+  "locale": "uk-UA",
+  "recommended_locale_reason": "Use standard Ukrainian for Ukraine (uk-UA). Adobe's current Ukrainian Illustrator documentation provides strong localized terminology for vectorization, tracing, contours, anchor points and raster graphics.",
+  "register": {
+    "default": "neutral-direct",
+    "pronoun_strategy": "Prefer concise UI labels. In prose, use neutral constructions and ви consistently when direct address is needed.",
+    "notes": "Avoid unnecessary Russian calques where Adobe already uses established Ukrainian forms."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "вектор",
+      "seo_variants": [
+        "вектор"
+      ],
+      "ui_variant": "вектор",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "векторне зображення",
+      "seo_variants": [
+        "векторне зображення"
+      ],
+      "ui_variant": "векторне зображення",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "векторна графіка",
+      "seo_variants": [
+        "векторна графіка"
+      ],
+      "ui_variant": "векторна графіка",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "векторизувати",
+      "seo_variants": [
+        "векторизувати зображення",
+        "векторизація зображення"
+      ],
+      "ui_variant": "Векторизувати",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "векторизація",
+      "seo_variants": [
+        "векторизація зображення"
+      ],
+      "ui_variant": "Векторизація",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "растровий",
+      "seo_variants": [
+        "растр",
+        "растровий"
+      ],
+      "ui_variant": "растровий",
+      "alternatives": [
+        "растр"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "растрове зображення",
+      "seo_variants": [
+        "растрове зображення"
+      ],
+      "ui_variant": "растрове зображення",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "растрове зображення",
+      "seo_variants": [
+        "bitmap",
+        "бітова карта"
+      ],
+      "ui_variant": "Bitmap",
+      "alternatives": [
+        "бітова карта"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "Трасування зображення",
+      "seo_variants": [
+        "Трасування зображення",
+        "трасування"
+      ],
+      "ui_variant": "Трасування зображення",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "трасувати / трасування",
+      "seo_variants": [
+        "трасування зображення",
+        "векторизація"
+      ],
+      "ui_variant": "Трасування",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "контур",
+      "seo_variants": [
+        "SVG-контур",
+        "векторний контур"
+      ],
+      "ui_variant": "контур",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "опорна точка",
+      "seo_variants": [
+        "опорна точка",
+        "точка прив’язки"
+      ],
+      "ui_variant": "опорна точка",
+      "alternatives": [
+        "точка прив’язки"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "крива",
+      "seo_variants": [
+        "векторна крива"
+      ],
+      "ui_variant": "крива",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "фігура",
+      "seo_variants": [
+        "векторна фігура"
+      ],
+      "ui_variant": "фігура",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "піксель",
+      "seo_variants": [
+        "піксель"
+      ],
+      "ui_variant": "піксель",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "роздільна здатність",
+      "seo_variants": [
+        "роздільна здатність зображення"
+      ],
+      "ui_variant": "Роздільна здатність",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "масштабований",
+      "seo_variants": [
+        "масштабований",
+        "без втрати якості"
+      ],
+      "ui_variant": "масштабований",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "масштабується без втрати якості",
+      "seo_variants": [
+        "без втрати якості"
+      ],
+      "ui_variant": "без втрати якості",
+      "alternatives": [],
+      "avoid": [
+        "покращує якість"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "прозоре тло",
+      "seo_variants": [
+        "прозоре тло",
+        "прозорий фон"
+      ],
+      "ui_variant": "Прозоре тло",
+      "alternatives": [
+        "прозорий фон"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "видалити тло",
+      "seo_variants": [
+        "видалити тло",
+        "видалити фон"
+      ],
+      "ui_variant": "Видалити тло",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "завантажити",
+      "seo_variants": [
+        "завантажити зображення"
+      ],
+      "ui_variant": "Завантажити",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "завантажити",
+      "seo_variants": [
+        "завантажити SVG"
+      ],
+      "ui_variant": "Завантажити",
+      "alternatives": [
+        "Скачати"
+      ],
+      "avoid": [
+        "скачати"
+      ],
+      "keep_english": false,
+      "notes": "Prefer завантажити in standard Ukrainian UI.",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "попередній перегляд",
+      "seo_variants": [
+        "попередній перегляд"
+      ],
+      "ui_variant": "Попередній перегляд",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "стиль",
+      "seo_variants": [
+        "стиль трасування",
+        "попередньо визначений стиль"
+      ],
+      "ui_variant": "Стиль",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "оптимізація",
+      "seo_variants": [
+        "оптимізація SVG"
+      ],
+      "ui_variant": "Оптимізація",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "розмір файлу",
+      "seo_variants": [
+        "розмір файлу SVG"
+      ],
+      "ui_variant": "Розмір файлу",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "вихідне зображення",
+      "seo_variants": [
+        "вихідне зображення",
+        "початкове зображення"
+      ],
+      "ui_variant": "Вихідне зображення",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "вихідний файл",
+      "seo_variants": [
+        "вихідний файл SVG"
+      ],
+      "ui_variant": "Вихідний файл",
+      "alternatives": [
+        "отриманий файл"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "працює у браузері",
+      "seo_variants": [
+        "у браузері",
+        "браузерний"
+      ],
+      "ui_variant": "У браузері",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "локальна обробка у браузері",
+      "seo_variants": [
+        "локальна обробка",
+        "на вашому пристрої"
+      ],
+      "ui_variant": "Локальна обробка",
+      "alternatives": [
+        "обробка на пристрої"
+      ],
+      "avoid": [
+        "офлайн"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "замкнений контур",
+      "seo_variants": [
+        "замкнений SVG-контур"
+      ],
+      "ui_variant": "замкнений контур",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "відкритий контур",
+      "seo_variants": [
+        "відкритий SVG-контур"
+      ],
+      "ui_variant": "відкритий контур",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "перетворити",
+      "seo_variants": [
+        "перетворити PNG на SVG",
+        "PNG у SVG"
+      ],
+      "ui_variant": "Перетворити",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "конвертер",
+      "seo_variants": [
+        "конвертер PNG у SVG",
+        "SVG-конвертер"
+      ],
+      "ui_variant": "Конвертер",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG у SVG",
+      "конвертер PNG у SVG",
+      "перетворити PNG на SVG",
+      "векторизувати зображення",
+      "растр у вектор"
+    ],
+    "keyword_rules": [
+      "Use Ukrainian forms consistently.",
+      "Use векторизація for general raster→vector conversion and трасування for tracing mechanics.",
+      "Keep file formats unchanged."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer Завантажити, Перетворити/Векторизувати, Попередній перегляд.",
+      "Use Трасування зображення for tracing and контур for vector geometry."
+    ]
+  },
+  "translation_rules": [
+    "Preserve source/output direction.",
+    "Do not translate brands/file-format acronyms.",
+    "Use natural Ukrainian inflection.",
+    "Preserve local-processing privacy meaning."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "відстеження зображення",
+      "preferred_meaning": "Трасування зображення",
+      "reason": "Adobe uses Трасування зображення."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "працює локально",
+      "preferred_meaning": "обробка відбувається локально на пристрої/у браузері",
+      "reason": "Clarifies privacy meaning."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "чистий SVG",
+      "preferred_meaning": "оптимізований SVG / SVG з охайними контурами",
+      "reason": "Specify intended technical meaning."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_trace": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/ua/illustrator/desktop/manage-objects/traces-mockups-symbols/trace-images-to-convert-raster-into-vector-artwork.html",
+      "locale": "uk-UA",
+      "notes": "Uses Трасування зображення, растрова графіка, векторні об’єкти and векторні контури."
+    },
+    "adobe_paths": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/ua/illustrator/desktop/draw-shapes-and-paths/learn-drawing-basics/paths-overview.html",
+      "locale": "uk-UA",
+      "notes": "Uses контур, точки прив’язки/опорні точки, відкриті and замкнені contours."
+    },
+    "adobe_vectorize": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/ua/products/illustrator/vectorize-image.html",
+      "locale": "uk-UA",
+      "notes": "Uses Векторизація зображення and Трасування зображення."
+    }
+  }
+}
