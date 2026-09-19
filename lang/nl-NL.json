@@ -1,0 +1,610 @@
+{
+  "schema_version": 1,
+  "language": "Dutch",
+  "locale": "nl-NL",
+  "recommended_locale_reason": "Use Netherlands Dutch as the default international Dutch locale. Adobe's nl-NL terminology is extensive and broadly understandable in Belgium; introduce nl-BE only if Belgian lexical preferences become important.",
+  "register": {
+    "default": "neutral-direct",
+    "pronoun_strategy": "Prefer concise UI labels and neutral constructions. When direct address is needed, use 'je/jij' consistently; avoid mixing je/u.",
+    "notes": "Modern software Dutch normally favors direct, compact wording."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Keep the file-format acronym unchanged.",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "vector",
+      "seo_variants": [
+        "vector"
+      ],
+      "ui_variant": "vector",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "vectorafbeelding",
+      "seo_variants": [
+        "vectorafbeelding",
+        "vectorbeeld"
+      ],
+      "ui_variant": "vectorafbeelding",
+      "alternatives": [
+        "vectorillustratie"
+      ],
+      "avoid": [
+        "vector beeld"
+      ],
+      "keep_english": false,
+      "notes": "Adobe uses vectorafbeelding/vectorillustratie depending context.",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "vectorafbeeldingen",
+      "seo_variants": [
+        "vectorafbeeldingen",
+        "vectorillustraties"
+      ],
+      "ui_variant": "vectorafbeeldingen",
+      "alternatives": [
+        "vectorillustraties"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "vectoriseren",
+      "seo_variants": [
+        "afbeelding vectoriseren",
+        "PNG vectoriseren"
+      ],
+      "ui_variant": "Vectoriseren",
+      "alternatives": [
+        "omzetten naar vectoren"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Strong professional and SEO term.",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "vectorisatie",
+      "seo_variants": [
+        "vectorisatie",
+        "afbeelding vectoriseren"
+      ],
+      "ui_variant": "Vectorisatie",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "raster",
+      "seo_variants": [
+        "raster",
+        "rasterafbeelding"
+      ],
+      "ui_variant": "raster",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Established loanword.",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "rasterafbeelding",
+      "seo_variants": [
+        "rasterafbeelding"
+      ],
+      "ui_variant": "rasterafbeelding",
+      "alternatives": [
+        "pixelafbeelding"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "bitmap",
+      "seo_variants": [
+        "bitmap",
+        "bitmapafbeelding"
+      ],
+      "ui_variant": "bitmap",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "Afbeeldingen overtrekken",
+      "seo_variants": [
+        "afbeelding overtrekken",
+        "vectoriseren"
+      ],
+      "ui_variant": "Afbeeldingen overtrekken",
+      "alternatives": [
+        "overtrekken"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe Illustrator localized feature terminology.",
+      "confidence": "high"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "overtrekken",
+      "seo_variants": [
+        "overtrekken",
+        "vectoriseren"
+      ],
+      "ui_variant": "Overtrekken",
+      "alternatives": [
+        "traceren"
+      ],
+      "avoid": [
+        "tracen"
+      ],
+      "keep_english": false,
+      "notes": "Use vectoriseren for broad raster-to-vector intent; overtrekken for tracing mechanics.",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "pad",
+      "seo_variants": [
+        "SVG-pad",
+        "vectorpad"
+      ],
+      "ui_variant": "pad",
+      "alternatives": [
+        "vectorpad"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe uses paden/vectorpaden.",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "ankerpunt",
+      "seo_variants": [
+        "ankerpunt"
+      ],
+      "ui_variant": "ankerpunt",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "curve",
+      "seo_variants": [
+        "vectorcurve"
+      ],
+      "ui_variant": "curve",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "vorm",
+      "seo_variants": [
+        "vectorvorm"
+      ],
+      "ui_variant": "vorm",
+      "alternatives": [
+        "object"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "pixel",
+      "seo_variants": [
+        "pixel"
+      ],
+      "ui_variant": "pixel",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "resolutie",
+      "seo_variants": [
+        "beeldresolutie"
+      ],
+      "ui_variant": "resolutie",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "schaalbaar",
+      "seo_variants": [
+        "schaalbaar",
+        "zonder kwaliteitsverlies schalen"
+      ],
+      "ui_variant": "schaalbaar",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "schaalt zonder kwaliteitsverlies",
+      "seo_variants": [
+        "zonder kwaliteitsverlies schalen"
+      ],
+      "ui_variant": "zonder kwaliteitsverlies",
+      "alternatives": [],
+      "avoid": [
+        "verbetert de kwaliteit"
+      ],
+      "keep_english": false,
+      "notes": "Do not imply enhancement.",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "transparante achtergrond",
+      "seo_variants": [
+        "transparante achtergrond"
+      ],
+      "ui_variant": "Transparante achtergrond",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "achtergrond verwijderen",
+      "seo_variants": [
+        "achtergrond verwijderen"
+      ],
+      "ui_variant": "Achtergrond verwijderen",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "uploaden",
+      "seo_variants": [
+        "afbeelding uploaden"
+      ],
+      "ui_variant": "Uploaden",
+      "alternatives": [
+        "bestand kiezen"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Uploaden is standard Dutch software usage.",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "downloaden",
+      "seo_variants": [
+        "SVG downloaden"
+      ],
+      "ui_variant": "Downloaden",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "voorbeeld",
+      "seo_variants": [
+        "voorbeeld",
+        "voorvertoning"
+      ],
+      "ui_variant": "Voorbeeld",
+      "alternatives": [
+        "Voorvertoning"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "voorinstelling",
+      "seo_variants": [
+        "voorinstelling",
+        "preset"
+      ],
+      "ui_variant": "Voorinstelling",
+      "alternatives": [
+        "preset"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe uses voorinstelling.",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "optimalisatie",
+      "seo_variants": [
+        "SVG-optimalisatie"
+      ],
+      "ui_variant": "Optimalisatie",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "bestandsgrootte",
+      "seo_variants": [
+        "SVG-bestandsgrootte"
+      ],
+      "ui_variant": "Bestandsgrootte",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "bronafbeelding",
+      "seo_variants": [
+        "bronafbeelding",
+        "originele afbeelding"
+      ],
+      "ui_variant": "Bronafbeelding",
+      "alternatives": [
+        "originele afbeelding"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "uitvoerbestand",
+      "seo_variants": [
+        "SVG-uitvoerbestand"
+      ],
+      "ui_variant": "Uitvoerbestand",
+      "alternatives": [
+        "gegenereerd bestand"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "in de browser",
+      "seo_variants": [
+        "in de browser",
+        "browsergebaseerd"
+      ],
+      "ui_variant": "In de browser",
+      "alternatives": [
+        "browsergebaseerd"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "lokale verwerking in de browser",
+      "seo_variants": [
+        "lokale verwerking",
+        "op je apparaat"
+      ],
+      "ui_variant": "Lokale verwerking",
+      "alternatives": [
+        "verwerking op je apparaat"
+      ],
+      "avoid": [
+        "offline"
+      ],
+      "keep_english": false,
+      "notes": "Do not imply offline operation.",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "gesloten pad",
+      "seo_variants": [
+        "gesloten SVG-pad"
+      ],
+      "ui_variant": "gesloten pad",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "open pad",
+      "seo_variants": [
+        "open SVG-pad"
+      ],
+      "ui_variant": "open pad",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "converteren",
+      "seo_variants": [
+        "converteren",
+        "omzetten"
+      ],
+      "ui_variant": "Converteren",
+      "alternatives": [
+        "omzetten"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "converter",
+      "seo_variants": [
+        "PNG naar SVG converter",
+        "SVG converter"
+      ],
+      "ui_variant": "Converter",
+      "alternatives": [
+        "omzetter"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG naar SVG",
+      "PNG naar SVG converter",
+      "PNG omzetten naar SVG",
+      "afbeelding vectoriseren",
+      "raster naar vector"
+    ],
+    "keyword_rules": [
+      "Keep PNG/JPG/JPEG/SVG unchanged.",
+      "'PNG naar SVG' is the compact natural pattern.",
+      "Use vectoriseren for true raster-to-vector intent.",
+      "Converter is a common Dutch loanword."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer Uploaden, Vectoriseren/Converteren, Downloaden, Voorbeeld, Voorinstelling.",
+      "Keep pad for SVG/vector geometry and overtrekken for tracing process.",
+      "Use concise sentence-case labels."
+    ]
+  },
+  "translation_rules": [
+    "Preserve input/output direction.",
+    "Do not translate brands or file-format acronyms.",
+    "Use je consistently if direct address is needed.",
+    "Keep local-processing/privacy claims explicit."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "image tracing",
+      "preferred_meaning": "Afbeeldingen overtrekken / vectoriseren",
+      "reason": "Adobe localizes the feature and Dutch professional usage favors overtrekken/vectoriseren."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "draait lokaal",
+      "preferred_meaning": "wordt lokaal in je browser/op je apparaat verwerkt",
+      "reason": "Clarifies the privacy meaning."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "schone SVG",
+      "preferred_meaning": "geoptimaliseerde SVG / SVG met nette paden",
+      "reason": "Literal wording is vague."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_trace": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/nl/illustrator/desktop/manage-objects/traces-mockups-symbols/trace-images-to-convert-raster-into-vector-artwork.html",
+      "locale": "nl-NL",
+      "notes": "Uses Afbeeldingen overtrekken, rasterafbeeldingen, vectoren, vectorpaden, zonder kwaliteitsverlies."
+    },
+    "adobe_vector": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/nl/products/illustrator/vectorize-image.html",
+      "locale": "nl-NL",
+      "notes": "Uses Concept naar vector and vector terminology."
+    },
+    "search_usage": {
+      "publisher": "Observed Dutch search-result wording",
+      "url": "https://convertio.co/nl/png-svg/",
+      "locale": "nl",
+      "notes": "Uses PNG naar SVG Converter, raster naar vector, PNG-afbeeldingen omzetten to SVG-vectoren."
+    }
+  }
+}
