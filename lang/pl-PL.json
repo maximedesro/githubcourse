@@ -1,0 +1,574 @@
+{
+  "schema_version": 1,
+  "language": "Polish",
+  "locale": "pl-PL",
+  "recommended_locale_reason": "Use standard Polish for Poland (pl-PL). Adobe's current Polish Illustrator documentation provides strong terminology for raster/vector conversion, paths, anchor points and Image Trace.",
+  "register": {
+    "default": "neutral-direct",
+    "pronoun_strategy": "Prefer concise UI labels and impersonal constructions. Avoid unnecessary Pan/Pani forms in software copy.",
+    "notes": "Polish inflection requires natural case endings; glossary values are concept anchors, not frozen strings."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "wektor",
+      "seo_variants": [
+        "wektor"
+      ],
+      "ui_variant": "wektor",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "obraz wektorowy",
+      "seo_variants": [
+        "obraz wektorowy"
+      ],
+      "ui_variant": "obraz wektorowy",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "grafika wektorowa",
+      "seo_variants": [
+        "grafika wektorowa"
+      ],
+      "ui_variant": "grafika wektorowa",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "wektoryzować",
+      "seo_variants": [
+        "wektoryzować obraz",
+        "wektoryzacja obrazu"
+      ],
+      "ui_variant": "Wektoryzuj",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "wektoryzacja",
+      "seo_variants": [
+        "wektoryzacja obrazu"
+      ],
+      "ui_variant": "Wektoryzacja",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "rastrowy",
+      "seo_variants": [
+        "raster",
+        "rastrowy"
+      ],
+      "ui_variant": "rastrowy",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "obraz rastrowy",
+      "seo_variants": [
+        "obraz rastrowy"
+      ],
+      "ui_variant": "obraz rastrowy",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "mapa bitowa",
+      "seo_variants": [
+        "bitmap",
+        "mapa bitowa"
+      ],
+      "ui_variant": "Mapa bitowa",
+      "alternatives": [
+        "bitmap"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "Obrys obrazu",
+      "seo_variants": [
+        "Obrys obrazu",
+        "Image Trace"
+      ],
+      "ui_variant": "Obrys obrazu",
+      "alternatives": [
+        "Image Trace"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe Polish localizes the panel as Obrys obrazu while some help text retains Image Trace.",
+      "confidence": "high"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "obrysowywać / obrys",
+      "seo_variants": [
+        "obrys obrazu",
+        "wektoryzacja"
+      ],
+      "ui_variant": "Obrys",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "ścieżka",
+      "seo_variants": [
+        "ścieżka SVG",
+        "ścieżka wektorowa"
+      ],
+      "ui_variant": "ścieżka",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "punkt kontrolny",
+      "seo_variants": [
+        "punkt kontrolny"
+      ],
+      "ui_variant": "punkt kontrolny",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "krzywa",
+      "seo_variants": [
+        "krzywa wektorowa"
+      ],
+      "ui_variant": "krzywa",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "kształt",
+      "seo_variants": [
+        "kształt wektorowy"
+      ],
+      "ui_variant": "kształt",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "piksel",
+      "seo_variants": [
+        "piksel"
+      ],
+      "ui_variant": "piksel",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "rozdzielczość",
+      "seo_variants": [
+        "rozdzielczość obrazu"
+      ],
+      "ui_variant": "rozdzielczość",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "skalowalny",
+      "seo_variants": [
+        "skalowalny",
+        "bez utraty jakości"
+      ],
+      "ui_variant": "skalowalny",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "można skalować bez utraty jakości",
+      "seo_variants": [
+        "bez utraty jakości"
+      ],
+      "ui_variant": "bez utraty jakości",
+      "alternatives": [],
+      "avoid": [
+        "poprawia jakość"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "przezroczyste tło",
+      "seo_variants": [
+        "przezroczyste tło"
+      ],
+      "ui_variant": "Przezroczyste tło",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "usuń tło",
+      "seo_variants": [
+        "usuń tło"
+      ],
+      "ui_variant": "Usuń tło",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "prześlij",
+      "seo_variants": [
+        "prześlij obraz",
+        "wgraj obraz"
+      ],
+      "ui_variant": "Prześlij",
+      "alternatives": [
+        "Wgraj"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "pobierz",
+      "seo_variants": [
+        "pobierz SVG"
+      ],
+      "ui_variant": "Pobierz",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "podgląd",
+      "seo_variants": [
+        "podgląd"
+      ],
+      "ui_variant": "Podgląd",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "ustawienie predefiniowane",
+      "seo_variants": [
+        "ustawienie predefiniowane"
+      ],
+      "ui_variant": "Ustawienie predefiniowane",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "optymalizacja",
+      "seo_variants": [
+        "optymalizacja SVG"
+      ],
+      "ui_variant": "Optymalizacja",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "rozmiar pliku",
+      "seo_variants": [
+        "rozmiar pliku SVG"
+      ],
+      "ui_variant": "Rozmiar pliku",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "obraz źródłowy",
+      "seo_variants": [
+        "obraz źródłowy"
+      ],
+      "ui_variant": "Obraz źródłowy",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "plik wyjściowy",
+      "seo_variants": [
+        "plik wyjściowy SVG"
+      ],
+      "ui_variant": "Plik wyjściowy",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "działa w przeglądarce",
+      "seo_variants": [
+        "w przeglądarce",
+        "oparty na przeglądarce"
+      ],
+      "ui_variant": "W przeglądarce",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "lokalne przetwarzanie w przeglądarce",
+      "seo_variants": [
+        "lokalne przetwarzanie",
+        "na urządzeniu"
+      ],
+      "ui_variant": "Lokalne przetwarzanie",
+      "alternatives": [
+        "przetwarzanie na urządzeniu"
+      ],
+      "avoid": [
+        "offline"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "ścieżka zamknięta",
+      "seo_variants": [
+        "zamknięta ścieżka SVG"
+      ],
+      "ui_variant": "ścieżka zamknięta",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "ścieżka otwarta",
+      "seo_variants": [
+        "otwarta ścieżka SVG"
+      ],
+      "ui_variant": "ścieżka otwarta",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "konwertować",
+      "seo_variants": [
+        "konwertuj PNG do SVG",
+        "PNG do SVG"
+      ],
+      "ui_variant": "Konwertuj",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "konwerter",
+      "seo_variants": [
+        "konwerter PNG do SVG",
+        "konwerter SVG"
+      ],
+      "ui_variant": "Konwerter",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG do SVG",
+      "konwerter PNG do SVG",
+      "konwertuj PNG do SVG",
+      "wektoryzacja obrazu",
+      "raster do wektora"
+    ],
+    "keyword_rules": [
+      "Use PNG do SVG for compact query intent.",
+      "Use wektoryzacja for general raster→vector conversion.",
+      "Use Obrys obrazu for Illustrator tracing.",
+      "Keep format acronyms unchanged."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer Prześlij, Konwertuj/Wektoryzuj, Pobierz, Podgląd.",
+      "Use ścieżka for path geometry and punkt kontrolny for anchor point."
+    ]
+  },
+  "translation_rules": [
+    "Preserve source/output direction.",
+    "Do not translate brands/file-format acronyms.",
+    "Allow natural Polish inflection.",
+    "Preserve local-processing privacy meaning."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "śledzenie obrazu",
+      "preferred_meaning": "Obrys obrazu / wektoryzacja",
+      "reason": "Adobe uses Obrys obrazu; śledzenie suggests tracking."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "działa lokalnie",
+      "preferred_meaning": "przetwarzanie odbywa się lokalnie na urządzeniu/w przeglądarce",
+      "reason": "Clarifies privacy semantics."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "czysty SVG",
+      "preferred_meaning": "zoptymalizowany SVG / SVG z uporządkowanymi ścieżkami",
+      "reason": "Clarify intended meaning."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_trace": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/pl/illustrator/desktop/manage-objects/traces-mockups-symbols/trace-images-to-convert-raster-into-vector-artwork.html",
+      "locale": "pl-PL",
+      "notes": "Uses Obrys obrazu/Image Trace, grafika rastrowa, wektory and ścieżki wektorowe."
+    },
+    "adobe_panel": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/pl/illustrator/desktop/manage-objects/traces-mockups-symbols/image-trace-panel-options.html",
+      "locale": "pl-PL",
+      "notes": "Uses Obrys obrazu, ustawienie predefiniowane and grafiki wektorowe."
+    },
+    "adobe_anchor": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/pl/illustrator/desktop/draw-shapes-and-paths/modify-paths/add-or-remove-anchor-points.html",
+      "locale": "pl-PL",
+      "notes": "Uses punkt kontrolny and ścieżka."
+    }
+  }
+}
