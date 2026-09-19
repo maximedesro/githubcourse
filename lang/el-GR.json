@@ -1,0 +1,577 @@
+{
+  "schema_version": 1,
+  "language": "Greek",
+  "locale": "el-GR",
+  "recommended_locale_reason": "Use standard Greek for Greece (el-GR). Adobe Greece localizes core vector terminology, while some Illustrator feature labels may remain English depending on product surface.",
+  "register": {
+    "default": "neutral-direct",
+    "pronoun_strategy": "Prefer concise UI labels and neutral constructions. Use polite/plural forms only where natural in explanatory prose.",
+    "notes": "Greek software copy commonly keeps SVG/PNG/JPG and some feature names in English while localizing vector/raster concepts."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "διάνυσμα",
+      "seo_variants": [
+        "vector",
+        "διάνυσμα"
+      ],
+      "ui_variant": "διάνυσμα",
+      "alternatives": [
+        "vector"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "In design contexts διανυσματικό is especially common adjectivally.",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "διανυσματική εικόνα",
+      "seo_variants": [
+        "διανυσματική εικόνα"
+      ],
+      "ui_variant": "διανυσματική εικόνα",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "διανυσματικά γραφικά",
+      "seo_variants": [
+        "διανυσματικά γραφικά"
+      ],
+      "ui_variant": "διανυσματικά γραφικά",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "διανυσματοποιώ",
+      "seo_variants": [
+        "διανυσματοποίηση εικόνας",
+        "μετατροπή εικόνας σε vector"
+      ],
+      "ui_variant": "Διανυσματοποίηση",
+      "alternatives": [
+        "μετατροπή σε διανυσματικό"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "διανυσματοποίηση",
+      "seo_variants": [
+        "διανυσματοποίηση εικόνας"
+      ],
+      "ui_variant": "Διανυσματοποίηση",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "ράστερ",
+      "seo_variants": [
+        "ράστερ",
+        "raster"
+      ],
+      "ui_variant": "ράστερ",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "εικόνα ράστερ",
+      "seo_variants": [
+        "εικόνα ράστερ",
+        "ψηφιογραφική εικόνα"
+      ],
+      "ui_variant": "εικόνα ράστερ",
+      "alternatives": [
+        "ψηφιογραφική εικόνα"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "bitmap",
+      "seo_variants": [
+        "bitmap"
+      ],
+      "ui_variant": "Bitmap",
+      "alternatives": [
+        "εικόνα bitmap"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "Image Trace",
+      "seo_variants": [
+        "Image Trace",
+        "ανίχνευση εικόνας",
+        "διανυσματοποίηση"
+      ],
+      "ui_variant": "Image Trace",
+      "alternatives": [
+        "Ανίχνευση εικόνας"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Feature labels may remain English; use localized descriptive wording around them.",
+      "confidence": "high"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "ανίχνευση / διανυσματοποίηση",
+      "seo_variants": [
+        "ανίχνευση εικόνας",
+        "διανυσματοποίηση"
+      ],
+      "ui_variant": "Ανίχνευση",
+      "alternatives": [
+        "ιχνηλάτηση"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "διαδρομή",
+      "seo_variants": [
+        "διαδρομή SVG",
+        "διανυσματική διαδρομή"
+      ],
+      "ui_variant": "διαδρομή",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "σημείο αγκύρωσης",
+      "seo_variants": [
+        "σημείο αγκύρωσης"
+      ],
+      "ui_variant": "σημείο αγκύρωσης",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "καμπύλη",
+      "seo_variants": [
+        "διανυσματική καμπύλη"
+      ],
+      "ui_variant": "καμπύλη",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "σχήμα",
+      "seo_variants": [
+        "διανυσματικό σχήμα"
+      ],
+      "ui_variant": "σχήμα",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "pixel",
+      "seo_variants": [
+        "pixel"
+      ],
+      "ui_variant": "pixel",
+      "alternatives": [
+        "εικονοστοιχείο"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "ανάλυση",
+      "seo_variants": [
+        "ανάλυση εικόνας"
+      ],
+      "ui_variant": "ανάλυση",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "κλιμακώσιμο",
+      "seo_variants": [
+        "κλιμακώσιμο",
+        "χωρίς απώλεια ποιότητας"
+      ],
+      "ui_variant": "κλιμακώσιμο",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "κλιμακώνεται χωρίς απώλεια ποιότητας",
+      "seo_variants": [
+        "χωρίς απώλεια ποιότητας"
+      ],
+      "ui_variant": "χωρίς απώλεια ποιότητας",
+      "alternatives": [],
+      "avoid": [
+        "βελτιώνει την ποιότητα"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "διαφανές φόντο",
+      "seo_variants": [
+        "διαφανές φόντο"
+      ],
+      "ui_variant": "Διαφανές φόντο",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "αφαίρεση φόντου",
+      "seo_variants": [
+        "αφαίρεση φόντου"
+      ],
+      "ui_variant": "Αφαίρεση φόντου",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "μεταφόρτωση",
+      "seo_variants": [
+        "μεταφόρτωση εικόνας",
+        "ανέβασμα εικόνας"
+      ],
+      "ui_variant": "Μεταφόρτωση",
+      "alternatives": [
+        "Ανέβασμα"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "λήψη",
+      "seo_variants": [
+        "λήψη SVG"
+      ],
+      "ui_variant": "Λήψη",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "προεπισκόπηση",
+      "seo_variants": [
+        "προεπισκόπηση"
+      ],
+      "ui_variant": "Προεπισκόπηση",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "προκαθορισμένη ρύθμιση",
+      "seo_variants": [
+        "προκαθορισμένη ρύθμιση",
+        "preset"
+      ],
+      "ui_variant": "Preset",
+      "alternatives": [
+        "προρύθμιση"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "βελτιστοποίηση",
+      "seo_variants": [
+        "βελτιστοποίηση SVG"
+      ],
+      "ui_variant": "Βελτιστοποίηση",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "μέγεθος αρχείου",
+      "seo_variants": [
+        "μέγεθος αρχείου SVG"
+      ],
+      "ui_variant": "Μέγεθος αρχείου",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "εικόνα προέλευσης",
+      "seo_variants": [
+        "εικόνα προέλευσης",
+        "αρχική εικόνα"
+      ],
+      "ui_variant": "Εικόνα προέλευσης",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "αρχείο εξόδου",
+      "seo_variants": [
+        "αρχείο εξόδου SVG"
+      ],
+      "ui_variant": "Αρχείο εξόδου",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "λειτουργεί στο πρόγραμμα περιήγησης",
+      "seo_variants": [
+        "στο πρόγραμμα περιήγησης",
+        "browser-based"
+      ],
+      "ui_variant": "Στο πρόγραμμα περιήγησης",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "τοπική επεξεργασία στο πρόγραμμα περιήγησης",
+      "seo_variants": [
+        "τοπική επεξεργασία",
+        "στη συσκευή σας"
+      ],
+      "ui_variant": "Τοπική επεξεργασία",
+      "alternatives": [
+        "επεξεργασία στη συσκευή"
+      ],
+      "avoid": [
+        "offline"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "κλειστή διαδρομή",
+      "seo_variants": [
+        "κλειστή διαδρομή SVG"
+      ],
+      "ui_variant": "κλειστή διαδρομή",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "ανοιχτή διαδρομή",
+      "seo_variants": [
+        "ανοιχτή διαδρομή SVG"
+      ],
+      "ui_variant": "ανοιχτή διαδρομή",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "μετατροπή",
+      "seo_variants": [
+        "μετατροπή PNG σε SVG"
+      ],
+      "ui_variant": "Μετατροπή",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "μετατροπέας",
+      "seo_variants": [
+        "μετατροπέας PNG σε SVG",
+        "μετατροπέας SVG"
+      ],
+      "ui_variant": "Μετατροπέας",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG σε SVG",
+      "μετατροπή PNG σε SVG",
+      "μετατροπέας PNG σε SVG",
+      "διανυσματοποίηση εικόνας",
+      "raster σε vector"
+    ],
+    "keyword_rules": [
+      "Use PNG σε SVG for compact search intent.",
+      "Use διανυσματοποίηση for true vectorization.",
+      "Allow English raster/vector variants where familiar.",
+      "Keep format acronyms unchanged."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer Μεταφόρτωση, Μετατροπή/Διανυσματοποίηση, Λήψη, Προεπισκόπηση.",
+      "Use διαδρομή for path geometry."
+    ]
+  },
+  "translation_rules": [
+    "Preserve source/output direction.",
+    "Do not translate brands/file-format acronyms.",
+    "Use natural Greek agreement and inflection.",
+    "Preserve local-processing privacy meaning."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "παρακολούθηση εικόνας",
+      "preferred_meaning": "ανίχνευση εικόνας / διανυσματοποίηση",
+      "reason": "Παρακολούθηση means monitoring/following."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "τρέχει τοπικά",
+      "preferred_meaning": "η επεξεργασία γίνεται τοπικά στη συσκευή/στο πρόγραμμα περιήγησης",
+      "reason": "Natural and privacy-precise."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "καθαρό SVG",
+      "preferred_meaning": "βελτιστοποιημένο SVG / SVG με καθαρές διαδρομές",
+      "reason": "Clarify markup vs geometry."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_vectorize": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/gr_el/products/illustrator/vectorize-image.html",
+      "locale": "el-GR",
+      "notes": "Uses Διανυσματοποίηση εικόνας and διανυσματικά γραφικά in current Adobe Greece marketing."
+    }
+  }
+}
