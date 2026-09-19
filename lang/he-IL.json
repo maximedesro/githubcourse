@@ -1,0 +1,584 @@
+{
+  "schema_version": 1,
+  "language": "Hebrew",
+  "locale": "he-IL",
+  "recommended_locale_reason": "Use standard Israeli Hebrew (he-IL). Adobe's current Hebrew Illustrator documentation provides strong localized terminology for raster/vector concepts, paths and tracing.",
+  "register": {
+    "default": "neutral-direct",
+    "pronoun_strategy": "Prefer concise UI wording and plural/neutral instructions when possible to avoid unnecessary gender marking. Keep prose modern and non-bureaucratic.",
+    "notes": "RTL layout must preserve LTR technical tokens, file formats, URLs, numbers and code."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "וקטור",
+      "seo_variants": [
+        "וקטור"
+      ],
+      "ui_variant": "וקטור",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "תמונה וקטורית",
+      "seo_variants": [
+        "תמונה וקטורית"
+      ],
+      "ui_variant": "תמונה וקטורית",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "גרפיקה וקטורית",
+      "seo_variants": [
+        "גרפיקה וקטורית",
+        "גרפיקות וקטוריות"
+      ],
+      "ui_variant": "גרפיקה וקטורית",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "להמיר לווקטור",
+      "seo_variants": [
+        "להמיר תמונה לווקטור",
+        "וקטוריזציה"
+      ],
+      "ui_variant": "המרה לווקטור",
+      "alternatives": [
+        "להפוך לווקטור"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "וקטוריזציה",
+      "seo_variants": [
+        "וקטוריזציה",
+        "המרה לווקטור"
+      ],
+      "ui_variant": "וקטוריזציה",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "רסטר",
+      "seo_variants": [
+        "רסטר"
+      ],
+      "ui_variant": "רסטר",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "תמונת רסטר",
+      "seo_variants": [
+        "תמונת רסטר"
+      ],
+      "ui_variant": "תמונת רסטר",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "מפת סיביות",
+      "seo_variants": [
+        "bitmap",
+        "מפת סיביות"
+      ],
+      "ui_variant": "Bitmap",
+      "alternatives": [
+        "תמונת bitmap"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "Image Trace",
+      "seo_variants": [
+        "Image Trace",
+        "מעקב תמונה",
+        "המרת תמונה"
+      ],
+      "ui_variant": "Image Trace",
+      "alternatives": [
+        "מעקב תמונה"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Adobe Hebrew currently keeps the feature label Image Trace in English while surrounding prose describes מעקב/המרה.",
+      "confidence": "high"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "לעקוב / להמיר",
+      "seo_variants": [
+        "מעקב תמונה",
+        "Image Trace",
+        "להמיר לווקטור"
+      ],
+      "ui_variant": "מעקב",
+      "alternatives": [
+        "התחקות"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "נתיב",
+      "seo_variants": [
+        "נתיב SVG",
+        "נתיב וקטורי"
+      ],
+      "ui_variant": "נתיב",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "נקודת עוגן",
+      "seo_variants": [
+        "נקודת עוגן"
+      ],
+      "ui_variant": "נקודת עוגן",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "עקומה",
+      "seo_variants": [
+        "עקומה וקטורית"
+      ],
+      "ui_variant": "עקומה",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "צורה",
+      "seo_variants": [
+        "צורה וקטורית"
+      ],
+      "ui_variant": "צורה",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "פיקסל",
+      "seo_variants": [
+        "פיקסל"
+      ],
+      "ui_variant": "פיקסל",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "רזולוציה",
+      "seo_variants": [
+        "רזולוציית תמונה"
+      ],
+      "ui_variant": "רזולוציה",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "ניתן להרחבה",
+      "seo_variants": [
+        "ניתן לשינוי גודל",
+        "ללא אובדן איכות"
+      ],
+      "ui_variant": "ניתן להרחבה",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "ניתן לשנות גודל בלי לפגוע באיכות",
+      "seo_variants": [
+        "ללא אובדן איכות",
+        "בלי לפגוע באיכות"
+      ],
+      "ui_variant": "בלי לפגוע באיכות",
+      "alternatives": [],
+      "avoid": [
+        "משפר את האיכות"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "רקע שקוף",
+      "seo_variants": [
+        "רקע שקוף"
+      ],
+      "ui_variant": "רקע שקוף",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "הסרת רקע",
+      "seo_variants": [
+        "הסרת רקע"
+      ],
+      "ui_variant": "הסרת רקע",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "העלאה",
+      "seo_variants": [
+        "העלאת תמונה"
+      ],
+      "ui_variant": "העלאה",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "הורדה",
+      "seo_variants": [
+        "הורדת SVG"
+      ],
+      "ui_variant": "הורדה",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "תצוגה מקדימה",
+      "seo_variants": [
+        "תצוגה מקדימה"
+      ],
+      "ui_variant": "תצוגה מקדימה",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "קביעה מוגדרת מראש",
+      "seo_variants": [
+        "קביעה מוגדרת מראש",
+        "Preset"
+      ],
+      "ui_variant": "Preset",
+      "alternatives": [
+        "הגדרה מראש"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "אופטימיזציה",
+      "seo_variants": [
+        "אופטימיזציית SVG"
+      ],
+      "ui_variant": "אופטימיזציה",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "גודל הקובץ",
+      "seo_variants": [
+        "גודל קובץ SVG"
+      ],
+      "ui_variant": "גודל הקובץ",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "תמונת המקור",
+      "seo_variants": [
+        "תמונת המקור"
+      ],
+      "ui_variant": "תמונת המקור",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "קובץ פלט",
+      "seo_variants": [
+        "קובץ פלט SVG"
+      ],
+      "ui_variant": "קובץ פלט",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "פועל בדפדפן",
+      "seo_variants": [
+        "בדפדפן",
+        "מבוסס דפדפן"
+      ],
+      "ui_variant": "בדפדפן",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "עיבוד מקומי בדפדפן",
+      "seo_variants": [
+        "עיבוד מקומי",
+        "במכשיר שלך"
+      ],
+      "ui_variant": "עיבוד מקומי",
+      "alternatives": [
+        "עיבוד במכשיר"
+      ],
+      "avoid": [
+        "לא מקוון"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "נתיב סגור",
+      "seo_variants": [
+        "נתיב SVG סגור"
+      ],
+      "ui_variant": "נתיב סגור",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "נתיב פתוח",
+      "seo_variants": [
+        "נתיב SVG פתוח"
+      ],
+      "ui_variant": "נתיב פתוח",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "המרה",
+      "seo_variants": [
+        "המרת PNG ל-SVG",
+        "PNG ל-SVG"
+      ],
+      "ui_variant": "המרה",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "ממיר",
+      "seo_variants": [
+        "ממיר PNG ל-SVG",
+        "ממיר SVG"
+      ],
+      "ui_variant": "ממיר",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG ל-SVG",
+      "המרת PNG ל-SVG",
+      "ממיר PNG ל-SVG",
+      "המרת תמונה לווקטור",
+      "רסטר לווקטור"
+    ],
+    "keyword_rules": [
+      "Keep format acronyms unchanged and LTR.",
+      "Use ל- constructions carefully so source/output direction remains visually clear in RTL.",
+      "Adobe uses רסטר and וקטור naturally.",
+      "Image Trace may remain English when naming the Illustrator feature."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer העלאה, המרה, הורדה, תצוגה מקדימה.",
+      "Use נתיב for path geometry.",
+      "Test bidi rendering around PNG/SVG/JPG tokens and arrows."
+    ]
+  },
+  "translation_rules": [
+    "Preserve source/output direction exactly.",
+    "Do not translate brands/file-format acronyms.",
+    "Use modern Israeli Hebrew and avoid unnecessary gendered address.",
+    "Preserve local-processing privacy claim.",
+    "Use bidi isolation for LTR technical tokens in RTL UI where needed."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "עקיבה אחרי תמונה",
+      "preferred_meaning": "Image Trace / מעקב תמונה / המרה לווקטור",
+      "reason": "Avoid wording that sounds like monitoring; Adobe keeps Image Trace while using מעקב/המרה around it."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "רץ מקומית",
+      "preferred_meaning": "העיבוד מתבצע מקומית במכשיר/בדפדפן",
+      "reason": "Natural Hebrew and precise privacy meaning."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "SVG נקי",
+      "preferred_meaning": "SVG ממוטב / SVG עם נתיבים מסודרים",
+      "reason": "Specify intended technical meaning."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_trace": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/il_he/illustrator/desktop/manage-objects/traces-mockups-symbols/trace-images-to-convert-raster-into-vector-artwork.html",
+      "locale": "he-IL",
+      "notes": "Uses המרת תמונות לגרפיקות וקטוריות, תמונות רסטר, נתיבים וקטורים, פיקסלים and Image Trace."
+    },
+    "adobe_paths": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/il_he/illustrator/desktop/manage-objects/traces-mockups-symbols/edit-image-trace-results.html",
+      "locale": "he-IL",
+      "notes": "Uses נתיבים, נקודות עוגן, המרה and editing terminology."
+    },
+    "adobe_png_svg": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/il_he/creativecloud/file-types/image/comparison/png-vs-svg.html",
+      "locale": "he-IL",
+      "notes": "Uses קובצי PNG/SVG, רסטר, וקטור and converting raster images to SVG."
+    }
+  }
+}
