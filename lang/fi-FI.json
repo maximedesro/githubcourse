@@ -1,0 +1,585 @@
+{
+  "schema_version": 1,
+  "language": "Finnish",
+  "locale": "fi-FI",
+  "recommended_locale_reason": "Use standard Finnish for Finland. Finnish software terminology is highly inflected; glossary entries define concepts, not immutable surface forms.",
+  "register": {
+    "default": "neutral-direct",
+    "pronoun_strategy": "Prefer concise UI labels and impersonal/direct constructions. When addressing the user, use neutral second-person Finnish consistently without unnecessary formality.",
+    "notes": "Allow extensive case inflection; never freeze glossary forms mechanically."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "vektori",
+      "seo_variants": [
+        "vektori"
+      ],
+      "ui_variant": "vektori",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "vektorikuva",
+      "seo_variants": [
+        "vektorikuva"
+      ],
+      "ui_variant": "vektorikuva",
+      "alternatives": [
+        "vektorigrafiikka"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "vektorigrafiikka",
+      "seo_variants": [
+        "vektorigrafiikka"
+      ],
+      "ui_variant": "vektorigrafiikka",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "vektoroida",
+      "seo_variants": [
+        "vektoroi kuva",
+        "kuvan vektorointi"
+      ],
+      "ui_variant": "Vektoroi",
+      "alternatives": [
+        "muuntaa vektoriksi"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Common technical derivation; use natural inflection.",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "vektorointi",
+      "seo_variants": [
+        "kuvan vektorointi",
+        "vektorointi"
+      ],
+      "ui_variant": "Vektorointi",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "rasteri",
+      "seo_variants": [
+        "rasteri"
+      ],
+      "ui_variant": "rasteri",
+      "alternatives": [
+        "raster"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "rasterikuva",
+      "seo_variants": [
+        "rasterikuva"
+      ],
+      "ui_variant": "rasterikuva",
+      "alternatives": [
+        "pikselikuva"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "bittikartta",
+      "seo_variants": [
+        "bittikartta",
+        "bitmap"
+      ],
+      "ui_variant": "bittikartta",
+      "alternatives": [
+        "bitmap"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "kuvan jäljitys",
+      "seo_variants": [
+        "kuvan jäljitys",
+        "vektorointi"
+      ],
+      "ui_variant": "Kuvan jäljitys",
+      "alternatives": [
+        "jäljitys"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use generic Finnish terminology unless an Adobe UI label is known to remain in English; Adobe FI converter pages are stronger evidence for conversion terminology than Illustrator tracing UI.",
+      "confidence": "medium"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "jäljittää / vektoroida",
+      "seo_variants": [
+        "vektoroi kuva",
+        "kuvan jäljitys"
+      ],
+      "ui_variant": "Vektoroi",
+      "alternatives": [
+        "jäljitä"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Use vektoroida for user-facing raster-to-vector intent.",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "polku",
+      "seo_variants": [
+        "SVG-polku",
+        "vektoripolku"
+      ],
+      "ui_variant": "polku",
+      "alternatives": [
+        "ura"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "SVG developer terminology commonly uses polku; design terminology may vary.",
+      "confidence": "medium"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "ankkuripiste",
+      "seo_variants": [
+        "ankkuripiste"
+      ],
+      "ui_variant": "ankkuripiste",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "käyrä",
+      "seo_variants": [
+        "vektorikäyrä"
+      ],
+      "ui_variant": "käyrä",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "muoto",
+      "seo_variants": [
+        "vektorimuoto"
+      ],
+      "ui_variant": "muoto",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "pikseli",
+      "seo_variants": [
+        "pikseli"
+      ],
+      "ui_variant": "pikseli",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "resoluutio",
+      "seo_variants": [
+        "kuvan resoluutio"
+      ],
+      "ui_variant": "resoluutio",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "skaalautuva",
+      "seo_variants": [
+        "skaalautuva",
+        "ilman laadun heikkenemistä"
+      ],
+      "ui_variant": "skaalautuva",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "voidaan skaalata ilman laadun heikkenemistä",
+      "seo_variants": [
+        "ilman laadun heikkenemistä"
+      ],
+      "ui_variant": "ilman laadun heikkenemistä",
+      "alternatives": [],
+      "avoid": [
+        "parantaa laatua"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "läpinäkyvä tausta",
+      "seo_variants": [
+        "läpinäkyvä tausta"
+      ],
+      "ui_variant": "Läpinäkyvä tausta",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "poista tausta",
+      "seo_variants": [
+        "poista tausta"
+      ],
+      "ui_variant": "Poista tausta",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "lähetä",
+      "seo_variants": [
+        "lähetä kuva",
+        "lataa kuva"
+      ],
+      "ui_variant": "Lähetä",
+      "alternatives": [
+        "Lataa"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Finnish can use lataa for both upload/download depending context; prefer Lähetä for upload to avoid ambiguity.",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "lataa",
+      "seo_variants": [
+        "lataa SVG"
+      ],
+      "ui_variant": "Lataa",
+      "alternatives": [
+        "Tallenna"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Context should make download direction clear.",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "esikatselu",
+      "seo_variants": [
+        "esikatselu"
+      ],
+      "ui_variant": "Esikatselu",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "esiasetus",
+      "seo_variants": [
+        "esiasetus"
+      ],
+      "ui_variant": "Esiasetus",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "optimointi",
+      "seo_variants": [
+        "SVG-optimointi"
+      ],
+      "ui_variant": "Optimointi",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "tiedostokoko",
+      "seo_variants": [
+        "SVG-tiedostokoko"
+      ],
+      "ui_variant": "Tiedostokoko",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "lähdekuva",
+      "seo_variants": [
+        "lähdekuva",
+        "alkuperäinen kuva"
+      ],
+      "ui_variant": "Lähdekuva",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "tulostiedosto",
+      "seo_variants": [
+        "SVG-tulostiedosto"
+      ],
+      "ui_variant": "Tulostiedosto",
+      "alternatives": [
+        "luotu tiedosto"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "selaimessa toimiva",
+      "seo_variants": [
+        "selaimessa",
+        "selainpohjainen"
+      ],
+      "ui_variant": "Selaimessa",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "paikallinen käsittely selaimessa",
+      "seo_variants": [
+        "paikallinen käsittely",
+        "laitteellasi"
+      ],
+      "ui_variant": "Paikallinen käsittely",
+      "alternatives": [
+        "käsittely laitteella"
+      ],
+      "avoid": [
+        "offline"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "suljettu polku",
+      "seo_variants": [
+        "suljettu SVG-polku"
+      ],
+      "ui_variant": "suljettu polku",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "avoin polku",
+      "seo_variants": [
+        "avoin SVG-polku"
+      ],
+      "ui_variant": "avoin polku",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "muuntaa",
+      "seo_variants": [
+        "muunna PNG SVG-muotoon"
+      ],
+      "ui_variant": "Muunna",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "muunnin",
+      "seo_variants": [
+        "SVG-muunnin",
+        "PNG-SVG-muunnin"
+      ],
+      "ui_variant": "Muunnin",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG SVG-muotoon",
+      "muunna PNG SVG-muotoon",
+      "SVG-muunnin",
+      "vektoroi kuva",
+      "kuvan vektorointi"
+    ],
+    "keyword_rules": [
+      "Finnish naturally uses case endings and 'SVG-muotoon' rather than a rigid word-for-word 'PNG to SVG'.",
+      "Use vektoroi/vektorointi for true vectorization intent.",
+      "Keep PNG/JPG/JPEG/SVG unchanged.",
+      "Allow compound formation such as SVG-muunnin and SVG-tiedosto."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer Lähetä for upload and Lataa for download to reduce directional ambiguity.",
+      "Use Muunna/Vektoroi for conversion actions, Esikatselu, Esiasetus.",
+      "Inflect terminology naturally in helper text and prose."
+    ]
+  },
+  "translation_rules": [
+    "Preserve source/output direction despite Finnish case changes.",
+    "Do not freeze glossary words without grammatical inflection.",
+    "Do not translate brands/file-format acronyms.",
+    "Keep local-processing meaning explicit."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "kuvan tracing",
+      "preferred_meaning": "kuvan jäljitys / vektorointi",
+      "reason": "Use Finnish terminology rather than unnecessary English borrowing."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "toimii paikallisesti",
+      "preferred_meaning": "kuva käsitellään paikallisesti laitteellasi/selaimessa",
+      "reason": "Makes privacy semantics explicit."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "puhdas SVG",
+      "preferred_meaning": "optimoitu SVG / SVG, jossa on siistit polut",
+      "reason": "Literal adjective is underspecified."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_svg": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/fi/express/feature/image/convert/svg",
+      "locale": "fi-FI",
+      "notes": "Uses SVG-muunnin, muunna kuva SVG-muotoon, vektoritiedostomuoto, ilman laadun menetystä."
+    },
+    "adobe_formats": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/fi/express/web/image-creation-and-editing/change-file-formats/convert-image-format.html",
+      "locale": "fi-FI",
+      "notes": "Uses Muunna SVG-muotoon, tiedostomuoto, vektoritiedostomuoto, skaalata without image-quality degradation."
+    }
+  }
+}
