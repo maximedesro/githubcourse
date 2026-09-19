@@ -1,0 +1,611 @@
+{
+  "schema_version": 1,
+  "language": "Filipino",
+  "locale": "fil-PH",
+  "recommended_locale_reason": "Use Filipino (fil-PH) as the default Philippine localization. Adobe Philippines uses mixed Filipino-English product language, so the glossary intentionally retains established English design/software terms where that is the natural local convention.",
+  "register": {
+    "default": "neutral-friendly",
+    "pronoun_strategy": "Use concise UI labels. In prose, use mo/iyo naturally and consistently when direct address is needed, but avoid over-personalizing every instruction.",
+    "notes": "Code-switching is normal in Philippine software/design usage; forcing fully native substitutes can sound less natural than established English loans."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "vector",
+      "seo_variants": [
+        "vector"
+      ],
+      "ui_variant": "vector",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "vector image",
+      "seo_variants": [
+        "vector image"
+      ],
+      "ui_variant": "vector image",
+      "alternatives": [
+        "larawang vector"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "vector graphics",
+      "seo_variants": [
+        "vector graphics"
+      ],
+      "ui_variant": "vector graphics",
+      "alternatives": [
+        "graphics na vector"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "i-vector",
+      "seo_variants": [
+        "i-vector ang image",
+        "i-vectorize ang image"
+      ],
+      "ui_variant": "I-vector",
+      "alternatives": [
+        "i-vectorize"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Adobe Philippines explicitly uses 'I-vector ang isang image' and also 'i-vectorize' in localized copy.",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "pag-vectorize",
+      "seo_variants": [
+        "pag-vectorize ng image"
+      ],
+      "ui_variant": "Pag-vectorize",
+      "alternatives": [
+        "vectorization"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "raster",
+      "seo_variants": [
+        "raster"
+      ],
+      "ui_variant": "raster",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "raster image",
+      "seo_variants": [
+        "raster image"
+      ],
+      "ui_variant": "raster image",
+      "alternatives": [
+        "pixel-based image"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "bitmap",
+      "seo_variants": [
+        "bitmap"
+      ],
+      "ui_variant": "bitmap",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "Image Trace",
+      "seo_variants": [
+        "Image Trace",
+        "pag-vectorize ng image"
+      ],
+      "ui_variant": "Image Trace",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "Adobe Philippines keeps the feature name in English.",
+      "confidence": "high"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "i-trace",
+      "seo_variants": [
+        "i-trace ang image",
+        "Image Trace",
+        "i-vector ang image"
+      ],
+      "ui_variant": "I-trace",
+      "alternatives": [
+        "pag-trace"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "path",
+      "seo_variants": [
+        "SVG path",
+        "vector path"
+      ],
+      "ui_variant": "path",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "anchor point",
+      "seo_variants": [
+        "anchor point",
+        "vector point"
+      ],
+      "ui_variant": "anchor point",
+      "alternatives": [
+        "punto ng anchor"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "curve",
+      "seo_variants": [
+        "vector curve"
+      ],
+      "ui_variant": "curve",
+      "alternatives": [
+        "kurba"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "shape",
+      "seo_variants": [
+        "vector shape"
+      ],
+      "ui_variant": "shape",
+      "alternatives": [
+        "hugis"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "pixel",
+      "seo_variants": [
+        "pixel"
+      ],
+      "ui_variant": "pixel",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "resolution",
+      "seo_variants": [
+        "image resolution"
+      ],
+      "ui_variant": "resolution",
+      "alternatives": [
+        "resolusyon"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "nasusukat",
+      "seo_variants": [
+        "scalable",
+        "nasusukat"
+      ],
+      "ui_variant": "scalable",
+      "alternatives": [
+        "puwedeng baguhin ang sukat"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "puwedeng baguhin ang sukat nang hindi nawawala ang quality",
+      "seo_variants": [
+        "scalable nang hindi nawawala ang quality"
+      ],
+      "ui_variant": "walang quality loss",
+      "alternatives": [],
+      "avoid": [
+        "pinapaganda ang quality"
+      ],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "transparent na background",
+      "seo_variants": [
+        "transparent background"
+      ],
+      "ui_variant": "Transparent na background",
+      "alternatives": [
+        "malinaw na background"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "alisin ang background",
+      "seo_variants": [
+        "remove background",
+        "alisin ang background"
+      ],
+      "ui_variant": "Alisin ang background",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "i-upload",
+      "seo_variants": [
+        "i-upload ang image"
+      ],
+      "ui_variant": "I-upload",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "i-download",
+      "seo_variants": [
+        "i-download ang SVG"
+      ],
+      "ui_variant": "I-download",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "preview",
+      "seo_variants": [
+        "preview"
+      ],
+      "ui_variant": "Preview",
+      "alternatives": [
+        "paunang tingin"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "preset",
+      "seo_variants": [
+        "preset"
+      ],
+      "ui_variant": "Preset",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "optimization",
+      "seo_variants": [
+        "SVG optimization",
+        "pag-optimize ng SVG"
+      ],
+      "ui_variant": "Optimization",
+      "alternatives": [
+        "pag-optimize"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "file size",
+      "seo_variants": [
+        "SVG file size"
+      ],
+      "ui_variant": "File size",
+      "alternatives": [
+        "laki ng file"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "source image",
+      "seo_variants": [
+        "source image",
+        "original image"
+      ],
+      "ui_variant": "Source image",
+      "alternatives": [
+        "orihinal na image"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "output file",
+      "seo_variants": [
+        "SVG output file"
+      ],
+      "ui_variant": "Output file",
+      "alternatives": [
+        "resultang file"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "gumagana sa browser",
+      "seo_variants": [
+        "sa browser",
+        "browser-based"
+      ],
+      "ui_variant": "Sa browser",
+      "alternatives": [
+        "browser-based"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "local na processing sa browser",
+      "seo_variants": [
+        "local processing",
+        "sa device mo"
+      ],
+      "ui_variant": "Local processing",
+      "alternatives": [
+        "processing sa device"
+      ],
+      "avoid": [
+        "offline"
+      ],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "closed path",
+      "seo_variants": [
+        "closed SVG path"
+      ],
+      "ui_variant": "closed path",
+      "alternatives": [
+        "saradong path"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "open path",
+      "seo_variants": [
+        "open SVG path"
+      ],
+      "ui_variant": "open path",
+      "alternatives": [
+        "bukas na path"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "i-convert",
+      "seo_variants": [
+        "i-convert ang PNG to SVG",
+        "PNG to SVG"
+      ],
+      "ui_variant": "I-convert",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "converter",
+      "seo_variants": [
+        "PNG to SVG converter",
+        "SVG converter"
+      ],
+      "ui_variant": "Converter",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG to SVG",
+      "PNG to SVG converter",
+      "i-convert ang PNG to SVG",
+      "i-vector ang image",
+      "image to vector"
+    ],
+    "keyword_rules": [
+      "Filipino search/design language commonly retains English format-direction phrases such as PNG to SVG.",
+      "Adobe Philippines uses code-switched forms such as i-vector, i-convert and Image Trace.",
+      "Do not force fully native translations of vector, raster, path, preview, preset or converter when the English loan is more natural.",
+      "Keep format acronyms unchanged."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer I-upload, I-convert/I-vector, I-download, Preview, Preset.",
+      "Retain Image Trace when referring to the Adobe feature.",
+      "Use code-switching consistently rather than alternating randomly between English and fully native equivalents."
+    ]
+  },
+  "translation_rules": [
+    "Preserve source/output direction.",
+    "Do not translate brands/file-format acronyms.",
+    "Natural Filipino-English code-switching is acceptable and often preferred in software UI.",
+    "Keep local-processing meaning explicit; do not imply cloud upload or offline operation."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "pagsubaybay ng larawan",
+      "preferred_meaning": "Image Trace / pag-trace ng image",
+      "reason": "Pagsubaybay means following/monitoring and is wrong in graphics context."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "tumatakbo nang lokal",
+      "preferred_meaning": "pinoproseso sa device mo / sa browser",
+      "reason": "Clarifies privacy semantics."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "malinis na SVG",
+      "preferred_meaning": "optimized na SVG / SVG na may maayos na paths",
+      "reason": "Literal wording is underspecified."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_vectorize": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/ph_fil/products/illustrator/vectorize-image.html",
+      "locale": "fil-PH",
+      "notes": "Uses 'I-vector ang isang image', raster (pixel) image, vector, pag-convert, Image Trace, graphics."
+    },
+    "adobe_vectorize_font": {
+      "publisher": "Adobe",
+      "url": "https://www.adobe.com/ph_fil/products/illustrator/vectorize-font.html",
+      "locale": "fil-PH",
+      "notes": "Uses i-vectorize, scalable, vector font, outline, stroke and mixed Filipino-English terminology."
+    },
+    "adobe_trace_tutorial": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/ph_fil/illustrator/how-to/draw-over-hand-drawn-sketch.html",
+      "locale": "fil-PH",
+      "notes": "Localized page retains Image Trace / Vectorize feature terms in English, supporting code-switched UI terminology."
+    }
+  }
+}
