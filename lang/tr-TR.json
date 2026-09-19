@@ -1,0 +1,579 @@
+{
+  "schema_version": 1,
+  "language": "Turkish",
+  "locale": "tr-TR",
+  "recommended_locale_reason": "Use standard Turkish for Turkey (tr-TR). Adobe's current Turkish Illustrator documentation provides strong professional terminology for raster/vector graphics, paths, anchor points and Image Trace.",
+  "register": {
+    "default": "neutral-direct",
+    "pronoun_strategy": "Prefer concise imperative UI labels. In prose, use neutral second-person constructions and avoid unnecessary formal siz wording unless needed.",
+    "notes": "Turkish agglutinative morphology means glossary terms must take natural suffixes and consonant/vowel harmony in context."
+  },
+  "terms": {
+    "svg": {
+      "english": "SVG",
+      "preferred": "SVG",
+      "seo_variants": [
+        "SVG"
+      ],
+      "ui_variant": "SVG",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector": {
+      "english": "vector",
+      "preferred": "vektör",
+      "seo_variants": [
+        "vektör"
+      ],
+      "ui_variant": "vektör",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_image": {
+      "english": "vector image",
+      "preferred": "vektör görüntü",
+      "seo_variants": [
+        "vektör görüntü",
+        "vektörel görsel"
+      ],
+      "ui_variant": "vektör görüntü",
+      "alternatives": [
+        "vektörel görsel"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vector_graphics": {
+      "english": "vector graphics",
+      "preferred": "vektörel grafik",
+      "seo_variants": [
+        "vektörel grafik",
+        "vektör grafiği"
+      ],
+      "ui_variant": "vektörel grafik",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorize": {
+      "english": "vectorize",
+      "preferred": "vektörleştirmek",
+      "seo_variants": [
+        "görüntüyü vektörleştir",
+        "vektörleştirme"
+      ],
+      "ui_variant": "Vektörleştir",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "vectorization": {
+      "english": "vectorization",
+      "preferred": "vektörleştirme",
+      "seo_variants": [
+        "görüntü vektörleştirme"
+      ],
+      "ui_variant": "Vektörleştirme",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster": {
+      "english": "raster",
+      "preferred": "raster",
+      "seo_variants": [
+        "raster"
+      ],
+      "ui_variant": "raster",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "raster_image": {
+      "english": "raster image",
+      "preferred": "raster görüntü",
+      "seo_variants": [
+        "raster görüntü"
+      ],
+      "ui_variant": "raster görüntü",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "bitmap": {
+      "english": "bitmap",
+      "preferred": "bitmap",
+      "seo_variants": [
+        "bitmap",
+        "bit eşlem"
+      ],
+      "ui_variant": "bitmap",
+      "alternatives": [
+        "bit eşlem"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "image_trace": {
+      "english": "Image Trace",
+      "preferred": "Görüntü İzleme",
+      "seo_variants": [
+        "Görüntü İzleme",
+        "görüntü vektörleştirme"
+      ],
+      "ui_variant": "Görüntü İzleme",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Exact current Adobe Illustrator Turkish feature name.",
+      "confidence": "high"
+    },
+    "trace": {
+      "english": "trace / tracing",
+      "preferred": "izleme",
+      "seo_variants": [
+        "Görüntü İzleme",
+        "vektörleştirme"
+      ],
+      "ui_variant": "İzleme",
+      "alternatives": [
+        "izlemek"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "path": {
+      "english": "path",
+      "preferred": "yol",
+      "seo_variants": [
+        "SVG yolu",
+        "vektör yolu"
+      ],
+      "ui_variant": "yol",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "anchor_point": {
+      "english": "anchor point",
+      "preferred": "bağlantı noktası",
+      "seo_variants": [
+        "bağlantı noktası"
+      ],
+      "ui_variant": "bağlantı noktası",
+      "alternatives": [
+        "çapa noktası"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "Adobe Turkish uses bağlantı noktası.",
+      "confidence": "high"
+    },
+    "curve": {
+      "english": "curve",
+      "preferred": "eğri",
+      "seo_variants": [
+        "vektör eğrisi"
+      ],
+      "ui_variant": "eğri",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "shape": {
+      "english": "shape",
+      "preferred": "şekil",
+      "seo_variants": [
+        "vektör şekli"
+      ],
+      "ui_variant": "şekil",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "pixel": {
+      "english": "pixel",
+      "preferred": "piksel",
+      "seo_variants": [
+        "piksel"
+      ],
+      "ui_variant": "piksel",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "resolution": {
+      "english": "resolution",
+      "preferred": "çözünürlük",
+      "seo_variants": [
+        "görüntü çözünürlüğü"
+      ],
+      "ui_variant": "çözünürlük",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "scalable": {
+      "english": "scalable",
+      "preferred": "ölçeklenebilir",
+      "seo_variants": [
+        "ölçeklenebilir",
+        "kalite kaybı olmadan"
+      ],
+      "ui_variant": "ölçeklenebilir",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "lossless_scaling": {
+      "english": "scales without losing quality",
+      "preferred": "kalite kaybı olmadan ölçeklenebilir",
+      "seo_variants": [
+        "kalite kaybı olmadan",
+        "pikselleşmeden büyüt"
+      ],
+      "ui_variant": "kalite kaybı olmadan",
+      "alternatives": [],
+      "avoid": [
+        "kaliteyi artırır"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "transparent_background": {
+      "english": "transparent background",
+      "preferred": "şeffaf arka plan",
+      "seo_variants": [
+        "şeffaf arka plan"
+      ],
+      "ui_variant": "Şeffaf arka plan",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "remove_background": {
+      "english": "remove background",
+      "preferred": "arka planı kaldır",
+      "seo_variants": [
+        "arka plan kaldırma",
+        "arka planı kaldır"
+      ],
+      "ui_variant": "Arka planı kaldır",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "upload": {
+      "english": "upload",
+      "preferred": "yükle",
+      "seo_variants": [
+        "görsel yükle"
+      ],
+      "ui_variant": "Yükle",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "download": {
+      "english": "download",
+      "preferred": "indir",
+      "seo_variants": [
+        "SVG indir"
+      ],
+      "ui_variant": "İndir",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preview": {
+      "english": "preview",
+      "preferred": "önizleme",
+      "seo_variants": [
+        "önizleme"
+      ],
+      "ui_variant": "Önizleme",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "preset": {
+      "english": "preset",
+      "preferred": "hazır ayar",
+      "seo_variants": [
+        "hazır ayar",
+        "ön ayar"
+      ],
+      "ui_variant": "Hazır ayar",
+      "alternatives": [
+        "ön ayar"
+      ],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "optimization": {
+      "english": "optimization",
+      "preferred": "optimizasyon",
+      "seo_variants": [
+        "SVG optimizasyonu"
+      ],
+      "ui_variant": "Optimizasyon",
+      "alternatives": [
+        "iyileştirme"
+      ],
+      "avoid": [],
+      "keep_english": true,
+      "notes": "",
+      "confidence": "high"
+    },
+    "file_size": {
+      "english": "file size",
+      "preferred": "dosya boyutu",
+      "seo_variants": [
+        "SVG dosya boyutu"
+      ],
+      "ui_variant": "Dosya boyutu",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "source_image": {
+      "english": "source image",
+      "preferred": "kaynak görüntü",
+      "seo_variants": [
+        "kaynak görüntü",
+        "orijinal görüntü"
+      ],
+      "ui_variant": "Kaynak görüntü",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "output_file": {
+      "english": "output file",
+      "preferred": "çıktı dosyası",
+      "seo_variants": [
+        "SVG çıktı dosyası"
+      ],
+      "ui_variant": "Çıktı dosyası",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "browser_based": {
+      "english": "browser-based",
+      "preferred": "tarayıcıda çalışır",
+      "seo_variants": [
+        "tarayıcıda",
+        "tarayıcı tabanlı"
+      ],
+      "ui_variant": "Tarayıcıda",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "local_processing": {
+      "english": "local processing",
+      "preferred": "tarayıcıda yerel işleme",
+      "seo_variants": [
+        "yerel işleme",
+        "cihazınızda"
+      ],
+      "ui_variant": "Yerel işleme",
+      "alternatives": [
+        "cihazda işleme"
+      ],
+      "avoid": [
+        "çevrimdışı"
+      ],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "closed_path": {
+      "english": "closed path",
+      "preferred": "kapalı yol",
+      "seo_variants": [
+        "kapalı SVG yolu"
+      ],
+      "ui_variant": "kapalı yol",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "open_path": {
+      "english": "open path",
+      "preferred": "açık yol",
+      "seo_variants": [
+        "açık SVG yolu"
+      ],
+      "ui_variant": "açık yol",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "convert": {
+      "english": "convert",
+      "preferred": "dönüştürmek",
+      "seo_variants": [
+        "PNG'yi SVG'ye dönüştür",
+        "PNG'den SVG'ye"
+      ],
+      "ui_variant": "Dönüştür",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    },
+    "converter": {
+      "english": "converter",
+      "preferred": "dönüştürücü",
+      "seo_variants": [
+        "PNG'den SVG'ye dönüştürücü",
+        "SVG dönüştürücü"
+      ],
+      "ui_variant": "Dönüştürücü",
+      "alternatives": [],
+      "avoid": [],
+      "keep_english": false,
+      "notes": "",
+      "confidence": "high"
+    }
+  },
+  "seo": {
+    "primary_patterns": [
+      "PNG'den SVG'ye",
+      "PNG'yi SVG'ye dönüştür",
+      "PNG SVG dönüştürücü",
+      "görüntüyü vektörleştir",
+      "rasterdan vektöre"
+    ],
+    "keyword_rules": [
+      "Use correct Turkish case suffixes around format acronyms.",
+      "Use vektörleştirme for true vectorization.",
+      "Adobe uses raster, vektörel grafik, Görüntü İzleme and yol/bağlantı noktası.",
+      "Keep PNG/JPG/JPEG/SVG unchanged."
+    ]
+  },
+  "ui": {
+    "rules": [
+      "Prefer Yükle, Dönüştür/Vektörleştir, İndir, Önizleme, Hazır ayar.",
+      "Use Görüntü İzleme for tracing and yol for path geometry.",
+      "Apply suffixes naturally: SVG'ye, PNG'yi, etc."
+    ]
+  },
+  "translation_rules": [
+    "Preserve source/output direction.",
+    "Do not translate brands/file-format acronyms.",
+    "Allow Turkish case suffixes and vowel harmony around glossary concepts.",
+    "Preserve local-processing privacy claim exactly."
+  ],
+  "literal_translation_warnings": [
+    {
+      "english": "image tracing",
+      "bad_literal_interpretation": "görüntü takibi",
+      "preferred_meaning": "Görüntü İzleme",
+      "reason": "Adobe's localized Illustrator feature is Görüntü İzleme."
+    },
+    {
+      "english": "runs locally",
+      "bad_literal_interpretation": "yerel olarak çalışır",
+      "preferred_meaning": "işleme cihazınızda/tarayıcıda yerel olarak yapılır",
+      "reason": "Clarifies privacy semantics."
+    },
+    {
+      "english": "clean SVG",
+      "bad_literal_interpretation": "temiz SVG",
+      "preferred_meaning": "optimize edilmiş SVG / düzenli yollara sahip SVG",
+      "reason": "Specify geometry vs markup cleanliness."
+    }
+  ],
+  "sources": {
+    "vectorizethis_home": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/",
+      "notes": "Primary product and terminology source."
+    },
+    "vectorizethis_method": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/how-vectorizethis-works/",
+      "notes": "Primary technical terminology for raster/vector conversion, paths, geometry, topology and local processing."
+    },
+    "vectorizethis_settings": {
+      "publisher": "VectorizeThis",
+      "url": "https://vectorizethis.com/docs/settings/",
+      "notes": "Primary terminology for settings, presets, optimization, colors, smoothing and path-related controls."
+    },
+    "adobe_trace": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/tr/illustrator/desktop/manage-objects/traces-mockups-symbols/image-trace-panel-options.html",
+      "locale": "tr-TR",
+      "notes": "Uses Görüntü İzleme, raster görüntüler, vektör resmi, hazır ayar and dönüşüm terminology."
+    },
+    "adobe_paths": {
+      "publisher": "Adobe",
+      "url": "https://helpx.adobe.com/tr/illustrator/desktop/draw-shapes-and-paths/learn-drawing-basics/paths-overview.html",
+      "locale": "tr-TR",
+      "notes": "Uses vektörel grafik, yol, bağlantı noktası, açık yol, kapalı yol, eğri."
+    }
+  }
+}
