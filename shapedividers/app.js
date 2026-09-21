@@ -240,18 +240,18 @@ tabletColorCode.addEventListener('input', function() {
    tabletColorPicker.value = tabletColorCode.value;
 });
 
-let views = document.querySelectorAll('.view_select div');
-let viewsSettings = document.querySelectorAll('.desktop_settings, .tablet_settings, .mobile_settings');
+const views = document.querySelectorAll('.view_select div');
+const viewsSettings = document.querySelectorAll('.desktop_settings, .tablet_settings, .mobile_settings');
 
 
-let previewerFrame = document.getElementById("responsive_view_framer");
-let previewer = document.getElementById("previewer");
-let colorDiv = document.querySelector('.color_div');
+const previewerFrame = document.getElementById("responsive_view_framer");
+const previewer = document.getElementById("previewer");
+const colorDiv = document.querySelector('.color_div');
 let shapeDividerDemoDiv = document.querySelector('.image_div');
 
 let alreadyChangedView = false;
 
-let previewClasses = ['auto', 'tablet-portrait', 'mobile-portrait'];
+const previewClasses = ['auto', 'tablet-portrait', 'mobile-portrait'];
 
 function getActiveViewIndex() {
     return [...views].findIndex((view) => view.classList.contains('active'));
@@ -282,59 +282,61 @@ function setActiveShapeIndex(index) {
     }
 }
 
-views.forEach((v, i) => {
-   v.addEventListener('click', function() {
-      views.forEach(e => e.classList.remove('active'));
-      v.classList.add('active');
-      viewsSettings.forEach(e => e.style.display = 'none');
-      viewsSettings[i].style.display = 'block';
-      previewerFrame.setAttribute("class", previewClasses[i]);
-      
-      
-      /* Sync tablet and mobile on first click with desktop */
-      if (!alreadyChangedView && !urlParams.has('tabletDividerDirection')){
-   document.getElementById('mobile-shape-color').value = document.getElementById('shape-color').value;
-   checkRadioByValue(genform.mobiledividerdirection, ([...genform.dividerdirection].find((r) => r.checked) || {}).value);
-   document.getElementById("mobile-long_axis").value = document.getElementById("long_axis").value;
-   document.getElementById("mobile-short_axis").value = document.getElementById("short_axis").value;
-   document.getElementById("mobile-position").value = document.getElementById("position").value;
-   document.getElementById('mobile-flipped-checkbox').checked = document.getElementById('flipped-checkbox').checked;
-   document.getElementById('mobile-animate-checkbox').checked = document.getElementById('animate-checkbox').checked;
-   document.getElementById('mobile-animation_length').value = document.getElementById('animation_length').value;
-   document.getElementById('mobile-animation_long_axis').value = document.getElementById('animation_long_axis').value;
-   document.getElementById("mobile-shape-color-code").value = document.getElementById('shape-color-code').value;
-   mobileShapeIndex = shapeIndex;
+function syncResponsiveControlsFromDesktop() {
+    const desktopDirection = getCheckedDirection('');
 
+    for (const prefix of ['tablet', 'mobile']) {
+        document.getElementById(prefixedId(prefix, 'shape-color')).value =
+            document.getElementById('shape-color').value;
+        document.getElementById(prefixedId(prefix, 'shape-color-code')).value =
+            document.getElementById('shape-color-code').value;
+        document.getElementById(prefixedId(prefix, 'long_axis')).value =
+            document.getElementById('long_axis').value;
+        document.getElementById(prefixedId(prefix, 'short_axis')).value =
+            document.getElementById('short_axis').value;
+        document.getElementById(prefixedId(prefix, 'position')).value =
+            document.getElementById('position').value;
+        document.getElementById(prefixedId(prefix, 'flipped-checkbox')).checked =
+            document.getElementById('flipped-checkbox').checked;
+        document.getElementById(prefixedId(prefix, 'animate-checkbox')).checked =
+            document.getElementById('animate-checkbox').checked;
+        document.getElementById(prefixedId(prefix, 'animation_length')).value =
+            document.getElementById('animation_length').value;
+        document.getElementById(prefixedId(prefix, 'animation_long_axis')).value =
+            document.getElementById('animation_long_axis').value;
 
-   document.getElementById('tablet-shape-color').value = document.getElementById('shape-color').value;
-   checkRadioByValue(genform.tabletdividerdirection, ([...genform.dividerdirection].find((r) => r.checked) || {}).value);
-   document.getElementById("tablet-long_axis").value = document.getElementById("long_axis").value;
-   document.getElementById("tablet-short_axis").value = document.getElementById("short_axis").value;
-   document.getElementById("tablet-position").value = document.getElementById("position").value;
-   document.getElementById('tablet-flipped-checkbox').checked = document.getElementById('flipped-checkbox').checked;
-   document.getElementById('tablet-animate-checkbox').checked = document.getElementById('animate-checkbox').checked;
-   document.getElementById('tablet-animation_length').value = document.getElementById('animation_length').value;
-   document.getElementById('tablet-animation_long_axis').value = document.getElementById('animation_long_axis').value;
-   document.getElementById("tablet-shape-color-code").value = document.getElementById('shape-color-code').value;
-   tabletShapeIndex = shapeIndex;
+        const groupName = prefix + 'dividerdirection';
+        checkRadioByValue(genform[groupName], desktopDirection);
+    }
 
-      colorDiv.style.backgroundColor = '#' + shapeColor;
+    tabletShapeIndex = shapeIndex;
+    mobileShapeIndex = shapeIndex;
+    refreshRangeSliders();
+}
 
+views.forEach((view, index) => {
+    view.addEventListener('click', () => {
+        views.forEach((item) => item.classList.remove('active'));
+        view.classList.add('active');
 
-   previewer.className = 'previewer ' + dividerDirection;
-   
-   refreshRangeSliders();
-    
-      alreadyChangedView = true;
-      } 
-      
-      updateShape();
-      renderShapePicker();
-      updateSelectedShape();
-   });
+        viewsSettings.forEach((settings) => {
+            settings.style.display = 'none';
+        });
+        viewsSettings[index].style.display = 'block';
+        previewerFrame.className = previewClasses[index];
+
+        if (!alreadyChangedView && !urlParams.has('tabletDividerDirection')) {
+            syncResponsiveControlsFromDesktop();
+            alreadyChangedView = true;
+        }
+
+        updateShape();
+        renderShapePicker();
+        updateSelectedShape();
+    });
 });
 
-let viewsSelect = document.querySelector('.view_select');
+const viewsSelect = document.querySelector('.view_select');
 
 document.getElementById('mobile-ready').addEventListener('change', function() {
    if (this.checked) {
@@ -381,72 +383,123 @@ formEntries.forEach((e, i) => {
    e.addEventListener('input', updateShape);
 });
 
-let longAxisContainers = document.querySelectorAll('.long-axis-container');
-let positionContainers = document.querySelectorAll('.position-container');
-let flippedContainers = document.querySelectorAll('.flipped-container');
-let animationLengthContainers = document.querySelectorAll('.animation-length-container');
-let animationLongAxisContainers = document.querySelectorAll('.animation-long-axis-container');
+const longAxisContainers = document.querySelectorAll('.long-axis-container');
+const positionContainers = document.querySelectorAll('.position-container');
+const flippedContainers = document.querySelectorAll('.flipped-container');
+const animationLengthContainers = document.querySelectorAll('.animation-length-container');
+const animationLongAxisContainers = document.querySelectorAll('.animation-long-axis-container');
+
+const VIEWPORT_PREFIXES = ['', 'tablet', 'mobile'];
+
+function prefixedId(prefix, baseId) {
+    return prefix ? `${prefix}-${baseId}` : baseId;
+}
+
+function getCheckedDirection(prefix) {
+    const groupName = prefix ? `${prefix}dividerdirection` : 'dividerdirection';
+    return [...genform[groupName]].find((radio) => radio.checked)?.value || 'top';
+}
+
+function readViewportControls(prefix, selectedIndex) {
+    const colorInput = document.getElementById(prefixedId(prefix, 'shape-color'));
+    const longAxisInput = document.getElementById(prefixedId(prefix, 'long_axis'));
+    const shortAxisInput = document.getElementById(prefixedId(prefix, 'short_axis'));
+    const positionInput = document.getElementById(prefixedId(prefix, 'position'));
+    const flippedInput = document.getElementById(prefixedId(prefix, 'flipped-checkbox'));
+    const animateInput = document.getElementById(prefixedId(prefix, 'animate-checkbox'));
+    const animationLengthInput = document.getElementById(prefixedId(prefix, 'animation_length'));
+    const animationLongAxisInput = document.getElementById(prefixedId(prefix, 'animation_long_axis'));
+
+    const direction = getCheckedDirection(prefix);
+    const color = colorInput.value.slice(1);
+    const selectedDivider = svgDividers[selectedIndex];
+
+    return {
+        direction,
+        color,
+        longAxis: longAxisInput.value,
+        shortAxis: shortAxisInput.value,
+        position: positionInput.value,
+        flipped: flippedInput.checked,
+        animate: animateInput.checked,
+        animationLength: animationLengthInput.value,
+        animationLongAxis: animationLongAxisInput.value,
+        selectedShape: selectedDivider[direction]
+            .replaceAll('%23000000', '%23' + color)
+            .replaceAll('#', '%23'),
+        ratio: selectedDivider.ratio,
+        positionInput
+    };
+}
+
+function updateViewportControlVisibility(viewIndex, state) {
+    const animated = state.animate;
+
+    longAxisContainers[viewIndex].style.display = animated ? 'none' : 'block';
+    positionContainers[viewIndex].style.display = animated ? 'none' : 'block';
+    flippedContainers[viewIndex].style.display = animated ? 'none' : 'flex';
+    animationLengthContainers[viewIndex].style.display = animated ? 'block' : 'none';
+    animationLongAxisContainers[viewIndex].style.display = animated ? 'block' : 'none';
+
+    if (!animated && Number(state.longAxis) < 170) {
+        positionContainers[viewIndex].style.display = 'none';
+        state.positionInput.value = 50;
+        state.position = '50';
+    }
+}
+
+function applyPreviewForActiveView() {
+    const activeIndex = getActiveViewIndex();
+
+    if (!mobileReady || activeIndex <= 0) {
+        css.textContent = shapeDiv;
+        previewer.className = 'previewer ' + dividerDirection;
+        return;
+    }
+
+    if (activeIndex === 1) {
+        css.textContent = tabletShapeDiv;
+        previewer.className = 'previewer ' + tabletDividerDirection;
+        return;
+    }
+
+    css.textContent = mobileShapeDiv;
+    previewer.className = 'previewer ' + mobileDividerDirection;
+}
+
 
 
 function updateShape() {
 
    updateSettingsfromURL();
     
-   shapeColor = document.getElementById('shape-color').value.slice(1);
-   dividerDirection = ([...genform.dividerdirection].filter((r) => r.checked)[0] || {}).value;
-   longAxisValue = document.getElementById("long_axis").value;
-   shortAxisValue = document.getElementById("short_axis").value;
-   positionValue = document.getElementById("position").value;
-   flipped = document.getElementById('flipped-checkbox').checked ? true : false;
-   animate = document.getElementById('animate-checkbox').checked ? true : false;
-   animLength = document.getElementById('animation_length').value;
-   animLongAxis = document.getElementById('animation_long_axis').value;
-   
+   const desktopState = readViewportControls('', shapeIndex);
+
+   shapeColor = desktopState.color;
+   dividerDirection = desktopState.direction;
+   longAxisValue = desktopState.longAxis;
+   shortAxisValue = desktopState.shortAxis;
+   positionValue = desktopState.position;
+   flipped = desktopState.flipped;
+   animate = desktopState.animate;
+   animLength = desktopState.animationLength;
+   animLongAxis = desktopState.animationLongAxis;
+   selectedShape = desktopState.selectedShape;
+   shapeRatio = desktopState.ratio;
+
    animHorName = 'shape-anim-' + copiedCount;
    animVerName = 'shape-ver-anim-' + copiedCount;
-   
 
+   mobileReady = document.getElementById('mobile-ready').checked;
 
+   updateViewportControlVisibility(0, desktopState);
+   positionValue = desktopState.position;
 
-
-
-
-   selectedShape = svgDividers[shapeIndex][dividerDirection].replaceAll('%23000000', '%23' + shapeColor).replaceAll('#', '%23');
-   shapeRatio = svgDividers[shapeIndex].ratio;
-   
-   mobileReady = document.getElementById('mobile-ready').checked ? true : false;
-
-
-
-
-   if (views[0].classList.contains('active')) {
+   if (getActiveViewIndex() === 0) {
       colorDiv.style.backgroundColor = '#' + shapeColor;
    }
 
    previewer.className = 'previewer ' + dividerDirection;
-
-   if (animate){ 
-       longAxisContainers[0].style.display = 'none';
-       positionContainers[0].style.display = 'none';
-       flippedContainers[0].style.display = 'none';
-       animationLengthContainers[0].style.display = 'block';
-       animationLongAxisContainers[0].style.display = 'block';
-      } else {
-       longAxisContainers[0].style.display = 'block';
-       positionContainers[0].style.display = 'block';
-       flippedContainers[0].style.display = 'flex';
-       animationLengthContainers[0].style.display = 'none';
-       animationLongAxisContainers[0].style.display = 'none';
-           if (longAxisValue < 170){
-        positionContainers[0].style.display = 'none';
-        document.getElementById("position").value = 50;
-    } else {
-        positionContainers[0].style.display = 'block';
-    }
-
-       }
-
-
 
 shapeDiv = `
 ${mobileReady? `@media (min-width:1025px){
@@ -498,46 +551,24 @@ ${mobileReady? ' }' : ''}
 
    if (mobileReady) {
 
-      tabletShapeColor = document.getElementById('tablet-shape-color').value.slice(1);
-      tabletDividerDirection = ([...genform.tabletdividerdirection].filter((r) => r.checked)[0] || {}).value;
-      tabletLongAxisValue = document.getElementById("tablet-long_axis").value;
-      tabletShortAxisValue = document.getElementById("tablet-short_axis").value;
-      tabletPositionValue = document.getElementById("tablet-position").value;
-      tabletFlipped = document.getElementById('tablet-flipped-checkbox').checked ? true : false;
-           tabletAnimate = document.getElementById('tablet-animate-checkbox').checked ? true : false;
-   tabletAnimLength = document.getElementById('tablet-animation_length').value;
-   tabletAnimLongAxis = document.getElementById('tablet-animation_long_axis').value;
-   
-   if (tabletAnimate){ 
-       longAxisContainers[1].style.display = 'none';
-       positionContainers[1].style.display = 'none';
-       flippedContainers[1].style.display = 'none';
-       animationLengthContainers[1].style.display = 'block';
-       animationLongAxisContainers[1].style.display = 'block';
-       
-       
-       } else {
-       longAxisContainers[1].style.display = 'block';
-       positionContainers[1].style.display = 'block';
-       flippedContainers[1].style.display = 'flex';
-       animationLengthContainers[1].style.display = 'none';
-       animationLongAxisContainers[1].style.display = 'none';
+      const tabletState = readViewportControls('tablet', tabletShapeIndex);
 
-       if (tabletLongAxisValue < 170){
-        positionContainers[1].style.display = 'none';
-        document.getElementById("tablet-position").value = 50;
-    } else {
-        positionContainers[1].style.display = 'block';
-    }
+      tabletShapeColor = tabletState.color;
+      tabletDividerDirection = tabletState.direction;
+      tabletLongAxisValue = tabletState.longAxis;
+      tabletShortAxisValue = tabletState.shortAxis;
+      tabletPositionValue = tabletState.position;
+      tabletFlipped = tabletState.flipped;
+      tabletAnimate = tabletState.animate;
+      tabletAnimLength = tabletState.animationLength;
+      tabletAnimLongAxis = tabletState.animationLongAxis;
+      tabletSelectedShape = tabletState.selectedShape;
+      tabletShapeRatio = tabletState.ratio;
 
-       }
+      updateViewportControlVisibility(1, tabletState);
+      tabletPositionValue = tabletState.position;
 
-       
-   
-      tabletSelectedShape = svgDividers[tabletShapeIndex][tabletDividerDirection].replaceAll('%23000000', '%23' + tabletShapeColor).replaceAll('#', '%23');
-      tabletShapeRatio = svgDividers[tabletShapeIndex].ratio;
-
-      if (views[1].classList.contains('active')) {
+      if (getActiveViewIndex() === 1) {
          colorDiv.style.backgroundColor = '#' + tabletShapeColor;
       }
 
@@ -576,46 +607,24 @@ background-image: url('data:image/svg+xml;charset=utf8, ${tabletSelectedShape}')
 }` }
 `;
 
-      mobileShapeColor = document.getElementById('mobile-shape-color').value.slice(1);
-      mobileDividerDirection = ([...genform.mobiledividerdirection].filter((r) => r.checked)[0] || {}).value;
-      mobileLongAxisValue = document.getElementById("mobile-long_axis").value;
-      mobileShortAxisValue = document.getElementById("mobile-short_axis").value;
-      mobilePositionValue = document.getElementById("mobile-position").value;
-      mobileFlipped = document.getElementById('mobile-flipped-checkbox').checked ? true : false;
-      
-      mobileAnimate = document.getElementById('mobile-animate-checkbox').checked ? true : false;
-   mobileAnimLength = document.getElementById('mobile-animation_length').value;
-   mobileAnimLongAxis = document.getElementById('mobile-animation_long_axis').value;
-   
-   if (mobileAnimate){ 
-       longAxisContainers[2].style.display = 'none';
-       positionContainers[2].style.display = 'none';
-       flippedContainers[2].style.display = 'none';
-       animationLengthContainers[2].style.display = 'block';
-       animationLongAxisContainers[2].style.display = 'block';
-       } else {
-       longAxisContainers[2].style.display = 'block';
-       positionContainers[2].style.display = 'block';
-       flippedContainers[2].style.display = 'flex';
-       animationLengthContainers[2].style.display = 'none';
-       animationLongAxisContainers[2].style.display = 'none';
+      const mobileState = readViewportControls('mobile', mobileShapeIndex);
 
-       if (mobileLongAxisValue < 170){
-        positionContainers[2].style.display = 'none';
-        document.getElementById("mobile-position").value = 50;
-    } else {
-        positionContainers[2].style.display = 'block';
-    }
+      mobileShapeColor = mobileState.color;
+      mobileDividerDirection = mobileState.direction;
+      mobileLongAxisValue = mobileState.longAxis;
+      mobileShortAxisValue = mobileState.shortAxis;
+      mobilePositionValue = mobileState.position;
+      mobileFlipped = mobileState.flipped;
+      mobileAnimate = mobileState.animate;
+      mobileAnimLength = mobileState.animationLength;
+      mobileAnimLongAxis = mobileState.animationLongAxis;
+      mobileSelectedShape = mobileState.selectedShape;
+      mobileShapeRatio = mobileState.ratio;
 
-    
-       }
+      updateViewportControlVisibility(2, mobileState);
+      mobilePositionValue = mobileState.position;
 
-       
-
-      mobileSelectedShape = svgDividers[mobileShapeIndex][mobileDividerDirection].replaceAll('%23000000', '%23' + mobileShapeColor).replaceAll('#', '%23');
-      mobileShapeRatio = svgDividers[mobileShapeIndex].ratio;
-      
-      if (views[2].classList.contains('active')) {
+      if (getActiveViewIndex() === 2) {
          colorDiv.style.backgroundColor = '#' + mobileShapeColor;
       }
 
@@ -659,25 +668,8 @@ background-image: url('data:image/svg+xml;charset=utf8, ${mobileSelectedShape}')
 
    };
 
-   if (mobileReady) {
-      if (views[0].classList.contains('active')) {
-         css.innerHTML = shapeDiv;
-         previewer.className = 'previewer ' + dividerDirection;
+   applyPreviewForActiveView();
 
-      } else if (views[1].classList.contains('active')) {
-         css.innerHTML = tabletShapeDiv;
-         previewer.className = 'previewer ' + tabletDividerDirection;
-
-      } else {
-         css.innerHTML = mobileShapeDiv;
-         previewer.className = 'previewer ' + mobileDividerDirection;
-
-      }
-   } else {
-      css.innerHTML = shapeDiv;
-   }
-   
-   
              premiumCheck();
    
 
