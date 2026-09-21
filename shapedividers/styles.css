@@ -1,0 +1,768 @@
+.mobilesection{
+    display:none;
+}
+@media (max-width:767px){
+
+.mobilesection{
+    display:block;
+}
+    .mobilescreen{
+        padding:18px;
+        z-index: 999999;
+        position: fixed;
+        top:0;
+        left:0;
+        height:100vh;
+        width:100%;
+        align-content: center;
+        justify-content: center;
+        display: flex;
+        background-color: #121212;
+        color:#fff;
+        visibility: visible;
+        flex-direction: column;
+    }
+    .mobilescreen img{
+        width: 100%;
+        height:130px;
+    }
+    .mobilescreen h2{
+        text-align: center;
+    }
+    .mobilescreen a{
+        color:#121212;
+        background-color: #fff;
+        display: inline-block;
+        padding: 12px 18px;
+        border-radius: 10px;
+        text-align: center;
+    }
+    .mobilescreen p{
+        margin-top: 0;
+    }
+    .mobilescreen p:first-of-type{
+        font-style: italic;
+        text-align: center;
+        margin-bottom: 30px
+    }
+    .elementor-section:not(.mobilesection) {
+        display:none;
+    }
+}
+
+/* 
+        Original idea from:
+        http://chris-armstrong.com/rzg/ 
+ & https://codepen.io/michaelgermini/full/eJmpRp
+        */
+
+
+#responsive_view_framer {
+  transition: all .3s;
+  height: 100vh;
+  width: 100vw;
+}
+
+#previewer {
+  display: flex;
+  background-color: white;
+  border: none;
+  margin: auto 0;
+  margin-left: auto;
+  transition: all .3s;
+  flex-direction: column-reverse;
+}
+#previewer div {
+  flex-grow: 1;
+}
+#previewer.top{
+  flex-direction: column-reverse;
+}
+#previewer.bottom{
+    flex-direction: column;
+}
+#previewer.right {
+    flex-direction: row;
+}
+#previewer.left{
+    flex-direction: row-reverse;
+}
+
+#previewer .image_div {
+  background-image: url("https://shapedividers.com/wp-content/uploads/2021/05/tree.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+#previewer .color_div{
+  background-color:#f3f3f3;
+}
+
+.auto #previewer {
+  width: 100%;
+  height: 100%;
+}
+
+.mobile-portrait #previewer {
+  width: 414px;
+  height: 736px;
+  margin-top: 3rem;
+  margin-right: 3rem;
+}
+
+.tablet-portrait #previewer {
+  width: 768px;
+  height: 1024px;
+  margin-top: 3rem;
+  margin-right: 3rem;
+}
+
+.svg_divider{
+overflow:hidden;
+position:relative;
+}
+
+.htmlpreview > div > div:not(#responsive_view_framer){
+        display: none;
+    }
+    .image_div:not(.svg_divider)::before{
+        content:'test';
+    }
+    .image_div li{
+        display: none;
+    }
+    body .elementor-section .htmlpreview:not(#responsive_view_framer) > div > div.color_div{
+        display: block;
+    }
+
+.view_select{
+        display: none;
+        justify-content: center;
+        border-bottom: 3px solid grey;
+        margin-bottom: 12px;
+    }
+    
+    .view_select div{
+        background: #ffffff;
+        padding: 8px 14px ;
+        flex-grow: 1;
+        border: 1px grey solid;
+        border-bottom-width: 0;
+        text-align: center;
+        margin: 0 1px;
+        opacity: 0.54;
+        cursor: pointer;
+    }
+    .view_select div.active{
+        opacity: 1;
+    }
+    
+    .tablet_settings, .mobile_settings{
+        display: none;
+    }
+    
+    
+    .animation-length-container{
+        display: none;
+    }
+
+.container{
+    position: fixed;
+    right: 21px;
+    left: 40%;
+    top: 21px;
+    bottom:21px;
+    overflow-y: scroll;
+    background-color: white;
+    z-index: 99;
+    border-radius: 21px 0 0 21px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.47s;
+}
+.container:hover{
+    opacity: 1;
+}
+.container.right, .container.left{
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.container div {
+    margin: 40px 0;
+    position: relative;
+}
+.container div.top, .container div.bottom  {
+    width: 100%;
+}
+.container svg {
+    cursor: pointer;
+    border: 1px solid #FE6DA8;
+    border-radius: 14px;
+    padding: 10px;
+    margin: 0 21px;
+    height: 60px;
+    width: 96%;
+}
+.container .right svg, .container .left svg {
+    width: 78px;
+    height: 610px;
+}
+.container .selected svg{
+    box-shadow: 0 0 0 10px #fe6da8;
+}
+.container div.premium::after {
+    content: 'premium';
+    font-size: 12px;
+    position: absolute;
+    right: 12px;
+    top: 72px;
+}
+.container div.premium.right::after, .container div.premium.left::after {
+    right: 24px;
+    top: -18px;
+}
+.container div.premium.right.selected::after, .container div.premium.left.selected::after {
+    top: -28px;
+}
+.container::-webkit-scrollbar-track
+{
+	background-color: #F4f4f4;
+}
+
+.container::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F4f4f4;
+	height: 90%;
+}
+.container::-webkit-scrollbar-thumb
+{
+	background-color: #00000044;
+}
+
+@media (max-height:710px){
+section.settings_window > div > div > div {
+    border-radius:0!important;
+}
+
+section.settings_window .elementor-element-populated {
+    max-height: 90vh;
+    overflow-y: scroll;
+}
+
+section.settings_window ::-webkit-scrollbar-track
+{
+        background-color: #F4f4f4;
+}
+
+section.settings_window ::-webkit-scrollbar
+{
+        width: 10px;
+        background-color: #F4f4f4;
+}
+section.settings_window ::-webkit-scrollbar-thumb
+{
+        background-color: #00000044;
+}
+}
+
+.logged-out-only {
+    display: flex;
+}
+.logged-in .logged-out-only {
+    display: none;
+}
+
+form {
+  padding: 0 20px;
+  margin: 0 auto;
+  max-width: 600px;
+}
+form h1 {
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+  line-height: 1;
+  font-size: 1.6rem;
+}
+form .row {
+  margin-bottom: 16px;
+  position: relative;
+}
+form input[type=text], form input[type=password], form textarea {
+  width: 100%;
+  height: 40px;
+  padding: 6px 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  color: #333;
+  border-radius: 3px;
+  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
+}
+form textarea {
+  height: auto;
+  min-height: 200px;
+  padding: 50px 10px 10px 10px;
+}
+form input[type=text] + label, form input[type=password] + label, form textarea + label {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  height: 40px;
+  line-height: 40px;
+  font-size: 12px;
+  font-weight: bold;
+  width: 80px;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: white;
+  background: #0288D1;
+  border-radius: 3px 0 0 3px;
+  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
+  transform: translateZ(0) translateX(0);
+}
+form textarea + label {
+  width: 100%;
+  border-radius: 3px 3px 0 0;
+}
+form input[type=checkbox], form input[type=radio] {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+}
+form input[type=radio] + label {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-indent: -9999px;
+  background: #ccc;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
+}
+form input[type=radio] + label:before {
+  content: "";
+  position: absolute;
+  display: block;
+  height: 10px;
+  width: 10px;
+  top: 50%;
+  left: 50%;
+  background: white;
+  border-radius: 100%;
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9) 0.1s;
+  transform: translateZ(0) translate(-50%, -50%) scale(0);
+}
+form input[type=radio]:checked + label {
+  background: #1abc9c;
+}
+form input[type=radio]:checked + label:before {
+  transform: translateZ(0) translate(-50%, -50%) scale(1);
+}
+form input[type=checkbox] + label {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-indent: -999px;
+  background: #ccc;
+  width: 41px;
+  height: 24px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
+}
+
+form input[type=checkbox] + label:before {
+  content: "";
+  position: absolute;
+  display: block;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #0288D1;
+  border-radius: 100px;
+  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9) 0.1s;
+  transform: translateZ(0) scale(0);
+}
+form input[type=checkbox] + label:after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 2px;
+  display: block;
+  height: 18px;
+  width: 18px;
+  background: white;
+  border-radius: 100%;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
+  transform: translateZ(0) translateX(0);
+}
+form input[type=checkbox]:checked + label {
+  background: #0288D1;
+}
+form input[type=checkbox]:checked + label:after {
+  left: calc(100% - 20px);
+  transform: translateZ(0);
+}
+form button {
+  position: relative;
+  overflow: hidden;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: white;
+  border: none;
+  background: #0288D1;
+  border-radius: 3px;
+  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
+  transform: translateZ(0) translateX(0);
+  z-index: 2;
+}
+form button:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: #01579B;
+  height: 100%;
+  width: 100%;
+  border-radius: 3px;
+  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
+  transform: translateZ(0) scale(0);
+  z-index: -1;
+}
+form button:hover:before, form button:focus:before {
+  transform: scale(1);
+  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
+}
+
+form label, form div{
+    font-size: 1rem;
+}
+
+
+
+
+
+
+
+
+
+
+.percent::after{
+    content:'%';
+    color: white;
+}
+
+
+
+.range-slider__range {
+  -webkit-appearance: none;
+  width: calc(100% - (73px));
+  height: 10px;
+  border-radius: 5px;
+  background: #d7dcdf;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+.range-slider__range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+          appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #2c3e50;
+  cursor: pointer;
+  -webkit-transition: background 0.15s ease-in-out;
+  transition: background 0.15s ease-in-out;
+}
+.range-slider__range::-webkit-slider-thumb:hover {
+  background: #1abc9c;
+}
+.range-slider__range:active::-webkit-slider-thumb {
+  background: #1abc9c;
+}
+.range-slider__range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 50%;
+  background: #2c3e50;
+  cursor: pointer;
+  -moz-transition: background 0.15s ease-in-out;
+  transition: background 0.15s ease-in-out;
+}
+.range-slider__range::-moz-range-thumb:hover {
+  background: #1abc9c;
+}
+.range-slider__range:active::-moz-range-thumb {
+  background: #1abc9c;
+}
+.range-slider__range:focus::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px #fff, 0 0 0 6px #1abc9c;
+}
+
+.range-slider__value {
+  display: inline-block;
+  position: relative;
+  width: 58px;
+  color: #fff;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 3px;
+  background: #2c3e50;
+  padding: 5px 10px;
+  margin-left: 8px;
+}
+.range-slider__value::before {
+  position: absolute;
+  top: 8px;
+  left: -7px;
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-right: 7px solid #2c3e50;
+  border-bottom: 7px solid transparent;
+  content: "";
+}
+
+::-moz-range-track {
+  background: #d7dcdf;
+  border: 0;
+}
+
+input::-moz-focus-inner,
+input::-moz-focus-outer {
+  border: 0;
+}
+
+   .topsection, .rightsection, .bottomsection, .leftsection{
+   display: none;
+   }
+   .topsection.shown, .rightsection.shown, .bottomsection.shown, .leftsection.shown{
+   display: block;
+   }
+   body:not(.elementor-editor-active) {
+   overflow: hidden;
+   }
+
+.row.radio{
+    display: flex;
+    justify-content: space-around;
+}
+.row.radio div{
+    width: 25%;
+    text-align: center;
+}
+.row.radio.textlabel{
+    margin-bottom: 4px;
+}
+
+.row label{
+    width: 100%;
+    display: block;
+}
+
+.flexrow{
+    display: flex;
+    align-items: center;
+}
+
+input[type='color'] {
+  padding: 0;
+  width: 100px;
+  height: 100px;
+  margin: -25%;
+  border: 0;
+}
+
+.cp_wrapper {
+  overflow: hidden;
+  width: 2em;
+  height: 2em;
+  /* optional formatting below here */
+  border-radius: 50%;
+  box-shadow: 1px 1px 3px 0px grey;
+  margin: 1em;
+  display: inline-block;
+}
+
+.row .shape-color-code{
+     height: 39px;
+    width: 100px;
+    display: inline-block;
+    text-transform: uppercase;
+}
+#flipped-checkbox + label + label, #tablet-flipped-checkbox + label + label, #mobile-flipped-checkbox + label + label{
+    width: 84px;
+    margin-left:10px;
+}
+#mobile-ready ~ label.mobile, #flipped-checkbox + label + label, #tablet-flipped-checkbox + label + label, #mobile-flipped-checkbox + label + label {
+    position: relative;
+}
+#mobile-ready ~ label.mobile::before{
+    content:'i';
+    position: absolute;
+    right: 23px;
+    background: white;
+    font-size: 12px;
+    padding: 4px 8px;
+    border:1px solid #00000044;
+    border-radius:40px;
+} /*
+#flipped-checkbox + label + label:hover::after, #tablet-flipped-checkbox + label + label:hover::after, #mobile-flipped-checkbox + label + label:hover::after{
+    content:'Not compatible with Animate';
+    white-space: pre-wrap;
+    position: absolute;
+    top:-40px;
+    width: 210px;
+    left: 0;
+    background: white;
+    font-size: 14px;
+    padding: 8px;
+    border:1px solid #000;
+    border-radius:10px;
+    z-index: 99;
+    pointer-events: none;
+} */
+#mobile-ready ~ label.mobile:hover::after{
+    content:'Generate different shape dividers for different viewports, or just different settings. \A \A Frequent use case: Vertical divider on desktop becomes horizontal on mobile.';
+    white-space: pre-wrap;
+    position: absolute;
+    top:-100px;
+    right: 0;
+    background: white;
+    font-size: 14px;
+    padding: 8px;
+    border:1px solid #000;
+    border-radius:10px;
+    z-index: 99;
+    pointer-events: none;
+}
+/*
+[for='animate-checkbox'][style]::before, [for='tablet-animate-checkbox'][style]::before, [for='mobile-animate-checkbox'][style]::before{
+    content:'i';
+    position: absolute;
+    left: 123px;
+    background: white;
+    font-size: 12px;
+    padding: 4px 8px;
+    border:1px solid #00000044;
+    border-radius:40px;
+}
+
+[for='animate-checkbox'][style]:hover::after, [for='tablet-animate-checkbox'][style]:hover::after, [for='mobile-animate-checkbox'][style]:hover::after{
+   content:'The animate feature is free for a limited period, as part of the launch promotion. \A \A All shapes using the animation feature created and added to your projects before the promotion is over,  are yours to keep.';
+    white-space: pre-wrap;
+    position: absolute;
+    top:-10px;
+    right: 0;
+    background: white;
+    font-size: 14px;
+    padding: 8px;
+    border:1px solid #000;
+    border-radius:10px;
+    z-index: 99;
+    pointer-events: none;
+} */
+
+#copye, #premium{
+height: 40px;
+width: fit-content;
+line-height: 40px;
+padding: 0 20px;
+margin-left:20px;
+cursor: pointer;
+font-size: 12px;
+font-weight: bold;
+text-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+text-align: center;
+text-transform: uppercase;
+letter-spacing: 0.05em;
+color: white;
+border: none;
+background: #1abc9c;
+border-radius: 3px;
+}
+
+#copye.disabled{
+ cursor: not-allowed;  
+ pointer-events: none;
+}
+
+
+#premium, #login{
+    display: none;
+}
+
+#login {
+    padding-left: 20px;
+    margin-top: 10px;
+    color: #717171;
+    text-decoration: underline;
+}
+
+#instruction, #share{
+    position: relative;
+    cursor: pointer;
+}
+
+#instruction:hover::after, #share:hover::after{
+    white-space: pre-wrap;
+    position: absolute;
+    top:-174px;
+    right: 0;
+    background: white;
+    font-size: 14px;
+    padding: 8px;
+    border:1px solid #000;
+    border-radius:10px;
+    z-index: 99;
+    pointer-events: none;
+}
+#instruction:hover::after{
+        content:'Learn how to integrate the generated code with your platform of choice. \A \A Works everywhere. WordPress, WebFlow, Wix, Elementor, Oxygen, Beaver, etc.';
+}
+
+#share:hover::after{
+    content:'Get the direct URL to the design you have created. \A \A It will be automatically copied to your clipboard on click.';
+    top:-130px;
+    left: -74px;
+}
+
+.preview{
+        position: fixed;
+        bottom:18px;
+        left: 18px;
+        width: 4vw;
+        height: 4vw;
+        z-index: 99;
+        opacity: 0.7;
+        background-color: black;
+        border-radius: 4px;
+    }
