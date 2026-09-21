@@ -1258,8 +1258,30 @@ function getSvgExportStates() {
     return states;
 }
 
-function buildSvgVariantCss(wrapperClass, state) {
-    const selector = '.' + wrapperClass + ' .' + wrapperClass + '__' + state.key;
+function getInlineSvgParts(svgMarkup) {
+    const openingTag = svgMarkup.match(/<svg\b([^>]*)>/i);
+    const attributes = openingTag ? openingTag[1] : '';
+
+    const getAttribute = (name, fallback = '') => {
+        const match = attributes.match(
+            new RegExp('\\\\b' + name + '=["\\\']([^"\\\']+)["\\\']', 'i')
+        );
+        return match ? match[1] : fallback;
+    };
+
+    const innerMarkup = svgMarkup
+        .replace(/^\s*<svg\b[^>]*>/i, '')
+        .replace(/<\/svg>\s*$/i, '');
+
+    return {
+        viewBox: getAttribute('viewBox', '0 0 1 1'),
+        preserveAspectRatio: getAttribute('preserveAspectRatio', 'xMidYMid meet'),
+        innerMarkup
+    };
+}
+
+function buildSvgStateCss(wrapperClass, shapeClass, state) {
+    const selector = '.' + wrapperClass + ' .' + shapeClass;
     const horizontal = state.direction === 'top' || state.direction === 'bottom';
     const longAxis = Number(state.longAxis) || 100;
     const shortAxis = Number(state.shortAxis) || 0;
@@ -1269,11 +1291,19 @@ function buildSvgVariantCss(wrapperClass, state) {
     const keyframeName = wrapperClass + '-' + state.key + '-animation';
 
     const declarations = [
+        'display:block',
         'position:absolute',
         'z-index:3',
         'pointer-events:none',
         'max-width:none',
-        'color:#' + state.color
+        'color:#' + state.color,
+        'top:auto',
+        'right:auto',
+        'bottom:auto',
+        'left:auto',
+        'transform:none',
+        'transform-origin:center',
+        'animation:none'
     ];
 
     if (state.animate) {
@@ -1340,9 +1370,96 @@ function buildSvgVariantCss(wrapperClass, state) {
     };
 }
 
+function buildSvgDirectionCss(wrapperClass, shapeClass, state) {
+    const useBase = '.' + wrapperClass + ' .' + shapeClass + '__use';
+    const activeUse =
+        '.' + wrapperClass + ' .' + shapeClass + '__use--' + state.direction;
+
+    return [
+        useBase + '{display:none;}',
+        activeUse + '{display:block;}'
+    ].join('\n');
+}
+
+function buildResponsiveSvgRuleBlock(wrapperClass, allShapeClasses, state) {
+    const shapeClass = wrapperClass + '__shape-' + state.shapeIndex;
+    const hiddenSelectors = allShapeClasses
+        .map((className) => '.' + wrapperClass + ' .' + className)
+        .join(', ');
+
+    const stateCss = buildSvgStateCss(wrapperClass, shapeClass, state);
+
+    return {
+        css: [
+            hiddenSelectors + '{display:none;}',
+            stateCss.rule,
+            buildSvgDirectionCss(wrapperClass, shapeClass, state)
+        ].join('\n\n'),
+        keyframes: stateCss.keyframes
+    };
+}
+
+function buildResponsiveShapeSvg(wrapperClass, shapeIndex, directions) {
+    const shapeClass = wrapperClass + '__shape-' + shapeIndex;
+    const symbolMarkup = [];
+    const useMarkup = [];
+
+    directions.forEach((direction) => {
+        const rawSvg = svgDividers[shapeIndex][direction];
+        const inlineSvg = replaceInlineSvgColorsWithCurrentColor(
+            normalizeSvgForCanvas(rawSvg, '000000')
+        );
+        const parts = getInlineSvgParts(inlineSvg);
+        const symbolId =
+            wrapperClass + '-shape-' + shapeIndex + '-' + direction;
+
+        symbolMarkup.push(
+            '    <symbol id="' + symbolId + '" viewBox="' + parts.viewBox +
+            '" preserveAspectRatio="' + parts.preserveAspectRatio + '">' +
+            parts.innerMarkup +
+            '</symbol>'
+        );
+
+        useMarkup.push(
+            '  <use class="' + shapeClass + '__use ' +
+            shapeClass + '__use--' + direction +
+            '" href="#' + symbolId + '" width="100%" height="100%"></use>'
+        );
+    });
+
+    return (
+        '<svg class="' + shapeClass +
+        '" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">' +
+        '\n  <defs>\n' +
+        symbolMarkup.join('\n') +
+        '\n  </defs>\n' +
+        useMarkup.join('\n') +
+        '\n</svg>'
+    );
+}
+
 function buildSvgExportCode() {
     const wrapperClass = shapeCSSName + '-svg';
     const states = getSvgExportStates();
+
+    const uniqueShapeIndexes = [...new Set(
+        states.map((state) => state.shapeIndex)
+    )];
+
+    const allShapeClasses = uniqueShapeIndexes.map(
+        (index) => wrapperClass + '__shape-' + index
+    );
+
+    const directionsByShape = new Map();
+
+    states.forEach((state) => {
+        if (!directionsByShape.has(state.shapeIndex)) {
+            directionsByShape.set(state.shapeIndex, new Set());
+        }
+
+        directionsByShape.get(state.shapeIndex).add(state.direction);
+    });
+
     const rules = [
         '.' + wrapperClass + '{',
         '  position:absolute;',
@@ -1350,41 +1467,64 @@ function buildSvgExportCode() {
         '  overflow:hidden;',
         '  pointer-events:none;',
         '  z-index:3;',
-        '}'
+        '}',
+        allShapeClasses
+            .map((className) => '.' + wrapperClass + ' .' + className)
+            .join(', ') +
+            '{display:none;}'
     ];
+
     const keyframes = [];
-    const markup = [];
 
-    states.forEach((state) => {
-        const rawSvg = svgDividers[state.shapeIndex][state.direction];
-        const inlineSvg = replaceInlineSvgColorsWithCurrentColor(
-            normalizeSvgForCanvas(rawSvg, state.color)
-        );
-        const variantClass = wrapperClass + '__' + state.key;
+    const baseState = mobileReady
+        ? states.find((state) => state.key === 'mobile')
+        : states[0];
 
-        markup.push('  ' + addClassToInlineSvg(inlineSvg, variantClass));
+    const baseBlock = buildResponsiveSvgRuleBlock(
+        wrapperClass,
+        allShapeClasses,
+        baseState
+    );
 
-        const variantCss = buildSvgVariantCss(wrapperClass, state);
-        rules.push(variantCss.rule);
-        if (variantCss.keyframes) {
-            keyframes.push(variantCss.keyframes);
-        }
-    });
+    rules.push(baseBlock.css);
+    if (baseBlock.keyframes) keyframes.push(baseBlock.keyframes);
 
     if (mobileReady) {
-        rules.push(
-            '.' + wrapperClass + '__desktop, .' + wrapperClass + '__tablet, .' + wrapperClass + '__mobile{display:none;}',
-            '.' + wrapperClass + '__mobile{display:block;}',
-            '@media (min-width:768px){',
-            '  .' + wrapperClass + '__mobile{display:none;}',
-            '  .' + wrapperClass + '__tablet{display:block;}',
-            '}',
-            '@media (min-width:1025px){',
-            '  .' + wrapperClass + '__tablet{display:none;}',
-            '  .' + wrapperClass + '__desktop{display:block;}',
-            '}'
+        const tabletState = states.find((state) => state.key === 'tablet');
+        const desktopState = states.find((state) => state.key === 'desktop');
+
+        const tabletBlock = buildResponsiveSvgRuleBlock(
+            wrapperClass,
+            allShapeClasses,
+            tabletState
         );
+
+        const desktopBlock = buildResponsiveSvgRuleBlock(
+            wrapperClass,
+            allShapeClasses,
+            desktopState
+        );
+
+        rules.push(
+            '@media (min-width:768px){\n' +
+            tabletBlock.css +
+            '\n}',
+            '@media (min-width:1025px){\n' +
+            desktopBlock.css +
+            '\n}'
+        );
+
+        if (tabletBlock.keyframes) keyframes.push(tabletBlock.keyframes);
+        if (desktopBlock.keyframes) keyframes.push(desktopBlock.keyframes);
     }
+
+    const markup = uniqueShapeIndexes.map((shapeIndex) =>
+        buildResponsiveShapeSvg(
+            wrapperClass,
+            shapeIndex,
+            [...directionsByShape.get(shapeIndex)]
+        )
+    );
 
     const styleCode = rules.concat(keyframes).join('\n\n');
 
@@ -1393,7 +1533,7 @@ function buildSvgExportCode() {
         styleCode +
         '\n</style>\n\n' +
         '<div class="' + wrapperClass + '">\n' +
-        markup.join('\n') +
+        markup.map((svg) => '  ' + svg.replace(/\n/g, '\n  ')).join('\n') +
         '\n</div>'
     );
 }
