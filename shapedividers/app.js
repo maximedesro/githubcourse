@@ -1,3 +1,4 @@
+function initShapeDividersApp() {
 /* obfuscation JS 
     */
     
@@ -251,7 +252,10 @@ mobileShapeIndex = getShapeIndex('msi');
 
 setTimeout(function(){
 document.querySelectorAll('.container div').forEach(e => e.classList.remove('selected'));
-document.querySelectorAll('.container div')[shapeIndex].classList.add('selected');
+const selectedShapeElement = document.querySelectorAll('.container div')[shapeIndex];
+if (selectedShapeElement) {
+    selectedShapeElement.classList.add('selected');
+}
  mobileReady? viewsSelect.style.display = 'flex' : null;
  }, 970);
  
@@ -1161,3 +1165,44 @@ function formUpdate(){
 
 
 copyCodeButton.addEventListener("click", formUpdate);
+
+}
+
+(function bootShapeDividersApp() {
+    if (typeof svgDividers !== 'undefined') {
+        initShapeDividersApp();
+        return;
+    }
+
+    const existingShapesScript = document.querySelector('script[data-shapedividers-shapes]');
+
+    if (existingShapesScript) {
+        if (existingShapesScript.dataset.loaded === 'true') {
+            initShapeDividersApp();
+        } else {
+            existingShapesScript.addEventListener('load', initShapeDividersApp, { once: true });
+        }
+        return;
+    }
+
+    const shapesScript = document.createElement('script');
+    shapesScript.src = '/wp-content/uploads/shapes.js';
+    shapesScript.dataset.shapedividersShapes = 'true';
+
+    shapesScript.addEventListener('load', function () {
+        shapesScript.dataset.loaded = 'true';
+
+        if (typeof svgDividers === 'undefined') {
+            console.error('ShapeDividers: shapes.js loaded, but svgDividers is still unavailable.');
+            return;
+        }
+
+        initShapeDividersApp();
+    }, { once: true });
+
+    shapesScript.addEventListener('error', function () {
+        console.error('ShapeDividers: failed to load /wp-content/uploads/shapes.js');
+    }, { once: true });
+
+    document.head.appendChild(shapesScript);
+})();
