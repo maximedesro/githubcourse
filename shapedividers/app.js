@@ -246,6 +246,10 @@ previewCanvas.className = 'shape-divider-canvas';
 Object.assign(previewCanvas.style, {
     position: 'absolute',
     inset: '0',
+    bottom: '-0.1vw',
+    left: '-0.1vw',
+    right: '-0.1vw',
+    top: '-0.1vw',
     width: '100%',
     height: '100%',
     pointerEvents: 'none',
