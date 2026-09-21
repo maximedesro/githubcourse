@@ -757,7 +757,7 @@ display:none;
 .export-modal{
 position:fixed;
 inset:0;
-z-index:10000;
+z-index:2147483647!important;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -897,6 +897,11 @@ flex:0 0 auto;
 
 body.export-modal-open{
 overflow:hidden!important;
+}
+
+body.export-modal-open .container{
+z-index:0!important;
+pointer-events:none!important;
 }
 
 
