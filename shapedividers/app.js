@@ -1026,6 +1026,21 @@ let element = document.createElement('div');
 element.classList.add('container');
 document.body.appendChild(element);
 
+let hoverHereHint = document.createElement('div');
+hoverHereHint.className = 'hover-here-hint';
+hoverHereHint.textContent = 'Hover here';
+document.body.appendChild(hoverHereHint);
+
+element.addEventListener('mouseenter', function () {
+   if (!hoverHereHint) return;
+   hoverHereHint.classList.add('is-hidden');
+
+   hoverHereHint.addEventListener('transitionend', function () {
+      hoverHereHint.remove();
+      hoverHereHint = null;
+   }, { once: true });
+}, { once: true });
+
 function updatePreview() {
 
    element.innerHTML = '';
