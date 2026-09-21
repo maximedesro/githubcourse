@@ -766,3 +766,6 @@ border-radius: 3px;
         background-color: black;
         border-radius: 4px;
     }
+#responsive_view_frame {
+  pointer-events: none;
+}
