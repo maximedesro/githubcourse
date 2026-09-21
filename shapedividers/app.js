@@ -947,6 +947,8 @@ function readViewportControls(prefix, selectedIndex) {
     const direction = getCheckedDirection(prefix);
     const color = colorInput.value.slice(1);
     const selectedDivider = svgDividers[selectedIndex];
+    const rawSvg = selectedDivider[direction];
+    const preservesRatio = !getPreserveAspectRatio(rawSvg).none;
 
     return {
         direction,
@@ -958,10 +960,10 @@ function readViewportControls(prefix, selectedIndex) {
         animate: animateInput.checked,
         animationLength: animationLengthInput.value,
         animationLongAxis: animationLongAxisInput.value,
-        selectedShape: selectedDivider[direction]
+        selectedShape: rawSvg
             .replaceAll('%23000000', '%23' + color)
             .replaceAll('#', '%23'),
-        ratio: selectedDivider.ratio,
+        ratio: preservesRatio,
         positionInput
     };
 }
@@ -1335,7 +1337,7 @@ shapePicker.addEventListener('mouseenter', () => {
     }, { once: true });
 }, { once: true });
 
-function configureAnimationAxisForShape(shape) {
+function configureAnimationAxisForShape(shape, direction) {
     const activeIndex = Math.max(0, getActiveViewIndex());
     const inputIds = [
         'animation_long_axis',
@@ -1346,8 +1348,10 @@ function configureAnimationAxisForShape(shape) {
     const input = document.getElementById(inputIds[activeIndex]);
     if (!input) return;
 
-    input.value = shape.ratio ? 3 : 4;
-    input.max = shape.ratio ? 4 : 10;
+    const preservesRatio = !getPreserveAspectRatio(shape[direction]).none;
+
+    input.value = preservesRatio ? 3 : 4;
+    input.max = preservesRatio ? 4 : 10;
 }
 
 function renderShapePicker() {
@@ -1381,7 +1385,7 @@ shapePicker.addEventListener('click', (event) => {
     if (!Number.isInteger(index) || !svgDividers[index]) return;
 
     setActiveShapeIndex(index);
-    configureAnimationAxisForShape(svgDividers[index]);
+    configureAnimationAxisForShape(svgDividers[index], getActiveDirection());
     renderShapePicker();
     refreshRangeSliders();
     updateShape();
