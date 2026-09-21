@@ -884,20 +884,24 @@ function hasPremiumAccess() {
     return typeof isPremium !== 'undefined' && Boolean(isPremium);
 }
 
-function premiumCheck() {
-
-    const premiumRequired =
-        animate ||
+function requiresPremiumFeatures() {
+    return (
+        Boolean(animate) ||
+        svgDividers[shapeIndex].pro ||
         (
             mobileReady &&
             (
-                tabletAnimate ||
-                mobileAnimate ||
+                Boolean(tabletAnimate) ||
+                Boolean(mobileAnimate) ||
                 svgDividers[tabletShapeIndex].pro ||
                 svgDividers[mobileShapeIndex].pro
             )
-        ) ||
-        svgDividers[shapeIndex].pro;
+        )
+    );
+}
+
+function premiumCheck() {
+    const premiumRequired = requiresPremiumFeatures();
 
     if (!hasPremiumAccess()) {
         copyCodeButton.style.display = premiumRequired ? 'none' : '';
