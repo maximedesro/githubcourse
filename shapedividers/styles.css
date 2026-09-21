@@ -1178,3 +1178,8 @@ body {
     display: none;
   }
 }
+
+
+#genform .row.radio.textlabel{
+margin-bottom:8px;
+}
