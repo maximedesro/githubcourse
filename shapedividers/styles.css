@@ -909,16 +909,6 @@ body {
   pointer-events: auto;
 }
 
-/* Prevent the host Elementor page/container from adding its own layout footprint. */
-.elementor-3186,
-.elementor-3186 > .e-con,
-.elementor-3186 .elementor-widget-html,
-.elementor-3186 .elementor-widget-html > .elementor-widget-container {
-  min-height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
 /* Original mobile-only experience. */
 @media (max-width: 767px) {
   .mobilesection {
