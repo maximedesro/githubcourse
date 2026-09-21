@@ -905,6 +905,7 @@ function premiumCheck() {
 
     if (!hasPremiumAccess()) {
         copyCodeButton.style.display = premiumRequired ? 'none' : '';
+        exportSettingsButton.style.display = premiumRequired ? 'none' : 'flex';
         premiumButton.style.display = premiumRequired ? 'block' : 'none';
         loginButton.style.display = premiumRequired ? 'block' : 'none';
     }
@@ -1055,8 +1056,21 @@ function updateShape() {
 }
 
 const copyCodeButton = document.getElementById("copye");
+const exportSettingsButton = document.getElementById("export-settings");
 const premiumButton = document.getElementById("premium");
 const loginButton = document.getElementById("login");
+
+const exportModal = document.getElementById("export-modal");
+const exportCssCode = document.getElementById("export-code-css");
+const exportSvgCode = document.getElementById("export-code-svg");
+const exportCopyButton = document.getElementById("export-copy");
+const exportCopyLabel = exportCopyButton?.querySelector("span");
+const exportTabs = [...document.querySelectorAll("[data-export-tab]")];
+const exportPanels = [...document.querySelectorAll("[data-export-panel]")];
+
+let activeExportTab = "css";
+let preparedCssExport = "";
+let preparedSvgExport = "";
 
 copyCodeButton.addEventListener("click", () => updateURL(false));
 copyCodeButton.addEventListener("click", copyCode);
@@ -1072,24 +1086,39 @@ async function writeClipboard(text) {
     }
 }
 
+function getPremiumExportMessage() {
+    return (
+        'Oups! Looks like you have selected a premium shape or feature! ' +
+        'Get premium here : https://shapedividers.com/get-premium/ , or login here ' +
+        'https://shapedividers.com/account/ if you have premium already!\n\nThank you!'
+    );
+}
+
+function generateCssExportCode({ renewClassName = true } = {}) {
+    if (requiresPremiumFeatures() && !hasPremiumAccess()) {
+        return null;
+    }
+
+    if (renewClassName) {
+        generateUniqueCSSName();
+    }
+
+    copyRightCode();
+
+    return mobileReady
+        ? mobileShapeDiv + tabletShapeDiv + shapeDiv
+        : shapeDiv;
+}
+
 function copyCode() {
     copyCodeButton.textContent = 'Copied!';
 
-    if (requiresPremiumFeatures() && !hasPremiumAccess()) {
-        writeClipboard(
-            'Oups! Looks like you have selected a premium shape or feature! ' +
-            'Get premium here : https://shapedividers.com/get-premium/ , or login here ' +
-            'https://shapedividers.com/account/ if you have premium already!\n\nThank you!'
-        );
+    const generatedCode = generateCssExportCode();
+
+    if (generatedCode === null) {
+        writeClipboard(getPremiumExportMessage());
         return;
     }
-
-    generateUniqueCSSName();
-    copyRightCode();
-
-    const generatedCode = mobileReady
-        ? mobileShapeDiv + tabletShapeDiv + shapeDiv
-        : shapeDiv;
 
     writeClipboard(generatedCode);
 }
@@ -1122,6 +1151,301 @@ if (!hasPremiumAccess()){
 }
 copiedCount = random(0, 9999);
 }
+
+
+function addClassToInlineSvg(svgMarkup, className) {
+    return svgMarkup.replace(/<svg\b([^>]*)>/i, (match, attributes) => {
+        if (/\bclass=["']/i.test(attributes)) {
+            return '<svg' + attributes.replace(
+                /\bclass=(["'])(.*?)\1/i,
+                (classMatch, quote, classes) =>
+                    'class=' + quote + classes + ' ' + className + quote
+            ) + '>';
+        }
+
+        return '<svg class="' + className + '"' + attributes + '>';
+    });
+}
+
+function getSvgExportStates() {
+    const states = [
+        {
+            key: 'desktop',
+            shapeIndex,
+            direction: dividerDirection,
+            color: shapeColor,
+            longAxis: longAxisValue,
+            shortAxis: shortAxisValue,
+            position: positionValue,
+            flipped,
+            animate,
+            animationLength: animLength,
+            animationLongAxis: animLongAxis,
+            ratio: shapeRatio
+        }
+    ];
+
+    if (mobileReady) {
+        states.push(
+            {
+                key: 'tablet',
+                shapeIndex: tabletShapeIndex,
+                direction: tabletDividerDirection,
+                color: tabletShapeColor,
+                longAxis: tabletLongAxisValue,
+                shortAxis: tabletShortAxisValue,
+                position: tabletPositionValue,
+                flipped: tabletFlipped,
+                animate: tabletAnimate,
+                animationLength: tabletAnimLength,
+                animationLongAxis: tabletAnimLongAxis,
+                ratio: tabletShapeRatio
+            },
+            {
+                key: 'mobile',
+                shapeIndex: mobileShapeIndex,
+                direction: mobileDividerDirection,
+                color: mobileShapeColor,
+                longAxis: mobileLongAxisValue,
+                shortAxis: mobileShortAxisValue,
+                position: mobilePositionValue,
+                flipped: mobileFlipped,
+                animate: mobileAnimate,
+                animationLength: mobileAnimLength,
+                animationLongAxis: mobileAnimLongAxis,
+                ratio: mobileShapeRatio
+            }
+        );
+    }
+
+    return states;
+}
+
+function buildSvgVariantCss(wrapperClass, state) {
+    const selector = '.' + wrapperClass + ' .' + wrapperClass + '__' + state.key;
+    const horizontal = state.direction === 'top' || state.direction === 'bottom';
+    const longAxis = Number(state.longAxis) || 100;
+    const shortAxis = Number(state.shortAxis) || 0;
+    const position = Number(state.position) || 0;
+    const offset = position * (1 - longAxis / 100);
+    const animationScale = Math.max(1, Number(state.animationLongAxis) || 1);
+    const keyframeName = wrapperClass + '-' + state.key + '-animation';
+
+    const declarations = [
+        'position:absolute',
+        'z-index:3',
+        'pointer-events:none',
+        'max-width:none'
+    ];
+
+    if (state.animate) {
+        if (horizontal) {
+            declarations.push('width:100%', 'height:' + shortAxis + 'px', 'left:0');
+            declarations.push(state.direction === 'top' ? 'top:-0.1vw' : 'bottom:-0.1vw');
+        } else {
+            declarations.push('width:' + shortAxis + 'px', 'height:100%', 'top:0');
+            declarations.push(state.direction === 'left' ? 'left:-0.1vw' : 'right:-0.1vw');
+        }
+
+        const scaleFunction = horizontal
+            ? 'scale' + (state.ratio ? '' : 'X')
+            : 'scale' + (state.ratio ? '' : 'Y');
+
+        const transformOrigin =
+            state.direction === 'top' ? '100% 0' :
+            state.direction === 'bottom' ? '100% 100%' :
+            state.direction === 'right' ? '100% 100%' :
+            '0 100%';
+
+        declarations.push(
+            'transform:' + scaleFunction + '(' + animationScale + ')',
+            'transform-origin:' + transformOrigin,
+            'animation:' + (Number(state.animationLength) || 1) + 's infinite alternate ' + keyframeName + ' linear'
+        );
+
+        const translateAxis = horizontal ? 'X' : 'Y';
+        const keyframes =
+            '@keyframes ' + keyframeName + '{\n' +
+            '  100%{transform:' + scaleFunction + '(' + animationScale + ') translate' + translateAxis +
+            '(calc(100% - (100% / ' + animationScale + ')));}\n' +
+            '}';
+
+        return {
+            rule: selector + '{\n  ' + declarations.join(';\n  ') + ';\n}',
+            keyframes
+        };
+    }
+
+    if (horizontal) {
+        declarations.push(
+            'width:' + longAxis + '%',
+            'height:' + shortAxis + 'px',
+            'left:' + offset + '%'
+        );
+        declarations.push(state.direction === 'top' ? 'top:-0.1vw' : 'bottom:-0.1vw');
+    } else {
+        declarations.push(
+            'width:' + shortAxis + 'px',
+            'height:' + longAxis + '%',
+            'top:' + offset + '%'
+        );
+        declarations.push(state.direction === 'left' ? 'left:-0.1vw' : 'right:-0.1vw');
+    }
+
+    if (state.flipped) {
+        declarations.push(horizontal ? 'transform:scaleX(-1)' : 'transform:scaleY(-1)');
+    }
+
+    return {
+        rule: selector + '{\n  ' + declarations.join(';\n  ') + ';\n}',
+        keyframes: ''
+    };
+}
+
+function buildSvgExportCode() {
+    const wrapperClass = shapeCSSName + '-svg';
+    const states = getSvgExportStates();
+    const rules = [
+        '.' + wrapperClass + '{',
+        '  position:absolute;',
+        '  inset:0;',
+        '  overflow:hidden;',
+        '  pointer-events:none;',
+        '  z-index:3;',
+        '}'
+    ];
+    const keyframes = [];
+    const markup = [];
+
+    states.forEach((state) => {
+        const rawSvg = svgDividers[state.shapeIndex][state.direction];
+        const inlineSvg = normalizeSvgForCanvas(rawSvg, state.color);
+        const variantClass = wrapperClass + '__' + state.key;
+
+        markup.push('  ' + addClassToInlineSvg(inlineSvg, variantClass));
+
+        const variantCss = buildSvgVariantCss(wrapperClass, state);
+        rules.push(variantCss.rule);
+        if (variantCss.keyframes) {
+            keyframes.push(variantCss.keyframes);
+        }
+    });
+
+    if (mobileReady) {
+        rules.push(
+            '.' + wrapperClass + '__desktop, .' + wrapperClass + '__tablet, .' + wrapperClass + '__mobile{display:none;}',
+            '.' + wrapperClass + '__mobile{display:block;}',
+            '@media (min-width:768px){',
+            '  .' + wrapperClass + '__mobile{display:none;}',
+            '  .' + wrapperClass + '__tablet{display:block;}',
+            '}',
+            '@media (min-width:1025px){',
+            '  .' + wrapperClass + '__tablet{display:none;}',
+            '  .' + wrapperClass + '__desktop{display:block;}',
+            '}'
+        );
+    }
+
+    const styleCode = rules.concat(keyframes).join('\n\n');
+
+    return (
+        '<style>\n' +
+        styleCode +
+        '\n</style>\n\n' +
+        '<div class="' + wrapperClass + '">\n' +
+        markup.join('\n') +
+        '\n</div>'
+    );
+}
+
+function setExportTab(tabName) {
+    activeExportTab = tabName;
+
+    exportTabs.forEach((tab) => {
+        const active = tab.dataset.exportTab === tabName;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+
+    exportPanels.forEach((panel) => {
+        panel.classList.toggle(
+            'is-active',
+            panel.dataset.exportPanel === tabName
+        );
+    });
+
+    if (exportCopyLabel) {
+        exportCopyLabel.textContent = 'Copy';
+    }
+}
+
+function prepareExportModalCode() {
+    updateShape();
+
+    if (requiresPremiumFeatures() && !hasPremiumAccess()) {
+        const message = getPremiumExportMessage();
+        preparedCssExport = message;
+        preparedSvgExport = message;
+    } else {
+        generateUniqueCSSName();
+        preparedCssExport = generateCssExportCode({ renewClassName: false });
+        preparedSvgExport = buildSvgExportCode();
+    }
+
+    if (exportCssCode) exportCssCode.textContent = preparedCssExport;
+    if (exportSvgCode) exportSvgCode.textContent = preparedSvgExport;
+}
+
+function openExportModal() {
+    if (!exportModal) return;
+
+    prepareExportModalCode();
+    setExportTab('css');
+    exportModal.hidden = false;
+    document.body.classList.add('export-modal-open');
+    exportModal.querySelector('.export-modal__close')?.focus();
+}
+
+function closeExportModal() {
+    if (!exportModal) return;
+
+    exportModal.hidden = true;
+    document.body.classList.remove('export-modal-open');
+    exportSettingsButton?.focus();
+}
+
+exportSettingsButton?.addEventListener('click', openExportModal);
+
+exportTabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+        setExportTab(tab.dataset.exportTab);
+    });
+});
+
+document.querySelectorAll('[data-export-close]').forEach((control) => {
+    control.addEventListener('click', closeExportModal);
+});
+
+exportCopyButton?.addEventListener('click', async () => {
+    const code = activeExportTab === 'svg'
+        ? preparedSvgExport
+        : preparedCssExport;
+
+    await writeClipboard(code);
+
+    if (exportCopyLabel) {
+        exportCopyLabel.textContent = 'Copied!';
+        window.setTimeout(() => {
+            if (exportCopyLabel) exportCopyLabel.textContent = 'Copy';
+        }, 1400);
+    }
+});
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && exportModal && !exportModal.hidden) {
+        closeExportModal();
+    }
+});
 
 
 
