@@ -3,124 +3,16 @@ function initShapeDividersApp() {
         return;
     }
     window.__shapeDividersAppInitialized = true;
-/* obfuscation JS 
-    */
-    
-    let decoyCSS = `
-@media (min-width:1025px){
-
-.ssvg_divider::before{
-content:'';
-position: absolute;
-bottom: -0.1vw;
-left: -0.1vw;
-right: -0.1vw;
-top: -0.1vw; 
-transform:scaleX(1.2);
-transform-origin: 100% 0;
-animation: 10s infinite alternate shape-anim-1 linear;
-background-size: 100% 90px;
-background-position: 50% 0%;
-background-repeat: no-repeat;     
-z-index: 3;
-pointer-events: none;
-background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 1" preserveAspectRatio="none"><path d="M0 0h10L5 1z" fill="%23fbd8c2"/></svg>'); 
+/* Runtime preview stylesheet */
+const previewHost = document.querySelector('.htmlpreview > div');
+if (!previewHost) {
+    console.error('ShapeDividers: preview host was not found.');
+    return;
 }
-@media (min-width:2100px){
-.ssvg_divider::before{
-background-size: 100% calc(2vw + 90px);
-}
-}
-@keyframes shape-anim-1f {
-  100% {
-    transform: scaleX(1.2) translateX(calc(100% - (100% / 1.2)));
-  }
-}
- }`
- 
- let otherDecoyCSS = `
-@media (min-width:1025px){
 
-.svg_dividere::before{
-content:'';
-position: absolute;
-bottom: -0.1vw;
-left: -0.1vw;
-right: -0.1vw;
-top: -0.1vw; 
-transform:scaleX(1.2);
-transform-origin: 100% 0;
-animation: 10s infinite alternate shape-anim-1 linear;
-background-size: 100% 90px;
-background-position: 50% 0%;
-background-repeat: no-repeat;     
-z-index: 3;
-pointer-events: none;
-background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 1" preserveAspectRatio="none"><path d="M0 0h10L5 1z" fill="%23fbd8c2"/></svg>'); 
-}
-@media (min-width:2100px){
-.svg_dividere::before{
-background-size: 100% calc(2vw + 90px);
-}
-}
-@keyframes shape-anim-1f {
-  100% {
-    transform: scaleX(1.2) translateX(calc(100% - (100% / 1.2)));
-  }
-}
- }`
-    
-    
-let containerDiv = document.querySelector('.htmlpreview > div');
-
-let headerElement = document.getElementsByTagName("head")[0];
-
-let css = document.createElement("style");
-
-
-    
-    for (let i=0; i<100; i++){
-        let viewFramer = document.createElement('div');
-        viewFramer.className = 'auto';
-        viewFramer.setAttribute('id','responsive_view_framer-' + i);
-        let previewDecoyDiv = document.createElement('div');
-        previewDecoyDiv.className = 'previewer top';
-        previewDecoyDiv.setAttribute('id','previewer-' + i);
-        let obDiv = document.createElement('div');
-        let liDiv = document.createElement('li');
-        obDiv.className = 'image_div svg_divider-' + i;
-        obDiv.innerHTML = `
-::before`;
-        viewFramer.append(previewDecoyDiv);
-        previewDecoyDiv.append(obDiv);
-        obDiv.append(liDiv);
-        containerDiv.prepend(viewFramer);
-        
-        let decoycssdivs = document.createElement("style");
-        if (i < 54){
-            decoycssdivs.innerHTML = decoyCSS;
-            headerElement.appendChild(decoycssdivs);
-        } else if (i == 54) {
-            headerElement.appendChild(css);
-            } else {
-            decoycssdivs.innerHTML = otherDecoyCSS;
-            headerElement.appendChild(decoycssdivs);
-        }
-    }
-    
-
-
-    
-let images = containerDiv.children;
-let frag = document.createDocumentFragment();
-while (images.length) {
-frag.appendChild(images[Math.floor(Math.random() * images.length)]);
-}
-containerDiv.appendChild(frag);
-
-let colorDivision = document.createElement('div');
-    colorDivision.className = 'color_div';
-    containerDiv.append(colorDivision);
+const css = document.createElement('style');
+css.dataset.shapedividersRuntime = 'true';
+document.head.appendChild(css);
 
 let shareUrl, shareMobileUrl, shareUrlActive;
 let stateObj = { id: "100" };
@@ -272,10 +164,7 @@ if (selectedShapeElement) {
  
  
  
-   sliders.forEach((e,i) =>{
-   e.querySelector("span").textContent = e.querySelector("input").value;
-   applyFill(e.querySelector("input"));
-    });
+   refreshRangeSliders();
     
 }
 
@@ -363,6 +252,36 @@ let shapeDividerDemoDiv = document.querySelector('.image_div');
 let alreadyChangedView = false;
 
 let previewClasses = ['auto', 'tablet-portrait', 'mobile-portrait'];
+
+function getActiveViewIndex() {
+    return [...views].findIndex((view) => view.classList.contains('active'));
+}
+
+function getActiveDirection() {
+    const activeIndex = getActiveViewIndex();
+    if (activeIndex === 1) return tabletDividerDirection;
+    if (activeIndex === 2) return mobileDividerDirection;
+    return dividerDirection;
+}
+
+function getActiveShapeIndex() {
+    const activeIndex = getActiveViewIndex();
+    if (activeIndex === 1) return tabletShapeIndex;
+    if (activeIndex === 2) return mobileShapeIndex;
+    return shapeIndex;
+}
+
+function setActiveShapeIndex(index) {
+    const activeIndex = getActiveViewIndex();
+    if (activeIndex === 1) {
+        tabletShapeIndex = index;
+    } else if (activeIndex === 2) {
+        mobileShapeIndex = index;
+    } else {
+        shapeIndex = index;
+    }
+}
+
 views.forEach((v, i) => {
    v.addEventListener('click', function() {
       views.forEach(e => e.classList.remove('active'));
@@ -404,16 +323,13 @@ views.forEach((v, i) => {
 
    previewer.className = 'previewer ' + dividerDirection;
    
-   sliders.forEach((e,i) =>{
-   e.querySelector("span").textContent = e.querySelector("input").value;
-   applyFill(e.querySelector("input"));
-    });
+   refreshRangeSliders();
     
       alreadyChangedView = true;
       } 
       
       updateShape();
-      updatePreview();
+      renderShapePicker();
       updateSelectedShape();
    });
 });
@@ -767,15 +683,15 @@ background-image: url('data:image/svg+xml;charset=utf8, ${mobileSelectedShape}')
 
 };
 
-let copyCodeButton = document.getElementById("copye");
-let premiumButton = document.getElementById("premium");
-let loginButton = document.getElementById("login");
+const copyCodeButton = document.getElementById("copye");
+const premiumButton = document.getElementById("premium");
+const loginButton = document.getElementById("login");
 
 copyCodeButton.addEventListener("click", () => updateURL(false));
 copyCodeButton.addEventListener("click", copyCode);
 
 
-let settingsWindow = document.querySelector('.settings_window');
+const settingsWindow = document.querySelector('.settings_window');
 
 function copyCode() {
     copyCodeButton.innerText = 'Copied!';
@@ -1009,7 +925,7 @@ ${mobileAnimate?`
  * Code for Share Link Design url
  * *******/
  
- let shareLink = document.getElementById('share');
+ const shareLink = document.getElementById('share');
 shareLink.addEventListener("click", () => updateURL(true));
 
 
@@ -1038,143 +954,103 @@ function applyFill(slider) {
    slider.style.background = bg;
 }
 
+function refreshRangeSliders() {
+    sliders.forEach((slider) => {
+        const input = slider.querySelector('input');
+        const value = slider.querySelector('span');
+        if (!input || !value) return;
+        value.textContent = input.value;
+        applyFill(input);
+    });
+}
+
 updateShape();
 
-let element = document.createElement('div');
-
-element.classList.add('container');
-document.body.appendChild(element);
+const shapePicker = document.createElement('div');
+shapePicker.className = 'container';
+document.body.appendChild(shapePicker);
 
 let hoverHereHint = document.createElement('div');
 hoverHereHint.className = 'hover-here-hint';
 hoverHereHint.textContent = 'Hover here';
 document.body.appendChild(hoverHereHint);
 
-element.addEventListener('mouseenter', function () {
-   if (!hoverHereHint) return;
-   hoverHereHint.classList.add('is-hidden');
+shapePicker.addEventListener('mouseenter', () => {
+    if (!hoverHereHint) return;
 
-   hoverHereHint.addEventListener('transitionend', function () {
-      hoverHereHint.remove();
-      hoverHereHint = null;
-   }, { once: true });
+    hoverHereHint.classList.add('is-hidden');
+    hoverHereHint.addEventListener('transitionend', () => {
+        hoverHereHint?.remove();
+        hoverHereHint = null;
+    }, { once: true });
 }, { once: true });
 
-function updatePreview() {
+function configureAnimationAxisForShape(shape) {
+    const activeIndex = Math.max(0, getActiveViewIndex());
+    const inputIds = [
+        'animation_long_axis',
+        'tablet-animation_long_axis',
+        'mobile-animation_long_axis'
+    ];
 
-   element.innerHTML = '';
-   element.className = 'container';
-   if (views[0].classList.contains('active')) {
-      element.classList.add(dividerDirection);
-   } else if (views[1].classList.contains('active')) {
-      element.classList.add(tabletDividerDirection);
-   } else {
-      element.classList.add(mobileDividerDirection);
-   }
-   
-   svgDividers.forEach((e, i) => {
-      let newElement = document.createElement('div');
-      newElement.classList.add(e.slug);
-      if (e.pro) {
-         newElement.classList.add('premium');
-      }
-      if (views[0].classList.contains('active')) {
-         newElement.classList.add(dividerDirection);
-         newElement.innerHTML = e[dividerDirection];
-      } else if (views[1].classList.contains('active')) {
-         newElement.classList.add(tabletDividerDirection);
-         newElement.innerHTML = e[tabletDividerDirection];
-      } else {
-         newElement.classList.add(mobileDividerDirection);
-         newElement.innerHTML = e[mobileDividerDirection];
-      }
+    const input = document.getElementById(inputIds[activeIndex]);
+    if (!input) return;
 
-      element.appendChild(newElement);
+    input.value = shape.ratio ? 3 : 4;
+    input.max = shape.ratio ? 4 : 10;
+}
 
+function renderShapePicker() {
+    const activeDirection = getActiveDirection();
+    const activeShapeIndex = getActiveShapeIndex();
 
-      newElement.addEventListener('click', updateFormOptionsAndSelectedShapeStyling);
-      
-      function updateFormOptionsAndSelectedShapeStyling() {
-         if (views[0].classList.contains('active')) {
-            shapeIndex = i;
-         } else if (views[1].classList.contains('active')) {
-            tabletShapeIndex = i;
-         } else {
-            mobileShapeIndex = i;
-         }
-         document.querySelectorAll('.container div').forEach(e => e.classList.remove('selected'));
-         newElement.classList.add('selected');
+    shapePicker.className = `container ${activeDirection}`;
 
+    const fragment = document.createDocumentFragment();
 
-             premiumCheck();
-         
-         
-         if (views[0].classList.contains('active')) {
-            if (e.ratio){
-         document.getElementById('animation_long_axis').value = 3;
-         document.getElementById('animation_long_axis').setAttribute('max','4');
-         } else {
-         document.getElementById('animation_long_axis').value = 4;
-         document.getElementById('animation_long_axis').setAttribute('max','10');
-         }
-         } else if (views[1].classList.contains('active')) {
-         if (e.ratio){
-         document.getElementById('tablet-animation_long_axis').value = 3;
-         document.getElementById('tablet-animation_long_axis').setAttribute('max','4');
-         } else {
-         document.getElementById('tablet-animation_long_axis').value = 4;
-         document.getElementById('tablet-animation_long_axis').setAttribute('max','10');
-         }
-         } else {
-         if (e.ratio){
-         document.getElementById('mobile-animation_long_axis').value = 3;
-         document.getElementById('mobile-animation_long_axis').setAttribute('max','4');
-         } else {
-         document.getElementById('mobile-animation_long_axis').value = 4;
-         document.getElementById('mobile-animation_long_axis').setAttribute('max','10');
-         }
-         }
-         sliders.forEach((e,i) =>{
-   e.querySelector("span").textContent = e.querySelector("input").value;
-   applyFill(e.querySelector("input"));
+    svgDividers.forEach((shape, index) => {
+        const item = document.createElement('div');
+        item.dataset.shapeIndex = String(index);
+        item.classList.add(shape.slug, activeDirection);
+
+        if (shape.pro) item.classList.add('premium');
+        if (index === activeShapeIndex) item.classList.add('selected');
+
+        item.innerHTML = shape[activeDirection];
+        fragment.appendChild(item);
     });
 
-         updateShape();
-      };
-      
-      
-   });
-
+    shapePicker.replaceChildren(fragment);
 }
 
-updatePreview();
+shapePicker.addEventListener('click', (event) => {
+    const item = event.target.closest('[data-shape-index]');
+    if (!item || !shapePicker.contains(item)) return;
 
-const initialSelectedShape = document.querySelector('.container div');
-if (initialSelectedShape) {
-   initialSelectedShape.classList.add('selected');
-}
+    const index = Number(item.dataset.shapeIndex);
+    if (!Number.isInteger(index) || !svgDividers[index]) return;
+
+    setActiveShapeIndex(index);
+    configureAnimationAxisForShape(svgDividers[index]);
+    renderShapePicker();
+    refreshRangeSliders();
+    updateShape();
+});
 
 function updateSelectedShape() {
-   const shapeElements = document.querySelectorAll('.container div');
-   shapeElements.forEach((item) => item.classList.remove('selected'));
-
-   const selectedIndex = views[0].classList.contains('active')
-      ? shapeIndex
-      : views[1].classList.contains('active')
-         ? tabletShapeIndex
-         : mobileShapeIndex;
-
-   const selectedElement = shapeElements[selectedIndex];
-   if (selectedElement) {
-      selectedElement.classList.add('selected');
-   }
+    const selectedIndex = getActiveShapeIndex();
+    shapePicker.querySelectorAll('[data-shape-index]').forEach((item) => {
+        item.classList.toggle('selected', Number(item.dataset.shapeIndex) === selectedIndex);
+    });
 }
 
-directionEntry.forEach((e, i) => {
-   e.onchange = function() {
-      updatePreview();
-      updateSelectedShape();
-   };
+renderShapePicker();
+
+directionEntry.forEach((input) => {
+    input.addEventListener('change', () => {
+        renderShapePicker();
+        updateSelectedShape();
+    });
 });
 
 let preview = document.querySelector('.preview');
@@ -1235,41 +1111,46 @@ copyCodeButton.addEventListener("click", formUpdate);
 
 }
 
-(function bootShapeDividersApp() {
+async function ensureShapeDataLoaded() {
     if (typeof svgDividers !== 'undefined') {
-        initShapeDividersApp();
         return;
     }
 
-    const existingShapesScript = document.querySelector('script[data-shapedividers-shapes]');
+    const existingScript = document.querySelector('script[data-shapedividers-shapes]');
 
-    if (existingShapesScript) {
-        if (existingShapesScript.dataset.loaded === 'true') {
-            initShapeDividersApp();
-        } else {
-            existingShapesScript.addEventListener('load', initShapeDividersApp, { once: true });
-        }
+    if (existingScript) {
+        await new Promise((resolve, reject) => {
+            if (typeof svgDividers !== 'undefined') {
+                resolve();
+                return;
+            }
+
+            existingScript.addEventListener('load', resolve, { once: true });
+            existingScript.addEventListener('error', reject, { once: true });
+        });
         return;
     }
 
-    const shapesScript = document.createElement('script');
-    shapesScript.src = '/wp-content/uploads/shapes.js';
-    shapesScript.dataset.shapedividersShapes = 'true';
+    await new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = '/wp-content/uploads/shapes.js';
+        script.dataset.shapedividersShapes = 'true';
+        script.addEventListener('load', resolve, { once: true });
+        script.addEventListener('error', reject, { once: true });
+        document.head.appendChild(script);
+    });
+}
 
-    shapesScript.addEventListener('load', function () {
-        shapesScript.dataset.loaded = 'true';
+(async function bootShapeDividersApp() {
+    try {
+        await ensureShapeDataLoaded();
 
-        if (typeof svgDividers === 'undefined') {
-            console.error('ShapeDividers: shapes.js loaded, but svgDividers is still unavailable.');
-            return;
+        if (typeof svgDividers === 'undefined' || !Array.isArray(svgDividers)) {
+            throw new Error('shapes.js loaded without exposing a valid svgDividers array.');
         }
 
         initShapeDividersApp();
-    }, { once: true });
-
-    shapesScript.addEventListener('error', function () {
-        console.error('ShapeDividers: failed to load /wp-content/uploads/shapes.js');
-    }, { once: true });
-
-    document.head.appendChild(shapesScript);
+    } catch (error) {
+        console.error('ShapeDividers failed to initialize:', error);
+    }
 })();
