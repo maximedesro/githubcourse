@@ -293,6 +293,142 @@ function getSvgAspectRatio(svgMarkup) {
     return width > 0 && height > 0 ? width / height : 1;
 }
 
+
+function getPreserveAspectRatio(svgMarkup) {
+    const match = svgMarkup.match(/preserveAspectRatio=["']\s*([^"']+)\s*["']/i);
+    const value = match ? match[1].trim() : 'xMidYMid meet';
+
+    if (value === 'none') {
+        return {
+            none: true,
+            alignX: 'Mid',
+            alignY: 'Mid',
+            mode: 'meet'
+        };
+    }
+
+    const parts = value.split(/\s+/);
+    const align = parts[0] || 'xMidYMid';
+    const mode = parts.includes('slice') ? 'slice' : 'meet';
+
+    const alignMatch = align.match(/^x(Min|Mid|Max)Y(Min|Mid|Max)$/i);
+
+    return {
+        none: false,
+        alignX: alignMatch ? alignMatch[1] : 'Mid',
+        alignY: alignMatch ? alignMatch[2] : 'Mid',
+        mode
+    };
+}
+
+function alignmentOffset(extraSpace, alignment) {
+    if (alignment === 'Min') return 0;
+    if (alignment === 'Max') return extraSpace;
+    return extraSpace / 2;
+}
+
+function drawImagePreservingSvgAspectRatio(
+    context,
+    bitmap,
+    destinationX,
+    destinationY,
+    destinationWidth,
+    destinationHeight,
+    preserveAspectRatio
+) {
+    if (
+        preserveAspectRatio.none ||
+        destinationWidth <= 0 ||
+        destinationHeight <= 0 ||
+        bitmap.width <= 0 ||
+        bitmap.height <= 0
+    ) {
+        context.drawImage(
+            bitmap,
+            destinationX,
+            destinationY,
+            destinationWidth,
+            destinationHeight
+        );
+        return;
+    }
+
+    const sourceRatio = bitmap.width / bitmap.height;
+    const destinationRatio = destinationWidth / destinationHeight;
+    const useWidthAsConstraint =
+        preserveAspectRatio.mode === 'meet'
+            ? sourceRatio > destinationRatio
+            : sourceRatio < destinationRatio;
+
+    if (preserveAspectRatio.mode === 'meet') {
+        let renderedWidth;
+        let renderedHeight;
+
+        if (useWidthAsConstraint) {
+            renderedWidth = destinationWidth;
+            renderedHeight = destinationWidth / sourceRatio;
+        } else {
+            renderedHeight = destinationHeight;
+            renderedWidth = destinationHeight * sourceRatio;
+        }
+
+        const extraX = destinationWidth - renderedWidth;
+        const extraY = destinationHeight - renderedHeight;
+
+        const drawX =
+            destinationX +
+            alignmentOffset(extraX, preserveAspectRatio.alignX);
+        const drawY =
+            destinationY +
+            alignmentOffset(extraY, preserveAspectRatio.alignY);
+
+        context.drawImage(
+            bitmap,
+            drawX,
+            drawY,
+            renderedWidth,
+            renderedHeight
+        );
+
+        return;
+    }
+
+    let sourceX = 0;
+    let sourceY = 0;
+    let sourceWidth = bitmap.width;
+    let sourceHeight = bitmap.height;
+
+    if (useWidthAsConstraint) {
+        sourceHeight = bitmap.width / destinationRatio;
+
+        const extraSourceY = bitmap.height - sourceHeight;
+        sourceY = alignmentOffset(
+            extraSourceY,
+            preserveAspectRatio.alignY
+        );
+    } else {
+        sourceWidth = bitmap.height * destinationRatio;
+
+        const extraSourceX = bitmap.width - sourceWidth;
+        sourceX = alignmentOffset(
+            extraSourceX,
+            preserveAspectRatio.alignX
+        );
+    }
+
+    context.drawImage(
+        bitmap,
+        sourceX,
+        sourceY,
+        sourceWidth,
+        sourceHeight,
+        destinationX,
+        destinationY,
+        destinationWidth,
+        destinationHeight
+    );
+}
+
 function getBitmapLongSide(state, bounds) {
     const dpr = Math.min(window.devicePixelRatio || 1, 3);
     const horizontal = state.direction === 'top' || state.direction === 'bottom';
@@ -506,7 +642,19 @@ function drawDividerBitmap(bitmap, state, timestamp = performance.now()) {
         }
     }
 
-    previewContext.drawImage(bitmap, x, y, drawWidth, drawHeight);
+    const rawSvg = svgDividers[state.shapeIndex][state.direction];
+    const preserveAspectRatio = getPreserveAspectRatio(rawSvg);
+
+    drawImagePreservingSvgAspectRatio(
+        previewContext,
+        bitmap,
+        x,
+        y,
+        drawWidth,
+        drawHeight,
+        preserveAspectRatio
+    );
+
     previewContext.restore();
 }
 
