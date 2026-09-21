@@ -1,4 +1,8 @@
 function initShapeDividersApp() {
+    if (window.__shapeDividersAppInitialized) {
+        return;
+    }
+    window.__shapeDividersAppInitialized = true;
 /* obfuscation JS 
     */
     
@@ -189,13 +193,20 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 let urlStylesLoaded = false;
 
+function checkRadioByValue(group, value) {
+    const radio = [...group].find((item) => item.value === value);
+    if (radio) {
+        radio.checked = true;
+    }
+}
+
 
 
 function updateSettingsfromURL(){
 
 if (!urlStylesLoaded){
 if (urlParams.has('dividerDirection')){
-[...genform.dividerdirection].filter((r => r.value == urlParams.get('dividerDirection')))[0].checked = true;
+checkRadioByValue(genform.dividerdirection, urlParams.get('dividerDirection'));
 document.getElementById("long_axis").value = urlParams.get('longAxisValue');
 document.getElementById("short_axis").value = urlParams.get('shortAxisValue');
 document.getElementById("position").value = urlParams.get('positionValue');
@@ -216,7 +227,7 @@ urlStylesLoaded = true;
 if (urlParams.has('tabletDividerDirection')){
 
 
-[...genform.tabletdividerdirection].filter((r => r.value == urlParams.get('tabletDividerDirection')))[0].checked = true;
+checkRadioByValue(genform.tabletdividerdirection, urlParams.get('tabletDividerDirection'));
 document.getElementById("tablet-long_axis").value = urlParams.get('tabletLongAxisValue');
 document.getElementById("tablet-short_axis").value = urlParams.get('tabletShortAxisValue');
 document.getElementById("tablet-position").value = urlParams.get('tabletPositionValue');
@@ -233,7 +244,7 @@ tabletShapeIndex =  getShapeIndex('tsi');
 
 
 
-[...genform.mobiledividerdirection].filter((r => r.value == urlParams.get('mobileDividerDirection')))[0].checked = true;
+checkRadioByValue(genform.mobiledividerdirection, urlParams.get('mobileDividerDirection'));
 document.getElementById("mobile-long_axis").value = urlParams.get('mobileLongAxisValue');
 document.getElementById("mobile-short_axis").value = urlParams.get('mobileShortAxisValue');
 document.getElementById("mobile-position").value = urlParams.get('mobilePositionValue');
@@ -358,7 +369,7 @@ views.forEach((v, i) => {
       /* Sync tablet and mobile on first click with desktop */
       if (!alreadyChangedView && !urlParams.has('tabletDividerDirection')){
    document.getElementById('mobile-shape-color').value = document.getElementById('shape-color').value;
-   [...genform.mobiledividerdirection].filter((r => r.value == ([...genform.dividerdirection].filter((r) => r.checked)[0] || {}).value))[0].checked = true;
+   checkRadioByValue(genform.mobiledividerdirection, ([...genform.dividerdirection].find((r) => r.checked) || {}).value);
    document.getElementById("mobile-long_axis").value = document.getElementById("long_axis").value;
    document.getElementById("mobile-short_axis").value = document.getElementById("short_axis").value;
    document.getElementById("mobile-position").value = document.getElementById("position").value;
@@ -371,7 +382,7 @@ views.forEach((v, i) => {
 
 
    document.getElementById('tablet-shape-color').value = document.getElementById('shape-color').value;
-   [...genform.tabletdividerdirection].filter((r => r.value == ([...genform.dividerdirection].filter((r) => r.checked)[0] || {}).value))[0].checked = true;
+   checkRadioByValue(genform.tabletdividerdirection, ([...genform.dividerdirection].find((r) => r.checked) || {}).value);
    document.getElementById("tablet-long_axis").value = document.getElementById("long_axis").value;
    document.getElementById("tablet-short_axis").value = document.getElementById("short_axis").value;
    document.getElementById("tablet-position").value = document.getElementById("position").value;
@@ -802,9 +813,11 @@ function copyCode() {
 }
 
 
-settingsWindow.addEventListener('mouseleave',function(){
-    copyCodeButton.innerText = 'Copy code';
-});
+if (settingsWindow) {
+    settingsWindow.addEventListener('mouseleave', function () {
+        copyCodeButton.innerText = 'Copy code';
+    });
+}
 
 
 
@@ -1130,16 +1143,24 @@ function updatePreview() {
 
 updatePreview();
 
-document.querySelector('.container div').classList.add('selected');
+const initialSelectedShape = document.querySelector('.container div');
+if (initialSelectedShape) {
+   initialSelectedShape.classList.add('selected');
+}
 
 function updateSelectedShape() {
-   document.querySelectorAll('.container div').forEach(e => e.classList.remove('selected'));
-   if (views[0].classList.contains('active')) {
-      document.querySelectorAll('.container div')[shapeIndex].classList.add('selected');
-   } else if (views[1].classList.contains('active')) {
-      document.querySelectorAll('.container div')[tabletShapeIndex].classList.add('selected');
-   } else {
-      document.querySelectorAll('.container div')[mobileShapeIndex].classList.add('selected');
+   const shapeElements = document.querySelectorAll('.container div');
+   shapeElements.forEach((item) => item.classList.remove('selected'));
+
+   const selectedIndex = views[0].classList.contains('active')
+      ? shapeIndex
+      : views[1].classList.contains('active')
+         ? tabletShapeIndex
+         : mobileShapeIndex;
+
+   const selectedElement = shapeElements[selectedIndex];
+   if (selectedElement) {
+      selectedElement.classList.add('selected');
    }
 }
 
@@ -1151,12 +1172,14 @@ directionEntry.forEach((e, i) => {
 });
 
 let preview = document.querySelector('.preview');
-    preview.addEventListener('mouseenter',function(){
+if (preview) {
+    preview.addEventListener('mouseenter', function () {
         jQuery('.settings_window').fadeOut('quick');
     });
-    preview.addEventListener('mouseleave',function(){
+    preview.addEventListener('mouseleave', function () {
         jQuery('.settings_window').fadeIn('quick');
     });
+}
 
 let formElement = document.querySelector('.elementor-form');
 let formCreatedShape = document.getElementById('form-field-createdshape');
@@ -1167,17 +1190,31 @@ let formMobileReady = document.getElementById('form-field-mobileready');
 let formAnimated = document.getElementById('form-field-animated');
 
 
-function formUpdate(){
+function formUpdate() {
+    if (
+        !formElement ||
+        !formCreatedShape ||
+        !formSi ||
+        !formTsi ||
+        !formMsi ||
+        !formMobileReady ||
+        !formAnimated
+    ) {
+        return;
+    }
+
     formCreatedShape.value = location.href;
     formSi.value = svgDividers[shapeIndex].si;
     formTsi.value = svgDividers[tabletShapeIndex].si;
     formMsi.value = svgDividers[mobileShapeIndex].si;
     formMobileReady.value = mobileReady;
     formAnimated.value = animate || (mobileReady && (tabletAnimate || mobileAnimate));
-    jQuery('.elementor-button[type="submit"]').click();
+
+    const submitButton = formElement.querySelector('button[type="submit"]');
+    if (submitButton) {
+        submitButton.click();
+    }
 }
-
-
 
 copyCodeButton.addEventListener("click", formUpdate);
 
