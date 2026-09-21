@@ -10,10 +10,6 @@ if (!previewHost) {
     return;
 }
 
-const css = document.createElement('style');
-css.dataset.shapedividersRuntime = 'true';
-document.head.appendChild(css);
-
 
     function buildShareUrl() {
     const desktopParams = [
@@ -239,6 +235,375 @@ const viewsSettings = document.querySelectorAll('.desktop_settings, .tablet_sett
 const previewerFrame = document.getElementById("responsive_view_framer");
 const previewer = document.getElementById("previewer");
 const colorDiv = document.querySelector('.color_div');
+const dividerPreviewHost = document.querySelector('.image_div');
+if (!dividerPreviewHost) {
+    console.error('ShapeDividers: .image_div preview host was not found.');
+    return;
+}
+
+const previewCanvas = document.createElement('canvas');
+previewCanvas.className = 'shape-divider-canvas';
+Object.assign(previewCanvas.style, {
+    position: 'absolute',
+    inset: '0',
+    width: '100%',
+    height: '100%',
+    pointerEvents: 'none',
+    zIndex: '4'
+});
+dividerPreviewHost.appendChild(previewCanvas);
+
+const previewContext = previewCanvas.getContext('2d', {
+    alpha: true,
+    desynchronized: true
+});
+
+const BITMAP_BASE_LONG_SIDE = 6144;
+const BITMAP_MAX_LONG_SIDE = 8192;
+const BITMAP_CACHE_LIMIT = 6;
+const bitmapCache = new Map();
+
+let canvasRenderRevision = 0;
+let animationFrameId = null;
+let animationStartedAt = 0;
+let latestPreviewState = null;
+
+function normalizeSvgForCanvas(svgMarkup, color) {
+    return svgMarkup
+        .replaceAll('%23000000', '#' + color)
+        .replaceAll('%23', '#');
+}
+
+function getSvgAspectRatio(svgMarkup) {
+    const viewBoxMatch = svgMarkup.match(
+        /viewBox=["']\s*[-\d.]+[ ,]+[-\d.]+[ ,]+([\d.]+)[ ,]+([\d.]+)\s*["']/i
+    );
+
+    if (viewBoxMatch) {
+        const width = Number(viewBoxMatch[1]);
+        const height = Number(viewBoxMatch[2]);
+        if (width > 0 && height > 0) return width / height;
+    }
+
+    const widthMatch = svgMarkup.match(/\bwidth=["']([\d.]+)/i);
+    const heightMatch = svgMarkup.match(/\bheight=["']([\d.]+)/i);
+    const width = widthMatch ? Number(widthMatch[1]) : 0;
+    const height = heightMatch ? Number(heightMatch[1]) : 0;
+
+    return width > 0 && height > 0 ? width / height : 1;
+}
+
+function getBitmapLongSide(state, bounds) {
+    const dpr = Math.min(window.devicePixelRatio || 1, 3);
+    const horizontal = state.direction === 'top' || state.direction === 'bottom';
+    const displayLongSide = horizontal ? bounds.width : bounds.height;
+
+    const requestedScale = state.animate
+        ? Math.max(1, Number(state.animationLongAxis) || 1)
+        : Math.max(1, Number(state.longAxis) / 100 || 1);
+
+    const requiredPixels = displayLongSide * dpr * requestedScale * 1.35;
+    return requiredPixels > BITMAP_BASE_LONG_SIDE
+        ? BITMAP_MAX_LONG_SIDE
+        : BITMAP_BASE_LONG_SIDE;
+}
+
+function trimBitmapCache() {
+    while (bitmapCache.size > BITMAP_CACHE_LIMIT) {
+        const oldestKey = bitmapCache.keys().next().value;
+        const cached = bitmapCache.get(oldestKey);
+
+        if (cached && typeof cached.close === 'function') {
+            cached.close();
+        }
+
+        bitmapCache.delete(oldestKey);
+    }
+}
+
+async function rasterizeSvg(svgMarkup, longSide, horizontal) {
+    const aspectRatio = getSvgAspectRatio(svgMarkup);
+
+    let rasterWidth;
+    let rasterHeight;
+
+    if (horizontal) {
+        rasterWidth = longSide;
+        rasterHeight = Math.max(256, Math.round(longSide / Math.max(aspectRatio, 0.05)));
+    } else {
+        rasterHeight = longSide;
+        rasterWidth = Math.max(256, Math.round(longSide * Math.max(aspectRatio, 0.05)));
+    }
+
+    rasterWidth = Math.min(BITMAP_MAX_LONG_SIDE, rasterWidth);
+    rasterHeight = Math.min(BITMAP_MAX_LONG_SIDE, rasterHeight);
+
+    const blob = new Blob([svgMarkup], { type: 'image/svg+xml;charset=utf-8' });
+    const objectUrl = URL.createObjectURL(blob);
+
+    try {
+        const image = new Image();
+        image.decoding = 'async';
+        image.src = objectUrl;
+
+        if (typeof image.decode === 'function') {
+            await image.decode();
+        } else {
+            await new Promise((resolve, reject) => {
+                image.onload = resolve;
+                image.onerror = reject;
+            });
+        }
+
+        const rasterCanvas = document.createElement('canvas');
+        rasterCanvas.width = rasterWidth;
+        rasterCanvas.height = rasterHeight;
+
+        const rasterContext = rasterCanvas.getContext('2d', { alpha: true });
+        rasterContext.imageSmoothingEnabled = true;
+        rasterContext.imageSmoothingQuality = 'high';
+        rasterContext.drawImage(image, 0, 0, rasterWidth, rasterHeight);
+
+        if (typeof createImageBitmap === 'function') {
+            return await createImageBitmap(rasterCanvas);
+        }
+
+        return rasterCanvas;
+    } finally {
+        URL.revokeObjectURL(objectUrl);
+    }
+}
+
+async function getCachedDividerBitmap(state, bounds) {
+    const horizontal = state.direction === 'top' || state.direction === 'bottom';
+    const longSide = getBitmapLongSide(state, bounds);
+    const cacheKey = [
+        state.shapeIndex,
+        state.direction,
+        state.color,
+        longSide
+    ].join('|');
+
+    if (bitmapCache.has(cacheKey)) {
+        const cached = bitmapCache.get(cacheKey);
+        bitmapCache.delete(cacheKey);
+        bitmapCache.set(cacheKey, cached);
+        return cached;
+    }
+
+    const rawSvg = svgDividers[state.shapeIndex][state.direction];
+    const svgMarkup = normalizeSvgForCanvas(rawSvg, state.color);
+    const bitmap = await rasterizeSvg(svgMarkup, longSide, horizontal);
+
+    bitmapCache.set(cacheKey, bitmap);
+    trimBitmapCache();
+
+    return bitmap;
+}
+
+function resizePreviewCanvas() {
+    const bounds = dividerPreviewHost.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 3);
+
+    const pixelWidth = Math.max(1, Math.min(BITMAP_MAX_LONG_SIDE, Math.round(bounds.width * dpr)));
+    const pixelHeight = Math.max(1, Math.min(BITMAP_MAX_LONG_SIDE, Math.round(bounds.height * dpr)));
+
+    if (previewCanvas.width !== pixelWidth || previewCanvas.height !== pixelHeight) {
+        previewCanvas.width = pixelWidth;
+        previewCanvas.height = pixelHeight;
+    }
+
+    previewContext.setTransform(
+        previewCanvas.width / Math.max(bounds.width, 1),
+        0,
+        0,
+        previewCanvas.height / Math.max(bounds.height, 1),
+        0,
+        0
+    );
+
+    previewContext.imageSmoothingEnabled = true;
+    previewContext.imageSmoothingQuality = 'high';
+
+    return bounds;
+}
+
+function getAnimationProgress(timestamp, durationSeconds) {
+    const durationMs = Math.max(100, Number(durationSeconds || 10) * 1000);
+    const elapsed = (timestamp - animationStartedAt) / durationMs;
+    const cycle = elapsed % 2;
+    return cycle <= 1 ? cycle : 2 - cycle;
+}
+
+function drawDividerBitmap(bitmap, state, timestamp = performance.now()) {
+    const bounds = resizePreviewCanvas();
+    const width = bounds.width;
+    const height = bounds.height;
+
+    previewContext.clearRect(0, 0, width, height);
+
+    const horizontal = state.direction === 'top' || state.direction === 'bottom';
+    const shortAxis = Math.max(0, Number(state.shortAxis) || 0);
+    const longAxisScale = Math.max(0, Number(state.longAxis) / 100 || 0);
+    const animationScale = Math.max(1, Number(state.animationLongAxis) || 1);
+    const position = Math.max(0, Math.min(100, Number(state.position) || 0)) / 100;
+    const animationProgress = state.animate
+        ? getAnimationProgress(timestamp, state.animationLength)
+        : 0;
+
+    let drawWidth;
+    let drawHeight;
+    let x;
+    let y;
+
+    if (horizontal) {
+        if (state.animate) {
+            drawWidth = width * animationScale;
+            drawHeight = shortAxis * (state.ratio ? animationScale : 1);
+            x = -(drawWidth - width) * (1 - animationProgress);
+        } else {
+            drawWidth = width * longAxisScale;
+            drawHeight = shortAxis;
+            x = (width - drawWidth) * position;
+        }
+
+        y = state.direction === 'bottom' ? height - drawHeight : 0;
+    } else {
+        if (state.animate) {
+            drawHeight = height * animationScale;
+            drawWidth = shortAxis * (state.ratio ? animationScale : 1);
+            y = -(drawHeight - height) * (1 - animationProgress);
+        } else {
+            drawWidth = shortAxis;
+            drawHeight = height * longAxisScale;
+            y = (height - drawHeight) * position;
+        }
+
+        x = state.direction === 'right' ? width - drawWidth : 0;
+    }
+
+    previewContext.save();
+
+    if (state.flipped && !state.animate) {
+        if (horizontal) {
+            previewContext.translate(width, 0);
+            previewContext.scale(-1, 1);
+        } else {
+            previewContext.translate(0, height);
+            previewContext.scale(1, -1);
+        }
+    }
+
+    previewContext.drawImage(bitmap, x, y, drawWidth, drawHeight);
+    previewContext.restore();
+}
+
+function stopPreviewAnimation() {
+    if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+    }
+}
+
+async function renderCanvasPreview(state) {
+    latestPreviewState = state;
+    const revision = ++canvasRenderRevision;
+    stopPreviewAnimation();
+
+    const bounds = dividerPreviewHost.getBoundingClientRect();
+
+    try {
+        const bitmap = await getCachedDividerBitmap(state, bounds);
+
+        if (revision !== canvasRenderRevision) return;
+
+        if (!state.animate) {
+            drawDividerBitmap(bitmap, state);
+            return;
+        }
+
+        animationStartedAt = performance.now();
+
+        const animateFrame = (timestamp) => {
+            if (
+                revision !== canvasRenderRevision ||
+                latestPreviewState !== state ||
+                !state.animate
+            ) {
+                animationFrameId = null;
+                return;
+            }
+
+            drawDividerBitmap(bitmap, state, timestamp);
+            animationFrameId = requestAnimationFrame(animateFrame);
+        };
+
+        animationFrameId = requestAnimationFrame(animateFrame);
+    } catch (error) {
+        console.error('ShapeDividers: canvas preview rendering failed.', error);
+    }
+}
+
+function getActiveCanvasState() {
+    const activeIndex = getActiveViewIndex();
+
+    if (!mobileReady || activeIndex <= 0) {
+        return {
+            shapeIndex,
+            direction: dividerDirection,
+            color: shapeColor,
+            longAxis: longAxisValue,
+            shortAxis: shortAxisValue,
+            position: positionValue,
+            flipped,
+            animate,
+            animationLength: animLength,
+            animationLongAxis: animLongAxis,
+            ratio: shapeRatio
+        };
+    }
+
+    if (activeIndex === 1) {
+        return {
+            shapeIndex: tabletShapeIndex,
+            direction: tabletDividerDirection,
+            color: tabletShapeColor,
+            longAxis: tabletLongAxisValue,
+            shortAxis: tabletShortAxisValue,
+            position: tabletPositionValue,
+            flipped: tabletFlipped,
+            animate: tabletAnimate,
+            animationLength: tabletAnimLength,
+            animationLongAxis: tabletAnimLongAxis,
+            ratio: tabletShapeRatio
+        };
+    }
+
+    return {
+        shapeIndex: mobileShapeIndex,
+        direction: mobileDividerDirection,
+        color: mobileShapeColor,
+        longAxis: mobileLongAxisValue,
+        shortAxis: mobileShortAxisValue,
+        position: mobilePositionValue,
+        flipped: mobileFlipped,
+        animate: mobileAnimate,
+        animationLength: mobileAnimLength,
+        animationLongAxis: mobileAnimLongAxis,
+        ratio: mobileShapeRatio
+    };
+}
+
+if (typeof ResizeObserver === 'function') {
+    const previewResizeObserver = new ResizeObserver(() => {
+        if (latestPreviewState) {
+            renderCanvasPreview(latestPreviewState);
+        }
+    });
+
+    previewResizeObserver.observe(dividerPreviewHost);
+}
+
 
 let alreadyChangedView = false;
 
@@ -442,232 +807,75 @@ function updateViewportControlVisibility(viewIndex, state) {
     }
 }
 
-function applyPreviewForActiveView() {
-    const activeIndex = getActiveViewIndex();
-
-    if (!mobileReady || activeIndex <= 0) {
-        css.textContent = shapeDiv;
-        previewer.className = 'previewer ' + dividerDirection;
-        return;
-    }
-
-    if (activeIndex === 1) {
-        css.textContent = tabletShapeDiv;
-        previewer.className = 'previewer ' + tabletDividerDirection;
-        return;
-    }
-
-    css.textContent = mobileShapeDiv;
-    previewer.className = 'previewer ' + mobileDividerDirection;
-}
-
-
 
 function updateShape() {
+    updateSettingsfromURL();
 
-   updateSettingsfromURL();
-    
-   const desktopState = readViewportControls('', shapeIndex);
+    const desktopState = readViewportControls('', shapeIndex);
 
-   shapeColor = desktopState.color;
-   dividerDirection = desktopState.direction;
-   longAxisValue = desktopState.longAxis;
-   shortAxisValue = desktopState.shortAxis;
-   positionValue = desktopState.position;
-   flipped = desktopState.flipped;
-   animate = desktopState.animate;
-   animLength = desktopState.animationLength;
-   animLongAxis = desktopState.animationLongAxis;
-   selectedShape = desktopState.selectedShape;
-   shapeRatio = desktopState.ratio;
+    shapeColor = desktopState.color;
+    dividerDirection = desktopState.direction;
+    longAxisValue = desktopState.longAxis;
+    shortAxisValue = desktopState.shortAxis;
+    positionValue = desktopState.position;
+    flipped = desktopState.flipped;
+    animate = desktopState.animate;
+    animLength = desktopState.animationLength;
+    animLongAxis = desktopState.animationLongAxis;
+    selectedShape = desktopState.selectedShape;
+    shapeRatio = desktopState.ratio;
 
-   animHorName = 'shape-anim-' + copiedCount;
-   animVerName = 'shape-ver-anim-' + copiedCount;
+    animHorName = 'shape-anim-' + copiedCount;
+    animVerName = 'shape-ver-anim-' + copiedCount;
 
-   mobileReady = document.getElementById('mobile-ready').checked;
+    mobileReady = document.getElementById('mobile-ready').checked;
 
-   updateViewportControlVisibility(0, desktopState);
-   positionValue = desktopState.position;
+    updateViewportControlVisibility(0, desktopState);
+    positionValue = desktopState.position;
 
-   if (getActiveViewIndex() === 0) {
-      colorDiv.style.backgroundColor = '#' + shapeColor;
-   }
+    if (mobileReady) {
+        const tabletState = readViewportControls('tablet', tabletShapeIndex);
 
-   previewer.className = 'previewer ' + dividerDirection;
+        tabletShapeColor = tabletState.color;
+        tabletDividerDirection = tabletState.direction;
+        tabletLongAxisValue = tabletState.longAxis;
+        tabletShortAxisValue = tabletState.shortAxis;
+        tabletPositionValue = tabletState.position;
+        tabletFlipped = tabletState.flipped;
+        tabletAnimate = tabletState.animate;
+        tabletAnimLength = tabletState.animationLength;
+        tabletAnimLongAxis = tabletState.animationLongAxis;
+        tabletSelectedShape = tabletState.selectedShape;
+        tabletShapeRatio = tabletState.ratio;
 
-shapeDiv = `
-${mobileReady? `@media (min-width:1025px){
-` : `.svg_divider{
-overflow:hidden;
-position:relative;
-}`}
-.svg_divider::before{
-content:'';
-position: absolute;
-bottom: -0.1vw;
-left: -0.1vw;
-right: -0.1vw;
-top: -0.1vw; ${animate? `
-transform:${(dividerDirection === 'top' || dividerDirection === 'bottom')? `scale${shapeRatio? '' : 'X'}(${animLongAxis});` : `scale${shapeRatio? '' : 'Y'}(${animLongAxis});`}
-transform-origin: ${dividerDirection === 'top' ? '100% 0;' : dividerDirection === 'bottom' ? '100% 100%;' : dividerDirection === 'right' ? '100% 100%;' : dividerDirection === 'left' ? '0 100%;' : ''}
-animation: ${animLength}s infinite alternate ${(dividerDirection === 'top' || dividerDirection === 'bottom')? `${animHorName}` : `${animVerName}`} linear;
-background-size: ${(dividerDirection === 'top' || dividerDirection === 'bottom')? '100%' : shortAxisValue + 'px'} ${(dividerDirection === 'top' || dividerDirection === 'bottom')? shortAxisValue + 'px' : '100%'};` : `
-background-size: ${(dividerDirection === 'top' || dividerDirection === 'bottom')? longAxisValue + '%' : shortAxisValue + 'px'} ${(dividerDirection === 'top' || dividerDirection === 'bottom')? shortAxisValue + 'px' : longAxisValue + '%'};`}
-background-position: ${dividerDirection === 'left'? 0 : dividerDirection === 'right'? 100 : positionValue}% ${dividerDirection === 'top'? 0 : dividerDirection === 'bottom'? 100 : positionValue }%;
-background-repeat: no-repeat;     ${(flipped && !animate) ? `
-transform: rotate${ (dividerDirection === 'top' || dividerDirection === 'bottom')? 'Y' : 'X'}(180deg);` : ''}
-z-index: 3;
-pointer-events: none;
-background-image: url('data:image/svg+xml;charset=utf8, ${selectedShape}'); 
+        updateViewportControlVisibility(1, tabletState);
+        tabletPositionValue = tabletState.position;
+
+        const mobileState = readViewportControls('mobile', mobileShapeIndex);
+
+        mobileShapeColor = mobileState.color;
+        mobileDividerDirection = mobileState.direction;
+        mobileLongAxisValue = mobileState.longAxis;
+        mobileShortAxisValue = mobileState.shortAxis;
+        mobilePositionValue = mobileState.position;
+        mobileFlipped = mobileState.flipped;
+        mobileAnimate = mobileState.animate;
+        mobileAnimLength = mobileState.animationLength;
+        mobileAnimLongAxis = mobileState.animationLongAxis;
+        mobileSelectedShape = mobileState.selectedShape;
+        mobileShapeRatio = mobileState.ratio;
+
+        updateViewportControlVisibility(2, mobileState);
+        mobilePositionValue = mobileState.position;
+    }
+
+    const activeState = getActiveCanvasState();
+    colorDiv.style.backgroundColor = '#' + activeState.color;
+    previewer.className = 'previewer ' + activeState.direction;
+
+    renderCanvasPreview(activeState);
+    premiumCheck();
 }
-${(dividerDirection === 'top' || dividerDirection === 'bottom')? `@media (min-width:2100px){
-.svg_divider::before{
-background-size: ${longAxisValue + '%'} ${'calc(2vw + ' + shortAxisValue + 'px)'};
-}
-}` : '' }
-@keyframes ${(dividerDirection === 'top' || dividerDirection === 'bottom')? `${animHorName} {
-  100% {
-    transform: scale${shapeRatio? '' : 'X'}(${animLongAxis}) translateX(calc(100% - (100% / ${animLongAxis})));
-  }
-}
-
-` : `${animVerName} {
-  100% {
-    transform: scale${shapeRatio? '' : 'Y'}(${animLongAxis}) translateY(calc(100% - (100% / ${animLongAxis})));
-  }
-}`}
-
-
-${mobileReady? ' }' : ''}
-`;
-
-
-
-   if (mobileReady) {
-
-      const tabletState = readViewportControls('tablet', tabletShapeIndex);
-
-      tabletShapeColor = tabletState.color;
-      tabletDividerDirection = tabletState.direction;
-      tabletLongAxisValue = tabletState.longAxis;
-      tabletShortAxisValue = tabletState.shortAxis;
-      tabletPositionValue = tabletState.position;
-      tabletFlipped = tabletState.flipped;
-      tabletAnimate = tabletState.animate;
-      tabletAnimLength = tabletState.animationLength;
-      tabletAnimLongAxis = tabletState.animationLongAxis;
-      tabletSelectedShape = tabletState.selectedShape;
-      tabletShapeRatio = tabletState.ratio;
-
-      updateViewportControlVisibility(1, tabletState);
-      tabletPositionValue = tabletState.position;
-
-      if (getActiveViewIndex() === 1) {
-         colorDiv.style.backgroundColor = '#' + tabletShapeColor;
-      }
-
-tabletShapeDiv = `
-@media (min-width:768px){
-.svg_divider::before{
-content:'';
-position: absolute;
-bottom: -1px;
-left: -1px;
-right: -1px;
-top: -1px; ${tabletAnimate? `
-transform:${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? `scale${tabletShapeRatio? '' : 'X'}(${tabletAnimLongAxis});` : `scale${tabletShapeRatio? '' : 'Y'}(${tabletAnimLongAxis});`}
-transform-origin: ${tabletDividerDirection === 'top' ? '100% 0;' : tabletDividerDirection === 'bottom' ? '100% 100%;' : tabletDividerDirection === 'right' ? '100% 100%;' : tabletDividerDirection === 'left' ? '0 100%;' : ''}
-animation: ${tabletAnimLength}s infinite alternate ${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? `${animHorName}-tablet` : `${animVerName}-tablet`} linear;
-background-size: ${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? '100%' : tabletShortAxisValue + 'px'} ${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? tabletShortAxisValue + 'px' : '100%'};` : `
-background-size: ${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? tabletLongAxisValue + '%' : tabletShortAxisValue + 'px'} ${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? tabletShortAxisValue + 'px' : tabletLongAxisValue + '%'};`}
-background-position: ${tabletDividerDirection === 'left'? 0 : tabletDividerDirection === 'right'? 100 : tabletPositionValue}% ${tabletDividerDirection === 'top'? 0 : tabletDividerDirection === 'bottom'? 100 : tabletPositionValue }%;
-background-repeat: no-repeat;     ${(tabletFlipped && !tabletAnimate) ? `
-transform: rotate${ (tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? 'Y' : 'X'}(180deg);` : ''}
-z-index: 3;
-pointer-events: none;
-background-image: url('data:image/svg+xml;charset=utf8, ${tabletSelectedShape}'); 
-}
-}
-@keyframes ${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? `${animHorName}-tablet {
-  100% {
-    transform: scale${tabletShapeRatio? '' : 'X'}(${tabletAnimLongAxis}) translateX(calc(100% - (100% / ${tabletAnimLongAxis})));
-  }
-}
-
-` : `${animVerName}-tablet {
-  100% {
-    transform: scale${tabletShapeRatio? '' : 'Y'}(${tabletAnimLongAxis}) translateY(calc(100% - (100% / ${tabletAnimLongAxis})));
-  }
-}` }
-`;
-
-      const mobileState = readViewportControls('mobile', mobileShapeIndex);
-
-      mobileShapeColor = mobileState.color;
-      mobileDividerDirection = mobileState.direction;
-      mobileLongAxisValue = mobileState.longAxis;
-      mobileShortAxisValue = mobileState.shortAxis;
-      mobilePositionValue = mobileState.position;
-      mobileFlipped = mobileState.flipped;
-      mobileAnimate = mobileState.animate;
-      mobileAnimLength = mobileState.animationLength;
-      mobileAnimLongAxis = mobileState.animationLongAxis;
-      mobileSelectedShape = mobileState.selectedShape;
-      mobileShapeRatio = mobileState.ratio;
-
-      updateViewportControlVisibility(2, mobileState);
-      mobilePositionValue = mobileState.position;
-
-      if (getActiveViewIndex() === 2) {
-         colorDiv.style.backgroundColor = '#' + mobileShapeColor;
-      }
-
-mobileShapeDiv = `.svg_divider{
-overflow:hidden;
-position:relative;
-}
-.svg_divider::before{
-content:'';
-position: absolute;
-bottom: -1px;
-left: -1px;
-right: -1px;
-top: -1px; ${mobileAnimate? `
-transform:${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? `scale${mobileShapeRatio? '' : 'X'}(${mobileAnimLongAxis});` : `scale${mobileShapeRatio? '' : 'Y'}(${mobileAnimLongAxis});`}
-transform-origin: ${mobileDividerDirection === 'top' ? '100% 0;' : mobileDividerDirection === 'bottom' ? '100% 100%;' : mobileDividerDirection === 'right' ? '100% 100%;' : mobileDividerDirection === 'left' ? '0 100%;' : ''}
-animation: ${mobileAnimLength}s infinite alternate ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? `${animHorName}-mobile` : `${animVerName}-mobile`} linear;
-background-size: ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? '100%' : mobileShortAxisValue + 'px'} ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? mobileShortAxisValue + 'px' : '100%'};` : `
-background-size: ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? mobileLongAxisValue + '%' : mobileShortAxisValue + 'px'} ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? mobileShortAxisValue + 'px' : mobileLongAxisValue + '%'};`}
-background-position: ${mobileDividerDirection === 'left'? 0 : mobileDividerDirection === 'right'? 100 : mobilePositionValue}% ${mobileDividerDirection === 'top'? 0 : mobileDividerDirection === 'bottom'? 100 : mobilePositionValue }%;
-background-repeat: no-repeat;     ${(mobileFlipped && !mobileAnimate) ? `
-transform: rotate${ (mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? 'Y' : 'X'}(180deg);` : ''}
-z-index: 3;
-pointer-events: none;
-background-image: url('data:image/svg+xml;charset=utf8, ${mobileSelectedShape}'); 
-}
-@keyframes ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? `${animHorName}-mobile {
-  100% {
-    transform: scale${mobileShapeRatio? '' : 'X'}(${mobileAnimLongAxis}) translateX(calc(100% - (100% / ${mobileAnimLongAxis})));
-  }
-}
-
-` : `${animVerName}-mobile {
-  100% {
-    transform: scale${mobileShapeRatio? '' : 'Y'}(${mobileAnimLongAxis}) translateY(calc(100% - (100% / ${mobileAnimLongAxis})));
-  }
-}` }
-`;
-
-
-
-   };
-
-   applyPreviewForActiveView();
-
-             premiumCheck();
-   
-
-};
 
 const copyCodeButton = document.getElementById("copye");
 const premiumButton = document.getElementById("premium");
@@ -690,19 +898,9 @@ async function writeClipboard(text) {
 function copyCode() {
     copyCodeButton.textContent = 'Copied!';
 
-    const usesPremiumShape =
-        svgDividers[shapeIndex].pro ||
-        (
-            mobileReady &&
-            (
-                svgDividers[tabletShapeIndex].pro ||
-                svgDividers[mobileShapeIndex].pro
-            )
-        );
-
-    if (usesPremiumShape && !hasPremiumAccess()) {
+    if (requiresPremiumFeatures() && !hasPremiumAccess()) {
         writeClipboard(
-            'Oups! Looks like you have selected a premium shape in one of the viewports! ' +
+            'Oups! Looks like you have selected a premium shape or feature! ' +
             'Get premium here : https://shapedividers.com/get-premium/ , or login here ' +
             'https://shapedividers.com/account/ if you have premium already!\n\nThank you!'
         );
