@@ -942,7 +942,7 @@ body {
   font-size: 14px;
   line-height: 1.15;
   color: #FE6DA8;
-  background-color: #fff;
+  background-color: #fff !important;
   z-index: 100;
   pointer-events: none;
   opacity: 1;
