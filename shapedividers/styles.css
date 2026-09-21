@@ -931,22 +931,31 @@ body {
   left: 70%;
   top: 50%;
   transform: translateY(-50%);
-  width: 96px;
-  height: 96px;
-  border: 2px dashed #FE6DA8;
+  width: 104px;
+  height: 104px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-weight: 600;
+  font-weight: 900;
   font-size: 14px;
   line-height: 1.15;
   color: #FE6DA8;
+  background: #fff;
   z-index: 100;
   pointer-events: none;
   opacity: 1;
   transition: opacity .35s ease;
+}
+
+.hover-here-hint::before {
+  content: '';
+  position: absolute;
+  inset: 7px;
+  border: 3px dashed #FE6DA8;
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 .hover-here-hint.is-hidden {
