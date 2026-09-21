@@ -778,3 +778,98 @@ border-radius: 3px;
     width: 400px;
     min-height: 60vh;
 }
+
+/* Standalone layout compatibility.
+   Recreates the relevant Elementor layout wrappers for purehtml.html. */
+html,
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.mobilesection,
+.mobilescreen {
+  display: none;
+}
+
+.htmlpreview {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.htmlpreview > .elementor-widget-container {
+  width: 100%;
+  height: 100%;
+}
+
+#responsive_view_framer {
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
+
+.settings_window {
+  position: fixed;
+  z-index: 999;
+  top: 30px;
+  left: 30px;
+  width: 400px;
+  max-height: calc(100vh - 60px);
+}
+
+.settings-panel {
+  width: 400px;
+  background: #fff;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#genform {
+  position: static;
+  z-index: auto;
+  top: auto;
+  left: auto;
+  width: 100%;
+  min-height: 0;
+  max-width: none;
+  margin: 0;
+  padding: 0 20px;
+}
+
+.preview {
+  pointer-events: auto;
+}
+
+@media (max-width: 767px) {
+  .mobilesection {
+    display: block;
+  }
+
+  .mobilescreen {
+    display: flex;
+  }
+
+  .htmlpreview,
+  .settings_window,
+  .preview {
+    display: none;
+  }
+}
