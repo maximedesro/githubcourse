@@ -258,9 +258,13 @@ const previewContext = previewCanvas.getContext('2d', {
     desynchronized: true
 });
 
-const BITMAP_BASE_LONG_SIDE = 6144;
-const BITMAP_MAX_LONG_SIDE = 8192;
-const BITMAP_CACHE_LIMIT = 3;
+const BITMAP_BASE_LONG_SIDE = 8192;
+const BITMAP_MAX_LONG_SIDE = 16384;
+
+const BITMAP_BASE_SHORT_SIDE = 4096;
+const BITMAP_MAX_SHORT_SIDE = 8192;
+
+const BITMAP_CACHE_LIMIT = 2;
 const bitmapCache = new Map();
 
 let canvasRenderRevision = 0;
@@ -438,10 +442,11 @@ function getBitmapLongSide(state, bounds) {
         ? Math.max(1, Number(state.animationLongAxis) || 1)
         : Math.max(1, Number(state.longAxis) / 100 || 1);
 
-    const requiredPixels = displayLongSide * dpr * requestedScale * 1.35;
-    return requiredPixels > BITMAP_BASE_LONG_SIDE
-        ? BITMAP_MAX_LONG_SIDE
-        : BITMAP_BASE_LONG_SIDE;
+    const requiredPixels = displayLongSide * dpr * requestedScale * 1.75;
+
+    if (requiredPixels > 12000) return BITMAP_MAX_LONG_SIDE;
+    if (requiredPixels > 7000) return 12288;
+    return BITMAP_BASE_LONG_SIDE;
 }
 
 function trimBitmapCache() {
@@ -473,9 +478,15 @@ async function rasterizeSvg(svgMarkup, longSide, horizontal) {
 
     if (horizontal) {
         rasterWidth = Math.min(BITMAP_MAX_LONG_SIDE, rasterWidth);
-        rasterHeight = Math.min(2048, rasterHeight);
+        rasterHeight = Math.min(
+            BITMAP_MAX_SHORT_SIDE,
+            Math.max(BITMAP_BASE_SHORT_SIDE, rasterHeight)
+        );
     } else {
-        rasterWidth = Math.min(2048, rasterWidth);
+        rasterWidth = Math.min(
+            BITMAP_MAX_SHORT_SIDE,
+            Math.max(BITMAP_BASE_SHORT_SIDE, rasterWidth)
+        );
         rasterHeight = Math.min(BITMAP_MAX_LONG_SIDE, rasterHeight);
     }
 
