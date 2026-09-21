@@ -446,7 +446,24 @@ function getBitmapLongSide(state, bounds) {
         ? Math.max(1, Number(state.animationLongAxis) || 1)
         : Math.max(1, Number(state.longAxis) / 100 || 1);
 
-    const requiredPixels = displayLongSide * dpr * requestedScale * 1.75;
+    const rawSvg = svgDividers[state.shapeIndex][state.direction];
+    const aspectRatio = Math.max(getSvgAspectRatio(rawSvg), 0.0001);
+    const shortAxis = Math.max(1, Number(state.shortAxis) || 1);
+
+    const longSideForDisplay =
+        displayLongSide * dpr * requestedScale * 1.75;
+
+    const sourceLongPerShort = horizontal
+        ? aspectRatio
+        : 1 / aspectRatio;
+
+    const longSideForShortAxis =
+        shortAxis * dpr * sourceLongPerShort * 1.75;
+
+    const requiredPixels = Math.max(
+        longSideForDisplay,
+        longSideForShortAxis
+    );
 
     if (requiredPixels > 12000) return BITMAP_MAX_LONG_SIDE;
     if (requiredPixels > 7000) return 12288;
@@ -467,31 +484,42 @@ function trimBitmapCache() {
 }
 
 async function rasterizeSvg(svgMarkup, longSide, horizontal) {
-    const aspectRatio = getSvgAspectRatio(svgMarkup);
+    const aspectRatio = Math.max(getSvgAspectRatio(svgMarkup), 0.0001);
 
     let rasterWidth;
     let rasterHeight;
 
     if (horizontal) {
-        rasterWidth = longSide;
-        rasterHeight = Math.max(256, Math.round(longSide / Math.max(aspectRatio, 0.05)));
+        rasterWidth = Math.min(BITMAP_MAX_LONG_SIDE, longSide);
+        rasterHeight = Math.max(
+            1,
+            Math.round(rasterWidth / aspectRatio)
+        );
     } else {
-        rasterHeight = longSide;
-        rasterWidth = Math.max(256, Math.round(longSide * Math.max(aspectRatio, 0.05)));
+        rasterHeight = Math.min(BITMAP_MAX_LONG_SIDE, longSide);
+        rasterWidth = Math.max(
+            1,
+            Math.round(rasterHeight * aspectRatio)
+        );
     }
 
-    if (horizontal) {
-        rasterWidth = Math.min(BITMAP_MAX_LONG_SIDE, rasterWidth);
-        rasterHeight = Math.min(
-            BITMAP_MAX_SHORT_SIDE,
-            Math.max(BITMAP_BASE_SHORT_SIDE, rasterHeight)
+    // Keep the cached bitmap at the SVG's true intrinsic aspect ratio.
+    // Changing the cross-axis independently breaks preserveAspectRatio
+    // behavior for extreme shapes such as xMidYMax slice dividers.
+    if (rasterWidth > BITMAP_MAX_LONG_SIDE) {
+        rasterWidth = BITMAP_MAX_LONG_SIDE;
+        rasterHeight = Math.max(
+            1,
+            Math.round(rasterWidth / aspectRatio)
         );
-    } else {
-        rasterWidth = Math.min(
-            BITMAP_MAX_SHORT_SIDE,
-            Math.max(BITMAP_BASE_SHORT_SIDE, rasterWidth)
+    }
+
+    if (rasterHeight > BITMAP_MAX_LONG_SIDE) {
+        rasterHeight = BITMAP_MAX_LONG_SIDE;
+        rasterWidth = Math.max(
+            1,
+            Math.round(rasterHeight * aspectRatio)
         );
-        rasterHeight = Math.min(BITMAP_MAX_LONG_SIDE, rasterHeight);
     }
 
     const blob = new Blob([svgMarkup], { type: 'image/svg+xml;charset=utf-8' });
