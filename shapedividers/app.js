@@ -1153,6 +1153,38 @@ copiedCount = random(0, 9999);
 }
 
 
+function replaceInlineSvgColorsWithCurrentColor(svgMarkup) {
+    const paintAttributes =
+        /\b(fill|stroke|color|stop-color|flood-color|lighting-color)=(["'])(.*?)\2/gi;
+
+    const paintDeclarations =
+        /\b(fill|stroke|color|stop-color|flood-color|lighting-color)\s*:\s*([^;"'}]+)/gi;
+
+    function shouldReplacePaint(value) {
+        const normalized = String(value).trim().toLowerCase();
+
+        return !(
+            normalized === '' ||
+            normalized === 'none' ||
+            normalized === 'transparent' ||
+            normalized === 'inherit' ||
+            normalized === 'currentcolor' ||
+            normalized.startsWith('url(') ||
+            normalized.startsWith('var(')
+        );
+    }
+
+    return svgMarkup
+        .replace(paintAttributes, (match, property, quote, value) => {
+            if (!shouldReplacePaint(value)) return match;
+            return property + '=' + quote + 'currentColor' + quote;
+        })
+        .replace(paintDeclarations, (match, property, value) => {
+            if (!shouldReplacePaint(value)) return match;
+            return property + ':currentColor';
+        });
+}
+
 function addClassToInlineSvg(svgMarkup, className) {
     return svgMarkup.replace(/<svg\b([^>]*)>/i, (match, attributes) => {
         if (/\bclass=["']/i.test(attributes)) {
@@ -1235,7 +1267,8 @@ function buildSvgVariantCss(wrapperClass, state) {
         'position:absolute',
         'z-index:3',
         'pointer-events:none',
-        'max-width:none'
+        'max-width:none',
+        'color:#' + state.color
     ];
 
     if (state.animate) {
@@ -1319,7 +1352,9 @@ function buildSvgExportCode() {
 
     states.forEach((state) => {
         const rawSvg = svgDividers[state.shapeIndex][state.direction];
-        const inlineSvg = normalizeSvgForCanvas(rawSvg, state.color);
+        const inlineSvg = replaceInlineSvgColorsWithCurrentColor(
+            normalizeSvgForCanvas(rawSvg, state.color)
+        );
         const variantClass = wrapperClass + '__' + state.key;
 
         markup.push('  ' + addClassToInlineSvg(inlineSvg, variantClass));
