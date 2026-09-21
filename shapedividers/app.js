@@ -14,71 +14,64 @@ const css = document.createElement('style');
 css.dataset.shapedividersRuntime = 'true';
 document.head.appendChild(css);
 
-let shareUrl, shareMobileUrl, shareUrlActive;
-let stateObj = { id: "100" };
 
-    function updateURL(copyToClipboard = false){
-    
+    function buildShareUrl() {
+    const desktopParams = [
+        ['dividerDirection', dividerDirection],
+        ['longAxisValue', longAxisValue],
+        ['shortAxisValue', shortAxisValue],
+        ['positionValue', positionValue],
+        ['flipped', flipped],
+        ['animate', animate],
+        ['animLength', animLength],
+        ['animLongAxis', animLongAxis],
+        ['shapeColor', shapeColor],
+        ['si', svgDividers[shapeIndex].si],
+        ['shapeRatio', shapeRatio],
+        ['mobileReady', mobileReady]
+    ];
 
-shareUrl = `/?dividerDirection=${dividerDirection}&longAxisValue=${longAxisValue}&shortAxisValue=${shortAxisValue}&positionValue=${positionValue}&flipped=${flipped}&animate=${animate}&animLength=${animLength}&animLongAxis=${animLongAxis}&shapeColor=${shapeColor}&si=${svgDividers[shapeIndex].si}&shapeRatio=${shapeRatio}&mobileReady=${mobileReady}`;
+    const responsiveParams = [
+        ['tabletDividerDirection', tabletDividerDirection],
+        ['tabletLongAxisValue', tabletLongAxisValue],
+        ['tabletShortAxisValue', tabletShortAxisValue],
+        ['tabletPositionValue', tabletPositionValue],
+        ['tabletFlipped', tabletFlipped],
+        ['tabletAnimate', tabletAnimate],
+        ['tabletAnimLength', tabletAnimLength],
+        ['tabletAnimLongAxis', tabletAnimLongAxis],
+        ['tabletShapeColor', tabletShapeColor],
+        ['tsi', svgDividers[tabletShapeIndex].si],
+        ['tabletShapeRatio', tabletShapeRatio],
+        ['mobileDividerDirection', mobileDividerDirection],
+        ['mobileLongAxisValue', mobileLongAxisValue],
+        ['mobileShortAxisValue', mobileShortAxisValue],
+        ['mobilePositionValue', mobilePositionValue],
+        ['mobileFlipped', mobileFlipped],
+        ['mobileAnimate', mobileAnimate],
+        ['mobileAnimLength', mobileAnimLength],
+        ['mobileAnimLongAxis', mobileAnimLongAxis],
+        ['mobileShapeColor', mobileShapeColor],
+        ['msi', svgDividers[mobileShapeIndex].si],
+        ['mobileShapeRatio', mobileShapeRatio]
+    ];
 
-shareMobileUrl = `&tabletDividerDirection=${tabletDividerDirection}&tabletLongAxisValue=${tabletLongAxisValue}&tabletShortAxisValue=${tabletShortAxisValue}&tabletPositionValue=${tabletPositionValue}&tabletFlipped=${tabletFlipped}&tabletAnimate=${tabletAnimate}&tabletAnimLength=${tabletAnimLength}&tabletAnimLongAxis=${tabletAnimLongAxis}&tabletShapeColor=${tabletShapeColor}&tsi=${svgDividers[tabletShapeIndex].si}&tabletShapeRatio=${tabletShapeRatio}&mobileDividerDirection=${mobileDividerDirection}&mobileLongAxisValue=${mobileLongAxisValue}&mobileShortAxisValue=${mobileShortAxisValue}&mobilePositionValue=${mobilePositionValue}&mobileFlipped=${mobileFlipped}&mobileAnimate=${mobileAnimate}&mobileAnimLength=${mobileAnimLength}&mobileAnimLongAxis=${mobileAnimLongAxis}&mobileShapeColor=${mobileShapeColor}&msi=${svgDividers[mobileShapeIndex].si}&mobileShapeRatio=${mobileShapeRatio}`;
-
-          
-          if (mobileReady){
-    window.history.replaceState(
-        stateObj,
-        "shape",
-        shareUrl + shareMobileUrl
-    );
-
-    if (copyToClipboard) {
-        navigator.clipboard.writeText(
-            window.location.origin + shareUrl + shareMobileUrl
-        );
+    const params = new URLSearchParams(desktopParams);
+    if (mobileReady) {
+        responsiveParams.forEach(([key, value]) => params.append(key, value));
     }
 
-    stateObj.id++;
-} else {
-    window.history.replaceState(
-        stateObj,
-        "shape",
-        shareUrl
-    );
-
-    if (copyToClipboard) {
-        navigator.clipboard.writeText(
-            window.location.origin + shareUrl
-        );
-    }
-
-    stateObj.id++;
+    return '/?' + params.toString();
 }
-       
-       shareUrlActive = true;
-       
+
+function updateURL(copyToClipboard = false) {
+    const shareUrl = buildShareUrl();
+    window.history.replaceState({}, 'shape', shareUrl);
+
+    if (copyToClipboard) {
+        navigator.clipboard.writeText(window.location.origin + shareUrl);
     }
-    
-    
- 
-    
-       /* Update everything based on the URL , itiration through an object */
-
-/*
-const entries = urlParams.entries();
-
-for(const entry of entries) {
-  window[entry[0]] = entry[1];
-}*/
-
-
-
-
-
-
-
-
-
+}
 
 const queryString = window.location.search;
 
@@ -172,12 +165,11 @@ if (selectedShapeElement) {
 
 
 
-function getShapeIndex(param){ 
-    for (let i=0; i < svgDividers.length; i++){
-    let siIngle = urlParams.get(param);
-    if ( svgDividers[i].si == siIngle ){
-        return i;
-    } }};
+function getShapeIndex(param) {
+    const shapeId = urlParams.get(param);
+    const index = svgDividers.findIndex((divider) => String(divider.si) === String(shapeId));
+    return index >= 0 ? index : 0;
+}
 
 /* Form styling in part from https://codepen.io/dapacreative/pen/bdzYEe */
    
@@ -247,7 +239,6 @@ const viewsSettings = document.querySelectorAll('.desktop_settings, .tablet_sett
 const previewerFrame = document.getElementById("responsive_view_framer");
 const previewer = document.getElementById("previewer");
 const colorDiv = document.querySelector('.color_div');
-let shapeDividerDemoDiv = document.querySelector('.image_div');
 
 let alreadyChangedView = false;
 
@@ -353,6 +344,10 @@ document.getElementById('mobile-ready').addEventListener('change', function() {
 
 
 
+function hasPremiumAccess() {
+    return typeof isPremium !== 'undefined' && Boolean(isPremium);
+}
+
 function premiumCheck() {
 
     const premiumRequired =
@@ -368,7 +363,7 @@ function premiumCheck() {
         ) ||
         svgDividers[shapeIndex].pro;
 
-    if (!isPremium) {
+    if (!hasPremiumAccess()) {
         copyCodeButton.style.display = premiumRequired ? 'none' : '';
         premiumButton.style.display = premiumRequired ? 'block' : 'none';
         loginButton.style.display = premiumRequired ? 'block' : 'none';
@@ -389,7 +384,6 @@ const flippedContainers = document.querySelectorAll('.flipped-container');
 const animationLengthContainers = document.querySelectorAll('.animation-length-container');
 const animationLongAxisContainers = document.querySelectorAll('.animation-long-axis-container');
 
-const VIEWPORT_PREFIXES = ['', 'tablet', 'mobile'];
 
 function prefixedId(prefix, baseId) {
     return prefix ? `${prefix}-${baseId}` : baseId;
@@ -514,24 +508,24 @@ bottom: -0.1vw;
 left: -0.1vw;
 right: -0.1vw;
 top: -0.1vw; ${animate? `
-transform:${(dividerDirection == 'top' || dividerDirection == 'bottom')? `scale${shapeRatio? '' : 'X'}(${animLongAxis});` : `scale${shapeRatio? '' : 'Y'}(${animLongAxis});`}
-transform-origin: ${dividerDirection == 'top' ? '100% 0;' : dividerDirection == 'bottom' ? '100% 100%;' : dividerDirection == 'right' ? '100% 100%;' : dividerDirection == 'left' ? '0 100%;' : ''}
-animation: ${animLength}s infinite alternate ${(dividerDirection == 'top' || dividerDirection == 'bottom')? `${animHorName}` : `${animVerName}`} linear;
-background-size: ${(dividerDirection == 'top' || dividerDirection == 'bottom')? '100%' : shortAxisValue + 'px'} ${(dividerDirection == 'top' || dividerDirection == 'bottom')? shortAxisValue + 'px' : '100%'};` : `
-background-size: ${(dividerDirection == 'top' || dividerDirection == 'bottom')? longAxisValue + '%' : shortAxisValue + 'px'} ${(dividerDirection == 'top' || dividerDirection == 'bottom')? shortAxisValue + 'px' : longAxisValue + '%'};`}
-background-position: ${dividerDirection == 'left'? 0 : dividerDirection == 'right'? 100 : positionValue}% ${dividerDirection == 'top'? 0 : dividerDirection == 'bottom'? 100 : positionValue }%;
+transform:${(dividerDirection === 'top' || dividerDirection === 'bottom')? `scale${shapeRatio? '' : 'X'}(${animLongAxis});` : `scale${shapeRatio? '' : 'Y'}(${animLongAxis});`}
+transform-origin: ${dividerDirection === 'top' ? '100% 0;' : dividerDirection === 'bottom' ? '100% 100%;' : dividerDirection === 'right' ? '100% 100%;' : dividerDirection === 'left' ? '0 100%;' : ''}
+animation: ${animLength}s infinite alternate ${(dividerDirection === 'top' || dividerDirection === 'bottom')? `${animHorName}` : `${animVerName}`} linear;
+background-size: ${(dividerDirection === 'top' || dividerDirection === 'bottom')? '100%' : shortAxisValue + 'px'} ${(dividerDirection === 'top' || dividerDirection === 'bottom')? shortAxisValue + 'px' : '100%'};` : `
+background-size: ${(dividerDirection === 'top' || dividerDirection === 'bottom')? longAxisValue + '%' : shortAxisValue + 'px'} ${(dividerDirection === 'top' || dividerDirection === 'bottom')? shortAxisValue + 'px' : longAxisValue + '%'};`}
+background-position: ${dividerDirection === 'left'? 0 : dividerDirection === 'right'? 100 : positionValue}% ${dividerDirection === 'top'? 0 : dividerDirection === 'bottom'? 100 : positionValue }%;
 background-repeat: no-repeat;     ${(flipped && !animate) ? `
-transform: rotate${ (dividerDirection == 'top' || dividerDirection == 'bottom')? 'Y' : 'X'}(180deg);` : ''}
+transform: rotate${ (dividerDirection === 'top' || dividerDirection === 'bottom')? 'Y' : 'X'}(180deg);` : ''}
 z-index: 3;
 pointer-events: none;
 background-image: url('data:image/svg+xml;charset=utf8, ${selectedShape}'); 
 }
-${(dividerDirection == 'top' || dividerDirection == 'bottom')? `@media (min-width:2100px){
+${(dividerDirection === 'top' || dividerDirection === 'bottom')? `@media (min-width:2100px){
 .svg_divider::before{
 background-size: ${longAxisValue + '%'} ${'calc(2vw + ' + shortAxisValue + 'px)'};
 }
 }` : '' }
-@keyframes ${(dividerDirection == 'top' || dividerDirection == 'bottom')? `${animHorName} {
+@keyframes ${(dividerDirection === 'top' || dividerDirection === 'bottom')? `${animHorName} {
   100% {
     transform: scale${shapeRatio? '' : 'X'}(${animLongAxis}) translateX(calc(100% - (100% / ${animLongAxis})));
   }
@@ -581,20 +575,20 @@ bottom: -1px;
 left: -1px;
 right: -1px;
 top: -1px; ${tabletAnimate? `
-transform:${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? `scale${tabletShapeRatio? '' : 'X'}(${tabletAnimLongAxis});` : `scale${tabletShapeRatio? '' : 'Y'}(${tabletAnimLongAxis});`}
-transform-origin: ${tabletDividerDirection == 'top' ? '100% 0;' : tabletDividerDirection == 'bottom' ? '100% 100%;' : tabletDividerDirection == 'right' ? '100% 100%;' : tabletDividerDirection == 'left' ? '0 100%;' : ''}
-animation: ${tabletAnimLength}s infinite alternate ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? `${animHorName}-tablet` : `${animVerName}-tablet`} linear;
-background-size: ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? '100%' : tabletShortAxisValue + 'px'} ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? tabletShortAxisValue + 'px' : '100%'};` : `
-background-size: ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? tabletLongAxisValue + '%' : tabletShortAxisValue + 'px'} ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? tabletShortAxisValue + 'px' : tabletLongAxisValue + '%'};`}
-background-position: ${tabletDividerDirection == 'left'? 0 : tabletDividerDirection == 'right'? 100 : tabletPositionValue}% ${tabletDividerDirection == 'top'? 0 : tabletDividerDirection == 'bottom'? 100 : tabletPositionValue }%;
+transform:${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? `scale${tabletShapeRatio? '' : 'X'}(${tabletAnimLongAxis});` : `scale${tabletShapeRatio? '' : 'Y'}(${tabletAnimLongAxis});`}
+transform-origin: ${tabletDividerDirection === 'top' ? '100% 0;' : tabletDividerDirection === 'bottom' ? '100% 100%;' : tabletDividerDirection === 'right' ? '100% 100%;' : tabletDividerDirection === 'left' ? '0 100%;' : ''}
+animation: ${tabletAnimLength}s infinite alternate ${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? `${animHorName}-tablet` : `${animVerName}-tablet`} linear;
+background-size: ${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? '100%' : tabletShortAxisValue + 'px'} ${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? tabletShortAxisValue + 'px' : '100%'};` : `
+background-size: ${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? tabletLongAxisValue + '%' : tabletShortAxisValue + 'px'} ${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? tabletShortAxisValue + 'px' : tabletLongAxisValue + '%'};`}
+background-position: ${tabletDividerDirection === 'left'? 0 : tabletDividerDirection === 'right'? 100 : tabletPositionValue}% ${tabletDividerDirection === 'top'? 0 : tabletDividerDirection === 'bottom'? 100 : tabletPositionValue }%;
 background-repeat: no-repeat;     ${(tabletFlipped && !tabletAnimate) ? `
-transform: rotate${ (tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? 'Y' : 'X'}(180deg);` : ''}
+transform: rotate${ (tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? 'Y' : 'X'}(180deg);` : ''}
 z-index: 3;
 pointer-events: none;
 background-image: url('data:image/svg+xml;charset=utf8, ${tabletSelectedShape}'); 
 }
 }
-@keyframes ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? `${animHorName}-tablet {
+@keyframes ${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? `${animHorName}-tablet {
   100% {
     transform: scale${tabletShapeRatio? '' : 'X'}(${tabletAnimLongAxis}) translateX(calc(100% - (100% / ${tabletAnimLongAxis})));
   }
@@ -639,19 +633,19 @@ bottom: -1px;
 left: -1px;
 right: -1px;
 top: -1px; ${mobileAnimate? `
-transform:${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? `scale${mobileShapeRatio? '' : 'X'}(${mobileAnimLongAxis});` : `scale${mobileShapeRatio? '' : 'Y'}(${mobileAnimLongAxis});`}
-transform-origin: ${mobileDividerDirection == 'top' ? '100% 0;' : mobileDividerDirection == 'bottom' ? '100% 100%;' : mobileDividerDirection == 'right' ? '100% 100%;' : mobileDividerDirection == 'left' ? '0 100%;' : ''}
-animation: ${mobileAnimLength}s infinite alternate ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? `${animHorName}-mobile` : `${animVerName}-mobile`} linear;
-background-size: ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? '100%' : mobileShortAxisValue + 'px'} ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? mobileShortAxisValue + 'px' : '100%'};` : `
-background-size: ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? mobileLongAxisValue + '%' : mobileShortAxisValue + 'px'} ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? mobileShortAxisValue + 'px' : mobileLongAxisValue + '%'};`}
-background-position: ${mobileDividerDirection == 'left'? 0 : mobileDividerDirection == 'right'? 100 : mobilePositionValue}% ${mobileDividerDirection == 'top'? 0 : mobileDividerDirection == 'bottom'? 100 : mobilePositionValue }%;
+transform:${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? `scale${mobileShapeRatio? '' : 'X'}(${mobileAnimLongAxis});` : `scale${mobileShapeRatio? '' : 'Y'}(${mobileAnimLongAxis});`}
+transform-origin: ${mobileDividerDirection === 'top' ? '100% 0;' : mobileDividerDirection === 'bottom' ? '100% 100%;' : mobileDividerDirection === 'right' ? '100% 100%;' : mobileDividerDirection === 'left' ? '0 100%;' : ''}
+animation: ${mobileAnimLength}s infinite alternate ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? `${animHorName}-mobile` : `${animVerName}-mobile`} linear;
+background-size: ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? '100%' : mobileShortAxisValue + 'px'} ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? mobileShortAxisValue + 'px' : '100%'};` : `
+background-size: ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? mobileLongAxisValue + '%' : mobileShortAxisValue + 'px'} ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? mobileShortAxisValue + 'px' : mobileLongAxisValue + '%'};`}
+background-position: ${mobileDividerDirection === 'left'? 0 : mobileDividerDirection === 'right'? 100 : mobilePositionValue}% ${mobileDividerDirection === 'top'? 0 : mobileDividerDirection === 'bottom'? 100 : mobilePositionValue }%;
 background-repeat: no-repeat;     ${(mobileFlipped && !mobileAnimate) ? `
-transform: rotate${ (mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? 'Y' : 'X'}(180deg);` : ''}
+transform: rotate${ (mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? 'Y' : 'X'}(180deg);` : ''}
 z-index: 3;
 pointer-events: none;
 background-image: url('data:image/svg+xml;charset=utf8, ${mobileSelectedShape}'); 
 }
-@keyframes ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? `${animHorName}-mobile {
+@keyframes ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? `${animHorName}-mobile {
   100% {
     transform: scale${mobileShapeRatio? '' : 'X'}(${mobileAnimLongAxis}) translateX(calc(100% - (100% / ${mobileAnimLongAxis})));
   }
@@ -685,10 +679,18 @@ copyCodeButton.addEventListener("click", copyCode);
 
 const settingsWindow = document.querySelector('.settings_window');
 
+async function writeClipboard(text) {
+    try {
+        await navigator.clipboard.writeText(text);
+    } catch (error) {
+        console.error('ShapeDividers: clipboard write failed.', error);
+    }
+}
+
 function copyCode() {
-    copyCodeButton.innerText = 'Copied!';
-    if (
-    (
+    copyCodeButton.textContent = 'Copied!';
+
+    const usesPremiumShape =
         svgDividers[shapeIndex].pro ||
         (
             mobileReady &&
@@ -696,34 +698,25 @@ function copyCode() {
                 svgDividers[tabletShapeIndex].pro ||
                 svgDividers[mobileShapeIndex].pro
             )
-        )
-    ) &&
-    !isPremium
-) {
-        let message = `Oups! Looks like you have selected a premium shape in one of the viewports! Get premium here : https://shapedividers.com/get-premium/ , or login here https://shapedividers.com/account/ if you have premium already!
-        
-        Thank you!`
-        navigator.clipboard.writeText(message);
-    } else {
-        generateUniqueCSSName();
-    if ((animate || tabletAnimate || mobileAnimate) && false){ /* remove && false to make this work */
-   if (mobileReady) {
-       copyRightCode();
-      navigator.clipboard.writeText(mobileShapeDiv + tabletShapeDiv + shapeDiv + animationCSS);
-   } else {
-       copyRightCode()
-      navigator.clipboard.writeText(shapeDiv + animationCSS);
-   } }
-   else {
-       if (mobileReady) {
-       copyRightCode();
-      navigator.clipboard.writeText(mobileShapeDiv + tabletShapeDiv + shapeDiv);
-   } else {
-      copyRightCode();
-      navigator.clipboard.writeText(shapeDiv);
-   }
-   }
-}
+        );
+
+    if (usesPremiumShape && !hasPremiumAccess()) {
+        writeClipboard(
+            'Oups! Looks like you have selected a premium shape in one of the viewports! ' +
+            'Get premium here : https://shapedividers.com/get-premium/ , or login here ' +
+            'https://shapedividers.com/account/ if you have premium already!\n\nThank you!'
+        );
+        return;
+    }
+
+    generateUniqueCSSName();
+    copyRightCode();
+
+    const generatedCode = mobileReady
+        ? mobileShapeDiv + tabletShapeDiv + shapeDiv
+        : shapeDiv;
+
+    writeClipboard(generatedCode);
 }
 
 
@@ -744,18 +737,10 @@ const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 let copiedCount = random(0, 9999);
 let shapeCSSName = 'shapedividers_com-' + copiedCount;
 
-/*
-let copiedCount = 1;
-console.log(copiedCount);
-if (localStorage.getItem('copiedCountStorage') != null){
-   copiedCount = +localStorage.getItem('copiedCountStorage');
-} 
-console.log(copiedCount);
-*/
 
 
 function generateUniqueCSSName(){
-if (!isPremium){
+if (!hasPremiumAccess()){
     shapeCSSName = 'shapedividers_com-' + copiedCount;
 } else {
     shapeCSSName = 'shape-' + copiedCount;
@@ -794,24 +779,24 @@ bottom: -0.1vw;
 left: -0.1vw;
 right: -0.1vw;
 top: -0.1vw; ${animate? `
-transform:${(dividerDirection == 'top' || dividerDirection == 'bottom')? `scale${shapeRatio? '' : 'X'}(${animLongAxis});` : `scale${shapeRatio? '' : 'Y'}(${animLongAxis});`}
-transform-origin: ${dividerDirection == 'top' ? '100% 0;' : dividerDirection == 'bottom' ? '100% 100%;' : dividerDirection == 'right' ? '100% 100%;' : dividerDirection == 'left' ? '0 100%;' : ''}
-animation: ${animLength}s infinite alternate ${(mobileDividerDirection != dividerDirection || mobileShapeRatio != shapeRatio || mobileAnimLongAxis != animLongAxis || !mobileReady)? `${(dividerDirection == 'top' || dividerDirection == 'bottom')? `${animHorName}` : `${animVerName}`} ` : `${(dividerDirection == 'top' || dividerDirection == 'bottom')? `${animHorName}-mobile` : `${animVerName}-mobile`} `} linear;
-background-size: ${(dividerDirection == 'top' || dividerDirection == 'bottom')? '100%' : shortAxisValue + 'px'} ${(dividerDirection == 'top' || dividerDirection == 'bottom')? shortAxisValue + 'px' : '100%'};` : `${(mobileAnimate || tabletAnimate)? `
+transform:${(dividerDirection === 'top' || dividerDirection === 'bottom')? `scale${shapeRatio? '' : 'X'}(${animLongAxis});` : `scale${shapeRatio? '' : 'Y'}(${animLongAxis});`}
+transform-origin: ${dividerDirection === 'top' ? '100% 0;' : dividerDirection === 'bottom' ? '100% 100%;' : dividerDirection === 'right' ? '100% 100%;' : dividerDirection === 'left' ? '0 100%;' : ''}
+animation: ${animLength}s infinite alternate ${(mobileDividerDirection != dividerDirection || mobileShapeRatio != shapeRatio || mobileAnimLongAxis != animLongAxis || !mobileReady)? `${(dividerDirection === 'top' || dividerDirection === 'bottom')? `${animHorName}` : `${animVerName}`} ` : `${(dividerDirection === 'top' || dividerDirection === 'bottom')? `${animHorName}-mobile` : `${animVerName}-mobile`} `} linear;
+background-size: ${(dividerDirection === 'top' || dividerDirection === 'bottom')? '100%' : shortAxisValue + 'px'} ${(dividerDirection === 'top' || dividerDirection === 'bottom')? shortAxisValue + 'px' : '100%'};` : `${(mobileAnimate || tabletAnimate)? `
 animation:none;`:''}
-background-size: ${(dividerDirection == 'top' || dividerDirection == 'bottom')? longAxisValue + '%' : shortAxisValue + 'px'} ${(dividerDirection == 'top' || dividerDirection == 'bottom')? shortAxisValue + 'px' : longAxisValue + '%'};`}
-background-position: ${dividerDirection == 'left'? 0 : dividerDirection == 'right'? 100 : positionValue}% ${dividerDirection == 'top'? 0 : dividerDirection == 'bottom'? 100 : positionValue }%; ${(flipped && !animate) ? `
-transform: rotate${ (dividerDirection == 'top' || dividerDirection == 'bottom')? 'Y' : 'X'}(180deg);` : ''} ${mobileReady? `${tabletSelectedShape == selectedShape? '': `
+background-size: ${(dividerDirection === 'top' || dividerDirection === 'bottom')? longAxisValue + '%' : shortAxisValue + 'px'} ${(dividerDirection === 'top' || dividerDirection === 'bottom')? shortAxisValue + 'px' : longAxisValue + '%'};`}
+background-position: ${dividerDirection === 'left'? 0 : dividerDirection === 'right'? 100 : positionValue}% ${dividerDirection === 'top'? 0 : dividerDirection === 'bottom'? 100 : positionValue }%; ${(flipped && !animate) ? `
+transform: rotate${ (dividerDirection === 'top' || dividerDirection === 'bottom')? 'Y' : 'X'}(180deg);` : ''} ${mobileReady? `${tabletSelectedShape == selectedShape? '': `
 background-image: url('data:image/svg+xml;charset=utf8, ${selectedShape}'); `}` : `background-image: url('data:image/svg+xml;charset=utf8, ${selectedShape}'); `}
 }
 ${mobileReady? '}' : ''}
-${(dividerDirection == 'top' || dividerDirection == 'bottom')? `@media (min-width:2100px){
+${(dividerDirection === 'top' || dividerDirection === 'bottom')? `@media (min-width:2100px){
 .${shapeCSSName}::before{
 background-size: ${longAxisValue + '%'} ${'calc(2vw + ' + shortAxisValue + 'px)'};
 }
 }` : '' }
 ${animate? `
-${(mobileDividerDirection != dividerDirection || mobileShapeRatio != shapeRatio || mobileAnimLongAxis != animLongAxis || !mobileReady)? `@keyframes ${(dividerDirection == 'top' || dividerDirection == 'bottom')? `${animHorName} {
+${(mobileDividerDirection != dividerDirection || mobileShapeRatio != shapeRatio || mobileAnimLongAxis != animLongAxis || !mobileReady)? `@keyframes ${(dividerDirection === 'top' || dividerDirection === 'bottom')? `${animHorName} {
   100% {
     transform: scale${shapeRatio? '' : 'X'}(${animLongAxis}) translateX(calc(100% - (100% / ${animLongAxis})));
   }
@@ -830,7 +815,7 @@ ${(mobileDividerDirection != dividerDirection || mobileShapeRatio != shapeRatio 
       tabletLongAxisValue = document.getElementById("tablet-long_axis").value;
       tabletShortAxisValue = document.getElementById("tablet-short_axis").value;
       tabletPositionValue = document.getElementById("tablet-position").value;
-      tabletFlipped = document.getElementById('tablet-flipped-checkbox').checked ? true : false;
+      tabletFlipped = document.getElementById('tablet-flipped-checkbox').checked;
 
       tabletSelectedShape = svgDividers[tabletShapeIndex][tabletDividerDirection].replaceAll('%23000000', '%23' + tabletShapeColor).replaceAll('#', '%23');
 
@@ -840,19 +825,19 @@ ${(mobileDividerDirection != dividerDirection || mobileShapeRatio != shapeRatio 
 
 tabletShapeDiv = `@media (min-width:768px){
 .${shapeCSSName}::before{${tabletAnimate? `
-transform:${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? `scale${tabletShapeRatio? '' : 'X'}(${tabletAnimLongAxis});` : `scale${tabletShapeRatio? '' : 'Y'}(${tabletAnimLongAxis});`}
-transform-origin: ${tabletDividerDirection == 'top' ? '100% 0;' : tabletDividerDirection == 'bottom' ? '100% 100%;' : tabletDividerDirection == 'right' ? '100% 100%;' : tabletDividerDirection == 'left' ? '0 100%;' : ''}
-animation: ${tabletAnimLength}s infinite alternate ${(mobileDividerDirection != tabletDividerDirection || mobileShapeRatio != tabletShapeRatio || mobileAnimLongAxis != tabletAnimLongAxis)? `${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? `${animHorName}-tablet` : `${animVerName}-tablet`}` : `${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? `${animHorName}-mobile` : `${animVerName}-mobile`}`} linear;
-background-size: ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? '100%' : tabletShortAxisValue + 'px'} ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? tabletShortAxisValue + 'px' : '100%'};` : `${(mobileAnimate)? `
+transform:${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? `scale${tabletShapeRatio? '' : 'X'}(${tabletAnimLongAxis});` : `scale${tabletShapeRatio? '' : 'Y'}(${tabletAnimLongAxis});`}
+transform-origin: ${tabletDividerDirection === 'top' ? '100% 0;' : tabletDividerDirection === 'bottom' ? '100% 100%;' : tabletDividerDirection === 'right' ? '100% 100%;' : tabletDividerDirection === 'left' ? '0 100%;' : ''}
+animation: ${tabletAnimLength}s infinite alternate ${(mobileDividerDirection != tabletDividerDirection || mobileShapeRatio != tabletShapeRatio || mobileAnimLongAxis != tabletAnimLongAxis)? `${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? `${animHorName}-tablet` : `${animVerName}-tablet`}` : `${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? `${animHorName}-mobile` : `${animVerName}-mobile`}`} linear;
+background-size: ${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? '100%' : tabletShortAxisValue + 'px'} ${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? tabletShortAxisValue + 'px' : '100%'};` : `${(mobileAnimate)? `
 animation:none;`:''}
-background-size: ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? tabletLongAxisValue + '%' : tabletShortAxisValue + 'px'} ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? tabletShortAxisValue + 'px' : tabletLongAxisValue + '%'};`}
-background-position: ${tabletDividerDirection == 'left'? 0 : tabletDividerDirection == 'right'? 100 : tabletPositionValue}% ${tabletDividerDirection == 'top'? 0 : tabletDividerDirection == 'bottom'? 100 : tabletPositionValue }%;  ${(tabletFlipped && !tabletAnimate) ? `
-transform: rotate${ (tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? 'Y' : 'X'}(180deg);` : ''} ${mobileSelectedShape == tabletSelectedShape? '': `
+background-size: ${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? tabletLongAxisValue + '%' : tabletShortAxisValue + 'px'} ${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? tabletShortAxisValue + 'px' : tabletLongAxisValue + '%'};`}
+background-position: ${tabletDividerDirection === 'left'? 0 : tabletDividerDirection === 'right'? 100 : tabletPositionValue}% ${tabletDividerDirection === 'top'? 0 : tabletDividerDirection === 'bottom'? 100 : tabletPositionValue }%;  ${(tabletFlipped && !tabletAnimate) ? `
+transform: rotate${ (tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? 'Y' : 'X'}(180deg);` : ''} ${mobileSelectedShape == tabletSelectedShape? '': `
 background-image: url('data:image/svg+xml;charset=utf8, ${tabletSelectedShape}'); `}
 }  
 }
 ${tabletAnimate? `
-${(mobileDividerDirection != tabletDividerDirection || mobileShapeRatio != tabletShapeRatio || mobileAnimLongAxis != tabletAnimLongAxis)? `@keyframes ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? `${animHorName}-tablet {
+${(mobileDividerDirection != tabletDividerDirection || mobileShapeRatio != tabletShapeRatio || mobileAnimLongAxis != tabletAnimLongAxis)? `@keyframes ${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? `${animHorName}-tablet {
   100% {
     transform: scale${tabletShapeRatio? '' : 'X'}(${tabletAnimLongAxis}) translateX(calc(100% - (100% / ${tabletAnimLongAxis})));
   }
@@ -867,7 +852,7 @@ ${(mobileDividerDirection != tabletDividerDirection || mobileShapeRatio != table
       mobileLongAxisValue = document.getElementById("mobile-long_axis").value;
       mobileShortAxisValue = document.getElementById("mobile-short_axis").value;
       mobilePositionValue = document.getElementById("mobile-position").value;
-      mobileFlipped = document.getElementById('mobile-flipped-checkbox').checked ? true : false;
+      mobileFlipped = document.getElementById('mobile-flipped-checkbox').checked;
 
       mobileSelectedShape = svgDividers[mobileShapeIndex][mobileDividerDirection].replaceAll('%23000000', '%23' + mobileShapeColor).replaceAll('#', '%23');
       if (views[2].classList.contains('active')) {
@@ -890,17 +875,17 @@ top: -1px;
 z-index: 3;
 pointer-events: none;
 background-repeat: no-repeat; ${mobileAnimate? `
-transform:${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? `scale${mobileShapeRatio? '' : 'X'}(${mobileAnimLongAxis});` : `scale${mobileShapeRatio? '' : 'Y'}(${mobileAnimLongAxis});`}
-transform-origin: ${mobileDividerDirection == 'top' ? '100% 0;' : mobileDividerDirection == 'bottom' ? '100% 100%;' : mobileDividerDirection == 'right' ? '100% 100%;' : mobileDividerDirection == 'left' ? '0 100%;' : ''}
-animation: ${mobileAnimLength}s infinite alternate ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? `${animHorName}-mobile` : `${animVerName}-mobile`} linear;
-background-size: ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? '100%' : mobileShortAxisValue + 'px'} ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? mobileShortAxisValue + 'px' : '100%'};` : `
-background-size: ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? mobileLongAxisValue + '%' : mobileShortAxisValue + 'px'} ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? mobileShortAxisValue + 'px' : mobileLongAxisValue + '%'};`}
-background-position: ${mobileDividerDirection == 'left'? 0 : mobileDividerDirection == 'right'? 100 : mobilePositionValue}% ${mobileDividerDirection == 'top'? 0 : mobileDividerDirection == 'bottom'? 100 : mobilePositionValue }%;    ${(mobileFlipped && !mobileAnimate) ? `
-transform: rotate${ (mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? 'Y' : 'X'}(180deg);` : ''}
+transform:${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? `scale${mobileShapeRatio? '' : 'X'}(${mobileAnimLongAxis});` : `scale${mobileShapeRatio? '' : 'Y'}(${mobileAnimLongAxis});`}
+transform-origin: ${mobileDividerDirection === 'top' ? '100% 0;' : mobileDividerDirection === 'bottom' ? '100% 100%;' : mobileDividerDirection === 'right' ? '100% 100%;' : mobileDividerDirection === 'left' ? '0 100%;' : ''}
+animation: ${mobileAnimLength}s infinite alternate ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? `${animHorName}-mobile` : `${animVerName}-mobile`} linear;
+background-size: ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? '100%' : mobileShortAxisValue + 'px'} ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? mobileShortAxisValue + 'px' : '100%'};` : `
+background-size: ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? mobileLongAxisValue + '%' : mobileShortAxisValue + 'px'} ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? mobileShortAxisValue + 'px' : mobileLongAxisValue + '%'};`}
+background-position: ${mobileDividerDirection === 'left'? 0 : mobileDividerDirection === 'right'? 100 : mobilePositionValue}% ${mobileDividerDirection === 'top'? 0 : mobileDividerDirection === 'bottom'? 100 : mobilePositionValue }%;    ${(mobileFlipped && !mobileAnimate) ? `
+transform: rotate${ (mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? 'Y' : 'X'}(180deg);` : ''}
 background-image: url('data:image/svg+xml;charset=utf8, ${mobileSelectedShape}'); 
 }
 ${mobileAnimate?`
-@keyframes ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? `${animHorName}-mobile {
+@keyframes ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? `${animHorName}-mobile {
   100% {
     transform: scale${mobileShapeRatio? '' : 'X'}(${mobileAnimLongAxis}) translateX(calc(100% - (100% / ${mobileAnimLongAxis})));
   }
