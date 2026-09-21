@@ -275,12 +275,12 @@ section.settings_window ::-webkit-scrollbar-thumb
     display: none;
 }
 
-form {
+#genform {
   padding: 0 20px;
   margin: 0 auto;
   max-width: 600px;
 }
-form h1 {
+#genform h1 {
   padding-bottom: 6px;
   margin-bottom: 8px;
   text-align: center;
@@ -288,11 +288,11 @@ form h1 {
   line-height: 1;
   font-size: 1.6rem;
 }
-form .row {
+#genform .row {
   margin-bottom: 16px;
   position: relative;
 }
-form input[type=text], form input[type=password], form textarea {
+#genform input[type=text], #genform input[type=password], #genform textarea {
   width: 100%;
   height: 40px;
   padding: 6px 10px;
@@ -302,12 +302,12 @@ form input[type=text], form input[type=password], form textarea {
   border-radius: 3px;
   transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
 }
-form textarea {
+#genform textarea {
   height: auto;
   min-height: 200px;
   padding: 50px 10px 10px 10px;
 }
-form input[type=text] + label, form input[type=password] + label, form textarea + label {
+#genform input[type=text] + label, #genform input[type=password] + label, #genform textarea + label {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -327,11 +327,11 @@ form input[type=text] + label, form input[type=password] + label, form textarea 
   transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
   transform: translateZ(0) translateX(0);
 }
-form textarea + label {
+#genform textarea + label {
   width: 100%;
   border-radius: 3px 3px 0 0;
 }
-form input[type=checkbox], form input[type=radio] {
+#genform input[type=checkbox], #genform input[type=radio] {
   position: absolute;
   overflow: hidden;
   clip: rect(0 0 0 0);
@@ -340,7 +340,7 @@ form input[type=checkbox], form input[type=radio] {
   margin: -1px;
   padding: 0;
 }
-form input[type=radio] + label {
+#genform input[type=radio] + label {
   position: relative;
   display: inline-block;
   overflow: hidden;
@@ -352,7 +352,7 @@ form input[type=radio] + label {
   cursor: pointer;
   transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
 }
-form input[type=radio] + label:before {
+#genform input[type=radio] + label:before {
   content: "";
   position: absolute;
   display: block;
@@ -366,13 +366,13 @@ form input[type=radio] + label:before {
   transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9) 0.1s;
   transform: translateZ(0) translate(-50%, -50%) scale(0);
 }
-form input[type=radio]:checked + label {
+#genform input[type=radio]:checked + label {
   background: #1abc9c;
 }
-form input[type=radio]:checked + label:before {
+#genform input[type=radio]:checked + label:before {
   transform: translateZ(0) translate(-50%, -50%) scale(1);
 }
-form input[type=checkbox] + label {
+#genform input[type=checkbox] + label {
   position: relative;
   display: inline-block;
   overflow: hidden;
@@ -385,7 +385,7 @@ form input[type=checkbox] + label {
   transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
 }
 
-form input[type=checkbox] + label:before {
+#genform input[type=checkbox] + label:before {
   content: "";
   position: absolute;
   display: block;
@@ -398,7 +398,7 @@ form input[type=checkbox] + label:before {
   transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9) 0.1s;
   transform: translateZ(0) scale(0);
 }
-form input[type=checkbox] + label:after {
+#genform input[type=checkbox] + label:after {
   content: "";
   position: absolute;
   top: 3px;
@@ -412,14 +412,14 @@ form input[type=checkbox] + label:after {
   transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
   transform: translateZ(0) translateX(0);
 }
-form input[type=checkbox]:checked + label {
+#genform input[type=checkbox]:checked + label {
   background: #0288D1;
 }
-form input[type=checkbox]:checked + label:after {
+#genform input[type=checkbox]:checked + label:after {
   left: calc(100% - 20px);
   transform: translateZ(0);
 }
-form button {
+#genform button {
   position: relative;
   overflow: hidden;
   height: 40px;
@@ -439,7 +439,7 @@ form button {
   transform: translateZ(0) translateX(0);
   z-index: 2;
 }
-form button:before {
+#genform button:before {
   content: "";
   display: block;
   position: absolute;
@@ -455,12 +455,12 @@ form button:before {
   transform: translateZ(0) scale(0);
   z-index: -1;
 }
-form button:hover:before, form button:focus:before {
+#genform button:hover:before, #genform button:focus:before {
   transform: scale(1);
   transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
 }
 
-form label, form div{
+#genform label, #genform div{
     font-size: 1rem;
 }
 
