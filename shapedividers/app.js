@@ -260,7 +260,7 @@ const previewContext = previewCanvas.getContext('2d', {
 
 const BITMAP_BASE_LONG_SIDE = 6144;
 const BITMAP_MAX_LONG_SIDE = 8192;
-const BITMAP_CACHE_LIMIT = 6;
+const BITMAP_CACHE_LIMIT = 3;
 const bitmapCache = new Map();
 
 let canvasRenderRevision = 0;
@@ -335,8 +335,13 @@ async function rasterizeSvg(svgMarkup, longSide, horizontal) {
         rasterWidth = Math.max(256, Math.round(longSide * Math.max(aspectRatio, 0.05)));
     }
 
-    rasterWidth = Math.min(BITMAP_MAX_LONG_SIDE, rasterWidth);
-    rasterHeight = Math.min(BITMAP_MAX_LONG_SIDE, rasterHeight);
+    if (horizontal) {
+        rasterWidth = Math.min(BITMAP_MAX_LONG_SIDE, rasterWidth);
+        rasterHeight = Math.min(2048, rasterHeight);
+    } else {
+        rasterWidth = Math.min(2048, rasterWidth);
+        rasterHeight = Math.min(BITMAP_MAX_LONG_SIDE, rasterHeight);
+    }
 
     const blob = new Blob([svgMarkup], { type: 'image/svg+xml;charset=utf-8' });
     const objectUrl = URL.createObjectURL(blob);
@@ -344,15 +349,22 @@ async function rasterizeSvg(svgMarkup, longSide, horizontal) {
     try {
         const image = new Image();
         image.decoding = 'async';
+
+        const loaded = new Promise((resolve, reject) => {
+            image.onload = resolve;
+            image.onerror = reject;
+        });
+
         image.src = objectUrl;
 
         if (typeof image.decode === 'function') {
-            await image.decode();
+            try {
+                await image.decode();
+            } catch {
+                await loaded;
+            }
         } else {
-            await new Promise((resolve, reject) => {
-                image.onload = resolve;
-                image.onerror = reject;
-            });
+            await loaded;
         }
 
         const rasterCanvas = document.createElement('canvas');
