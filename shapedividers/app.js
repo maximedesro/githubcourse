@@ -1531,6 +1531,27 @@ function buildSvgExportCode() {
         previousDeclarations = stateCss.declarations;
     });
 
+    if (
+        desktopState.direction === 'top' ||
+        desktopState.direction === 'bottom'
+    ) {
+        const desktopEntry = getShapeEntry(desktopState);
+
+        rules.push(
+            '@media (min-width:2100px){\n' +
+            formatDeclarationRule(
+                '.' + wrapperClass + ' .' + desktopEntry.className,
+                {
+                    height:
+                        'calc(2vw + ' +
+                        (Number(desktopState.shortAxis) || 0) +
+                        'px)'
+                }
+            ) +
+            '\n}'
+        );
+    }
+
     const markup = shapeEntries.map((entry) =>
         getPlainExportSvg(
             entry.state.shapeIndex,
