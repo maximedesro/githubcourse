@@ -848,6 +848,27 @@ flex:1;
 display:flex;
 }
 
+.export-modal__panel-content{
+display:flex;
+flex-direction:column;
+width:100%;
+min-height:0;
+}
+
+.export-modal__help{
+margin:10px 2px 0;
+font-size:13px;
+line-height:1.4;
+color:#666;
+}
+
+.export-modal__help a{
+color:#1abc9c;
+font-weight:700;
+text-decoration:underline;
+text-underline-offset:2px;
+}
+
 .export-modal__code{
 width:100%;
 min-height:280px;
