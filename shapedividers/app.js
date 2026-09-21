@@ -1271,7 +1271,7 @@ function getPlainExportSvg(shapeIndex, direction, className) {
         );
 }
 
-function getSvgStateDeclarations(state) {
+function getSvgStateDeclarations(state, animationNamespace) {
     const horizontal = state.direction === 'top' || state.direction === 'bottom';
     const longAxis = Number(state.longAxis) || 100;
     const shortAxis = Number(state.shortAxis) || 0;
@@ -1320,7 +1320,8 @@ function getSvgStateDeclarations(state) {
             state.direction === 'right' ? '100% 100%' :
             '0 100%';
 
-        const keyframeName = 'shape-export-' + state.key + '-animation';
+        const keyframeName =
+            animationNamespace + '-' + state.key + '-animation';
 
         declarations.transform =
             scaleFunction + '(' + animationScale + ')';
@@ -1448,7 +1449,7 @@ function buildSvgExportCode() {
     }
 
     const baseEntry = getShapeEntry(mobileState);
-    const baseStateCss = getSvgStateDeclarations(mobileState);
+    const baseStateCss = getSvgStateDeclarations(mobileState, wrapperClass);
     const baseDeclarations = {
         ...baseStateCss.declarations,
         'z-index': '3',
@@ -1478,7 +1479,7 @@ function buildSvgExportCode() {
 
     responsiveSteps.forEach(({ minWidth, state }) => {
         const entry = getShapeEntry(state);
-        const stateCss = getSvgStateDeclarations(state);
+        const stateCss = getSvgStateDeclarations(state, wrapperClass);
         const mediaRules = [];
 
         if (entry !== previousEntry) {
