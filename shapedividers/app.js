@@ -1427,11 +1427,14 @@ document.querySelectorAll('[data-export-close]').forEach((control) => {
 });
 
 exportCopyButton?.addEventListener('click', async () => {
+    updateURL(false);
+
     const code = activeExportTab === 'svg'
         ? preparedSvgExport
         : preparedCssExport;
 
     await writeClipboard(code);
+    formUpdate();
 
     if (exportCopyLabel) {
         exportCopyLabel.textContent = 'Copied!';
