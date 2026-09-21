@@ -273,7 +273,7 @@ if (selectedShapeElement) {
  
  
    sliders.forEach((e,i) =>{
-   e.querySelector("span").innerHTML = e.querySelector("input").value;
+   e.querySelector("span").textContent = e.querySelector("input").value;
    applyFill(e.querySelector("input"));
     });
     
@@ -300,6 +300,12 @@ let mobileDividerDirection, mobileLongAxisValue, mobileShortAxisValue, mobilePos
 
 let mobileReady;
 
+
+const genform = document.getElementById('genform');
+if (!genform) {
+    console.error('ShapeDividers: #genform was not found.');
+    return;
+}
 
 const formEntries = document.querySelectorAll("#genform input");
 const directionEntry = document.querySelectorAll(".row.radio input");
@@ -399,7 +405,7 @@ views.forEach((v, i) => {
    previewer.className = 'previewer ' + dividerDirection;
    
    sliders.forEach((e,i) =>{
-   e.querySelector("span").innerHTML = e.querySelector("input").value;
+   e.querySelector("span").textContent = e.querySelector("input").value;
    applyFill(e.querySelector("input"));
     });
     
@@ -1020,7 +1026,7 @@ const settings = {
 const sliders = document.querySelectorAll(".range-slider");
 Array.prototype.forEach.call(sliders, (slider) => {
    slider.querySelector("input").addEventListener("input", (event) => {
-      slider.querySelector("span").innerHTML = event.target.value;
+      slider.querySelector("span").textContent = event.target.value;
       applyFill(event.target);
    });
    applyFill(slider.querySelector("input"));
@@ -1129,7 +1135,7 @@ function updatePreview() {
          }
          }
          sliders.forEach((e,i) =>{
-   e.querySelector("span").innerHTML = e.querySelector("input").value;
+   e.querySelector("span").textContent = e.querySelector("input").value;
    applyFill(e.querySelector("input"));
     });
 
@@ -1174,10 +1180,19 @@ directionEntry.forEach((e, i) => {
 let preview = document.querySelector('.preview');
 if (preview) {
     preview.addEventListener('mouseenter', function () {
-        jQuery('.settings_window').fadeOut('quick');
+        if (window.jQuery) {
+            jQuery('.settings_window').fadeOut('quick');
+        } else if (settingsWindow) {
+            settingsWindow.style.display = 'none';
+        }
     });
+
     preview.addEventListener('mouseleave', function () {
-        jQuery('.settings_window').fadeIn('quick');
+        if (window.jQuery) {
+            jQuery('.settings_window').fadeIn('quick');
+        } else if (settingsWindow) {
+            settingsWindow.style.display = '';
+        }
     });
 }
 
