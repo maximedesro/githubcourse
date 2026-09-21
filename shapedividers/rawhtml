@@ -1,0 +1,2413 @@
+<div class="page-content">
+				<div data-elementor-type="wp-page" data-elementor-id="2774" class="elementor elementor-2774" data-elementor-post-type="page">
+						<section class="elementor-section elementor-top-section elementor-element elementor-element-559e4e5 elementor-section-full_width elementor-section-height-min-height mobilesection elementor-section-height-default elementor-section-items-middle" data-id="559e4e5" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-no">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-e9ab9e8" data-id="e9ab9e8" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-78ab678 elementor-widget elementor-widget-html" data-id="78ab678" data-element_type="widget" data-e-type="widget" data-widget_type="html.default">
+				<div class="elementor-widget-container">
+					<div class="mobilescreen">
+    <img src="https://shapedividers.com/wp-content/uploads/2021/04/logo_white.svg">
+    <h2 class="mobileheader">ShapeDividers.com</h2>
+    <p> The easiest way to add vertical, responsive or animated Shape Dividers to your websites.
+    </p>
+    <p>This tool is available only from a desktop computer. We recommend that you email yourself this page and come back from your computer!</p>
+    <p>While you are here, have a look at the features!</p>
+    <a href="https://shapedividers.com/get-premium/">Features ➔</a>
+</div>
+
+<style>
+.mobilesection{
+    display:none;
+}
+@media (max-width:767px){
+
+.mobilesection{
+    display:block;
+}
+    .mobilescreen{
+        padding:18px;
+        z-index: 999999;
+        position: fixed;
+        top:0;
+        left:0;
+        height:100vh;
+        width:100%;
+        align-content: center;
+        justify-content: center;
+        display: flex;
+        background-color: #121212;
+        color:#fff;
+        visibility: visible;
+        flex-direction: column;
+    }
+    .mobilescreen img{
+        width: 100%;
+        height:130px;
+    }
+    .mobilescreen h2{
+        text-align: center;
+    }
+    .mobilescreen a{
+        color:#121212;
+        background-color: #fff;
+        display: inline-block;
+        padding: 12px 18px;
+        border-radius: 10px;
+        text-align: center;
+    }
+    .mobilescreen p{
+        margin-top: 0;
+    }
+    .mobilescreen p:first-of-type{
+        font-style: italic;
+        text-align: center;
+        margin-bottom: 30px
+    }
+    .elementor-section:not(.mobilesection) {
+        display:none;
+    }
+}
+</style>				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-4b2865b elementor-section-full_width elementor-section-height-min-height elementor-section-height-default elementor-section-items-middle" data-id="4b2865b" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-no">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-e0aa108" data-id="e0aa108" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-9358fe7 htmlpreview elementor-widget elementor-widget-html" data-id="9358fe7" data-element_type="widget" data-e-type="widget" data-widget_type="html.default">
+				<div class="elementor-widget-container">
+					 
+        				<div class="auto" id="responsive_view_framer-15"><div class="previewer top" id="previewer-15"><div class="image_div svg_divider-15">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-41"><div class="previewer top" id="previewer-41"><div class="image_div svg_divider-41">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-47"><div class="previewer top" id="previewer-47"><div class="image_div svg_divider-47">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-52"><div class="previewer top" id="previewer-52"><div class="image_div svg_divider-52">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-89"><div class="previewer top" id="previewer-89"><div class="image_div svg_divider-89">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-56"><div class="previewer top" id="previewer-56"><div class="image_div svg_divider-56">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-96"><div class="previewer top" id="previewer-96"><div class="image_div svg_divider-96">
+::before<li></li></div></div></div><div id="responsive_view_framer" class="auto">
+     
+            <div id="previewer" class="previewer top"> 
+            
+    <div class="image_div svg_divider"><li></li></div>
+   <div class="color_div" style="background-color: rgb(251, 216, 194);"></div>
+  </div>
+        </div><div class="auto" id="responsive_view_framer-58"><div class="previewer top" id="previewer-58"><div class="image_div svg_divider-58">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-81"><div class="previewer top" id="previewer-81"><div class="image_div svg_divider-81">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-50"><div class="previewer top" id="previewer-50"><div class="image_div svg_divider-50">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-4"><div class="previewer top" id="previewer-4"><div class="image_div svg_divider-4">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-84"><div class="previewer top" id="previewer-84"><div class="image_div svg_divider-84">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-83"><div class="previewer top" id="previewer-83"><div class="image_div svg_divider-83">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-31"><div class="previewer top" id="previewer-31"><div class="image_div svg_divider-31">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-88"><div class="previewer top" id="previewer-88"><div class="image_div svg_divider-88">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-72"><div class="previewer top" id="previewer-72"><div class="image_div svg_divider-72">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-51"><div class="previewer top" id="previewer-51"><div class="image_div svg_divider-51">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-69"><div class="previewer top" id="previewer-69"><div class="image_div svg_divider-69">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-90"><div class="previewer top" id="previewer-90"><div class="image_div svg_divider-90">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-17"><div class="previewer top" id="previewer-17"><div class="image_div svg_divider-17">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-19"><div class="previewer top" id="previewer-19"><div class="image_div svg_divider-19">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-36"><div class="previewer top" id="previewer-36"><div class="image_div svg_divider-36">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-34"><div class="previewer top" id="previewer-34"><div class="image_div svg_divider-34">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-5"><div class="previewer top" id="previewer-5"><div class="image_div svg_divider-5">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-67"><div class="previewer top" id="previewer-67"><div class="image_div svg_divider-67">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-11"><div class="previewer top" id="previewer-11"><div class="image_div svg_divider-11">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-62"><div class="previewer top" id="previewer-62"><div class="image_div svg_divider-62">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-70"><div class="previewer top" id="previewer-70"><div class="image_div svg_divider-70">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-57"><div class="previewer top" id="previewer-57"><div class="image_div svg_divider-57">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-77"><div class="previewer top" id="previewer-77"><div class="image_div svg_divider-77">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-2"><div class="previewer top" id="previewer-2"><div class="image_div svg_divider-2">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-43"><div class="previewer top" id="previewer-43"><div class="image_div svg_divider-43">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-28"><div class="previewer top" id="previewer-28"><div class="image_div svg_divider-28">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-92"><div class="previewer top" id="previewer-92"><div class="image_div svg_divider-92">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-27"><div class="previewer top" id="previewer-27"><div class="image_div svg_divider-27">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-0"><div class="previewer top" id="previewer-0"><div class="image_div svg_divider-0">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-65"><div class="previewer top" id="previewer-65"><div class="image_div svg_divider-65">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-24"><div class="previewer top" id="previewer-24"><div class="image_div svg_divider-24">
+::before<li></li></div></div></div><style>
+        
+        /* 
+        Original idea from:
+        http://chris-armstrong.com/rzg/ 
+ & https://codepen.io/michaelgermini/full/eJmpRp
+        */
+
+
+#responsive_view_framer {
+  transition: all .3s;
+  height: 100vh;
+  width: 100vw;
+}
+
+#previewer {
+  display: flex;
+  background-color: white;
+  border: none;
+  margin: auto 0;
+  margin-left: auto;
+  transition: all .3s;
+  flex-direction: column-reverse;
+}
+#previewer div {
+  flex-grow: 1;
+}
+#previewer.top{
+  flex-direction: column-reverse;
+}
+#previewer.bottom{
+    flex-direction: column;
+}
+#previewer.right {
+    flex-direction: row;
+}
+#previewer.left{
+    flex-direction: row-reverse;
+}
+
+#previewer .image_div {
+  background-image: url("https://shapedividers.com/wp-content/uploads/2021/05/tree.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+#previewer .color_div{
+  background-color:#f3f3f3;
+}
+
+.auto #previewer {
+  width: 100%;
+  height: 100%;
+}
+
+.mobile-portrait #previewer {
+  width: 414px;
+  height: 736px;
+  margin-top: 3rem;
+  margin-right: 3rem;
+}
+
+.tablet-portrait #previewer {
+  width: 768px;
+  height: 1024px;
+  margin-top: 3rem;
+  margin-right: 3rem;
+}
+
+.svg_divider{
+overflow:hidden;
+position:relative;
+}
+
+</style><div class="auto" id="responsive_view_framer-14"><div class="previewer top" id="previewer-14"><div class="image_div svg_divider-14">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-10"><div class="previewer top" id="previewer-10"><div class="image_div svg_divider-10">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-63"><div class="previewer top" id="previewer-63"><div class="image_div svg_divider-63">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-73"><div class="previewer top" id="previewer-73"><div class="image_div svg_divider-73">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-32"><div class="previewer top" id="previewer-32"><div class="image_div svg_divider-32">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-66"><div class="previewer top" id="previewer-66"><div class="image_div svg_divider-66">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-94"><div class="previewer top" id="previewer-94"><div class="image_div svg_divider-94">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-97"><div class="previewer top" id="previewer-97"><div class="image_div svg_divider-97">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-61"><div class="previewer top" id="previewer-61"><div class="image_div svg_divider-61">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-26"><div class="previewer top" id="previewer-26"><div class="image_div svg_divider-26">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-87"><div class="previewer top" id="previewer-87"><div class="image_div svg_divider-87">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-7"><div class="previewer top" id="previewer-7"><div class="image_div svg_divider-7">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-49"><div class="previewer top" id="previewer-49"><div class="image_div svg_divider-49">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-18"><div class="previewer top" id="previewer-18"><div class="image_div svg_divider-18">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-25"><div class="previewer top" id="previewer-25"><div class="image_div svg_divider-25">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-22"><div class="previewer top" id="previewer-22"><div class="image_div svg_divider-22">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-39"><div class="previewer top" id="previewer-39"><div class="image_div svg_divider-39">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-23"><div class="previewer top" id="previewer-23"><div class="image_div svg_divider-23">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-29"><div class="previewer top" id="previewer-29"><div class="image_div svg_divider-29">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-86"><div class="previewer top" id="previewer-86"><div class="image_div svg_divider-86">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-55"><div class="previewer top" id="previewer-55"><div class="image_div svg_divider-55">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-99"><div class="previewer top" id="previewer-99"><div class="image_div svg_divider-99">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-82"><div class="previewer top" id="previewer-82"><div class="image_div svg_divider-82">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-46"><div class="previewer top" id="previewer-46"><div class="image_div svg_divider-46">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-21"><div class="previewer top" id="previewer-21"><div class="image_div svg_divider-21">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-6"><div class="previewer top" id="previewer-6"><div class="image_div svg_divider-6">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-54"><div class="previewer top" id="previewer-54"><div class="image_div svg_divider-54">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-79"><div class="previewer top" id="previewer-79"><div class="image_div svg_divider-79">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-20"><div class="previewer top" id="previewer-20"><div class="image_div svg_divider-20">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-16"><div class="previewer top" id="previewer-16"><div class="image_div svg_divider-16">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-37"><div class="previewer top" id="previewer-37"><div class="image_div svg_divider-37">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-8"><div class="previewer top" id="previewer-8"><div class="image_div svg_divider-8">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-64"><div class="previewer top" id="previewer-64"><div class="image_div svg_divider-64">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-1"><div class="previewer top" id="previewer-1"><div class="image_div svg_divider-1">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-30"><div class="previewer top" id="previewer-30"><div class="image_div svg_divider-30">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-91"><div class="previewer top" id="previewer-91"><div class="image_div svg_divider-91">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-13"><div class="previewer top" id="previewer-13"><div class="image_div svg_divider-13">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-68"><div class="previewer top" id="previewer-68"><div class="image_div svg_divider-68">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-48"><div class="previewer top" id="previewer-48"><div class="image_div svg_divider-48">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-75"><div class="previewer top" id="previewer-75"><div class="image_div svg_divider-75">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-45"><div class="previewer top" id="previewer-45"><div class="image_div svg_divider-45">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-78"><div class="previewer top" id="previewer-78"><div class="image_div svg_divider-78">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-35"><div class="previewer top" id="previewer-35"><div class="image_div svg_divider-35">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-12"><div class="previewer top" id="previewer-12"><div class="image_div svg_divider-12">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-95"><div class="previewer top" id="previewer-95"><div class="image_div svg_divider-95">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-60"><div class="previewer top" id="previewer-60"><div class="image_div svg_divider-60">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-42"><div class="previewer top" id="previewer-42"><div class="image_div svg_divider-42">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-3"><div class="previewer top" id="previewer-3"><div class="image_div svg_divider-3">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-40"><div class="previewer top" id="previewer-40"><div class="image_div svg_divider-40">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-71"><div class="previewer top" id="previewer-71"><div class="image_div svg_divider-71">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-74"><div class="previewer top" id="previewer-74"><div class="image_div svg_divider-74">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-85"><div class="previewer top" id="previewer-85"><div class="image_div svg_divider-85">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-93"><div class="previewer top" id="previewer-93"><div class="image_div svg_divider-93">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-59"><div class="previewer top" id="previewer-59"><div class="image_div svg_divider-59">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-76"><div class="previewer top" id="previewer-76"><div class="image_div svg_divider-76">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-44"><div class="previewer top" id="previewer-44"><div class="image_div svg_divider-44">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-33"><div class="previewer top" id="previewer-33"><div class="image_div svg_divider-33">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-53"><div class="previewer top" id="previewer-53"><div class="image_div svg_divider-53">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-98"><div class="previewer top" id="previewer-98"><div class="image_div svg_divider-98">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-80"><div class="previewer top" id="previewer-80"><div class="image_div svg_divider-80">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-9"><div class="previewer top" id="previewer-9"><div class="image_div svg_divider-9">
+::before<li></li></div></div></div><div class="auto" id="responsive_view_framer-38"><div class="previewer top" id="previewer-38"><div class="image_div svg_divider-38">
+::before<li></li></div></div></div><div class="color_div"></div></div>
+				</div>
+				<div class="elementor-element elementor-element-1ecb4ad elementor-absolute elementor-widget elementor-widget-html" data-id="1ecb4ad" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_position&quot;:&quot;absolute&quot;}" data-widget_type="html.default">
+				<div class="elementor-widget-container">
+					<script>
+    
+    /* obfuscation JS 
+    */
+    
+    let decoyCSS = `
+@media (min-width:1025px){
+
+.ssvg_divider::before{
+content:'';
+position: absolute;
+bottom: -0.1vw;
+left: -0.1vw;
+right: -0.1vw;
+top: -0.1vw; 
+transform:scaleX(1.2);
+transform-origin: 100% 0;
+animation: 10s infinite alternate shape-anim-1 linear;
+background-size: 100% 90px;
+background-position: 50% 0%;
+background-repeat: no-repeat;     
+z-index: 3;
+pointer-events: none;
+background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 1" preserveAspectRatio="none"><path d="M0 0h10L5 1z" fill="%23fbd8c2"/></svg>'); 
+}
+@media (min-width:2100px){
+.ssvg_divider::before{
+background-size: 100% calc(2vw + 90px);
+}
+}
+@keyframes shape-anim-1f {
+  100% {
+    transform: scaleX(1.2) translateX(calc(100% - (100% / 1.2)));
+  }
+}
+ }`
+ 
+ let otherDecoyCSS = `
+@media (min-width:1025px){
+
+.svg_dividere::before{
+content:'';
+position: absolute;
+bottom: -0.1vw;
+left: -0.1vw;
+right: -0.1vw;
+top: -0.1vw; 
+transform:scaleX(1.2);
+transform-origin: 100% 0;
+animation: 10s infinite alternate shape-anim-1 linear;
+background-size: 100% 90px;
+background-position: 50% 0%;
+background-repeat: no-repeat;     
+z-index: 3;
+pointer-events: none;
+background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 1" preserveAspectRatio="none"><path d="M0 0h10L5 1z" fill="%23fbd8c2"/></svg>'); 
+}
+@media (min-width:2100px){
+.svg_dividere::before{
+background-size: 100% calc(2vw + 90px);
+}
+}
+@keyframes shape-anim-1f {
+  100% {
+    transform: scaleX(1.2) translateX(calc(100% - (100% / 1.2)));
+  }
+}
+ }`
+    
+    
+let containerDiv = document.querySelector('.htmlpreview > div');
+
+let headerElement = document.getElementsByTagName("head")[0];
+
+let css = document.createElement("style");
+
+
+    
+    for (let i=0; i<100; i++){
+        let viewFramer = document.createElement('div');
+        viewFramer.className = 'auto';
+        viewFramer.setAttribute('id','responsive_view_framer-' + i);
+        let previewDecoyDiv = document.createElement('div');
+        previewDecoyDiv.className = 'previewer top';
+        previewDecoyDiv.setAttribute('id','previewer-' + i);
+        let obDiv = document.createElement('div');
+        let liDiv = document.createElement('li');
+        obDiv.className = 'image_div svg_divider-' + i;
+        obDiv.innerHTML = `
+::before`;
+        viewFramer.append(previewDecoyDiv);
+        previewDecoyDiv.append(obDiv);
+        obDiv.append(liDiv);
+        containerDiv.prepend(viewFramer);
+        
+        let decoycssdivs = document.createElement("style");
+        if (i < 54){
+            decoycssdivs.innerHTML = decoyCSS;
+            headerElement.appendChild(decoycssdivs);
+        } else if (i == 54) {
+            headerElement.appendChild(css);
+            } else {
+            decoycssdivs.innerHTML = otherDecoyCSS;
+            headerElement.appendChild(decoycssdivs);
+        }
+    }
+    
+
+
+    
+let images = containerDiv.children;
+let frag = document.createDocumentFragment();
+while (images.length) {
+frag.appendChild(images[Math.floor(Math.random() * images.length)]);
+}
+containerDiv.appendChild(frag);
+
+let colorDivision = document.createElement('div');
+    colorDivision.className = 'color_div';
+    containerDiv.append(colorDivision);
+    
+    
+</script>
+<style>
+    .htmlpreview > div > div:not(#responsive_view_framer){
+        display: none;
+    }
+    .image_div:not(.svg_divider)::before{
+        content:'test';
+    }
+    .image_div li{
+        display: none;
+    }
+    body .elementor-section .htmlpreview:not(#responsive_view_framer) > div > div.color_div{
+        display: block;
+    }
+</style>				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-26e9de7 settings_window elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="26e9de7" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-44123ec" data-id="44123ec" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-4d49085 elementor-absolute elementor-widget elementor-widget-html" data-id="4d49085" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_position&quot;:&quot;absolute&quot;}" data-widget_type="html.default">
+				<div class="elementor-widget-container">
+					<script src="/wp-content/uploads/shapes.js"></script>				</div>
+				</div>
+				<div class="elementor-element elementor-element-bf58f16 elementor-absolute elementor-widget elementor-widget-html" data-id="bf58f16" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_position&quot;:&quot;absolute&quot;}" data-widget_type="html.default">
+				<div class="elementor-widget-container">
+					<style>
+    .view_select{
+        display: none;
+        justify-content: center;
+        border-bottom: 3px solid grey;
+        margin-bottom: 12px;
+    }
+    
+    .view_select div{
+        background: #ffffff;
+        padding: 8px 14px ;
+        flex-grow: 1;
+        border: 1px grey solid;
+        border-bottom-width: 0;
+        text-align: center;
+        margin: 0 1px;
+        opacity: 0.54;
+        cursor: pointer;
+    }
+    .view_select div.active{
+        opacity: 1;
+    }
+    
+    .tablet_settings, .mobile_settings{
+        display: none;
+    }
+    
+    
+    .animation-length-container{
+        display: none;
+    }
+    
+</style>
+
+<script>
+
+let shareUrl, shareMobileUrl, shareUrlActive;
+let stateObj = { id: "100" };
+
+    function updateURL(copyToClipboard = false){
+    
+
+shareUrl = `/?dividerDirection=${dividerDirection}&longAxisValue=${longAxisValue}&shortAxisValue=${shortAxisValue}&positionValue=${positionValue}&flipped=${flipped}&animate=${animate}&animLength=${animLength}&animLongAxis=${animLongAxis}&shapeColor=${shapeColor}&si=${svgDividers[shapeIndex].si}&shapeRatio=${shapeRatio}&mobileReady=${mobileReady}`;
+
+shareMobileUrl = `&tabletDividerDirection=${tabletDividerDirection}&tabletLongAxisValue=${tabletLongAxisValue}&tabletShortAxisValue=${tabletShortAxisValue}&tabletPositionValue=${tabletPositionValue}&tabletFlipped=${tabletFlipped}&tabletAnimate=${tabletAnimate}&tabletAnimLength=${tabletAnimLength}&tabletAnimLongAxis=${tabletAnimLongAxis}&tabletShapeColor=${tabletShapeColor}&tsi=${svgDividers[tabletShapeIndex].si}&tabletShapeRatio=${tabletShapeRatio}&mobileDividerDirection=${mobileDividerDirection}&mobileLongAxisValue=${mobileLongAxisValue}&mobileShortAxisValue=${mobileShortAxisValue}&mobilePositionValue=${mobilePositionValue}&mobileFlipped=${mobileFlipped}&mobileAnimate=${mobileAnimate}&mobileAnimLength=${mobileAnimLength}&mobileAnimLongAxis=${mobileAnimLongAxis}&mobileShapeColor=${mobileShapeColor}&msi=${svgDividers[mobileShapeIndex].si}&mobileShapeRatio=${mobileShapeRatio}`;
+
+          
+          if (mobileReady){
+    window.history.replaceState(
+        stateObj,
+        "shape",
+        shareUrl + shareMobileUrl
+    );
+
+    if (copyToClipboard) {
+        navigator.clipboard.writeText(
+            window.location.origin + shareUrl + shareMobileUrl
+        );
+    }
+
+    stateObj.id++;
+} else {
+    window.history.replaceState(
+        stateObj,
+        "shape",
+        shareUrl
+    );
+
+    if (copyToClipboard) {
+        navigator.clipboard.writeText(
+            window.location.origin + shareUrl
+        );
+    }
+
+    stateObj.id++;
+}
+       
+       shareUrlActive = true;
+       
+    }
+    
+    
+ 
+    
+       /* Update everything based on the URL , itiration through an object */
+
+/*
+const entries = urlParams.entries();
+
+for(const entry of entries) {
+  window[entry[0]] = entry[1];
+}*/
+
+
+
+
+
+
+
+
+
+
+const queryString = window.location.search;
+
+const urlParams = new URLSearchParams(queryString);
+let urlStylesLoaded = false;
+
+
+
+function updateSettingsfromURL(){
+
+if (!urlStylesLoaded){
+if (urlParams.has('dividerDirection')){
+[...genform.dividerdirection].filter((r => r.value == urlParams.get('dividerDirection')))[0].checked = true;
+document.getElementById("long_axis").value = urlParams.get('longAxisValue');
+document.getElementById("short_axis").value = urlParams.get('shortAxisValue');
+document.getElementById("position").value = urlParams.get('positionValue');
+document.getElementById('flipped-checkbox').checked = ('true' == urlParams.get('flipped') );
+document.getElementById('animate-checkbox').checked = ('true' == urlParams.get('animate'));
+document.getElementById('animation_length').value = urlParams.get('animLength');
+if (urlParams.has('animLongAxis')) {
+    document.getElementById('animation_long_axis').value =
+        urlParams.get('animLongAxis');
+}
+document.getElementById('shape-color').value = '#' + urlParams.get('shapeColor');
+document.getElementById('shape-color-code').value = '#' + urlParams.get('shapeColor');
+shapeIndex = getShapeIndex('si');
+document.getElementById('mobile-ready').checked = ('true' == urlParams.get('mobileReady'));
+
+urlStylesLoaded = true;
+}
+if (urlParams.has('tabletDividerDirection')){
+
+
+[...genform.tabletdividerdirection].filter((r => r.value == urlParams.get('tabletDividerDirection')))[0].checked = true;
+document.getElementById("tablet-long_axis").value = urlParams.get('tabletLongAxisValue');
+document.getElementById("tablet-short_axis").value = urlParams.get('tabletShortAxisValue');
+document.getElementById("tablet-position").value = urlParams.get('tabletPositionValue');
+document.getElementById('tablet-flipped-checkbox').checked = ('true' == urlParams.get('tabletFlipped') );
+document.getElementById('tablet-animate-checkbox').checked = ('true' == urlParams.get('tabletAnimate'));
+document.getElementById('tablet-animation_length').value = urlParams.get('tabletAnimLength');
+if (urlParams.has('tabletAnimLongAxis')) {
+    document.getElementById('tablet-animation_long_axis').value =
+        urlParams.get('tabletAnimLongAxis');
+}
+document.getElementById('tablet-shape-color').value = '#' + urlParams.get('tabletShapeColor');
+document.getElementById('tablet-shape-color-code').value = '#' + urlParams.get('tabletShapeColor');
+tabletShapeIndex =  getShapeIndex('tsi');
+
+
+
+[...genform.mobiledividerdirection].filter((r => r.value == urlParams.get('mobileDividerDirection')))[0].checked = true;
+document.getElementById("mobile-long_axis").value = urlParams.get('mobileLongAxisValue');
+document.getElementById("mobile-short_axis").value = urlParams.get('mobileShortAxisValue');
+document.getElementById("mobile-position").value = urlParams.get('mobilePositionValue');
+document.getElementById('mobile-flipped-checkbox').checked = ('true' == urlParams.get('mobileFlipped') );
+document.getElementById('mobile-animate-checkbox').checked = ('true' == urlParams.get('mobileAnimate'));
+document.getElementById('mobile-animation_length').value = urlParams.get('mobileAnimLength');
+if (urlParams.has('mobileAnimLongAxis')) {
+    document.getElementById('mobile-animation_long_axis').value =
+        urlParams.get('mobileAnimLongAxis');
+}
+document.getElementById('mobile-shape-color').value = '#' + urlParams.get('mobileShapeColor');
+document.getElementById('mobile-shape-color-code').value = '#' + urlParams.get('mobileShapeColor');
+mobileShapeIndex = getShapeIndex('msi');
+}
+
+
+setTimeout(function(){
+document.querySelectorAll('.container div').forEach(e => e.classList.remove('selected'));
+document.querySelectorAll('.container div')[shapeIndex].classList.add('selected');
+ mobileReady? viewsSelect.style.display = 'flex' : null;
+ }, 970);
+ 
+ 
+ 
+   sliders.forEach((e,i) =>{
+   e.querySelector("span").innerHTML = e.querySelector("input").value;
+   applyFill(e.querySelector("input"));
+    });
+    
+}
+
+}
+
+
+
+function getShapeIndex(param){ 
+    for (let i=0; i < svgDividers.length; i++){
+    let siIngle = urlParams.get(param);
+    if ( svgDividers[i].si == siIngle ){
+        return i;
+    } }};
+
+
+</script>				</div>
+				</div>
+				<div class="elementor-element elementor-element-007081e elementor-widget elementor-widget-html" data-id="007081e" data-element_type="widget" data-e-type="widget" data-widget_type="html.default">
+				<div class="elementor-widget-container">
+					<form action="" id="genform">
+   <div class="row">
+      <h1>SVG Shape Dividers Creator</h1>
+   </div>
+   <div class="view_select">
+      <div class="desktop_view active">Desktop</div>
+      <div class="tablet_view">Tablet</div>
+      <div class="mobile_view">Mobile</div>
+   </div>
+   <div class="desktop_settings">
+      <div class="row radio textlabel">
+         <div>Top</div>
+         <div>Right</div>
+         <div>Bottom</div>
+         <div>Left</div>
+      </div>
+      <div class="row radio">
+         <input type="radio" name="dividerdirection" value="top" id="divider-direction-top" checked="">
+         <label for="divider-direction-top">Radio</label>
+         <input type="radio" name="dividerdirection" value="right" id="divider-direction-right">
+         <label for="divider-direction-right">Radio</label>
+         <input type="radio" name="dividerdirection" value="bottom" id="divider-direction-bottom">
+         <label for="divider-direction-bottom">Radio</label>
+         <input type="radio" name="dividerdirection" value="left" id="divider-direction-left">
+         <label for="divider-direction-left">Radio</label>
+      </div>
+      <div class="row">
+         <label for="shape-color">Color</label>
+         <div class="flexrow">
+            <div class="cp_wrapper">
+               <input type="color" name="shapeColor" id="shape-color" value="#FBD8C2">
+            </div>
+            <input type="text" class="shape-color-code" name="shapeColorCode" id="shape-color-code" value="#FBD8C2">
+         </div>
+      </div>
+      <div class="range-slider row long-axis-container desktop-long-axis-container" style="display: block;">
+         <label for="long_axis">Long Axis</label>
+         <input class="range-slider__range" type="range" value="100" min="100" max="400" id="long_axis" style="background: linear-gradient(90deg, rgb(26, 188, 156) 0%, rgb(215, 220, 223) 0.1%);"> <span class="range-slider__value">100</span>
+      </div>
+      <div class="range-slider row">
+         <label for="short_axis">Short Axis</label>
+         <input class="range-slider__range" type="range" value="90" min="0" max="400" id="short_axis" style="background: linear-gradient(90deg, rgb(26, 188, 156) 22.5%, rgb(215, 220, 223) 22.6%);"> <span class="range-slider__value">90</span>
+      </div>
+      <div class="range-slider row position-container desktop-position-container" style="display: none;">
+         <label for="position">Position</label>
+         <input class="range-slider__range" type="range" value="50" min="0" max="100" id="position" style="background: linear-gradient(90deg, rgb(26, 188, 156) 50%, rgb(215, 220, 223) 50.1%);"> <span class="range-slider__value">50</span>
+      </div>
+      <div class="row flipped-container" style="display:flex; align-items:center;">
+         <input type="checkbox" name="flipped-checkbox" id="flipped-checkbox">
+         <label for="flipped-checkbox">Checkbox</label>
+         <label for="flipped-checkbox">Flip</label>
+      </div>
+      <div class="range-slider row animation-length-container desktop-animation-length-container" style="display: none;">
+         <label for="animation_length">Animation Duration</label>
+         <input class="range-slider__range" type="range" value="10" min="4" max="200" id="animation_length" style="background: linear-gradient(90deg, rgb(26, 188, 156) 3.06122%, rgb(215, 220, 223) 3.16122%);"> <span class="range-slider__value">10</span>
+      </div>
+      <div class="range-slider row animation-long-axis-container desktop-animation-long-axis-container" style="display: none;">
+         <label for="animation_long_axis">Long Axis</label>
+         <input class="range-slider__range" type="range" value="4" min="1" max="10" step="0.1" id="animation_long_axis" style="background: linear-gradient(90deg, rgb(26, 188, 156) 33.3333%, rgb(215, 220, 223) 33.4333%);"> <span class="range-slider__value">4</span>
+      </div>
+      <div class="row" style="display:flex; align-items:center;">
+         <input type="checkbox" name="animate-checkbox" id="animate-checkbox">
+         <label for="animate-checkbox">Checkbox</label>
+         <label for="animate-checkbox" style="margin-left:10px; width:40px;">Animate</label>
+      </div>
+   </div>
+   <div class="tablet_settings">
+      <div class="row radio textlabel">
+         <div>Top</div>
+         <div>Right</div>
+         <div>Bottom</div>
+         <div>Left</div>
+      </div>
+      <div class="tablet row radio">
+         <input type="radio" name="tabletdividerdirection" value="top" id="tabletdivider-direction-top" checked="">
+         <label for="tabletdivider-direction-top">Radio</label>
+         <input type="radio" name="tabletdividerdirection" value="right" id="tabletdivider-direction-right">
+         <label for="tabletdivider-direction-right">Radio</label>
+         <input type="radio" name="tabletdividerdirection" value="bottom" id="tabletdivider-direction-bottom">
+         <label for="tabletdivider-direction-bottom">Radio</label>
+         <input type="radio" name="tabletdividerdirection" value="left" id="tabletdivider-direction-left">
+         <label for="tabletdivider-direction-left">Radio</label>
+      </div>
+      <div class="row">
+         <label for="tablet-shape-color">Color</label>
+         <div class="flexrow">
+            <div class="cp_wrapper">
+               <input type="color" name="tablet-shapeColor" id="tablet-shape-color" value="#FBD8C2">
+            </div>
+            <input type="text" class="shape-color-code" name="tablet-shapeColorCode" id="tablet-shape-color-code" value="#FBD8C2">
+         </div>
+      </div>
+      <div class="range-slider row long-axis-container tablet-long-axis-container">
+         <label for="tablet-long_axis">Long Axis</label>
+         <input class="range-slider__range" type="range" value="100" min="100" max="400" id="tablet-long_axis" style="background: linear-gradient(90deg, rgb(26, 188, 156) 0%, rgb(215, 220, 223) 0.1%);"> <span class="range-slider__value">100</span>
+      </div>
+      <div class="range-slider row">
+         <label for="tablet-short_axis">Short Axis</label>
+         <input class="range-slider__range" type="range" value="90" min="0" max="400" id="tablet-short_axis" style="background: linear-gradient(90deg, rgb(26, 188, 156) 22.5%, rgb(215, 220, 223) 22.6%);"> <span class="range-slider__value">90</span>
+      </div>
+      <div class="range-slider row position-container tablet-position-container">
+         <label for="tablet-position">Position</label>
+         <input class="range-slider__range" type="range" value="50" min="0" max="100" id="tablet-position" style="background: linear-gradient(90deg, rgb(26, 188, 156) 50%, rgb(215, 220, 223) 50.1%);"> <span class="range-slider__value">50</span>
+      </div>
+      <div class="row flipped-container" style="display:flex; align-items:center;">
+         <input type="checkbox" name="tablet-flipped-checkbox" id="tablet-flipped-checkbox">
+         <label for="tablet-flipped-checkbox">Checkbox</label>
+         <label for="tablet-flipped-checkbox">Flip</label>
+      </div>
+     <div class="range-slider row animation-length-container tablet-animation-length-container">
+         <label for="tablet-animation_length">Animation Duration</label>
+         <input class="range-slider__range" type="range" value="10" min="4" max="200" id="tablet-animation_length" style="background: linear-gradient(90deg, rgb(26, 188, 156) 3.06122%, rgb(215, 220, 223) 3.16122%);"> <span class="range-slider__value">10</span>
+      </div>
+      <div class="range-slider row animation-long-axis-container tablet-animation-long-axis-container">
+         <label for="tablet-animation_long_axis">Long Axis</label>
+         <input class="range-slider__range" type="range" value="4" min="1" max="10" step="0.1" id="tablet-animation_long_axis" style="background: linear-gradient(90deg, rgb(26, 188, 156) 33.3333%, rgb(215, 220, 223) 33.4333%);"> <span class="range-slider__value">4</span>
+      </div>
+     <div class="row" style="display:flex; align-items:center;">
+         <input type="checkbox" name="tablet-animate-checkbox" id="tablet-animate-checkbox">
+         <label for="tablet-animate-checkbox">Checkbox</label>
+         <label for="tablet-animate-checkbox" style="margin-left:10px; width:40px;">Animate</label>
+      </div>
+   </div>
+   <div class="mobile_settings">
+      <div class="row radio textlabel">
+         <div>Top</div>
+         <div>Right</div>
+         <div>Bottom</div>
+         <div>Left</div>
+      </div>
+      <div class="mobile row radio">
+         <input type="radio" name="mobiledividerdirection" value="top" id="mobiledivider-direction-top" checked="">
+         <label for="mobiledivider-direction-top">Radio</label>
+         <input type="radio" name="mobiledividerdirection" value="right" id="mobiledivider-direction-right">
+         <label for="mobiledivider-direction-right">Radio</label>
+         <input type="radio" name="mobiledividerdirection" value="bottom" id="mobiledivider-direction-bottom">
+         <label for="mobiledivider-direction-bottom">Radio</label>
+         <input type="radio" name="mobiledividerdirection" value="left" id="mobiledivider-direction-left">
+         <label for="mobiledivider-direction-left">Radio</label>
+      </div>
+      <div class="row">
+         <label for="mobile-shape-color">Color</label>
+         <div class="flexrow">
+            <div class="cp_wrapper">
+               <input type="color" name="mobile-shapeColor" id="mobile-shape-color" value="#FBD8C2">
+            </div>
+            <input type="text" class="shape-color-code" name="mobile-shapeColorCode" id="mobile-shape-color-code" value="#FBD8C2">
+         </div>
+      </div>
+      <div class="range-slider row long-axis-container mobile-long-axis-container">
+         <label for="mobile-long_axis">Long Axis</label>
+         <input class="range-slider__range" type="range" value="100" min="100" max="400" id="mobile-long_axis" style="background: linear-gradient(90deg, rgb(26, 188, 156) 0%, rgb(215, 220, 223) 0.1%);"> <span class="range-slider__value">100</span>
+      </div>
+      <div class="range-slider row">
+         <label for="mobile-short_axis">Short Axis</label>
+         <input class="range-slider__range" type="range" value="90" min="0" max="400" id="mobile-short_axis" style="background: linear-gradient(90deg, rgb(26, 188, 156) 22.5%, rgb(215, 220, 223) 22.6%);"> <span class="range-slider__value">90</span>
+      </div>
+      <div class="range-slider row position-container mobile-position-container">
+         <label for="mobile-position">Position</label>
+         <input class="range-slider__range" type="range" value="50" min="0" max="100" id="mobile-position" style="background: linear-gradient(90deg, rgb(26, 188, 156) 50%, rgb(215, 220, 223) 50.1%);"> <span class="range-slider__value">50</span>
+      </div>
+      <div class="row flipped-container" style="display:flex; align-items:center;">
+         <input type="checkbox" name="mobile-flipped-checkbox" id="mobile-flipped-checkbox">
+         <label for="mobile-flipped-checkbox">Checkbox</label>
+         <label for="mobile-flipped-checkbox">Flip</label>
+      </div>
+      <div class="range-slider row animation-length-container mobile-animation-length-container">
+         <label for="mobile-animation_length">Animation Duration</label>
+         <input class="range-slider__range" type="range" value="10" min="4" max="200" id="mobile-animation_length" style="background: linear-gradient(90deg, rgb(26, 188, 156) 3.06122%, rgb(215, 220, 223) 3.16122%);"> <span class="range-slider__value">10</span>
+      </div>
+      <div class="range-slider row animation-long-axis-container mobile-animation-long-axis-container">
+         <label for="mobile-animation_long_axis">Long Axis</label>
+         <input class="range-slider__range" type="range" value="4" min="1" max="10" step="0.1" id="mobile-animation_long_axis" style="background: linear-gradient(90deg, rgb(26, 188, 156) 33.3333%, rgb(215, 220, 223) 33.4333%);"> <span class="range-slider__value">4</span>
+      </div>
+            <div class="row" style="display:flex; align-items:center;">
+         <input type="checkbox" name="mobile-animate-checkbox" id="mobile-animate-checkbox">
+         <label for="mobile-animate-checkbox">Checkbox</label>
+         <label for="mobile-animate-checkbox" style="margin-left:10px; width:40px;">Animate</label>
+      </div>
+
+   </div>
+   <div class="row" style="display:flex; align-items:center;">
+      <input type="checkbox" name="mobile-ready" id="mobile-ready">
+      <label for="mobile-ready">Checkbox</label>
+      <label for="mobile-ready" class="mobile" style="margin-left:10px; width:140px;">Responsive</label>
+   </div>
+</form>
+<button id="copye">Copy Code</button>
+<a id="premium" href="https://shapedividers.com/get-premium/">Premium Feature: Get Pro Now!</a>
+<a id="login" href="https://shapedividers.com/account/">Already a premium user? login here</a>
+<div class="row" style="display:flex; align-items:center; justify-content:space-between; margin:40px 20px 0; font-size:14px;">
+      <a id="instruction" href="https://shapedividers.com/documentation/" title="Learn how to integrate the generated code into your platform of choice.">How To Add to Your Page</a>
+      <a id="share" class="links">Share Your Design</a>
+   </div>
+<div class="row logged-out-only" style="align-items:center; justify-content:flex-end; margin:20px 20px 0; font-size:14px;">
+      <a class="links" href="https://shapedividers.com/account/">Log in</a>
+   </div>   
+<script>
+/* Form styling in part from https://codepen.io/dapacreative/pen/bdzYEe */
+   
+let dividerDirection, longAxisValue, shortAxisValue, positionValue, flipped, animate, animLength, animLongAxis, animHorName, animVerName, shapeDiv, shapeColor, shapeIndex, selectedShape, shapeRatio, si;
+
+let tabletDividerDirection, tabletLongAxisValue, tabletShortAxisValue, tabletPositionValue, tabletFlipped, tabletAnimate, tabletAnimLength, tabletAnimLongAxis, tabletAnimHorName, tabletAnimVerName, tabletShapeDiv, tabletShapeColor, tabletShapeIndex, tabletSelectedShape, tabletShapeRatio, tsi;
+
+let mobileDividerDirection, mobileLongAxisValue, mobileShortAxisValue, mobilePositionValue, mobileFlipped, mobileAnimate, mobileAnimLength, mobileAnimHorName, mobileAnimVerName, mobileAnimLongAxis, mobileShapeDiv, mobileShapeColor, mobileShapeIndex, mobileSelectedShape, mobileShapeRatio, msi;
+
+let mobileReady;
+
+
+const formEntries = document.querySelectorAll("#genform input");
+const directionEntry = document.querySelectorAll(".row.radio input");
+
+dividerDirection = 'top';
+tabletDividerDirection = 'top';
+mobileDividerDirection = 'top';
+shapeIndex = 0;
+tabletShapeIndex = 0;
+mobileShapeIndex = 0;
+mobileReady = false;
+
+let colorPicker = document.getElementById('shape-color');
+let colorCode = document.getElementById('shape-color-code');
+
+colorPicker.addEventListener('input', function() {
+   colorCode.value = colorPicker.value;
+});
+
+colorCode.addEventListener('input', function() {
+   colorPicker.value = colorCode.value;
+});
+
+let mobileColorPicker = document.getElementById('mobile-shape-color');
+let mobileColorCode = document.getElementById('mobile-shape-color-code');
+
+mobileColorPicker.addEventListener('input', function() {
+   mobileColorCode.value = mobileColorPicker.value;
+});
+
+mobileColorCode.addEventListener('input', function() {
+   mobileColorPicker.value = mobileColorCode.value;
+});
+
+let tabletColorPicker = document.getElementById('tablet-shape-color');
+let tabletColorCode = document.getElementById('tablet-shape-color-code');
+
+tabletColorPicker.addEventListener('input', function() {
+   tabletColorCode.value = tabletColorPicker.value;
+});
+
+tabletColorCode.addEventListener('input', function() {
+   tabletColorPicker.value = tabletColorCode.value;
+});
+
+let views = document.querySelectorAll('.view_select div');
+let viewsSettings = document.querySelectorAll('.desktop_settings, .tablet_settings, .mobile_settings');
+
+
+let previewerFrame = document.getElementById("responsive_view_framer");
+let previewer = document.getElementById("previewer");
+let colorDiv = document.querySelector('.color_div');
+let shapeDividerDemoDiv = document.querySelector('.image_div');
+
+let alreadyChangedView = false;
+
+let previewClasses = ['auto', 'tablet-portrait', 'mobile-portrait'];
+views.forEach((v, i) => {
+   v.addEventListener('click', function() {
+      views.forEach(e => e.classList.remove('active'));
+      v.classList.add('active');
+      viewsSettings.forEach(e => e.style.display = 'none');
+      viewsSettings[i].style.display = 'block';
+      previewerFrame.setAttribute("class", previewClasses[i]);
+      
+      
+      /* Sync tablet and mobile on first click with desktop */
+      if (!alreadyChangedView && !urlParams.has('tabletDividerDirection')){
+   document.getElementById('mobile-shape-color').value = document.getElementById('shape-color').value;
+   [...genform.mobiledividerdirection].filter((r => r.value == ([...genform.dividerdirection].filter((r) => r.checked)[0] || {}).value))[0].checked = true;
+   document.getElementById("mobile-long_axis").value = document.getElementById("long_axis").value;
+   document.getElementById("mobile-short_axis").value = document.getElementById("short_axis").value;
+   document.getElementById("mobile-position").value = document.getElementById("position").value;
+   document.getElementById('mobile-flipped-checkbox').checked = document.getElementById('flipped-checkbox').checked;
+   document.getElementById('mobile-animate-checkbox').checked = document.getElementById('animate-checkbox').checked;
+   document.getElementById('mobile-animation_length').value = document.getElementById('animation_length').value;
+   document.getElementById('mobile-animation_long_axis').value = document.getElementById('animation_long_axis').value;
+   document.getElementById("mobile-shape-color-code").value = document.getElementById('shape-color-code').value;
+   mobileShapeIndex = shapeIndex;
+
+
+   document.getElementById('tablet-shape-color').value = document.getElementById('shape-color').value;
+   [...genform.tabletdividerdirection].filter((r => r.value == ([...genform.dividerdirection].filter((r) => r.checked)[0] || {}).value))[0].checked = true;
+   document.getElementById("tablet-long_axis").value = document.getElementById("long_axis").value;
+   document.getElementById("tablet-short_axis").value = document.getElementById("short_axis").value;
+   document.getElementById("tablet-position").value = document.getElementById("position").value;
+   document.getElementById('tablet-flipped-checkbox').checked = document.getElementById('flipped-checkbox').checked;
+   document.getElementById('tablet-animate-checkbox').checked = document.getElementById('animate-checkbox').checked;
+   document.getElementById('tablet-animation_length').value = document.getElementById('animation_length').value;
+   document.getElementById('tablet-animation_long_axis').value = document.getElementById('animation_long_axis').value;
+   document.getElementById("tablet-shape-color-code").value = document.getElementById('shape-color-code').value;
+   tabletShapeIndex = shapeIndex;
+
+      colorDiv.style.backgroundColor = '#' + shapeColor;
+
+
+   previewer.className = 'previewer ' + dividerDirection;
+   
+   sliders.forEach((e,i) =>{
+   e.querySelector("span").innerHTML = e.querySelector("input").value;
+   applyFill(e.querySelector("input"));
+    });
+    
+      alreadyChangedView = true;
+      } 
+      
+      updateShape();
+      updatePreview();
+      updateSelectedShape();
+   });
+});
+
+let viewsSelect = document.querySelector('.view_select');
+
+document.getElementById('mobile-ready').addEventListener('change', function() {
+   if (this.checked) {
+      viewsSelect.style.display = 'flex';
+   } else {
+      viewsSelect.style.display = 'none';
+      views.forEach(e => e.classList.remove('active'));
+      views[0].classList.add('active');
+      viewsSettings.forEach(e => e.style.display = 'none');
+      viewsSettings[0].style.display = 'block';
+      previewerFrame.setAttribute("class", previewClasses[0]);
+   }
+});
+
+
+
+function premiumCheck() {
+
+    const premiumRequired =
+        animate ||
+        (
+            mobileReady &&
+            (
+                tabletAnimate ||
+                mobileAnimate ||
+                svgDividers[tabletShapeIndex].pro ||
+                svgDividers[mobileShapeIndex].pro
+            )
+        ) ||
+        svgDividers[shapeIndex].pro;
+
+    if (!isPremium) {
+        copyCodeButton.style.display = premiumRequired ? 'none' : '';
+        premiumButton.style.display = premiumRequired ? 'block' : 'none';
+        loginButton.style.display = premiumRequired ? 'block' : 'none';
+    }
+}
+
+
+
+
+
+formEntries.forEach((e, i) => {
+   e.addEventListener('input', updateShape);
+});
+
+let longAxisContainers = document.querySelectorAll('.long-axis-container');
+let positionContainers = document.querySelectorAll('.position-container');
+let flippedContainers = document.querySelectorAll('.flipped-container');
+let animationLengthContainers = document.querySelectorAll('.animation-length-container');
+let animationLongAxisContainers = document.querySelectorAll('.animation-long-axis-container');
+
+
+function updateShape() {
+
+   updateSettingsfromURL();
+    
+   shapeColor = document.getElementById('shape-color').value.slice(1);
+   dividerDirection = ([...genform.dividerdirection].filter((r) => r.checked)[0] || {}).value;
+   longAxisValue = document.getElementById("long_axis").value;
+   shortAxisValue = document.getElementById("short_axis").value;
+   positionValue = document.getElementById("position").value;
+   flipped = document.getElementById('flipped-checkbox').checked ? true : false;
+   animate = document.getElementById('animate-checkbox').checked ? true : false;
+   animLength = document.getElementById('animation_length').value;
+   animLongAxis = document.getElementById('animation_long_axis').value;
+   
+   animHorName = 'shape-anim-' + copiedCount;
+   animVerName = 'shape-ver-anim-' + copiedCount;
+   
+
+
+
+
+
+
+   selectedShape = svgDividers[shapeIndex][dividerDirection].replaceAll('%23000000', '%23' + shapeColor).replaceAll('#', '%23');
+   shapeRatio = svgDividers[shapeIndex].ratio;
+   
+   mobileReady = document.getElementById('mobile-ready').checked ? true : false;
+
+
+
+
+   if (views[0].classList.contains('active')) {
+      colorDiv.style.backgroundColor = '#' + shapeColor;
+   }
+
+   previewer.className = 'previewer ' + dividerDirection;
+
+   if (animate){ 
+       longAxisContainers[0].style.display = 'none';
+       positionContainers[0].style.display = 'none';
+       flippedContainers[0].style.display = 'none';
+       animationLengthContainers[0].style.display = 'block';
+       animationLongAxisContainers[0].style.display = 'block';
+      } else {
+       longAxisContainers[0].style.display = 'block';
+       positionContainers[0].style.display = 'block';
+       flippedContainers[0].style.display = 'flex';
+       animationLengthContainers[0].style.display = 'none';
+       animationLongAxisContainers[0].style.display = 'none';
+           if (longAxisValue < 170){
+        positionContainers[0].style.display = 'none';
+        document.getElementById("position").value = 50;
+    } else {
+        positionContainers[0].style.display = 'block';
+    }
+
+       }
+
+
+
+shapeDiv = `
+${mobileReady? `@media (min-width:1025px){
+` : `.svg_divider{
+overflow:hidden;
+position:relative;
+}`}
+.svg_divider::before{
+content:'';
+position: absolute;
+bottom: -0.1vw;
+left: -0.1vw;
+right: -0.1vw;
+top: -0.1vw; ${animate? `
+transform:${(dividerDirection == 'top' || dividerDirection == 'bottom')? `scale${shapeRatio? '' : 'X'}(${animLongAxis});` : `scale${shapeRatio? '' : 'Y'}(${animLongAxis});`}
+transform-origin: ${dividerDirection == 'top' ? '100% 0;' : dividerDirection == 'bottom' ? '100% 100%;' : dividerDirection == 'right' ? '100% 100%;' : dividerDirection == 'left' ? '0 100%;' : ''}
+animation: ${animLength}s infinite alternate ${(dividerDirection == 'top' || dividerDirection == 'bottom')? `${animHorName}` : `${animVerName}`} linear;
+background-size: ${(dividerDirection == 'top' || dividerDirection == 'bottom')? '100%' : shortAxisValue + 'px'} ${(dividerDirection == 'top' || dividerDirection == 'bottom')? shortAxisValue + 'px' : '100%'};` : `
+background-size: ${(dividerDirection == 'top' || dividerDirection == 'bottom')? longAxisValue + '%' : shortAxisValue + 'px'} ${(dividerDirection == 'top' || dividerDirection == 'bottom')? shortAxisValue + 'px' : longAxisValue + '%'};`}
+background-position: ${dividerDirection == 'left'? 0 : dividerDirection == 'right'? 100 : positionValue}% ${dividerDirection == 'top'? 0 : dividerDirection == 'bottom'? 100 : positionValue }%;
+background-repeat: no-repeat;     ${(flipped && !animate) ? `
+transform: rotate${ (dividerDirection == 'top' || dividerDirection == 'bottom')? 'Y' : 'X'}(180deg);` : ''}
+z-index: 3;
+pointer-events: none;
+background-image: url('data:image/svg+xml;charset=utf8, ${selectedShape}'); 
+}
+${(dividerDirection == 'top' || dividerDirection == 'bottom')? `@media (min-width:2100px){
+.svg_divider::before{
+background-size: ${longAxisValue + '%'} ${'calc(2vw + ' + shortAxisValue + 'px)'};
+}
+}` : '' }
+@keyframes ${(dividerDirection == 'top' || dividerDirection == 'bottom')? `${animHorName} {
+  100% {
+    transform: scale${shapeRatio? '' : 'X'}(${animLongAxis}) translateX(calc(100% - (100% / ${animLongAxis})));
+  }
+}
+
+` : `${animVerName} {
+  100% {
+    transform: scale${shapeRatio? '' : 'Y'}(${animLongAxis}) translateY(calc(100% - (100% / ${animLongAxis})));
+  }
+}`}
+
+
+${mobileReady? ' }' : ''}
+`;
+
+
+
+   if (mobileReady) {
+
+      tabletShapeColor = document.getElementById('tablet-shape-color').value.slice(1);
+      tabletDividerDirection = ([...genform.tabletdividerdirection].filter((r) => r.checked)[0] || {}).value;
+      tabletLongAxisValue = document.getElementById("tablet-long_axis").value;
+      tabletShortAxisValue = document.getElementById("tablet-short_axis").value;
+      tabletPositionValue = document.getElementById("tablet-position").value;
+      tabletFlipped = document.getElementById('tablet-flipped-checkbox').checked ? true : false;
+           tabletAnimate = document.getElementById('tablet-animate-checkbox').checked ? true : false;
+   tabletAnimLength = document.getElementById('tablet-animation_length').value;
+   tabletAnimLongAxis = document.getElementById('tablet-animation_long_axis').value;
+   
+   if (tabletAnimate){ 
+       longAxisContainers[1].style.display = 'none';
+       positionContainers[1].style.display = 'none';
+       flippedContainers[1].style.display = 'none';
+       animationLengthContainers[1].style.display = 'block';
+       animationLongAxisContainers[1].style.display = 'block';
+       
+       
+       } else {
+       longAxisContainers[1].style.display = 'block';
+       positionContainers[1].style.display = 'block';
+       flippedContainers[1].style.display = 'flex';
+       animationLengthContainers[1].style.display = 'none';
+       animationLongAxisContainers[1].style.display = 'none';
+
+       if (tabletLongAxisValue < 170){
+        positionContainers[1].style.display = 'none';
+        document.getElementById("tablet-position").value = 50;
+    } else {
+        positionContainers[1].style.display = 'block';
+    }
+
+       }
+
+       
+   
+      tabletSelectedShape = svgDividers[tabletShapeIndex][tabletDividerDirection].replaceAll('%23000000', '%23' + tabletShapeColor).replaceAll('#', '%23');
+      tabletShapeRatio = svgDividers[tabletShapeIndex].ratio;
+
+      if (views[1].classList.contains('active')) {
+         colorDiv.style.backgroundColor = '#' + tabletShapeColor;
+      }
+
+tabletShapeDiv = `
+@media (min-width:768px){
+.svg_divider::before{
+content:'';
+position: absolute;
+bottom: -1px;
+left: -1px;
+right: -1px;
+top: -1px; ${tabletAnimate? `
+transform:${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? `scale${tabletShapeRatio? '' : 'X'}(${tabletAnimLongAxis});` : `scale${tabletShapeRatio? '' : 'Y'}(${tabletAnimLongAxis});`}
+transform-origin: ${tabletDividerDirection == 'top' ? '100% 0;' : tabletDividerDirection == 'bottom' ? '100% 100%;' : tabletDividerDirection == 'right' ? '100% 100%;' : tabletDividerDirection == 'left' ? '0 100%;' : ''}
+animation: ${tabletAnimLength}s infinite alternate ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? `${animHorName}-tablet` : `${animVerName}-tablet`} linear;
+background-size: ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? '100%' : tabletShortAxisValue + 'px'} ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? tabletShortAxisValue + 'px' : '100%'};` : `
+background-size: ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? tabletLongAxisValue + '%' : tabletShortAxisValue + 'px'} ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? tabletShortAxisValue + 'px' : tabletLongAxisValue + '%'};`}
+background-position: ${tabletDividerDirection == 'left'? 0 : tabletDividerDirection == 'right'? 100 : tabletPositionValue}% ${tabletDividerDirection == 'top'? 0 : tabletDividerDirection == 'bottom'? 100 : tabletPositionValue }%;
+background-repeat: no-repeat;     ${(tabletFlipped && !tabletAnimate) ? `
+transform: rotate${ (tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? 'Y' : 'X'}(180deg);` : ''}
+z-index: 3;
+pointer-events: none;
+background-image: url('data:image/svg+xml;charset=utf8, ${tabletSelectedShape}'); 
+}
+}
+@keyframes ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? `${animHorName}-tablet {
+  100% {
+    transform: scale${tabletShapeRatio? '' : 'X'}(${tabletAnimLongAxis}) translateX(calc(100% - (100% / ${tabletAnimLongAxis})));
+  }
+}
+
+` : `${animVerName}-tablet {
+  100% {
+    transform: scale${tabletShapeRatio? '' : 'Y'}(${tabletAnimLongAxis}) translateY(calc(100% - (100% / ${tabletAnimLongAxis})));
+  }
+}` }
+`;
+
+      mobileShapeColor = document.getElementById('mobile-shape-color').value.slice(1);
+      mobileDividerDirection = ([...genform.mobiledividerdirection].filter((r) => r.checked)[0] || {}).value;
+      mobileLongAxisValue = document.getElementById("mobile-long_axis").value;
+      mobileShortAxisValue = document.getElementById("mobile-short_axis").value;
+      mobilePositionValue = document.getElementById("mobile-position").value;
+      mobileFlipped = document.getElementById('mobile-flipped-checkbox').checked ? true : false;
+      
+      mobileAnimate = document.getElementById('mobile-animate-checkbox').checked ? true : false;
+   mobileAnimLength = document.getElementById('mobile-animation_length').value;
+   mobileAnimLongAxis = document.getElementById('mobile-animation_long_axis').value;
+   
+   if (mobileAnimate){ 
+       longAxisContainers[2].style.display = 'none';
+       positionContainers[2].style.display = 'none';
+       flippedContainers[2].style.display = 'none';
+       animationLengthContainers[2].style.display = 'block';
+       animationLongAxisContainers[2].style.display = 'block';
+       } else {
+       longAxisContainers[2].style.display = 'block';
+       positionContainers[2].style.display = 'block';
+       flippedContainers[2].style.display = 'flex';
+       animationLengthContainers[2].style.display = 'none';
+       animationLongAxisContainers[2].style.display = 'none';
+
+       if (mobileLongAxisValue < 170){
+        positionContainers[2].style.display = 'none';
+        document.getElementById("mobile-position").value = 50;
+    } else {
+        positionContainers[2].style.display = 'block';
+    }
+
+    
+       }
+
+       
+
+      mobileSelectedShape = svgDividers[mobileShapeIndex][mobileDividerDirection].replaceAll('%23000000', '%23' + mobileShapeColor).replaceAll('#', '%23');
+      mobileShapeRatio = svgDividers[mobileShapeIndex].ratio;
+      
+      if (views[2].classList.contains('active')) {
+         colorDiv.style.backgroundColor = '#' + mobileShapeColor;
+      }
+
+mobileShapeDiv = `.svg_divider{
+overflow:hidden;
+position:relative;
+}
+.svg_divider::before{
+content:'';
+position: absolute;
+bottom: -1px;
+left: -1px;
+right: -1px;
+top: -1px; ${mobileAnimate? `
+transform:${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? `scale${mobileShapeRatio? '' : 'X'}(${mobileAnimLongAxis});` : `scale${mobileShapeRatio? '' : 'Y'}(${mobileAnimLongAxis});`}
+transform-origin: ${mobileDividerDirection == 'top' ? '100% 0;' : mobileDividerDirection == 'bottom' ? '100% 100%;' : mobileDividerDirection == 'right' ? '100% 100%;' : mobileDividerDirection == 'left' ? '0 100%;' : ''}
+animation: ${mobileAnimLength}s infinite alternate ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? `${animHorName}-mobile` : `${animVerName}-mobile`} linear;
+background-size: ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? '100%' : mobileShortAxisValue + 'px'} ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? mobileShortAxisValue + 'px' : '100%'};` : `
+background-size: ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? mobileLongAxisValue + '%' : mobileShortAxisValue + 'px'} ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? mobileShortAxisValue + 'px' : mobileLongAxisValue + '%'};`}
+background-position: ${mobileDividerDirection == 'left'? 0 : mobileDividerDirection == 'right'? 100 : mobilePositionValue}% ${mobileDividerDirection == 'top'? 0 : mobileDividerDirection == 'bottom'? 100 : mobilePositionValue }%;
+background-repeat: no-repeat;     ${(mobileFlipped && !mobileAnimate) ? `
+transform: rotate${ (mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? 'Y' : 'X'}(180deg);` : ''}
+z-index: 3;
+pointer-events: none;
+background-image: url('data:image/svg+xml;charset=utf8, ${mobileSelectedShape}'); 
+}
+@keyframes ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? `${animHorName}-mobile {
+  100% {
+    transform: scale${mobileShapeRatio? '' : 'X'}(${mobileAnimLongAxis}) translateX(calc(100% - (100% / ${mobileAnimLongAxis})));
+  }
+}
+
+` : `${animVerName}-mobile {
+  100% {
+    transform: scale${mobileShapeRatio? '' : 'Y'}(${mobileAnimLongAxis}) translateY(calc(100% - (100% / ${mobileAnimLongAxis})));
+  }
+}` }
+`;
+
+
+
+   };
+
+   if (mobileReady) {
+      if (views[0].classList.contains('active')) {
+         css.innerHTML = shapeDiv;
+         previewer.className = 'previewer ' + dividerDirection;
+
+      } else if (views[1].classList.contains('active')) {
+         css.innerHTML = tabletShapeDiv;
+         previewer.className = 'previewer ' + tabletDividerDirection;
+
+      } else {
+         css.innerHTML = mobileShapeDiv;
+         previewer.className = 'previewer ' + mobileDividerDirection;
+
+      }
+   } else {
+      css.innerHTML = shapeDiv;
+   }
+   
+   
+             premiumCheck();
+   
+
+};
+
+let copyCodeButton = document.getElementById("copye");
+let premiumButton = document.getElementById("premium");
+let loginButton = document.getElementById("login");
+
+copyCodeButton.addEventListener("click", () => updateURL(false));
+copyCodeButton.addEventListener("click", copyCode);
+
+
+let settingsWindow = document.querySelector('.settings_window');
+
+function copyCode() {
+    copyCodeButton.innerText = 'Copied!';
+    if (
+    (
+        svgDividers[shapeIndex].pro ||
+        (
+            mobileReady &&
+            (
+                svgDividers[tabletShapeIndex].pro ||
+                svgDividers[mobileShapeIndex].pro
+            )
+        )
+    ) &&
+    !isPremium
+) {
+        let message = `Oups! Looks like you have selected a premium shape in one of the viewports! Get premium here : https://shapedividers.com/get-premium/ , or login here https://shapedividers.com/account/ if you have premium already!
+        
+        Thank you!`
+        navigator.clipboard.writeText(message);
+    } else {
+        generateUniqueCSSName();
+    if ((animate || tabletAnimate || mobileAnimate) && false){ /* remove && false to make this work */
+   if (mobileReady) {
+       copyRightCode();
+      navigator.clipboard.writeText(mobileShapeDiv + tabletShapeDiv + shapeDiv + animationCSS);
+   } else {
+       copyRightCode()
+      navigator.clipboard.writeText(shapeDiv + animationCSS);
+   } }
+   else {
+       if (mobileReady) {
+       copyRightCode();
+      navigator.clipboard.writeText(mobileShapeDiv + tabletShapeDiv + shapeDiv);
+   } else {
+      copyRightCode();
+      navigator.clipboard.writeText(shapeDiv);
+   }
+   }
+}
+}
+
+
+settingsWindow.addEventListener('mouseleave',function(){
+    copyCodeButton.innerText = 'Copy code';
+});
+
+
+
+
+
+/* Generate unique name */
+
+const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+
+let copiedCount = random(0, 9999);
+let shapeCSSName = 'shapedividers_com-' + copiedCount;
+
+/*
+let copiedCount = 1;
+console.log(copiedCount);
+if (localStorage.getItem('copiedCountStorage') != null){
+   copiedCount = +localStorage.getItem('copiedCountStorage');
+} 
+console.log(copiedCount);
+*/
+
+
+function generateUniqueCSSName(){
+if (!isPremium){
+    shapeCSSName = 'shapedividers_com-' + copiedCount;
+} else {
+    shapeCSSName = 'shape-' + copiedCount;
+}
+copiedCount = random(0, 9999);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function copyRightCode(){
+    
+shapeDiv = `
+${mobileReady? `@media (min-width:1025px){` : `.${shapeCSSName}{
+overflow:hidden;
+position:relative;
+}`}
+.${shapeCSSName}::before{ ${mobileReady? '' : `
+content:'';
+font-family:'shape divider from ShapeDividers.com';
+position: absolute;
+z-index: 3;
+pointer-events: none;
+background-repeat: no-repeat;`}
+bottom: -0.1vw;
+left: -0.1vw;
+right: -0.1vw;
+top: -0.1vw; ${animate? `
+transform:${(dividerDirection == 'top' || dividerDirection == 'bottom')? `scale${shapeRatio? '' : 'X'}(${animLongAxis});` : `scale${shapeRatio? '' : 'Y'}(${animLongAxis});`}
+transform-origin: ${dividerDirection == 'top' ? '100% 0;' : dividerDirection == 'bottom' ? '100% 100%;' : dividerDirection == 'right' ? '100% 100%;' : dividerDirection == 'left' ? '0 100%;' : ''}
+animation: ${animLength}s infinite alternate ${(mobileDividerDirection != dividerDirection || mobileShapeRatio != shapeRatio || mobileAnimLongAxis != animLongAxis || !mobileReady)? `${(dividerDirection == 'top' || dividerDirection == 'bottom')? `${animHorName}` : `${animVerName}`} ` : `${(dividerDirection == 'top' || dividerDirection == 'bottom')? `${animHorName}-mobile` : `${animVerName}-mobile`} `} linear;
+background-size: ${(dividerDirection == 'top' || dividerDirection == 'bottom')? '100%' : shortAxisValue + 'px'} ${(dividerDirection == 'top' || dividerDirection == 'bottom')? shortAxisValue + 'px' : '100%'};` : `${(mobileAnimate || tabletAnimate)? `
+animation:none;`:''}
+background-size: ${(dividerDirection == 'top' || dividerDirection == 'bottom')? longAxisValue + '%' : shortAxisValue + 'px'} ${(dividerDirection == 'top' || dividerDirection == 'bottom')? shortAxisValue + 'px' : longAxisValue + '%'};`}
+background-position: ${dividerDirection == 'left'? 0 : dividerDirection == 'right'? 100 : positionValue}% ${dividerDirection == 'top'? 0 : dividerDirection == 'bottom'? 100 : positionValue }%; ${(flipped && !animate) ? `
+transform: rotate${ (dividerDirection == 'top' || dividerDirection == 'bottom')? 'Y' : 'X'}(180deg);` : ''} ${mobileReady? `${tabletSelectedShape == selectedShape? '': `
+background-image: url('data:image/svg+xml;charset=utf8, ${selectedShape}'); `}` : `background-image: url('data:image/svg+xml;charset=utf8, ${selectedShape}'); `}
+}
+${mobileReady? '}' : ''}
+${(dividerDirection == 'top' || dividerDirection == 'bottom')? `@media (min-width:2100px){
+.${shapeCSSName}::before{
+background-size: ${longAxisValue + '%'} ${'calc(2vw + ' + shortAxisValue + 'px)'};
+}
+}` : '' }
+${animate? `
+${(mobileDividerDirection != dividerDirection || mobileShapeRatio != shapeRatio || mobileAnimLongAxis != animLongAxis || !mobileReady)? `@keyframes ${(dividerDirection == 'top' || dividerDirection == 'bottom')? `${animHorName} {
+  100% {
+    transform: scale${shapeRatio? '' : 'X'}(${animLongAxis}) translateX(calc(100% - (100% / ${animLongAxis})));
+  }
+}
+
+` : `${animVerName} {
+  100% {
+    transform: scale${shapeRatio? '' : 'Y'}(${animLongAxis}) translateY(calc(100% - (100% / ${animLongAxis})));
+  }
+}`} ` : ''} `:''} `;
+
+   if (mobileReady) {
+
+      tabletShapeColor = document.getElementById('tablet-shape-color').value.slice(1);
+      tabletDividerDirection = ([...genform.tabletdividerdirection].filter((r) => r.checked)[0] || {}).value;
+      tabletLongAxisValue = document.getElementById("tablet-long_axis").value;
+      tabletShortAxisValue = document.getElementById("tablet-short_axis").value;
+      tabletPositionValue = document.getElementById("tablet-position").value;
+      tabletFlipped = document.getElementById('tablet-flipped-checkbox').checked ? true : false;
+
+      tabletSelectedShape = svgDividers[tabletShapeIndex][tabletDividerDirection].replaceAll('%23000000', '%23' + tabletShapeColor).replaceAll('#', '%23');
+
+      if (views[1].classList.contains('active')) {
+         colorDiv.style.backgroundColor = '#' + tabletShapeColor;
+      }
+
+tabletShapeDiv = `@media (min-width:768px){
+.${shapeCSSName}::before{${tabletAnimate? `
+transform:${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? `scale${tabletShapeRatio? '' : 'X'}(${tabletAnimLongAxis});` : `scale${tabletShapeRatio? '' : 'Y'}(${tabletAnimLongAxis});`}
+transform-origin: ${tabletDividerDirection == 'top' ? '100% 0;' : tabletDividerDirection == 'bottom' ? '100% 100%;' : tabletDividerDirection == 'right' ? '100% 100%;' : tabletDividerDirection == 'left' ? '0 100%;' : ''}
+animation: ${tabletAnimLength}s infinite alternate ${(mobileDividerDirection != tabletDividerDirection || mobileShapeRatio != tabletShapeRatio || mobileAnimLongAxis != tabletAnimLongAxis)? `${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? `${animHorName}-tablet` : `${animVerName}-tablet`}` : `${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? `${animHorName}-mobile` : `${animVerName}-mobile`}`} linear;
+background-size: ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? '100%' : tabletShortAxisValue + 'px'} ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? tabletShortAxisValue + 'px' : '100%'};` : `${(mobileAnimate)? `
+animation:none;`:''}
+background-size: ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? tabletLongAxisValue + '%' : tabletShortAxisValue + 'px'} ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? tabletShortAxisValue + 'px' : tabletLongAxisValue + '%'};`}
+background-position: ${tabletDividerDirection == 'left'? 0 : tabletDividerDirection == 'right'? 100 : tabletPositionValue}% ${tabletDividerDirection == 'top'? 0 : tabletDividerDirection == 'bottom'? 100 : tabletPositionValue }%;  ${(tabletFlipped && !tabletAnimate) ? `
+transform: rotate${ (tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? 'Y' : 'X'}(180deg);` : ''} ${mobileSelectedShape == tabletSelectedShape? '': `
+background-image: url('data:image/svg+xml;charset=utf8, ${tabletSelectedShape}'); `}
+}  
+}
+${tabletAnimate? `
+${(mobileDividerDirection != tabletDividerDirection || mobileShapeRatio != tabletShapeRatio || mobileAnimLongAxis != tabletAnimLongAxis)? `@keyframes ${(tabletDividerDirection == 'top' || tabletDividerDirection == 'bottom')? `${animHorName}-tablet {
+  100% {
+    transform: scale${tabletShapeRatio? '' : 'X'}(${tabletAnimLongAxis}) translateX(calc(100% - (100% / ${tabletAnimLongAxis})));
+  }
+}` : `${animVerName}-tablet {
+  100% {
+    transform: scale${tabletShapeRatio? '' : 'Y'}(${tabletAnimLongAxis}) translateY(calc(100% - (100% / ${tabletAnimLongAxis})));
+  }
+}` }` : ''} `:''} `;
+
+      mobileShapeColor = document.getElementById('mobile-shape-color').value.slice(1);
+      mobileDividerDirection = ([...genform.mobiledividerdirection].filter((r) => r.checked)[0] || {}).value;
+      mobileLongAxisValue = document.getElementById("mobile-long_axis").value;
+      mobileShortAxisValue = document.getElementById("mobile-short_axis").value;
+      mobilePositionValue = document.getElementById("mobile-position").value;
+      mobileFlipped = document.getElementById('mobile-flipped-checkbox').checked ? true : false;
+
+      mobileSelectedShape = svgDividers[mobileShapeIndex][mobileDividerDirection].replaceAll('%23000000', '%23' + mobileShapeColor).replaceAll('#', '%23');
+      if (views[2].classList.contains('active')) {
+         colorDiv.style.backgroundColor = '#' + mobileShapeColor;
+      }
+
+
+mobileShapeDiv = `.${shapeCSSName}{
+overflow:hidden;
+position:relative;
+}
+.${shapeCSSName}::before{
+content:'';
+font-family:'shape divider from ShapeDividers.com';
+position: absolute;
+bottom: -1px;
+left: -1px;
+right: -1px;
+top: -1px;
+z-index: 3;
+pointer-events: none;
+background-repeat: no-repeat; ${mobileAnimate? `
+transform:${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? `scale${mobileShapeRatio? '' : 'X'}(${mobileAnimLongAxis});` : `scale${mobileShapeRatio? '' : 'Y'}(${mobileAnimLongAxis});`}
+transform-origin: ${mobileDividerDirection == 'top' ? '100% 0;' : mobileDividerDirection == 'bottom' ? '100% 100%;' : mobileDividerDirection == 'right' ? '100% 100%;' : mobileDividerDirection == 'left' ? '0 100%;' : ''}
+animation: ${mobileAnimLength}s infinite alternate ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? `${animHorName}-mobile` : `${animVerName}-mobile`} linear;
+background-size: ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? '100%' : mobileShortAxisValue + 'px'} ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? mobileShortAxisValue + 'px' : '100%'};` : `
+background-size: ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? mobileLongAxisValue + '%' : mobileShortAxisValue + 'px'} ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? mobileShortAxisValue + 'px' : mobileLongAxisValue + '%'};`}
+background-position: ${mobileDividerDirection == 'left'? 0 : mobileDividerDirection == 'right'? 100 : mobilePositionValue}% ${mobileDividerDirection == 'top'? 0 : mobileDividerDirection == 'bottom'? 100 : mobilePositionValue }%;    ${(mobileFlipped && !mobileAnimate) ? `
+transform: rotate${ (mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? 'Y' : 'X'}(180deg);` : ''}
+background-image: url('data:image/svg+xml;charset=utf8, ${mobileSelectedShape}'); 
+}
+${mobileAnimate?`
+@keyframes ${(mobileDividerDirection == 'top' || mobileDividerDirection == 'bottom')? `${animHorName}-mobile {
+  100% {
+    transform: scale${mobileShapeRatio? '' : 'X'}(${mobileAnimLongAxis}) translateX(calc(100% - (100% / ${mobileAnimLongAxis})));
+  }
+}` : `${animVerName}-mobile {
+  100% {
+    transform: scale${mobileShapeRatio? '' : 'Y'}(${mobileAnimLongAxis}) translateY(calc(100% - (100% / ${mobileAnimLongAxis})));
+  }
+}` } ` : ''}
+`;
+} } 
+
+
+/*********
+ * Code for Share Link Design url
+ * *******/
+ 
+ let shareLink = document.getElementById('share');
+shareLink.addEventListener("click", () => updateURL(true));
+
+
+
+/*************
+ * Code for update range values
+ * ***********/
+
+const settings = {
+   fill: "#1abc9c",
+   background: "#d7dcdf",
+};
+
+const sliders = document.querySelectorAll(".range-slider");
+Array.prototype.forEach.call(sliders, (slider) => {
+   slider.querySelector("input").addEventListener("input", (event) => {
+      slider.querySelector("span").innerHTML = event.target.value;
+      applyFill(event.target);
+   });
+   applyFill(slider.querySelector("input"));
+});
+
+function applyFill(slider) {
+   const percentage = (100 * (slider.value - slider.min)) / (slider.max - slider.min);
+   const bg = `linear-gradient(90deg, ${settings.fill} ${percentage}%, ${settings.background} ${percentage + 0.1}%)`;
+   slider.style.background = bg;
+}
+
+updateShape();
+   
+</script>				</div>
+				</div>
+				<div class="elementor-element elementor-element-ed9bfaa elementor-absolute elementor-widget elementor-widget-html" data-id="ed9bfaa" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_position&quot;:&quot;absolute&quot;}" data-widget_type="html.default">
+				<div class="elementor-widget-container">
+					<style>
+.container{
+    position: fixed;
+    right: 21px;
+    left: 40%;
+    top: 21px;
+    bottom:21px;
+    overflow-y: scroll;
+    background-color: white;
+    z-index: 99;
+    border-radius: 21px 0 0 21px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.47s;
+}
+.container:hover{
+    opacity: 1;
+}
+.container.right, .container.left{
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.container div {
+    margin: 40px 0;
+    position: relative;
+}
+.container div.top, .container div.bottom  {
+    width: 100%;
+}
+.container svg {
+    cursor: pointer;
+    border: 1px solid #FE6DA8;
+    border-radius: 14px;
+    padding: 10px;
+    margin: 0 21px;
+    height: 60px;
+    width: 96%;
+}
+.container .right svg, .container .left svg {
+    width: 78px;
+    height: 610px;
+}
+.container .selected svg{
+    box-shadow: 0 0 0 10px #fe6da8;
+}
+.container div.premium::after {
+    content: 'premium';
+    font-size: 12px;
+    position: absolute;
+    right: 12px;
+    top: 72px;
+}
+.container div.premium.right::after, .container div.premium.left::after {
+    right: 24px;
+    top: -18px;
+}
+.container div.premium.right.selected::after, .container div.premium.left.selected::after {
+    top: -28px;
+}
+.container::-webkit-scrollbar-track
+{
+	background-color: #F4f4f4;
+}
+
+.container::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F4f4f4;
+	height: 90%;
+}
+.container::-webkit-scrollbar-thumb
+{
+	background-color: #00000044;
+}
+
+@media (max-height:710px){
+section.settings_window > div > div > div {
+    border-radius:0!important;
+}
+
+section.settings_window .elementor-element-populated {
+    max-height: 90vh;
+    overflow-y: scroll;
+}
+
+section.settings_window ::-webkit-scrollbar-track
+{
+        background-color: #F4f4f4;
+}
+
+section.settings_window ::-webkit-scrollbar
+{
+        width: 10px;
+        background-color: #F4f4f4;
+}
+section.settings_window ::-webkit-scrollbar-thumb
+{
+        background-color: #00000044;
+}
+}
+
+
+</style>
+<script>
+    
+let element = document.createElement('div');
+
+element.classList.add('container');
+document.body.appendChild(element);
+
+function updatePreview() {
+
+   element.innerHTML = '';
+   element.className = 'container';
+   if (views[0].classList.contains('active')) {
+      element.classList.add(dividerDirection);
+   } else if (views[1].classList.contains('active')) {
+      element.classList.add(tabletDividerDirection);
+   } else {
+      element.classList.add(mobileDividerDirection);
+   }
+   
+   svgDividers.forEach((e, i) => {
+      let newElement = document.createElement('div');
+      newElement.classList.add(e.slug);
+      if (e.pro) {
+         newElement.classList.add('premium');
+      }
+      if (views[0].classList.contains('active')) {
+         newElement.classList.add(dividerDirection);
+         newElement.innerHTML = e[dividerDirection];
+      } else if (views[1].classList.contains('active')) {
+         newElement.classList.add(tabletDividerDirection);
+         newElement.innerHTML = e[tabletDividerDirection];
+      } else {
+         newElement.classList.add(mobileDividerDirection);
+         newElement.innerHTML = e[mobileDividerDirection];
+      }
+
+      element.appendChild(newElement);
+
+
+      newElement.addEventListener('click', updateFormOptionsAndSelectedShapeStyling);
+      
+      function updateFormOptionsAndSelectedShapeStyling() {
+         if (views[0].classList.contains('active')) {
+            shapeIndex = i;
+         } else if (views[1].classList.contains('active')) {
+            tabletShapeIndex = i;
+         } else {
+            mobileShapeIndex = i;
+         }
+         document.querySelectorAll('.container div').forEach(e => e.classList.remove('selected'));
+         newElement.classList.add('selected');
+
+
+             premiumCheck();
+         
+         
+         if (views[0].classList.contains('active')) {
+            if (e.ratio){
+         document.getElementById('animation_long_axis').value = 3;
+         document.getElementById('animation_long_axis').setAttribute('max','4');
+         } else {
+         document.getElementById('animation_long_axis').value = 4;
+         document.getElementById('animation_long_axis').setAttribute('max','10');
+         }
+         } else if (views[1].classList.contains('active')) {
+         if (e.ratio){
+         document.getElementById('tablet-animation_long_axis').value = 3;
+         document.getElementById('tablet-animation_long_axis').setAttribute('max','4');
+         } else {
+         document.getElementById('tablet-animation_long_axis').value = 4;
+         document.getElementById('tablet-animation_long_axis').setAttribute('max','10');
+         }
+         } else {
+         if (e.ratio){
+         document.getElementById('mobile-animation_long_axis').value = 3;
+         document.getElementById('mobile-animation_long_axis').setAttribute('max','4');
+         } else {
+         document.getElementById('mobile-animation_long_axis').value = 4;
+         document.getElementById('mobile-animation_long_axis').setAttribute('max','10');
+         }
+         }
+         sliders.forEach((e,i) =>{
+   e.querySelector("span").innerHTML = e.querySelector("input").value;
+   applyFill(e.querySelector("input"));
+    });
+
+         updateShape();
+      };
+      
+      
+   });
+
+}
+
+updatePreview();
+
+document.querySelector('.container div').classList.add('selected');
+
+function updateSelectedShape() {
+   document.querySelectorAll('.container div').forEach(e => e.classList.remove('selected'));
+   if (views[0].classList.contains('active')) {
+      document.querySelectorAll('.container div')[shapeIndex].classList.add('selected');
+   } else if (views[1].classList.contains('active')) {
+      document.querySelectorAll('.container div')[tabletShapeIndex].classList.add('selected');
+   } else {
+      document.querySelectorAll('.container div')[mobileShapeIndex].classList.add('selected');
+   }
+}
+
+directionEntry.forEach((e, i) => {
+   e.onchange = function() {
+      updatePreview();
+      updateSelectedShape();
+   };
+});
+
+
+
+
+
+
+</script>				</div>
+				</div>
+				<div class="elementor-element elementor-element-4c22454 elementor-absolute elementor-widget elementor-widget-html" data-id="4c22454" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_position&quot;:&quot;absolute&quot;}" data-widget_type="html.default">
+				<div class="elementor-widget-container">
+					<style>
+
+.logged-out-only {
+    display: flex;
+}
+.logged-in .logged-out-only {
+    display: none;
+}
+
+form {
+  padding: 0 20px;
+  margin: 0 auto;
+  max-width: 600px;
+}
+form h1 {
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+  line-height: 1;
+  font-size: 1.6rem;
+}
+form .row {
+  margin-bottom: 16px;
+  position: relative;
+}
+form input[type=text], form input[type=password], form textarea {
+  width: 100%;
+  height: 40px;
+  padding: 6px 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  color: #333;
+  border-radius: 3px;
+  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
+}
+form textarea {
+  height: auto;
+  min-height: 200px;
+  padding: 50px 10px 10px 10px;
+}
+form input[type=text] + label, form input[type=password] + label, form textarea + label {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  height: 40px;
+  line-height: 40px;
+  font-size: 12px;
+  font-weight: bold;
+  width: 80px;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: white;
+  background: #0288D1;
+  border-radius: 3px 0 0 3px;
+  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
+  transform: translateZ(0) translateX(0);
+}
+form textarea + label {
+  width: 100%;
+  border-radius: 3px 3px 0 0;
+}
+form input[type=checkbox], form input[type=radio] {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+}
+form input[type=radio] + label {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-indent: -9999px;
+  background: #ccc;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
+}
+form input[type=radio] + label:before {
+  content: "";
+  position: absolute;
+  display: block;
+  height: 10px;
+  width: 10px;
+  top: 50%;
+  left: 50%;
+  background: white;
+  border-radius: 100%;
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9) 0.1s;
+  transform: translateZ(0) translate(-50%, -50%) scale(0);
+}
+form input[type=radio]:checked + label {
+  background: #1abc9c;
+}
+form input[type=radio]:checked + label:before {
+  transform: translateZ(0) translate(-50%, -50%) scale(1);
+}
+form input[type=checkbox] + label {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-indent: -999px;
+  background: #ccc;
+  width: 41px;
+  height: 24px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
+}
+
+form input[type=checkbox] + label:before {
+  content: "";
+  position: absolute;
+  display: block;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #0288D1;
+  border-radius: 100px;
+  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9) 0.1s;
+  transform: translateZ(0) scale(0);
+}
+form input[type=checkbox] + label:after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 2px;
+  display: block;
+  height: 18px;
+  width: 18px;
+  background: white;
+  border-radius: 100%;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
+  transform: translateZ(0) translateX(0);
+}
+form input[type=checkbox]:checked + label {
+  background: #0288D1;
+}
+form input[type=checkbox]:checked + label:after {
+  left: calc(100% - 20px);
+  transform: translateZ(0);
+}
+form button {
+  position: relative;
+  overflow: hidden;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: white;
+  border: none;
+  background: #0288D1;
+  border-radius: 3px;
+  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
+  transform: translateZ(0) translateX(0);
+  z-index: 2;
+}
+form button:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: #01579B;
+  height: 100%;
+  width: 100%;
+  border-radius: 3px;
+  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
+  transform: translateZ(0) scale(0);
+  z-index: -1;
+}
+form button:hover:before, form button:focus:before {
+  transform: scale(1);
+  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
+}
+
+form label, form div{
+    font-size: 1rem;
+}
+
+
+
+
+
+
+
+
+
+
+.percent::after{
+    content:'%';
+    color: white;
+}
+
+
+
+.range-slider__range {
+  -webkit-appearance: none;
+  width: calc(100% - (73px));
+  height: 10px;
+  border-radius: 5px;
+  background: #d7dcdf;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+.range-slider__range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+          appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #2c3e50;
+  cursor: pointer;
+  -webkit-transition: background 0.15s ease-in-out;
+  transition: background 0.15s ease-in-out;
+}
+.range-slider__range::-webkit-slider-thumb:hover {
+  background: #1abc9c;
+}
+.range-slider__range:active::-webkit-slider-thumb {
+  background: #1abc9c;
+}
+.range-slider__range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 50%;
+  background: #2c3e50;
+  cursor: pointer;
+  -moz-transition: background 0.15s ease-in-out;
+  transition: background 0.15s ease-in-out;
+}
+.range-slider__range::-moz-range-thumb:hover {
+  background: #1abc9c;
+}
+.range-slider__range:active::-moz-range-thumb {
+  background: #1abc9c;
+}
+.range-slider__range:focus::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px #fff, 0 0 0 6px #1abc9c;
+}
+
+.range-slider__value {
+  display: inline-block;
+  position: relative;
+  width: 58px;
+  color: #fff;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 3px;
+  background: #2c3e50;
+  padding: 5px 10px;
+  margin-left: 8px;
+}
+.range-slider__value::before {
+  position: absolute;
+  top: 8px;
+  left: -7px;
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-right: 7px solid #2c3e50;
+  border-bottom: 7px solid transparent;
+  content: "";
+}
+
+::-moz-range-track {
+  background: #d7dcdf;
+  border: 0;
+}
+
+input::-moz-focus-inner,
+input::-moz-focus-outer {
+  border: 0;
+}
+
+   .topsection, .rightsection, .bottomsection, .leftsection{
+   display: none;
+   }
+   .topsection.shown, .rightsection.shown, .bottomsection.shown, .leftsection.shown{
+   display: block;
+   }
+   body:not(.elementor-editor-active) {
+   overflow: hidden;
+   }
+
+.row.radio{
+    display: flex;
+    justify-content: space-around;
+}
+.row.radio div{
+    width: 25%;
+    text-align: center;
+}
+.row.radio.textlabel{
+    margin-bottom: 4px;
+}
+
+.row label{
+    width: 100%;
+    display: block;
+}
+
+.flexrow{
+    display: flex;
+    align-items: center;
+}
+
+input[type='color'] {
+  padding: 0;
+  width: 100px;
+  height: 100px;
+  margin: -25%;
+  border: 0;
+}
+
+.cp_wrapper {
+  overflow: hidden;
+  width: 2em;
+  height: 2em;
+  /* optional formatting below here */
+  border-radius: 50%;
+  box-shadow: 1px 1px 3px 0px grey;
+  margin: 1em;
+  display: inline-block;
+}
+
+.row .shape-color-code{
+     height: 39px;
+    width: 100px;
+    display: inline-block;
+    text-transform: uppercase;
+}
+#flipped-checkbox + label + label, #tablet-flipped-checkbox + label + label, #mobile-flipped-checkbox + label + label{
+    width: 84px;
+    margin-left:10px;
+}
+#mobile-ready ~ label.mobile, #flipped-checkbox + label + label, #tablet-flipped-checkbox + label + label, #mobile-flipped-checkbox + label + label {
+    position: relative;
+}
+#mobile-ready ~ label.mobile::before{
+    content:'i';
+    position: absolute;
+    right: 23px;
+    background: white;
+    font-size: 12px;
+    padding: 4px 8px;
+    border:1px solid #00000044;
+    border-radius:40px;
+} /*
+#flipped-checkbox + label + label:hover::after, #tablet-flipped-checkbox + label + label:hover::after, #mobile-flipped-checkbox + label + label:hover::after{
+    content:'Not compatible with Animate';
+    white-space: pre-wrap;
+    position: absolute;
+    top:-40px;
+    width: 210px;
+    left: 0;
+    background: white;
+    font-size: 14px;
+    padding: 8px;
+    border:1px solid #000;
+    border-radius:10px;
+    z-index: 99;
+    pointer-events: none;
+} */
+#mobile-ready ~ label.mobile:hover::after{
+    content:'Generate different shape dividers for different viewports, or just different settings. \A \A Frequent use case: Vertical divider on desktop becomes horizontal on mobile.';
+    white-space: pre-wrap;
+    position: absolute;
+    top:-100px;
+    right: 0;
+    background: white;
+    font-size: 14px;
+    padding: 8px;
+    border:1px solid #000;
+    border-radius:10px;
+    z-index: 99;
+    pointer-events: none;
+}
+/*
+[for='animate-checkbox'][style]::before, [for='tablet-animate-checkbox'][style]::before, [for='mobile-animate-checkbox'][style]::before{
+    content:'i';
+    position: absolute;
+    left: 123px;
+    background: white;
+    font-size: 12px;
+    padding: 4px 8px;
+    border:1px solid #00000044;
+    border-radius:40px;
+}
+
+[for='animate-checkbox'][style]:hover::after, [for='tablet-animate-checkbox'][style]:hover::after, [for='mobile-animate-checkbox'][style]:hover::after{
+   content:'The animate feature is free for a limited period, as part of the launch promotion. \A \A All shapes using the animation feature created and added to your projects before the promotion is over,  are yours to keep.';
+    white-space: pre-wrap;
+    position: absolute;
+    top:-10px;
+    right: 0;
+    background: white;
+    font-size: 14px;
+    padding: 8px;
+    border:1px solid #000;
+    border-radius:10px;
+    z-index: 99;
+    pointer-events: none;
+} */
+
+#copye, #premium{
+height: 40px;
+width: fit-content;
+line-height: 40px;
+padding: 0 20px;
+margin-left:20px;
+cursor: pointer;
+font-size: 12px;
+font-weight: bold;
+text-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+text-align: center;
+text-transform: uppercase;
+letter-spacing: 0.05em;
+color: white;
+border: none;
+background: #1abc9c;
+border-radius: 3px;
+}
+
+#copye.disabled{
+ cursor: not-allowed;  
+ pointer-events: none;
+}
+
+
+#premium, #login{
+    display: none;
+}
+
+#login {
+    padding-left: 20px;
+    margin-top: 10px;
+    color: #717171;
+    text-decoration: underline;
+}
+
+#instruction, #share{
+    position: relative;
+    cursor: pointer;
+}
+
+#instruction:hover::after, #share:hover::after{
+    white-space: pre-wrap;
+    position: absolute;
+    top:-174px;
+    right: 0;
+    background: white;
+    font-size: 14px;
+    padding: 8px;
+    border:1px solid #000;
+    border-radius:10px;
+    z-index: 99;
+    pointer-events: none;
+}
+#instruction:hover::after{
+        content:'Learn how to integrate the generated code with your platform of choice. \A \A Works everywhere. WordPress, WebFlow, Wix, Elementor, Oxygen, Beaver, etc.';
+}
+
+#share:hover::after{
+    content:'Get the direct URL to the design you have created. \A \A It will be automatically copied to your clipboard on click.';
+    top:-130px;
+    left: -74px;
+}
+
+
+</style>				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-c4603ee elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="c4603ee" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-217ed23" data-id="217ed23" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-f467402 elementor-absolute elementor-widget elementor-widget-html" data-id="f467402" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_position&quot;:&quot;absolute&quot;}" data-widget_type="html.default">
+				<div class="elementor-widget-container">
+					<div class="preview"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M16 9C7 9 3 16 3 16s4 7 13 7 13-7 13-7-4-7-13-7zm0 1c-8 0-11.8 6-11.8 6S8 22 16 22s11.8-6 11.8-6S24 10 16 10zm0 10a4 4 0 100-8 4 4 0 000 8zm0-1a3 3 0 100-6 3 3 0 000 6zm0-2a1 1 0 100-2 1 1 0 000 2z" fill="#ffffff" fill-rule="evenodd"></path></svg></div>
+
+<style>
+    
+    
+    .preview{
+        position: fixed;
+        bottom:18px;
+        left: 18px;
+        width: 4vw;
+        height: 4vw;
+        z-index: 99;
+        opacity: 0.7;
+        background-color: black;
+        border-radius: 4px;
+    }
+</style>
+
+<script>
+    
+    let preview = document.querySelector('.preview');
+    preview.addEventListener('mouseenter',function(){
+        jQuery('.settings_window').fadeOut('quick');
+    });
+    preview.addEventListener('mouseleave',function(){
+        jQuery('.settings_window').fadeIn('quick');
+    });
+</script>				</div>
+				</div>
+				<div class="elementor-element elementor-element-ad14a6f elementor-widget__width-initial elementor-absolute elementor-button-align-stretch elementor-widget elementor-widget-form" data-id="ad14a6f" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_position&quot;:&quot;absolute&quot;,&quot;button_width&quot;:&quot;100&quot;,&quot;step_type&quot;:&quot;number_text&quot;,&quot;step_icon_shape&quot;:&quot;circle&quot;}" data-widget_type="form.default">
+				<div class="elementor-widget-container">
+							<form class="elementor-form" method="post" name="Form" aria-label="Form">
+			<input type="hidden" name="post_id" value="2774">
+			<input type="hidden" name="form_id" value="ad14a6f">
+			<input type="hidden" name="referer_title" value="SVG Shape Dividers Generator Tool">
+
+							<input type="hidden" name="queried_id" value="2774">
+			
+			<div class="elementor-form-fields-wrapper elementor-labels-above">
+								<div class="elementor-field-type-url elementor-field-group elementor-column elementor-field-group-createdshape elementor-col-100">
+												<label for="form-field-createdshape" class="elementor-field-label">
+								created shape 							</label>
+														<input size="1" type="url" name="form_fields[createdshape]" id="form-field-createdshape" class="elementor-field elementor-size-sm  elementor-field-textual">
+											</div>
+								<div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-si elementor-col-100">
+												<label for="form-field-si" class="elementor-field-label">
+								si							</label>
+														<input size="1" type="text" name="form_fields[si]" id="form-field-si" class="elementor-field elementor-size-sm  elementor-field-textual">
+											</div>
+								<div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-tsi elementor-col-100">
+												<label for="form-field-tsi" class="elementor-field-label">
+								tsi							</label>
+														<input size="1" type="text" name="form_fields[tsi]" id="form-field-tsi" class="elementor-field elementor-size-sm  elementor-field-textual">
+											</div>
+								<div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-msi elementor-col-100">
+												<label for="form-field-msi" class="elementor-field-label">
+								msi							</label>
+														<input size="1" type="text" name="form_fields[msi]" id="form-field-msi" class="elementor-field elementor-size-sm  elementor-field-textual">
+											</div>
+								<div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-mobileready elementor-col-100">
+												<label for="form-field-mobileready" class="elementor-field-label">
+								mobileReady							</label>
+														<input size="1" type="text" name="form_fields[mobileready]" id="form-field-mobileready" class="elementor-field elementor-size-sm  elementor-field-textual">
+											</div>
+								<div class="elementor-field-type-text elementor-field-group elementor-column elementor-field-group-animated elementor-col-100">
+												<label for="form-field-animated" class="elementor-field-label">
+								animated							</label>
+														<input size="1" type="text" name="form_fields[animated]" id="form-field-animated" class="elementor-field elementor-size-sm  elementor-field-textual">
+											</div>
+								<div class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons">
+					<button class="elementor-button elementor-size-sm" type="submit">
+						<span class="elementor-button-content-wrapper">
+																						<span class="elementor-button-text">Send</span>
+													</span>
+					</button>
+				</div>
+			</div>
+		</form>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-0ebf4ea elementor-absolute elementor-widget elementor-widget-html" data-id="0ebf4ea" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_position&quot;:&quot;absolute&quot;}" data-widget_type="html.default">
+				<div class="elementor-widget-container">
+					<script>
+
+let formElement = document.querySelector('.elementor-form');
+let formCreatedShape = document.getElementById('form-field-createdshape');
+let formSi = document.getElementById('form-field-si');
+let formTsi = document.getElementById('form-field-tsi');
+let formMsi = document.getElementById('form-field-msi');
+let formMobileReady = document.getElementById('form-field-mobileready');
+let formAnimated = document.getElementById('form-field-animated');
+
+
+function formUpdate(){
+    formCreatedShape.value = location.href;
+    formSi.value = svgDividers[shapeIndex].si;
+    formTsi.value = svgDividers[tabletShapeIndex].si;
+    formMsi.value = svgDividers[mobileShapeIndex].si;
+    formMobileReady.value = mobileReady;
+    formAnimated.value = animate || (mobileReady && (tabletAnimate || mobileAnimate));
+    jQuery('.elementor-button[type="submit"]').click();
+}
+
+
+
+copyCodeButton.addEventListener("click", formUpdate);
+
+
+</script>				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+				<div class="post-tags">
+					</div>
+			</div>
