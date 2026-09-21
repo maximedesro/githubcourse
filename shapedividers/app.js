@@ -1061,6 +1061,11 @@ const premiumButton = document.getElementById("premium");
 const loginButton = document.getElementById("login");
 
 const exportModal = document.getElementById("export-modal");
+
+if (exportModal && exportModal.parentElement !== document.body) {
+    document.body.appendChild(exportModal);
+}
+
 const exportCssCode = document.getElementById("export-code-css");
 const exportSvgCode = document.getElementById("export-code-svg");
 const exportCopyButton = document.getElementById("export-copy");
