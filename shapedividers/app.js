@@ -1258,61 +1258,56 @@ function getSvgExportStates() {
     return states;
 }
 
-function getInlineSvgParts(svgMarkup) {
-    const openingTag = svgMarkup.match(/<svg\b([^>]*)>/i);
-    const attributes = openingTag ? openingTag[1] : '';
+function getPlainExportSvg(shapeIndex, direction, className) {
+    const rawSvg = svgDividers[shapeIndex][direction];
+    const inlineSvg = replaceInlineSvgColorsWithCurrentColor(
+        normalizeSvgForCanvas(rawSvg, '000000')
+    );
 
-    const getAttribute = (name, fallback = '') => {
-        const match = attributes.match(
-            new RegExp('\\\\b' + name + '=["\\\']([^"\\\']+)["\\\']', 'i')
+    return addClassToInlineSvg(inlineSvg, className)
+        .replace(
+            /<svg\b/i,
+            '<svg aria-hidden="true" focusable="false"'
         );
-        return match ? match[1] : fallback;
-    };
-
-    const innerMarkup = svgMarkup
-        .replace(/^\s*<svg\b[^>]*>/i, '')
-        .replace(/<\/svg>\s*$/i, '');
-
-    return {
-        viewBox: getAttribute('viewBox', '0 0 1 1'),
-        preserveAspectRatio: getAttribute('preserveAspectRatio', 'xMidYMid meet'),
-        innerMarkup
-    };
 }
 
-function buildSvgStateCss(wrapperClass, shapeClass, state) {
-    const selector = '.' + wrapperClass + ' .' + shapeClass;
+function getSvgStateDeclarations(state) {
     const horizontal = state.direction === 'top' || state.direction === 'bottom';
     const longAxis = Number(state.longAxis) || 100;
     const shortAxis = Number(state.shortAxis) || 0;
     const position = Number(state.position) || 0;
     const offset = position * (1 - longAxis / 100);
     const animationScale = Math.max(1, Number(state.animationLongAxis) || 1);
-    const keyframeName = wrapperClass + '-' + state.key + '-animation';
 
-    const declarations = [
-        'display:block',
-        'position:absolute',
-        'z-index:3',
-        'pointer-events:none',
-        'max-width:none',
-        'color:#' + state.color,
-        'top:auto',
-        'right:auto',
-        'bottom:auto',
-        'left:auto',
-        'transform:none',
-        'transform-origin:center',
-        'animation:none'
-    ];
+    const declarations = {
+        display: 'block',
+        position: 'absolute',
+        color: '#' + state.color,
+        'max-width': 'none',
+        top: 'auto',
+        right: 'auto',
+        bottom: 'auto',
+        left: 'auto',
+        width: 'auto',
+        height: 'auto',
+        transform: 'none',
+        'transform-origin': 'center',
+        animation: 'none'
+    };
+
+    let keyframes = '';
 
     if (state.animate) {
         if (horizontal) {
-            declarations.push('width:100%', 'height:' + shortAxis + 'px', 'left:0');
-            declarations.push(state.direction === 'top' ? 'top:-0.1vw' : 'bottom:-0.1vw');
+            declarations.width = '100%';
+            declarations.height = shortAxis + 'px';
+            declarations.left = '0';
+            declarations[state.direction === 'top' ? 'top' : 'bottom'] = '-0.1vw';
         } else {
-            declarations.push('width:' + shortAxis + 'px', 'height:100%', 'top:0');
-            declarations.push(state.direction === 'left' ? 'left:-0.1vw' : 'right:-0.1vw');
+            declarations.width = shortAxis + 'px';
+            declarations.height = '100%';
+            declarations.top = '0';
+            declarations[state.direction === 'left' ? 'left' : 'right'] = '-0.1vw';
         }
 
         const scaleFunction = horizontal
@@ -1325,140 +1320,113 @@ function buildSvgStateCss(wrapperClass, shapeClass, state) {
             state.direction === 'right' ? '100% 100%' :
             '0 100%';
 
-        declarations.push(
-            'transform:' + scaleFunction + '(' + animationScale + ')',
-            'transform-origin:' + transformOrigin,
-            'animation:' + (Number(state.animationLength) || 1) + 's infinite alternate ' + keyframeName + ' linear'
-        );
+        const keyframeName = 'shape-export-' + state.key + '-animation';
+
+        declarations.transform =
+            scaleFunction + '(' + animationScale + ')';
+        declarations['transform-origin'] = transformOrigin;
+        declarations.animation =
+            (Number(state.animationLength) || 1) +
+            's infinite alternate ' + keyframeName + ' linear';
 
         const translateAxis = horizontal ? 'X' : 'Y';
-        const keyframes =
+
+        keyframes =
             '@keyframes ' + keyframeName + '{\n' +
-            '  100%{transform:' + scaleFunction + '(' + animationScale + ') translate' + translateAxis +
+            '  100%{transform:' +
+            scaleFunction + '(' + animationScale + ') translate' + translateAxis +
             '(calc(100% - (100% / ' + animationScale + ')));}\n' +
             '}';
-
-        return {
-            rule: selector + '{\n  ' + declarations.join(';\n  ') + ';\n}',
-            keyframes
-        };
-    }
-
-    if (horizontal) {
-        declarations.push(
-            'width:' + longAxis + '%',
-            'height:' + shortAxis + 'px',
-            'left:' + offset + '%'
-        );
-        declarations.push(state.direction === 'top' ? 'top:-0.1vw' : 'bottom:-0.1vw');
     } else {
-        declarations.push(
-            'width:' + shortAxis + 'px',
-            'height:' + longAxis + '%',
-            'top:' + offset + '%'
-        );
-        declarations.push(state.direction === 'left' ? 'left:-0.1vw' : 'right:-0.1vw');
+        if (horizontal) {
+            declarations.width = longAxis + '%';
+            declarations.height = shortAxis + 'px';
+            declarations.left = offset + '%';
+            declarations[state.direction === 'top' ? 'top' : 'bottom'] = '-0.1vw';
+        } else {
+            declarations.width = shortAxis + 'px';
+            declarations.height = longAxis + '%';
+            declarations.top = offset + '%';
+            declarations[state.direction === 'left' ? 'left' : 'right'] = '-0.1vw';
+        }
+
+        if (state.flipped) {
+            declarations.transform = horizontal
+                ? 'scaleX(-1)'
+                : 'scaleY(-1)';
+        }
     }
 
-    if (state.flipped) {
-        declarations.push(horizontal ? 'transform:scaleX(-1)' : 'transform:scaleY(-1)');
-    }
-
-    return {
-        rule: selector + '{\n  ' + declarations.join(';\n  ') + ';\n}',
-        keyframes: ''
-    };
+    return { declarations, keyframes };
 }
 
-function buildSvgDirectionCss(wrapperClass, shapeClass, state) {
-    const useBase = '.' + wrapperClass + ' .' + shapeClass + '__use';
-    const activeUse =
-        '.' + wrapperClass + ' .' + shapeClass + '__use--' + state.direction;
+function diffDeclarations(previous, next) {
+    const changed = {};
 
-    return [
-        useBase + '{display:none;}',
-        activeUse + '{display:block;}'
-    ].join('\n');
-}
-
-function buildResponsiveSvgRuleBlock(wrapperClass, allShapeClasses, state) {
-    const shapeClass = wrapperClass + '__shape-' + state.shapeIndex;
-    const hiddenSelectors = allShapeClasses
-        .map((className) => '.' + wrapperClass + ' .' + className)
-        .join(', ');
-
-    const stateCss = buildSvgStateCss(wrapperClass, shapeClass, state);
-
-    return {
-        css: [
-            hiddenSelectors + '{display:none;}',
-            stateCss.rule,
-            buildSvgDirectionCss(wrapperClass, shapeClass, state)
-        ].join('\n\n'),
-        keyframes: stateCss.keyframes
-    };
-}
-
-function buildResponsiveShapeSvg(wrapperClass, shapeIndex, directions) {
-    const shapeClass = wrapperClass + '__shape-' + shapeIndex;
-    const symbolMarkup = [];
-    const useMarkup = [];
-
-    directions.forEach((direction) => {
-        const rawSvg = svgDividers[shapeIndex][direction];
-        const inlineSvg = replaceInlineSvgColorsWithCurrentColor(
-            normalizeSvgForCanvas(rawSvg, '000000')
-        );
-        const parts = getInlineSvgParts(inlineSvg);
-        const symbolId =
-            wrapperClass + '-shape-' + shapeIndex + '-' + direction;
-
-        symbolMarkup.push(
-            '    <symbol id="' + symbolId + '" viewBox="' + parts.viewBox +
-            '" preserveAspectRatio="' + parts.preserveAspectRatio + '">' +
-            parts.innerMarkup +
-            '</symbol>'
-        );
-
-        useMarkup.push(
-            '  <use class="' + shapeClass + '__use ' +
-            shapeClass + '__use--' + direction +
-            '" href="#' + symbolId + '" width="100%" height="100%"></use>'
-        );
+    Object.keys(next).forEach((property) => {
+        if (previous[property] !== next[property]) {
+            changed[property] = next[property];
+        }
     });
 
+    return changed;
+}
+
+function formatDeclarationRule(selector, declarations) {
+    const entries = Object.entries(declarations);
+
+    if (!entries.length) return '';
+
     return (
-        '<svg class="' + shapeClass +
-        '" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">' +
-        '\n  <defs>\n' +
-        symbolMarkup.join('\n') +
-        '\n  </defs>\n' +
-        useMarkup.join('\n') +
-        '\n</svg>'
+        selector + '{\n' +
+        entries
+            .map(([property, value]) => '  ' + property + ':' + value + ';')
+            .join('\n') +
+        '\n}'
     );
+}
+
+function statesAreSameShape(a, b) {
+    return a.shapeIndex === b.shapeIndex &&
+        a.direction === b.direction;
 }
 
 function buildSvgExportCode() {
     const wrapperClass = shapeCSSName + '-svg';
     const states = getSvgExportStates();
 
-    const uniqueShapeIndexes = [...new Set(
-        states.map((state) => state.shapeIndex)
-    )];
+    const mobileState = mobileReady
+        ? states.find((state) => state.key === 'mobile')
+        : states[0];
 
-    const allShapeClasses = uniqueShapeIndexes.map(
-        (index) => wrapperClass + '__shape-' + index
-    );
+    const tabletState = mobileReady
+        ? states.find((state) => state.key === 'tablet')
+        : null;
 
-    const directionsByShape = new Map();
+    const desktopState = states.find((state) => state.key === 'desktop');
 
-    states.forEach((state) => {
-        if (!directionsByShape.has(state.shapeIndex)) {
-            directionsByShape.set(state.shapeIndex, new Set());
-        }
+    const uniqueShapeStates = [];
 
-        directionsByShape.get(state.shapeIndex).add(state.direction);
-    });
+    [mobileState, tabletState, desktopState]
+        .filter(Boolean)
+        .forEach((state) => {
+            const existing = uniqueShapeStates.find(
+                (candidate) => statesAreSameShape(candidate, state)
+            );
+
+            if (!existing) uniqueShapeStates.push(state);
+        });
+
+    const shapeEntries = uniqueShapeStates.map((state, index) => ({
+        state,
+        className: wrapperClass + '__shape-' + index
+    }));
+
+    function getShapeEntry(state) {
+        return shapeEntries.find(
+            (entry) => statesAreSameShape(entry.state, state)
+        );
+    }
 
     const rules = [
         '.' + wrapperClass + '{',
@@ -1467,73 +1435,119 @@ function buildSvgExportCode() {
         '  overflow:hidden;',
         '  pointer-events:none;',
         '  z-index:3;',
-        '}',
-        allShapeClasses
-            .map((className) => '.' + wrapperClass + ' .' + className)
-            .join(', ') +
-            '{display:none;}'
+        '}'
     ];
 
-    const keyframes = [];
-
-    const baseState = mobileReady
-        ? states.find((state) => state.key === 'mobile')
-        : states[0];
-
-    const baseBlock = buildResponsiveSvgRuleBlock(
-        wrapperClass,
-        allShapeClasses,
-        baseState
-    );
-
-    rules.push(baseBlock.css);
-    if (baseBlock.keyframes) keyframes.push(baseBlock.keyframes);
-
-    if (mobileReady) {
-        const tabletState = states.find((state) => state.key === 'tablet');
-        const desktopState = states.find((state) => state.key === 'desktop');
-
-        const tabletBlock = buildResponsiveSvgRuleBlock(
-            wrapperClass,
-            allShapeClasses,
-            tabletState
-        );
-
-        const desktopBlock = buildResponsiveSvgRuleBlock(
-            wrapperClass,
-            allShapeClasses,
-            desktopState
-        );
-
+    if (shapeEntries.length > 1) {
         rules.push(
-            '@media (min-width:768px){\n' +
-            tabletBlock.css +
-            '\n}',
-            '@media (min-width:1025px){\n' +
-            desktopBlock.css +
-            '\n}'
+            shapeEntries
+                .map((entry) => '.' + wrapperClass + ' .' + entry.className)
+                .join(', ') +
+            '{display:none;}'
         );
-
-        if (tabletBlock.keyframes) keyframes.push(tabletBlock.keyframes);
-        if (desktopBlock.keyframes) keyframes.push(desktopBlock.keyframes);
     }
 
-    const markup = uniqueShapeIndexes.map((shapeIndex) =>
-        buildResponsiveShapeSvg(
-            wrapperClass,
-            shapeIndex,
-            [...directionsByShape.get(shapeIndex)]
+    const baseEntry = getShapeEntry(mobileState);
+    const baseStateCss = getSvgStateDeclarations(mobileState);
+    const baseDeclarations = {
+        ...baseStateCss.declarations,
+        'z-index': '3',
+        'pointer-events': 'none'
+    };
+
+    rules.push(
+        formatDeclarationRule(
+            '.' + wrapperClass + ' .' + baseEntry.className,
+            baseDeclarations
         )
     );
 
-    const styleCode = rules.concat(keyframes).join('\n\n');
+    const keyframes = [];
+    if (baseStateCss.keyframes) keyframes.push(baseStateCss.keyframes);
+
+    let previousState = mobileState;
+    let previousEntry = baseEntry;
+    let previousDeclarations = baseStateCss.declarations;
+
+    const responsiveSteps = mobileReady
+        ? [
+            { minWidth: 768, state: tabletState },
+            { minWidth: 1025, state: desktopState }
+        ]
+        : [];
+
+    responsiveSteps.forEach(({ minWidth, state }) => {
+        const entry = getShapeEntry(state);
+        const stateCss = getSvgStateDeclarations(state);
+        const mediaRules = [];
+
+        if (entry !== previousEntry) {
+            mediaRules.push(
+                '.' + wrapperClass + ' .' + previousEntry.className +
+                '{display:none;}'
+            );
+
+            const changedFromHidden = {
+                ...stateCss.declarations,
+                display: 'block'
+            };
+
+            mediaRules.push(
+                formatDeclarationRule(
+                    '.' + wrapperClass + ' .' + entry.className,
+                    changedFromHidden
+                )
+            );
+        } else {
+            const changed = diffDeclarations(
+                previousDeclarations,
+                stateCss.declarations
+            );
+
+            const changedRule = formatDeclarationRule(
+                '.' + wrapperClass + ' .' + entry.className,
+                changed
+            );
+
+            if (changedRule) mediaRules.push(changedRule);
+        }
+
+        if (mediaRules.length) {
+            rules.push(
+                '@media (min-width:' + minWidth + 'px){\n' +
+                mediaRules.join('\n\n') +
+                '\n}'
+            );
+        }
+
+        if (stateCss.keyframes) keyframes.push(stateCss.keyframes);
+
+        previousState = state;
+        previousEntry = entry;
+        previousDeclarations = stateCss.declarations;
+    });
+
+    const markup = shapeEntries.map((entry) =>
+        getPlainExportSvg(
+            entry.state.shapeIndex,
+            entry.state.direction,
+            entry.className
+        )
+    );
+
+    const styleCode = rules
+        .filter(Boolean)
+        .concat([...new Set(keyframes)])
+        .join('\n\n');
 
     return (
         '<style>\n' +
         styleCode +
         '\n</style>\n\n' +
         '<div class="' + wrapperClass + '">\n' +
-        markup.map((svg) => '  ' + svg.replace(/\n/g, '\n  ')).join('\n') +
+        markup
+            .map((svg) => '  ' + svg.replace(/\n/g, '\n  '))
+            .join('\n') +
         '\n</div>'
     );
 }
