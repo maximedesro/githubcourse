@@ -1430,13 +1430,16 @@ function buildSvgExportCode() {
     }
 
     const rules = [
-        '.' + wrapperClass + '{',
-        '  position:absolute;',
-        '  inset:0;',
-        '  overflow:hidden;',
-        '  pointer-events:none;',
-        '  z-index:3;',
-        '}'
+        formatDeclarationRule(
+            '.' + wrapperClass,
+            {
+                position: 'absolute',
+                inset: '0',
+                overflow: 'hidden',
+                'pointer-events': 'none',
+                'z-index': '3'
+            }
+        )
     ];
 
     if (shapeEntries.length > 1) {
