@@ -209,7 +209,10 @@
    <div class="row" style='display:flex; align-items:center;'>
       <input type="checkbox" name="mobile-ready" id="mobile-ready"/>
       <label for="mobile-ready">Checkbox</label>
-      <label for="mobile-ready" class="mobile" style='margin-left:10px; width:140px;'>Responsive</label>
+      <label for="mobile-ready" class="mobile tooltip-trigger" style='margin-left:10px; width:140px;' aria-describedby="responsive-tooltip">
+         Responsive
+         <span id="responsive-tooltip" class="ui-tooltip" role="tooltip">Generate different shape dividers for different viewports, or just different settings.<br><br>Frequent use case: Vertical divider on desktop becomes horizontal on mobile.</span>
+      </label>
    </div>
 </form>
 <div class="export-actions">
@@ -218,8 +221,14 @@
 <a id='premium' href='https://shapedividers.com/get-premium/'>Premium Feature: Get Pro Now!</a>
 <a id='login' href='https://shapedividers.com/account/'>Already a premium user? login here</a>
 <div class="row" style='display:flex; align-items:center; justify-content:space-between; margin:40px 20px 0; font-size:14px;'>
-      <a id='instruction' href='https://shapedividers.com/documentation/' title='Learn how to integrate the generated code into your platform of choice.'>How To Add to Your Page</a>
-      <a id='share' class='links'>Share Your Design</a>
+      <a id='instruction' class='tooltip-trigger' href='https://shapedividers.com/documentation/' aria-describedby='instruction-tooltip'>
+         How To Add to Your Page
+         <span id='instruction-tooltip' class='ui-tooltip' role='tooltip'>Learn how to integrate the generated code with your platform of choice.<br><br>Works everywhere. WordPress, WebFlow, Wix, Elementor, Oxygen, Beaver, etc.</span>
+      </a>
+      <a id='share' class='links tooltip-trigger' aria-describedby='share-tooltip'>
+         Share Your Design
+         <span id='share-tooltip' class='ui-tooltip' role='tooltip'>Get the direct URL to the design you have created.<br><br>It will be automatically copied to your clipboard on click.</span>
+      </a>
    </div>
 <div class="row logged-out-only" style='align-items:center; justify-content:flex-end; margin:20px 20px 0; font-size:14px;'>
       <a class='links' href="https://shapedividers.com/account/">Log in</a>
