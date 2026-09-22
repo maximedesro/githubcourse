@@ -196,7 +196,7 @@ position:relative;
 .container div.top, .container div.bottom  {
     width: 100%;
 }
-.container svg {
+.container canvas {
     cursor: pointer;
     border: 1px solid #FE6DA8;
     border-radius: 14px;
@@ -205,11 +205,11 @@ position:relative;
     height: 60px;
     width: 96%;
 }
-.container .right svg, .container .left svg {
+.container .right canvas, .container .left canvas {
     width: 78px;
     height: 610px;
 }
-.container .selected svg{
+.container .selected canvas{
     box-shadow: 0 0 0 10px #fe6da8;
 }
 .container div.premium::after {
