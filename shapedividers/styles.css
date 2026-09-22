@@ -1138,6 +1138,11 @@ body {
 }
 
 @media (max-width: 767px) {
+  div.container,
+  div.container:hover {
+    display: none;
+  }
+
   .hover-here-hint {
     display: none;
   }
