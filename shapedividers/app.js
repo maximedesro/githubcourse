@@ -57,7 +57,8 @@ if (!previewHost) {
         responsiveParams.forEach(([key, value]) => params.append(key, value));
     }
 
-    return '/?' + params.toString();
+    const currentPath = window.location.pathname || '/';
+    return currentPath + '?' + params.toString();
 }
 
 function updateURL(copyToClipboard = false) {
