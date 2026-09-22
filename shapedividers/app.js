@@ -2323,7 +2323,7 @@ shapePicker.addEventListener('click', (event) => {
 
     setActiveShapeIndex(index);
     configureAnimationAxisForShape(svgDividers[index], getActiveDirection());
-    renderShapePicker();
+    updateSelectedShape();
     refreshRangeSliders();
     updateShape();
 });
