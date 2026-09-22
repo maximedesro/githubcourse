@@ -966,11 +966,6 @@ views.forEach((view, index) => {
         viewsSettings[index].style.display = 'block';
         previewerFrame.className = previewClasses[index];
 
-        if (!alreadyChangedView && !urlParams.has('tabletDividerDirection')) {
-            syncResponsiveControlsFromDesktop();
-            alreadyChangedView = true;
-        }
-
         updateShape();
         renderShapePicker();
         updateSelectedShape();
@@ -980,16 +975,30 @@ views.forEach((view, index) => {
 const viewsSelect = document.querySelector('.view_select');
 
 document.getElementById('mobile-ready').addEventListener('change', function() {
-   if (this.checked) {
-      viewsSelect.style.display = 'flex';
-   } else {
-      viewsSelect.style.display = 'none';
-      views.forEach(e => e.classList.remove('active'));
-      views[0].classList.add('active');
-      viewsSettings.forEach(e => e.style.display = 'none');
-      viewsSettings[0].style.display = 'block';
-      previewerFrame.setAttribute("class", previewClasses[0]);
-   }
+    if (this.checked) {
+        if (
+            !alreadyChangedView &&
+            !urlParams.has('tabletDividerDirection')
+        ) {
+            syncResponsiveControlsFromDesktop();
+        }
+
+        alreadyChangedView = true;
+        viewsSelect.style.display = 'flex';
+    } else {
+        viewsSelect.style.display = 'none';
+        views.forEach((view) => view.classList.remove('active'));
+        views[0].classList.add('active');
+        viewsSettings.forEach((settings) => {
+            settings.style.display = 'none';
+        });
+        viewsSettings[0].style.display = 'block';
+        previewerFrame.className = previewClasses[0];
+    }
+
+    updateShape();
+    renderShapePicker();
+    updateSelectedShape();
 });
 
 
