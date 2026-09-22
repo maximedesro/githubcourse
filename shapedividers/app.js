@@ -1422,18 +1422,18 @@ function namespaceInlineSvgIds(svgMarkup, namespace) {
         namespacedSvg = namespacedSvg
             .replace(
                 new RegExp(
-                    '(url\\(\\s*[\\'"]?#)' +
+                    "(url\\(\\s*['\"]?#)" +
                     escapedOriginal +
-                    '([\\'"]?\\s*\\))',
+                    "(['\"]?\\s*\\))",
                     'g'
                 ),
                 '$1' + replacement + '$2'
             )
             .replace(
                 new RegExp(
-                    '((?:xlink:)?href\\s*=\\s*[\\'"]#)' +
+                    "((?:xlink:)?href\\s*=\\s*['\"]#)" +
                     escapedOriginal +
-                    '([\\'"])',
+                    "(['\"])",
                     'g'
                 ),
                 '$1' + replacement + '$2'
