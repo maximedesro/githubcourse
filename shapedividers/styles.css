@@ -203,7 +203,7 @@ position:relative;
     padding: 10px;
     margin: 0 21px;
     height: 60px;
-    width: 96%;
+    width: calc(100% - 42px);
 }
 .container .right canvas, .container .left canvas {
     width: 78px;
@@ -419,47 +419,6 @@ section.settings_window ::-webkit-scrollbar-thumb
   left: calc(100% - 20px);
   transform: translateZ(0);
 }
-#genform button {
-  position: relative;
-  overflow: hidden;
-  height: 40px;
-  line-height: 40px;
-  padding: 0 20px;
-  font-size: 12px;
-  font-weight: bold;
-  text-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: white;
-  border: none;
-  background: #0288D1;
-  border-radius: 3px;
-  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
-  transform: translateZ(0) translateX(0);
-  z-index: 2;
-}
-#genform button:before {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  background: #01579B;
-  height: 100%;
-  width: 100%;
-  border-radius: 3px;
-  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
-  transform: translateZ(0) scale(0);
-  z-index: -1;
-}
-#genform button:hover:before, #genform button:focus:before {
-  transform: scale(1);
-  transition: all 0.3s cubic-bezier(1, 0.1, 0, 0.9);
-}
-
 #genform label, #genform div{
     font-size: 1rem;
 }
@@ -561,12 +520,6 @@ input::-moz-focus-outer {
   border: 0;
 }
 
-   .topsection, .rightsection, .bottomsection, .leftsection{
-   display: none;
-   }
-   .topsection.shown, .rightsection.shown, .bottomsection.shown, .leftsection.shown{
-   display: block;
-   }
    body:not(.elementor-editor-active) {
    overflow: hidden;
    }
@@ -694,11 +647,6 @@ color: white;
 border: none;
 background: #1abc9c;
 border-radius: 3px;
-}
-
-#copye.disabled{
- cursor: not-allowed;  
- pointer-events: none;
 }
 
 .export-actions{
@@ -997,10 +945,6 @@ pointer-events:none!important;
         background-color: black;
         border-radius: 4px;
     }
-#responsive_view_frame {
-  pointer-events: none;
-}
-
 #genform {
     position: fixed;
     z-index: 999;
@@ -1131,7 +1075,6 @@ body {
 }
 
 /* Controls that belong below the form remain inside the same floating card. */
-.settings-panel > #copye,
 .settings-panel > #premium,
 .settings-panel > #login {
   margin-bottom: 0;
