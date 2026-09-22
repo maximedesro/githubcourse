@@ -271,7 +271,9 @@ const BITMAP_MAX_SHORT_SIDE = 8192;
 
 const BITMAP_CACHE_LIMIT = 2;
 const bitmapCache = new Map();
+const pendingBitmapRequests = new Map();
 
+let activePreviewCacheKey = null;
 let canvasRenderRevision = 0;
 let animationFrameId = null;
 let animationStartedAt = 0;
@@ -473,14 +475,21 @@ function getBitmapLongSide(state, bounds) {
 
 function trimBitmapCache() {
     while (bitmapCache.size > BITMAP_CACHE_LIMIT) {
-        const oldestKey = bitmapCache.keys().next().value;
-        const cached = bitmapCache.get(oldestKey);
+        const evictableKey = [...bitmapCache.keys()].find(
+            (key) => key !== activePreviewCacheKey
+        );
+
+        if (evictableKey === undefined) {
+            return;
+        }
+
+        const cached = bitmapCache.get(evictableKey);
 
         if (cached && typeof cached.close === 'function') {
             cached.close();
         }
 
-        bitmapCache.delete(oldestKey);
+        bitmapCache.delete(evictableKey);
     }
 }
 
@@ -566,7 +575,7 @@ async function rasterizeSvg(svgMarkup, longSide, horizontal) {
     }
 }
 
-async function getCachedDividerBitmap(state, bounds) {
+async function getCachedDividerBitmap(state, bounds, revision) {
     const horizontal = state.direction === 'top' || state.direction === 'bottom';
     const longSide = getBitmapLongSide(state, bounds);
     const cacheKey = [
@@ -580,17 +589,82 @@ async function getCachedDividerBitmap(state, bounds) {
         const cached = bitmapCache.get(cacheKey);
         bitmapCache.delete(cacheKey);
         bitmapCache.set(cacheKey, cached);
-        return cached;
+
+        return {
+            bitmap: cached,
+            cacheKey
+        };
     }
 
-    const rawSvg = svgDividers[state.shapeIndex][state.direction];
-    const svgMarkup = normalizeSvgForCanvas(rawSvg, state.color);
-    const bitmap = await rasterizeSvg(svgMarkup, longSide, horizontal);
+    let pending = pendingBitmapRequests.get(cacheKey);
 
-    bitmapCache.set(cacheKey, bitmap);
-    trimBitmapCache();
+    if (!pending) {
+        const rawSvg = svgDividers[state.shapeIndex][state.direction];
+        const svgMarkup = normalizeSvgForCanvas(rawSvg, state.color);
 
-    return bitmap;
+        pending = {
+            latestRevision: revision,
+            promise: rasterizeSvg(
+                svgMarkup,
+                longSide,
+                horizontal
+            )
+        };
+
+        pendingBitmapRequests.set(cacheKey, pending);
+
+        pending.promise
+            .then((bitmap) => {
+                const stillPending =
+                    pendingBitmapRequests.get(cacheKey) === pending;
+
+                if (!stillPending) {
+                    return;
+                }
+
+                pendingBitmapRequests.delete(cacheKey);
+
+                if (pending.latestRevision !== canvasRenderRevision) {
+                    if (bitmap && typeof bitmap.close === 'function') {
+                        bitmap.close();
+                    }
+                    return;
+                }
+
+                bitmapCache.set(cacheKey, bitmap);
+                trimBitmapCache();
+            })
+            .catch(() => {
+                if (pendingBitmapRequests.get(cacheKey) === pending) {
+                    pendingBitmapRequests.delete(cacheKey);
+                }
+            });
+    } else {
+        pending.latestRevision = Math.max(
+            pending.latestRevision,
+            revision
+        );
+    }
+
+    const bitmap = await pending.promise;
+
+    if (revision !== canvasRenderRevision) {
+        return null;
+    }
+
+    const cached = bitmapCache.get(cacheKey);
+
+    if (!cached) {
+        return null;
+    }
+
+    bitmapCache.delete(cacheKey);
+    bitmapCache.set(cacheKey, cached);
+
+    return {
+        bitmap: cached,
+        cacheKey
+    };
 }
 
 function resizePreviewCanvas() {
@@ -717,9 +791,23 @@ async function renderCanvasPreview(state) {
     const bounds = dividerPreviewHost.getBoundingClientRect();
 
     try {
-        const bitmap = await getCachedDividerBitmap(state, bounds);
+        const cachedResult = await getCachedDividerBitmap(
+            state,
+            bounds,
+            revision
+        );
 
-        if (revision !== canvasRenderRevision) return;
+        if (
+            revision !== canvasRenderRevision ||
+            !cachedResult
+        ) {
+            return;
+        }
+
+        const { bitmap, cacheKey } = cachedResult;
+
+        activePreviewCacheKey = cacheKey;
+        trimBitmapCache();
 
         if (!state.animate) {
             drawDividerBitmap(bitmap, state);
