@@ -938,7 +938,6 @@ function premiumCheck() {
 
     if (!hasPremiumAccess()) {
         copyCodeButton.style.display = premiumRequired ? 'none' : '';
-        exportSettingsButton.style.display = premiumRequired ? 'none' : 'flex';
         premiumButton.style.display = premiumRequired ? 'block' : 'none';
         loginButton.style.display = premiumRequired ? 'block' : 'none';
     }
