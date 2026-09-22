@@ -103,8 +103,6 @@ document.getElementById('shape-color').value = '#' + urlParams.get('shapeColor')
 document.getElementById('shape-color-code').value = '#' + urlParams.get('shapeColor');
 shapeIndex = getShapeIndex('si');
 document.getElementById('mobile-ready').checked = ('true' == urlParams.get('mobileReady'));
-
-urlStylesLoaded = true;
 }
 if (urlParams.has('tabletDividerDirection')){
 
@@ -142,20 +140,15 @@ document.getElementById('mobile-shape-color-code').value = '#' + urlParams.get('
 mobileShapeIndex = getShapeIndex('msi');
 }
 
+urlStylesLoaded = true;
 
-setTimeout(function(){
-document.querySelectorAll('.container div').forEach(e => e.classList.remove('selected'));
-const selectedShapeElement = document.querySelectorAll('.container div')[shapeIndex];
-if (selectedShapeElement) {
-    selectedShapeElement.classList.add('selected');
-}
- mobileReady? viewsSelect.style.display = 'flex' : null;
- }, 970);
- 
- 
- 
-   refreshRangeSliders();
-    
+const responsiveEnabled =
+    document.getElementById('mobile-ready').checked;
+
+viewsSelect.style.display = responsiveEnabled ? 'flex' : 'none';
+
+refreshRangeSliders();
+
 }
 
 }
