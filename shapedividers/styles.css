@@ -726,30 +726,6 @@ margin-left:20px;
 margin-left:0;
 }
 
-#export-settings{
-display:flex;
-align-items:center;
-justify-content:center;
-width:40px;
-height:40px;
-padding:0;
-cursor:pointer;
-color:#fff;
-background:#1abc9c;
-border:0;
-border-radius:3px;
-}
-
-#export-settings:hover,
-#export-settings:focus-visible{
-filter:brightness(.94);
-}
-
-#export-settings svg{
-width:21px;
-height:21px;
-}
-
 .export-modal[hidden]{
 display:none;
 }
