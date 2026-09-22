@@ -1964,6 +1964,30 @@ function getPickerCanvasSize(canvas, direction) {
     };
 }
 
+function getPickerBitmapLongSide(rawSvg, direction, canvasSize) {
+    const horizontal = direction === 'top' || direction === 'bottom';
+    const aspectRatio = Math.max(getSvgAspectRatio(rawSvg), 0.0001);
+
+    const targetShortSide = horizontal
+        ? canvasSize.height
+        : canvasSize.width;
+
+    const sourceLongPerShort = horizontal
+        ? aspectRatio
+        : 1 / aspectRatio;
+
+    const longSideForShortAxis =
+        targetShortSide * sourceLongPerShort;
+
+    return Math.min(
+        4096,
+        Math.max(
+            PICKER_BITMAP_LONG_SIDE,
+            Math.ceil(longSideForShortAxis)
+        )
+    );
+}
+
 function releasePickerCanvas(canvas) {
     canvas.dataset.nearby = 'false';
     canvas.dataset.rendered = 'false';
@@ -1990,9 +2014,16 @@ async function renderPickerCanvas(canvas, shapeIndex, direction, revision) {
     let bitmap = null;
 
     try {
+        const size = getPickerCanvasSize(canvas, direction);
+        const bitmapLongSide = getPickerBitmapLongSide(
+            rawSvg,
+            direction,
+            size
+        );
+
         bitmap = await rasterizeSvg(
             svgMarkup,
-            PICKER_BITMAP_LONG_SIDE,
+            bitmapLongSide,
             horizontal
         );
 
@@ -2003,8 +2034,6 @@ async function renderPickerCanvas(canvas, shapeIndex, direction, revision) {
         ) {
             return;
         }
-
-        const size = getPickerCanvasSize(canvas, direction);
 
         canvas.width = size.width;
         canvas.height = size.height;
