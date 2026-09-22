@@ -1461,7 +1461,12 @@ function getSvgStateDeclarations(state, animationNamespace) {
     const longAxis = Number(state.longAxis) || 100;
     const shortAxis = Number(state.shortAxis) || 0;
     const position = Number(state.position) || 0;
-    const offset = position * (1 - longAxis / 100);
+    const positionedPercent =
+        state.flipped && !state.animate
+            ? 100 - position
+            : position;
+    const offset =
+        positionedPercent * (1 - longAxis / 100);
     const animationScale = Math.max(1, Number(state.animationLongAxis) || 1);
 
     const declarations = {
@@ -1900,7 +1905,7 @@ background-image: url('data:image/svg+xml;charset=utf8, ${selectedShape}'); `}` 
 ${mobileReady? '}' : ''}
 ${(dividerDirection === 'top' || dividerDirection === 'bottom')? `@media (min-width:2100px){
 .${shapeCSSName}::before{
-background-size: ${longAxisValue + '%'} ${'calc(2vw + ' + shortAxisValue + 'px)'};
+background-size: ${animate ? '100%' : longAxisValue + '%'} ${'calc(2vw + ' + shortAxisValue + 'px)'};
 }
 }` : '' }
 ${animate? `
