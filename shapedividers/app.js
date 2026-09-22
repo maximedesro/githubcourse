@@ -1937,8 +1937,33 @@ let shapePickerRenderRevision = 0;
 
 function getPickerCanvasSize(canvas, direction) {
     const styles = window.getComputedStyle(canvas);
-    const cssWidth = Math.max(1, parseFloat(styles.width) || 1);
-    const cssHeight = Math.max(1, parseFloat(styles.height) || 1);
+    const bounds = canvas.getBoundingClientRect();
+
+    // The picker uses global border-box sizing plus padding/borders.
+    // Canvas pixels render into the content box, so use the actual
+    // content-box ratio here to match the old inline SVG previews.
+    const horizontalPadding =
+        (parseFloat(styles.paddingLeft) || 0) +
+        (parseFloat(styles.paddingRight) || 0);
+    const verticalPadding =
+        (parseFloat(styles.paddingTop) || 0) +
+        (parseFloat(styles.paddingBottom) || 0);
+    const horizontalBorder =
+        (parseFloat(styles.borderLeftWidth) || 0) +
+        (parseFloat(styles.borderRightWidth) || 0);
+    const verticalBorder =
+        (parseFloat(styles.borderTopWidth) || 0) +
+        (parseFloat(styles.borderBottomWidth) || 0);
+
+    const cssWidth = Math.max(
+        1,
+        bounds.width - horizontalPadding - horizontalBorder
+    );
+    const cssHeight = Math.max(
+        1,
+        bounds.height - verticalPadding - verticalBorder
+    );
+
     const horizontal = direction === 'top' || direction === 'bottom';
 
     if (horizontal) {
