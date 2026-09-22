@@ -1377,13 +1377,79 @@ function getSvgExportStates() {
     return states;
 }
 
+function namespaceInlineSvgIds(svgMarkup, namespace) {
+    const idMap = new Map();
+    const safeNamespace =
+        'sd-' + String(namespace).replace(/[^A-Za-z0-9_-]/g, '-');
+
+    svgMarkup.replace(
+        /\bid=(["'])([^"']+)\1/g,
+        (match, quote, id) => {
+            if (!idMap.has(id)) {
+                idMap.set(
+                    id,
+                    safeNamespace + '-' + idMap.size
+                );
+            }
+
+            return match;
+        }
+    );
+
+    if (!idMap.size) return svgMarkup;
+
+    let namespacedSvg = svgMarkup.replace(
+        /\bid=(["'])([^"']+)\1/g,
+        (match, quote, id) => {
+            const replacement = idMap.get(id);
+
+            return replacement
+                ? 'id=' + quote + replacement + quote
+                : match;
+        }
+    );
+
+    idMap.forEach((replacement, original) => {
+        const escapedOriginal = original.replace(
+            /[.*+?^$()|[\]\\{}]/g,
+            '\\$&'
+        );
+
+        namespacedSvg = namespacedSvg
+            .replace(
+                new RegExp(
+                    '(url\\(\\s*[\\'"]?#)' +
+                    escapedOriginal +
+                    '([\\'"]?\\s*\\))',
+                    'g'
+                ),
+                '$1' + replacement + '$2'
+            )
+            .replace(
+                new RegExp(
+                    '((?:xlink:)?href\\s*=\\s*[\\'"]#)' +
+                    escapedOriginal +
+                    '([\\'"])',
+                    'g'
+                ),
+                '$1' + replacement + '$2'
+            );
+    });
+
+    return namespacedSvg;
+}
+
 function getPlainExportSvg(shapeIndex, direction, className) {
     const rawSvg = svgDividers[shapeIndex][direction];
     const inlineSvg = replaceInlineSvgColorsWithCurrentColor(
         normalizeSvgForCanvas(rawSvg, '000000')
     );
+    const namespacedSvg = namespaceInlineSvgIds(
+        inlineSvg,
+        className
+    );
 
-    return addClassToInlineSvg(inlineSvg, className)
+    return addClassToInlineSvg(namespacedSvg, className)
         .replace(
             /<svg\b/i,
             '<svg aria-hidden="true" focusable="false"'
