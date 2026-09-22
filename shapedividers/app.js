@@ -1089,7 +1089,6 @@ function updateShape() {
 }
 
 const copyCodeButton = document.getElementById("copye");
-const exportSettingsButton = document.getElementById("export-settings");
 const premiumButton = document.getElementById("premium");
 const loginButton = document.getElementById("login");
 
@@ -1110,8 +1109,6 @@ let activeExportTab = "css";
 let preparedCssExport = "";
 let preparedSvgExport = "";
 
-copyCodeButton.addEventListener("click", () => updateURL(false));
-copyCodeButton.addEventListener("click", copyCode);
 
 
 const settingsWindow = document.querySelector('.settings_window');
@@ -1663,10 +1660,10 @@ function closeExportModal() {
 
     exportModal.hidden = true;
     document.body.classList.remove('export-modal-open');
-    exportSettingsButton?.focus();
+    copyCodeButton?.focus();
 }
 
-exportSettingsButton?.addEventListener('click', openExportModal);
+copyCodeButton?.addEventListener('click', openExportModal);
 
 exportTabs.forEach((tab) => {
     tab.addEventListener('click', () => {
@@ -2040,7 +2037,6 @@ function formUpdate() {
     }
 }
 
-copyCodeButton.addEventListener("click", formUpdate);
 
 }
 
