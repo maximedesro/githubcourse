@@ -165,11 +165,11 @@ function getShapeIndex(param) {
 
 /* Form styling in part from https://codepen.io/dapacreative/pen/bdzYEe */
    
-let dividerDirection, longAxisValue, shortAxisValue, positionValue, flipped, animate, animLength, animLongAxis, animHorName, animVerName, shapeDiv, shapeColor, shapeIndex, selectedShape, shapeRatio, si;
+let dividerDirection, longAxisValue, shortAxisValue, positionValue, flipped, animate, animLength, animLongAxis, animHorName, animVerName, shapeDiv, shapeColor, shapeIndex, selectedShape, shapeRatio;
 
-let tabletDividerDirection, tabletLongAxisValue, tabletShortAxisValue, tabletPositionValue, tabletFlipped, tabletAnimate, tabletAnimLength, tabletAnimLongAxis, tabletAnimHorName, tabletAnimVerName, tabletShapeDiv, tabletShapeColor, tabletShapeIndex, tabletSelectedShape, tabletShapeRatio, tsi;
+let tabletDividerDirection, tabletLongAxisValue, tabletShortAxisValue, tabletPositionValue, tabletFlipped, tabletAnimate, tabletAnimLength, tabletAnimLongAxis, tabletShapeDiv, tabletShapeColor, tabletShapeIndex, tabletSelectedShape, tabletShapeRatio;
 
-let mobileDividerDirection, mobileLongAxisValue, mobileShortAxisValue, mobilePositionValue, mobileFlipped, mobileAnimate, mobileAnimLength, mobileAnimHorName, mobileAnimVerName, mobileAnimLongAxis, mobileShapeDiv, mobileShapeColor, mobileShapeIndex, mobileSelectedShape, mobileShapeRatio, msi;
+let mobileDividerDirection, mobileLongAxisValue, mobileShortAxisValue, mobilePositionValue, mobileFlipped, mobileAnimate, mobileAnimLength, mobileAnimLongAxis, mobileShapeDiv, mobileShapeColor, mobileShapeIndex, mobileSelectedShape, mobileShapeRatio;
 
 let mobileReady;
 
@@ -260,9 +260,6 @@ const previewContext = previewCanvas.getContext('2d', {
 
 const BITMAP_BASE_LONG_SIDE = 8192;
 const BITMAP_MAX_LONG_SIDE = 16384;
-
-const BITMAP_BASE_SHORT_SIDE = 4096;
-const BITMAP_MAX_SHORT_SIDE = 8192;
 
 const BITMAP_CACHE_LIMIT = 2;
 const bitmapCache = new Map();
@@ -1238,19 +1235,6 @@ function generateCssExportCode({ renewClassName = true } = {}) {
         : shapeDiv;
 }
 
-function copyCode() {
-    copyCodeButton.textContent = 'Copied!';
-
-    const generatedCode = generateCssExportCode();
-
-    if (generatedCode === null) {
-        writeClipboard(getPremiumExportMessage());
-        return;
-    }
-
-    writeClipboard(generatedCode);
-}
-
 
 if (settingsWindow) {
     settingsWindow.addEventListener('mouseleave', function () {
@@ -1663,7 +1647,6 @@ function buildSvgExportCode() {
     const keyframes = [];
     if (baseStateCss.keyframes) keyframes.push(baseStateCss.keyframes);
 
-    let previousState = mobileState;
     let previousEntry = baseEntry;
     let previousDeclarations = baseStateCss.declarations;
 
@@ -1720,7 +1703,6 @@ function buildSvgExportCode() {
 
         if (stateCss.keyframes) keyframes.push(stateCss.keyframes);
 
-        previousState = state;
         previousEntry = entry;
         previousDeclarations = stateCss.declarations;
     });
