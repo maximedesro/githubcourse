@@ -1929,9 +1929,173 @@ function configureAnimationAxisForShape(shape, direction) {
     input.max = preservesRatio ? 4 : 10;
 }
 
+const PICKER_BITMAP_LONG_SIDE = 1400;
+const PICKER_PRELOAD_MARGIN = '800px 0px 800px 0px';
+
+let shapePickerObserver = null;
+let shapePickerRenderRevision = 0;
+
+function getPickerCanvasSize(canvas, direction) {
+    const styles = window.getComputedStyle(canvas);
+    const cssWidth = Math.max(1, parseFloat(styles.width) || 1);
+    const cssHeight = Math.max(1, parseFloat(styles.height) || 1);
+    const horizontal = direction === 'top' || direction === 'bottom';
+
+    if (horizontal) {
+        return {
+            width: PICKER_BITMAP_LONG_SIDE,
+            height: Math.max(
+                1,
+                Math.round(
+                    PICKER_BITMAP_LONG_SIDE * cssHeight / cssWidth
+                )
+            )
+        };
+    }
+
+    return {
+        width: Math.max(
+            1,
+            Math.round(
+                PICKER_BITMAP_LONG_SIDE * cssWidth / cssHeight
+            )
+        ),
+        height: PICKER_BITMAP_LONG_SIDE
+    };
+}
+
+function releasePickerCanvas(canvas) {
+    canvas.dataset.nearby = 'false';
+    canvas.dataset.rendered = 'false';
+    canvas.width = 1;
+    canvas.height = 1;
+}
+
+async function renderPickerCanvas(canvas, shapeIndex, direction, revision) {
+    if (
+        canvas.dataset.rendering === 'true' ||
+        canvas.dataset.rendered === 'true'
+    ) {
+        return;
+    }
+
+    const shape = svgDividers[shapeIndex];
+    if (!shape || !shape[direction]) return;
+
+    canvas.dataset.rendering = 'true';
+
+    const horizontal = direction === 'top' || direction === 'bottom';
+    const rawSvg = shape[direction];
+    const svgMarkup = normalizeSvgForCanvas(rawSvg, '000000');
+    let bitmap = null;
+
+    try {
+        bitmap = await rasterizeSvg(
+            svgMarkup,
+            PICKER_BITMAP_LONG_SIDE,
+            horizontal
+        );
+
+        if (
+            revision !== shapePickerRenderRevision ||
+            !canvas.isConnected ||
+            canvas.dataset.nearby !== 'true'
+        ) {
+            return;
+        }
+
+        const size = getPickerCanvasSize(canvas, direction);
+
+        canvas.width = size.width;
+        canvas.height = size.height;
+
+        const context = canvas.getContext('2d', {
+            alpha: true,
+            desynchronized: true
+        });
+
+        context.clearRect(0, 0, size.width, size.height);
+        context.imageSmoothingEnabled = true;
+        context.imageSmoothingQuality = 'high';
+
+        drawImagePreservingSvgAspectRatio(
+            context,
+            bitmap,
+            0,
+            0,
+            size.width,
+            size.height,
+            getPreserveAspectRatio(rawSvg)
+        );
+
+        canvas.dataset.rendered = 'true';
+    } catch (error) {
+        console.error(
+            'ShapeDividers: failed to render picker canvas.',
+            error
+        );
+    } finally {
+        canvas.dataset.rendering = 'false';
+
+        if (bitmap && typeof bitmap.close === 'function') {
+            bitmap.close();
+        }
+    }
+}
+
+function observePickerCanvases(revision) {
+    shapePickerObserver?.disconnect();
+
+    const canvases = [
+        ...shapePicker.querySelectorAll('canvas[data-shape-preview]')
+    ];
+
+    if (typeof IntersectionObserver === 'undefined') {
+        canvases.forEach((canvas) => {
+            canvas.dataset.nearby = 'true';
+            renderPickerCanvas(
+                canvas,
+                Number(canvas.dataset.shapePreview),
+                canvas.dataset.direction,
+                revision
+            );
+        });
+        return;
+    }
+
+    shapePickerObserver = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                const canvas = entry.target;
+
+                if (entry.isIntersecting) {
+                    canvas.dataset.nearby = 'true';
+                    renderPickerCanvas(
+                        canvas,
+                        Number(canvas.dataset.shapePreview),
+                        canvas.dataset.direction,
+                        revision
+                    );
+                    return;
+                }
+
+                releasePickerCanvas(canvas);
+            });
+        },
+        {
+            root: shapePicker,
+            rootMargin: PICKER_PRELOAD_MARGIN,
+            threshold: 0
+        }
+    );
+
+    canvases.forEach((canvas) => shapePickerObserver.observe(canvas));
+}
+
 function renderShapePicker() {
     const activeDirection = getActiveDirection();
     const activeShapeIndex = getActiveShapeIndex();
+    const revision = ++shapePickerRenderRevision;
 
     shapePicker.className = `container ${activeDirection}`;
 
@@ -1945,11 +2109,21 @@ function renderShapePicker() {
         if (shape.pro) item.classList.add('premium');
         if (index === activeShapeIndex) item.classList.add('selected');
 
-        item.innerHTML = shape[activeDirection];
+        const canvas = document.createElement('canvas');
+        canvas.width = 1;
+        canvas.height = 1;
+        canvas.dataset.shapePreview = String(index);
+        canvas.dataset.direction = activeDirection;
+        canvas.dataset.nearby = 'false';
+        canvas.dataset.rendered = 'false';
+        canvas.setAttribute('aria-hidden', 'true');
+
+        item.appendChild(canvas);
         fragment.appendChild(item);
     });
 
     shapePicker.replaceChildren(fragment);
+    observePickerCanvases(revision);
 }
 
 shapePicker.addEventListener('click', (event) => {
