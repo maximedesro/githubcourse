@@ -1964,28 +1964,73 @@ function getPickerCanvasSize(canvas, direction) {
     };
 }
 
-function getPickerBitmapLongSide(rawSvg, direction, canvasSize) {
-    const horizontal = direction === 'top' || direction === 'bottom';
-    const aspectRatio = Math.max(getSvgAspectRatio(rawSvg), 0.0001);
+function setSvgRasterViewport(svgMarkup, width, height) {
+    return svgMarkup.replace(/<svg\b([^>]*)>/i, (match, attributes) => {
+        const cleanedAttributes = attributes
+            .replace(/\swidth=(["']).*?\1/i, '')
+            .replace(/\sheight=(["']).*?\1/i, '');
 
-    const targetShortSide = horizontal
-        ? canvasSize.height
-        : canvasSize.width;
+        return (
+            '<svg' +
+            cleanedAttributes +
+            ' width="' + width + '"' +
+            ' height="' + height + '"' +
+            '>'
+        );
+    });
+}
 
-    const sourceLongPerShort = horizontal
-        ? aspectRatio
-        : 1 / aspectRatio;
-
-    const longSideForShortAxis =
-        targetShortSide * sourceLongPerShort;
-
-    return Math.min(
-        4096,
-        Math.max(
-            PICKER_BITMAP_LONG_SIDE,
-            Math.ceil(longSideForShortAxis)
-        )
+async function rasterizePickerSvg(svgMarkup, width, height) {
+    const viewportSvg = setSvgRasterViewport(
+        svgMarkup,
+        width,
+        height
     );
+
+    const blob = new Blob(
+        [viewportSvg],
+        { type: 'image/svg+xml;charset=utf-8' }
+    );
+    const objectUrl = URL.createObjectURL(blob);
+
+    try {
+        const image = new Image();
+        image.decoding = 'async';
+
+        const loaded = new Promise((resolve, reject) => {
+            image.onload = resolve;
+            image.onerror = reject;
+        });
+
+        image.src = objectUrl;
+
+        if (typeof image.decode === 'function') {
+            try {
+                await image.decode();
+            } catch {
+                await loaded;
+            }
+        } else {
+            await loaded;
+        }
+
+        const rasterCanvas = document.createElement('canvas');
+        rasterCanvas.width = width;
+        rasterCanvas.height = height;
+
+        const context = rasterCanvas.getContext('2d', { alpha: true });
+        context.imageSmoothingEnabled = true;
+        context.imageSmoothingQuality = 'high';
+        context.drawImage(image, 0, 0, width, height);
+
+        if (typeof createImageBitmap === 'function') {
+            return await createImageBitmap(rasterCanvas);
+        }
+
+        return rasterCanvas;
+    } finally {
+        URL.revokeObjectURL(objectUrl);
+    }
 }
 
 function releasePickerCanvas(canvas) {
@@ -2008,23 +2053,20 @@ async function renderPickerCanvas(canvas, shapeIndex, direction, revision) {
 
     canvas.dataset.rendering = 'true';
 
-    const horizontal = direction === 'top' || direction === 'bottom';
     const rawSvg = shape[direction];
     const svgMarkup = normalizeSvgForCanvas(rawSvg, '000000');
     let bitmap = null;
 
     try {
         const size = getPickerCanvasSize(canvas, direction);
-        const bitmapLongSide = getPickerBitmapLongSide(
-            rawSvg,
-            direction,
-            size
-        );
 
-        bitmap = await rasterizeSvg(
+        // Render the SVG directly at the picker's final viewport ratio.
+        // This lets the browser apply the root SVG's preserveAspectRatio
+        // exactly as it did when the picker contained inline <svg>.
+        bitmap = await rasterizePickerSvg(
             svgMarkup,
-            bitmapLongSide,
-            horizontal
+            size.width,
+            size.height
         );
 
         if (
@@ -2047,14 +2089,12 @@ async function renderPickerCanvas(canvas, shapeIndex, direction, revision) {
         context.imageSmoothingEnabled = true;
         context.imageSmoothingQuality = 'high';
 
-        drawImagePreservingSvgAspectRatio(
-            context,
+        context.drawImage(
             bitmap,
             0,
             0,
             size.width,
-            size.height,
-            getPreserveAspectRatio(rawSvg)
+            size.height
         );
 
         canvas.dataset.rendered = 'true';
