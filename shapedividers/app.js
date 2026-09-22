@@ -61,13 +61,15 @@ if (!previewHost) {
     return currentPath + '?' + params.toString();
 }
 
-function updateURL(copyToClipboard = false) {
+async function updateURL(copyToClipboard = false) {
     const shareUrl = buildShareUrl();
     window.history.replaceState({}, 'shape', shareUrl);
 
-    if (copyToClipboard) {
-        navigator.clipboard.writeText(window.location.origin + shareUrl);
+    if (!copyToClipboard) {
+        return true;
     }
+
+    return writeClipboard(window.location.origin + shareUrl);
 }
 
 const queryString = window.location.search;
@@ -1205,8 +1207,10 @@ const settingsWindow = document.querySelector('.settings_window');
 async function writeClipboard(text) {
     try {
         await navigator.clipboard.writeText(text);
+        return true;
     } catch (error) {
         console.error('ShapeDividers: clipboard write failed.', error);
+        return false;
     }
 }
 
@@ -1836,13 +1840,24 @@ document.querySelectorAll('[data-export-close]').forEach((control) => {
 });
 
 exportCopyButton?.addEventListener('click', async () => {
-    updateURL(false);
+    await updateURL(false);
 
     const code = activeExportTab === 'svg'
         ? preparedSvgExport
         : preparedCssExport;
 
-    await writeClipboard(code);
+    const copied = await writeClipboard(code);
+
+    if (!copied) {
+        if (exportCopyLabel) {
+            exportCopyLabel.textContent = 'Copy failed';
+            window.setTimeout(() => {
+                if (exportCopyLabel) exportCopyLabel.textContent = 'Copy';
+            }, 1800);
+        }
+        return;
+    }
+
     formUpdate();
 
     if (exportCopyLabel) {
@@ -2018,7 +2033,13 @@ ${mobileAnimate?`
  * *******/
  
  const shareLink = document.getElementById('share');
-shareLink.addEventListener("click", () => updateURL(true));
+shareLink.addEventListener("click", async () => {
+    const copied = await updateURL(true);
+
+    if (!copied) {
+        console.error('ShapeDividers: share link copy failed.');
+    }
+});
 
 
 
