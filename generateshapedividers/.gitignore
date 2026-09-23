@@ -1,0 +1,8 @@
+# Local automation state
+done_threads.json
+debug-screenshots/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
