@@ -141,6 +141,30 @@ again.
 
 The script reads `aspect-ratio-done-threads.json` and skips conversations that it has already reserved or completed.
 
+
+## Reliability / automatic recovery
+
+The rerun script now automatically handles the intermittent failures seen in long runs where ChatGPT either closes/replaces the active tab or a conversation loads without mounting the composer.
+
+It will:
+
+- retry a conversation UI up to 4 times before giving up on that attempt;
+- reopen or reuse a live ChatGPT tab if the current page disappears;
+- navigate directly back to the target conversation URL during recovery;
+- reload a conversation if its composer does not appear;
+- continue with the remaining batch instead of terminating on a temporary Playwright page/composer error;
+- only mark a thread `reserved` after its composer is visible and the follow-up has actually been filled;
+- keep an ambiguous post-submit failure as `reserved` to avoid accidental duplicate sends;
+- record pre-submit failures as `prepare_failed`, which are eligible to be retried on a later pass.
+
+So if the browser UI glitches during a multi-hour run, the normal command is still:
+
+```bash
+./.venv/bin/python rerun_aspect_ratio.py
+```
+
+and the script should keep going rather than exiting on the first transient UI failure.
+
 ## Duplicate protection
 
 Immediately before submitting a follow-up, the script stores that conversation UUID as:
