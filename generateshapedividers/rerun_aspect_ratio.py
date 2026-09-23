@@ -124,11 +124,12 @@ def save_debug_screenshot(page, label):
     )
 
     try:
-        page.screenshot(
-            path=str(path),
-            full_page=True,
-        )
-        print(f"Saved screenshot: {path}")
+        if page_is_usable(page):
+            page.screenshot(
+                path=str(path),
+                full_page=True,
+            )
+            print(f"Saved screenshot: {path}")
     except Exception:
         pass
 
@@ -355,52 +356,266 @@ def wait_for_conversation(page, old_url=None):
     )
 
 
-def wait_for_composer(page):
-    composer = page.locator(
-        COMPOSER
-    ).first
+def page_is_usable(page):
+    try:
+        return page is not None and not page.is_closed()
+    except Exception:
+        return False
 
-    composer.wait_for(
-        state="visible",
-        timeout=30_000,
+
+def recover_page(context, page=None, target_url=None):
+    """
+    Return a live ChatGPT page.
+
+    ChatGPT occasionally replaces or closes the active tab while the
+    automation is running. Reuse another ChatGPT tab if possible, or
+    open a fresh one, then navigate directly to target_url when supplied.
+    """
+    if page_is_usable(page):
+        live_page = page
+    else:
+        live_page = None
+
+        try:
+            for candidate in context.pages:
+                try:
+                    if (
+                        not candidate.is_closed()
+                        and "chatgpt.com" in candidate.url
+                    ):
+                        live_page = candidate
+                        break
+                except Exception:
+                    pass
+        except Exception:
+            pass
+
+        if live_page is None:
+            live_page = context.new_page()
+
+    live_page.set_default_timeout(20_000)
+
+    if target_url:
+        try:
+            if live_page.url != target_url:
+                live_page.goto(
+                    target_url,
+                    wait_until="domcontentloaded",
+                    timeout=60_000,
+                )
+            else:
+                live_page.wait_for_load_state(
+                    "domcontentloaded",
+                    timeout=30_000,
+                )
+        except Exception:
+            # A normal reload is often enough when the SPA got stuck.
+            try:
+                live_page.goto(
+                    target_url,
+                    wait_until="domcontentloaded",
+                    timeout=60_000,
+                )
+            except Exception:
+                pass
+
+    return live_page
+
+
+def wait_for_composer(page, timeout_ms=45_000):
+    """
+    Wait for a usable visible composer.
+
+    The page sometimes finishes URL navigation before the conversation
+    UI is actually mounted, so this uses a longer timeout and a few
+    selector fallbacks.
+    """
+    selectors = [
+        COMPOSER,
+        'div.ProseMirror[contenteditable="true"]',
+        '[contenteditable="true"][role="textbox"]',
+    ]
+
+    deadline = time.monotonic() + (
+        timeout_ms / 1000
     )
 
-    return composer
+    last_error = None
+
+    while time.monotonic() < deadline:
+        if not page_is_usable(page):
+            raise RuntimeError(
+                "The ChatGPT page was closed while waiting for the composer."
+            )
+
+        for selector in selectors:
+            try:
+                locator = page.locator(
+                    selector
+                ).first
+
+                if locator.is_visible(
+                    timeout=750
+                ):
+                    return locator
+            except Exception as exc:
+                last_error = exc
+
+        page.wait_for_timeout(
+            250
+        )
+
+    raise RuntimeError(
+        "No visible ChatGPT composer appeared within "
+        f"{timeout_ms / 1000:.0f} seconds."
+        + (
+            f" Last error: {last_error}"
+            if last_error
+            else ""
+        )
+    )
 
 
-def send_followup(page, prompt):
-    composer = wait_for_composer(page)
+def prepare_followup(page, prompt):
+    """
+    Fill the prompt but do not submit it yet.
+
+    The caller writes the RESERVED log only after this function
+    succeeds, which means a temporary page/composer loading failure
+    does not poison the thread as already attempted.
+    """
+    composer = wait_for_composer(
+        page
+    )
 
     composer.click()
     composer.fill("")
     composer.fill(prompt)
 
-    page.wait_for_timeout(300)
+    page.wait_for_timeout(
+        400
+    )
 
-    # In the current ChatGPT UI, the empty composer shows the
-    # Voice button rather than a Send button. Pressing Enter is
-    # more stable than depending on the changing submit-button DOM.
+    return composer
+
+
+def submit_followup(page, composer):
+    """
+    Submit an already-filled prompt and confirm that the composer clears.
+
+    Once Enter is pressed the outcome is potentially ambiguous if the
+    page disappears, so the caller must already have written RESERVED.
+    """
     composer.press("Enter")
 
-    # Confirm the composer clears. This is a practical indication
-    # that ChatGPT accepted the message.
-    deadline = time.monotonic() + 15.0
+    deadline = time.monotonic() + 20.0
 
     while time.monotonic() < deadline:
+        if not page_is_usable(page):
+            raise RuntimeError(
+                "The ChatGPT page closed immediately after submission."
+            )
+
         try:
-            text = composer.inner_text().strip()
+            current = page.locator(
+                COMPOSER
+            ).first
+
+            if current.count() == 0:
+                return
+
+            if current.inner_text().strip() == "":
+                return
         except Exception:
-            # The composer can be replaced during submission.
-            text = ""
+            # React may replace the composer node after a successful send.
+            try:
+                replacement = page.locator(
+                    'div.ProseMirror[contenteditable="true"]'
+                ).first
 
-        if not text:
-            return
+                if (
+                    replacement.count() > 0
+                    and replacement.inner_text().strip() == ""
+                ):
+                    return
+            except Exception:
+                pass
 
-        page.wait_for_timeout(150)
+        page.wait_for_timeout(
+            200
+        )
 
     raise RuntimeError(
-        "The composer did not clear after pressing Enter; "
-        "the message may not have been sent."
+        "The message was submitted but the script could not confirm "
+        "that the composer cleared."
+    )
+
+
+def prepare_thread_page(
+    context,
+    page,
+    url,
+    max_attempts=4,
+):
+    """
+    Navigate directly to a conversation and wait until its composer exists.
+
+    This handles the two intermittent failures seen in the logs:
+    a closed target page and a conversation whose composer never mounted.
+    """
+    last_error = None
+
+    for attempt in range(
+        1,
+        max_attempts + 1,
+    ):
+        try:
+            page = recover_page(
+                context,
+                page,
+                target_url=url,
+            )
+
+            # Give the SPA a moment after direct navigation.
+            page.wait_for_timeout(
+                800
+            )
+
+            composer = wait_for_composer(
+                page,
+                timeout_ms=45_000,
+            )
+
+            return (
+                page,
+                composer,
+            )
+
+        except Exception as exc:
+            last_error = exc
+
+            print()
+            print(
+                f"Conversation UI attempt "
+                f"{attempt}/{max_attempts} failed: {exc}"
+            )
+
+            if page_is_usable(page):
+                try:
+                    page.reload(
+                        wait_until="domcontentloaded",
+                        timeout=60_000,
+                    )
+                except Exception:
+                    pass
+
+            time.sleep(
+                min(5 * attempt, 15)
+            )
+
+    raise RuntimeError(
+        "Could not get a usable conversation composer after "
+        f"{max_attempts} attempts. Last error: {last_error}"
     )
 
 
@@ -640,6 +855,10 @@ def main():
         "Reserved and completed conversation IDs are skipped "
         "to prevent duplicate follow-ups."
     )
+    print(
+        "Temporary page/composer failures are retried automatically "
+        "and no longer stop the batch."
+    )
 
     if args.dry_run:
         print()
@@ -729,15 +948,56 @@ def main():
                     )
                     break
 
-                next_thread = (
-                    choose_next_unprocessed_thread(
+                try:
+                    page = recover_page(
+                        context,
                         page,
-                        log_data,
-                        retry_reserved=(
-                            args.retry_reserved
-                        ),
                     )
-                )
+
+                    ensure_project_available(
+                        page
+                    )
+
+                    next_thread = (
+                        choose_next_unprocessed_thread(
+                            page,
+                            log_data,
+                            retry_reserved=(
+                                args.retry_reserved
+                            ),
+                        )
+                    )
+
+                except Exception as exc:
+                    print()
+                    print(
+                        "Thread scan/navigation hit a temporary error:"
+                    )
+                    print(exc)
+                    print(
+                        "Recovering the ChatGPT page and continuing..."
+                    )
+
+                    try:
+                        page = recover_page(
+                            context,
+                            page,
+                            target_url=PROJECT_URL,
+                        )
+                        ensure_project_available(
+                            page
+                        )
+                        expand_all_project_chats(
+                            page
+                        )
+                    except Exception as recover_exc:
+                        print(
+                            "Recovery attempt failed: "
+                            f"{recover_exc}"
+                        )
+
+                    time.sleep(10)
+                    continue
 
                 if next_thread is None:
                     print()
@@ -785,9 +1045,91 @@ def main():
                             seconds_left
                         )
 
-                # Reserve BEFORE pressing Enter. If Python dies between
-                # this write and the final "done" write, a restart skips
-                # this thread rather than risking a duplicate.
+                # First make sure the conversation itself is healthy.
+                # Temporary page closures and missing composers are retried
+                # WITHOUT reserving the thread.
+                try:
+                    page, composer = (
+                        prepare_thread_page(
+                            context,
+                            page,
+                            url,
+                            max_attempts=4,
+                        )
+                    )
+
+                    # Fill before reserving. If filling fails, it is still
+                    # safe to retry because nothing has been submitted.
+                    composer.click()
+                    composer.fill("")
+                    composer.fill(prompt)
+                    page.wait_for_timeout(
+                        400
+                    )
+
+                except Exception as exc:
+                    print()
+                    print(
+                        "Could not prepare this conversation after retries."
+                    )
+                    print(
+                        f"Reason: {exc}"
+                    )
+
+                    save_debug_screenshot(
+                        page,
+                        (
+                            "prepare-error-"
+                            + conversation_id
+                        ),
+                    )
+
+                    # Record a non-protected diagnostic state. This does NOT
+                    # make the thread count as done; a later loop/run may
+                    # try it again.
+                    log_data["threads"][
+                        conversation_id
+                    ] = {
+                        "status": "prepare_failed",
+                        "title": title,
+                        "url": url,
+                        "failed_at": now_iso(),
+                        "error": str(exc),
+                        "prompt": prompt,
+                    }
+
+                    save_log(
+                        log_data
+                    )
+
+                    print(
+                        "Skipping it for now and continuing with the batch."
+                    )
+
+                    # Recover a live project page before scanning again.
+                    try:
+                        page = recover_page(
+                            context,
+                            page,
+                            target_url=PROJECT_URL,
+                        )
+                        ensure_project_available(
+                            page
+                        )
+                        expand_all_project_chats(
+                            page
+                        )
+                    except Exception as recover_exc:
+                        print(
+                            "Project-page recovery also failed: "
+                            f"{recover_exc}"
+                        )
+                        time.sleep(10)
+
+                    continue
+
+                # Reserve only after the composer is visible and filled,
+                # immediately before pressing Enter.
                 log_data["threads"][
                     conversation_id
                 ] = {
@@ -803,11 +1145,12 @@ def main():
                 )
 
                 try:
-                    send_followup(
+                    submit_followup(
                         page,
-                        prompt,
+                        composer,
                     )
-                except Exception:
+
+                except Exception as exc:
                     save_debug_screenshot(
                         page,
                         (
@@ -816,20 +1159,53 @@ def main():
                         ),
                     )
 
+                    log_data["threads"][
+                        conversation_id
+                    ].update(
+                        {
+                            "status": "reserved",
+                            "send_error_at": now_iso(),
+                            "error": str(exc),
+                        }
+                    )
+
+                    save_log(
+                        log_data
+                    )
+
                     print()
                     print(
-                        "Send failed or could not be confirmed."
+                        "Send could not be confirmed."
                     )
                     print(
-                        "This thread remains RESERVED in "
-                        "aspect-ratio-done-threads.json so the script will "
-                        "not accidentally send it twice."
+                        "This thread remains RESERVED so it will not "
+                        "accidentally receive the prompt twice."
                     )
                     print(
-                        "Inspect the chat manually. If it definitely "
-                        "did not send, rerun later with --retry-reserved."
+                        "The automation will continue to the next thread "
+                        "instead of stopping."
                     )
-                    raise
+
+                    try:
+                        page = recover_page(
+                            context,
+                            page,
+                            target_url=PROJECT_URL,
+                        )
+                        ensure_project_available(
+                            page
+                        )
+                        expand_all_project_chats(
+                            page
+                        )
+                    except Exception as recover_exc:
+                        print(
+                            "Project-page recovery failed: "
+                            f"{recover_exc}"
+                        )
+                        time.sleep(10)
+
+                    continue
 
                 last_send_at = (
                     time.monotonic()
@@ -860,11 +1236,12 @@ def main():
                     f"{conversation_id}"
                 )
 
-                # Do not wait for the image generation to finish.
+                # Do not wait for image generation to finish.
                 # The 4-minute send-to-send timer is enforced above.
-                page.wait_for_timeout(
-                    600
-                )
+                if page_is_usable(page):
+                    page.wait_for_timeout(
+                        600
+                    )
 
         except KeyboardInterrupt:
             print()
