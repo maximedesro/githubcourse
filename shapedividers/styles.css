@@ -578,16 +578,7 @@ input[type='color'] {
 #mobile-ready ~ label.mobile, #flipped-checkbox + label + label, #tablet-flipped-checkbox + label + label, #mobile-flipped-checkbox + label + label {
     position: relative;
 }
-#mobile-ready ~ label.mobile::before{
-    content:'i';
-    position: absolute;
-    right: 23px;
-    background: white;
-    font-size: 12px;
-    padding: 4px 8px;
-    border:1px solid #00000044;
-    border-radius:40px;
-} /*
+/*
 #flipped-checkbox + label + label:hover::after, #tablet-flipped-checkbox + label + label:hover::after, #mobile-flipped-checkbox + label + label:hover::after{
     content:'Not compatible with Animate';
     white-space: pre-wrap;
@@ -854,6 +845,15 @@ pointer-events:none!important;
 
 .tooltip-trigger{
     position:relative;
+}
+
+.tooltip-icon{
+    width:18px;
+    height:18px;
+    margin-left:6px;
+    vertical-align:-4px;
+    color:#555;
+    flex:0 0 auto;
 }
 
 .ui-tooltip{
