@@ -1,6 +1,12 @@
-# Local automation state
-done_threads.json
+# Existing/local automation state
+progress.json
 debug-screenshots/
+dry-run/
+.chatgpt-playwright-profile/
+
+# Aspect-ratio follow-up state
+aspect-ratio-done-threads.json
+aspect-ratio-debug-screenshots/
 
 # Python
 __pycache__/
