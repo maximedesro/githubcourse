@@ -142,6 +142,30 @@ again.
 The script reads `aspect-ratio-done-threads.json` and skips conversations that it has already reserved or completed.
 
 
+
+## 2026-09-24 ChatGPT sidebar update
+
+ChatGPT changed the project sidebar markup again.
+
+The current UI no longer exposes the project row through
+`data-app-action-sidebar-project-id`, and project conversations are no longer
+inside `role="list" aria-label="Chats in ShapeDividers Shapes"`.
+
+The automation now supports the new structure by:
+
+- locating the visible **ShapeDividers Shapes** project name;
+- resolving its nearest sidebar project row;
+- recognizing the current **Open project home** trailing button;
+- finding project conversations through links whose accessible labels end in
+  `chat in project ShapeDividers Shapes` or
+  `pinned chat in project ShapeDividers Shapes`;
+- falling back to project conversation URLs beginning with
+  `/g/g-p-6aa5e3c7d10c8191a7e9547580d0be0b/c/`;
+- continuing to use **Show more** when ChatGPT exposes it.
+
+Your existing `aspect-ratio-done-threads.json` remains compatible. Do not reset
+it when updating the script.
+
 ## Reliability / automatic recovery
 
 The rerun script now automatically handles the intermittent failures seen in long runs where ChatGPT either closes/replaces the active tab or a conversation loads without mounting the composer.
