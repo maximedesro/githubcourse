@@ -27,12 +27,27 @@ PROMPT_FILE = HERE / "aspect-ratio-followup.txt"
 LOG_FILE = HERE / "aspect-ratio-done-threads.json"
 SCREENSHOT_DIR = HERE / "aspect-ratio-debug-screenshots"
 
-PROJECT_ROW = (
+PROJECT_ROW_OLD = (
     f'[data-app-action-sidebar-project-id="{PROJECT_ID}"]'
 )
 
-PROJECT_CHAT_LIST = (
-    f'[role="list"][aria-label="Chats in {PROJECT_NAME}"]'
+PROJECT_HOME_BUTTON = (
+    'button[aria-label="Open project home"]'
+)
+
+PROJECT_CHAT_LINK = (
+    f'a[data-sidebar-item="true"]'
+    f'[aria-label*=", chat in project {PROJECT_NAME}"]'
+)
+
+PROJECT_PINNED_CHAT_LINK = (
+    f'a[data-sidebar-item="true"]'
+    f'[aria-label*=", pinned chat in project {PROJECT_NAME}"]'
+)
+
+PROJECT_CHAT_ANY = (
+    f'a[data-sidebar-item="true"]'
+    f'[href^="/g/{PROJECT_ID}/c/"]'
 )
 
 COMPOSER = (
@@ -170,6 +185,80 @@ def get_chatgpt_page(context):
     return context.new_page()
 
 
+def find_project_row(page):
+    """
+    Find the ShapeDividers Shapes project row in either the old or new UI.
+
+    Current UI no longer exposes data-app-action-sidebar-project-id on
+    the row. Instead, the row contains the visible project name and a
+    trailing button with aria-label="Open project home".
+    """
+    # Old UI compatibility.
+    old = page.locator(
+        PROJECT_ROW_OLD
+    ).first
+
+    try:
+        if old.count() and old.is_visible():
+            return old
+    except Exception:
+        pass
+
+    # New UI: locate the project name text, then its project row.
+    name = page.get_by_text(
+        PROJECT_NAME,
+        exact=True,
+    ).first
+
+    try:
+        name.wait_for(
+            state="visible",
+            timeout=10_000,
+        )
+    except Exception:
+        return None
+
+    try:
+        row = name.locator(
+            "xpath=ancestor::div[@role='button'][1]"
+        ).first
+
+        if row.count():
+            return row
+    except Exception:
+        pass
+
+    return None
+
+
+def project_chat_links(page):
+    """
+    Return project conversation links in both current and fallback markup.
+    """
+    current = page.locator(
+        PROJECT_CHAT_LINK
+    )
+
+    pinned = page.locator(
+        PROJECT_PINNED_CHAT_LINK
+    )
+
+    href_only = page.locator(
+        PROJECT_CHAT_ANY
+    )
+
+    # Prefer aria-label scoped project links when available.
+    try:
+        if current.count() > 0 or pinned.count() > 0:
+            return page.locator(
+                f'{PROJECT_CHAT_LINK}, {PROJECT_PINNED_CHAT_LINK}'
+            )
+    except Exception:
+        pass
+
+    return href_only
+
+
 def ensure_project_available(page):
     if "chatgpt.com" not in page.url:
         page.goto(
@@ -178,62 +267,133 @@ def ensure_project_available(page):
         )
         page.wait_for_timeout(1500)
 
-    try:
-        row = page.locator(PROJECT_ROW).first
-        row.wait_for(
-            state="attached",
-            timeout=20_000,
-        )
-    except PlaywrightTimeoutError:
+    row = find_project_row(
+        page
+    )
+
+    if row is None:
         print()
         print(
-            "The ShapeDividers Shapes project was not found in the sidebar."
+            "The ShapeDividers Shapes project was not detected in the sidebar."
         )
         print(
-            "Open the project manually in this Chrome window, then return here."
+            "Trying the Projects page automatically..."
+        )
+
+        try:
+            page.goto(
+                "https://chatgpt.com/projects",
+                wait_until="domcontentloaded",
+                timeout=60_000,
+            )
+            page.wait_for_timeout(1500)
+        except Exception:
+            pass
+
+        row = find_project_row(
+            page
+        )
+
+    if row is None:
+        print()
+        print(
+            "Open the ShapeDividers Shapes project manually in this Chrome window."
         )
         input("Press ENTER when ready...")
 
-        row = page.locator(PROJECT_ROW).first
-        row.wait_for(
-            state="attached",
-            timeout=30_000,
+        row = find_project_row(
+            page
         )
 
-    expanded = row.get_attribute(
-        "aria-expanded"
-    )
+        if row is None:
+            raise RuntimeError(
+                "Could not detect ShapeDividers Shapes after manual navigation."
+            )
+
+    try:
+        expanded = row.get_attribute(
+            "aria-expanded"
+        )
+    except Exception:
+        expanded = None
 
     if expanded == "false":
         row.click()
-        page.wait_for_timeout(500)
+        page.wait_for_timeout(
+            500
+        )
 
-    page.locator(
-        PROJECT_CHAT_LIST
-    ).first.wait_for(
-        state="attached",
-        timeout=20_000,
+    # If the project row is present but the chat links are not yet visible,
+    # hover it and try the trailing Open project home button as a fallback.
+    links = project_chat_links(
+        page
+    )
+
+    try:
+        if links.count() == 0:
+            row.hover()
+            page.wait_for_timeout(
+                250
+            )
+
+            button = page.locator(
+                PROJECT_HOME_BUTTON
+            ).first
+
+            if button.count() and button.is_visible():
+                button.click()
+                page.wait_for_timeout(
+                    700
+                )
+    except Exception:
+        pass
+
+    deadline = time.monotonic() + 20.0
+
+    while time.monotonic() < deadline:
+        try:
+            if project_chat_links(page).count() > 0:
+                return
+        except Exception:
+            pass
+
+        page.wait_for_timeout(
+            250
+        )
+
+    raise RuntimeError(
+        "ShapeDividers Shapes was found, but its project conversation "
+        "links did not appear. The sidebar markup may have changed again."
     )
 
 
 def expand_all_project_chats(page):
     """
-    Click the project's Show more button until ChatGPT stops
-    offering additional project conversations.
+    Expand the ShapeDividers project conversation list.
+
+    Current UI no longer wraps chats in role=list. Project chat links are
+    direct sidebar anchors. Click visible Show more buttons until no more
+    project conversations are revealed.
     """
-    chat_list = page.locator(
-        PROJECT_CHAT_LIST
-    ).first
-
-    chat_list.wait_for(
-        state="attached",
-        timeout=20_000,
-    )
-
     clicks = 0
+    previous_count = -1
+    stable_rounds = 0
 
     while True:
-        show_more = chat_list.get_by_role(
+        current_count = project_thread_count(
+            page
+        )
+
+        if current_count == previous_count:
+            stable_rounds += 1
+        else:
+            stable_rounds = 0
+
+        previous_count = current_count
+
+        # Prefer a Show more button close to the project row, but fall back
+        # to any visible Show more in the sidebar.
+        candidates = page.get_by_role(
             "button",
             name="Show more",
         )
@@ -241,12 +401,12 @@ def expand_all_project_chats(page):
         visible = None
 
         try:
-            count = show_more.count()
+            count = candidates.count()
         except Exception:
             count = 0
 
         for i in range(count):
-            candidate = show_more.nth(i)
+            candidate = candidates.nth(i)
 
             try:
                 if candidate.is_visible():
@@ -258,30 +418,32 @@ def expand_all_project_chats(page):
         if visible is None:
             break
 
-        before = project_thread_count(page)
+        before = current_count
 
-        visible.scroll_into_view_if_needed()
-        visible.click()
+        try:
+            visible.scroll_into_view_if_needed()
+            visible.click()
+        except Exception:
+            break
 
         clicks += 1
-        page.wait_for_timeout(650)
+        page.wait_for_timeout(
+            700
+        )
 
-        # Wait briefly for the list to grow or for Show more to change.
         deadline = time.monotonic() + 5.0
 
         while time.monotonic() < deadline:
-            after = project_thread_count(page)
+            after = project_thread_count(
+                page
+            )
 
             if after > before:
                 break
 
-            try:
-                if not visible.is_visible():
-                    break
-            except Exception:
-                break
-
-            page.wait_for_timeout(150)
+            page.wait_for_timeout(
+                150
+            )
 
         if clicks >= 500:
             raise RuntimeError(
@@ -289,29 +451,33 @@ def expand_all_project_chats(page):
                 "The UI may have changed."
             )
 
+        if stable_rounds >= 3:
+            break
+
     return clicks
 
 
 def project_thread_rows(page):
     """
-    Return the current project chat rows only.
+    Return ShapeDividers project conversation anchors.
 
-    The supplied markup shows project conversations as DIVs
-    with role=button and aria-label inside:
-      role=list aria-label="Chats in ShapeDividers Shapes"
+    Current UI examples:
+      <a ... aria-label="Create Cathedral Divider, chat in project ShapeDividers Shapes"
+         href="/g/g-p-.../c/<conversation-id>">
+
+    Pinned chats use:
+      "... pinned chat in project ShapeDividers Shapes"
     """
-    chat_list = page.locator(
-        PROJECT_CHAT_LIST
-    ).first
-
-    return chat_list.locator(
-        'div[role="button"][aria-label]'
+    return project_chat_links(
+        page
     )
 
 
 def project_thread_count(page):
     try:
-        return project_thread_rows(page).count()
+        return project_thread_rows(
+            page
+        ).count()
     except Exception:
         return 0
 
@@ -698,9 +864,16 @@ def choose_next_unprocessed_thread(
         row = rows.nth(index)
 
         try:
-            title = (
+            raw_label = (
                 row.get_attribute("aria-label")
                 or f"thread-{index + 1}"
+            )
+
+            title = re.sub(
+                rf",\s*(?:pinned\s+)?chat in project {re.escape(PROJECT_NAME)}(?:,\s*unread)?$",
+                "",
+                raw_label,
+                flags=re.IGNORECASE,
             )
         except Exception:
             title = f"thread-{index + 1}"
