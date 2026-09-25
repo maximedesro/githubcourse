@@ -31,18 +31,18 @@ PROJECT_ROW_OLD = (
     f'[data-app-action-sidebar-project-id="{PROJECT_ID}"]'
 )
 
-PROJECT_CHAT_LINK = (
-    f'a[data-sidebar-item="true"]'
-    f'[aria-label*=", chat in project {PROJECT_NAME}"]'
+PROJECT_CONTAINER = (
+    f'div[data-sidebar-project-container-id="project:{PROJECT_ID}"]'
 )
 
-PROJECT_PINNED_CHAT_LINK = (
-    f'a[data-sidebar-item="true"]'
-    f'[aria-label*=", pinned chat in project {PROJECT_NAME}"]'
+PROJECT_CHAT_LIST = (
+    f'{PROJECT_CONTAINER} '
+    f'[role="list"][aria-label="Chats in {PROJECT_NAME}"]'
 )
 
 PROJECT_CHAT_ANY = (
-    f'a[data-sidebar-item="true"]'
+    f'{PROJECT_CHAT_LIST} '
+    f'a[data-interactive-row-link="true"]'
     f'[href^="/g/{PROJECT_ID}/c/"]'
 )
 
@@ -189,13 +189,17 @@ def get_chatgpt_page(context):
 
 def project_chat_links(page):
     """
-    Return only real conversation links that belong to ShapeDividers Shapes.
+    Return only existing ShapeDividers conversation links from the
+    project's own chat list.
 
-    The current sidebar exposes direct anchors like:
-      /g/<project-id>/c/<conversation-id>
+    Current 2026-09-25 markup:
+      div[data-sidebar-project-container-id="project:<project-id>"]
+        [role="list"][aria-label="Chats in ShapeDividers Shapes"]
+          a[data-interactive-row-link="true"]
+            [href^="/g/<project-id>/c/"]
 
-    We deliberately avoid clicking the project row or project-home controls,
-    because those controls can open a fresh project chat.
+    This intentionally excludes unrelated pinned/recents links elsewhere
+    in the sidebar.
     """
     return page.locator(
         PROJECT_CHAT_ANY
@@ -266,13 +270,14 @@ def find_project_row(page):
 
 def ensure_project_available(page):
     """
-    Make sure ShapeDividers project chat links are available in the sidebar.
+    Ensure the ShapeDividers Shapes project is expanded and its own
+    conversation list is present.
 
-    IMPORTANT: this function never clicks "Open project home" and never uses
-    the project URL to create a new chat.
+    The current UI again exposes data-app-action-sidebar-project-id on
+    the project row, but conversation anchors no longer have
+    data-sidebar-item. They now live inside the project's role=list.
     """
-    # Best case: the project is already expanded and its direct conversation
-    # links are visible. This is the safest path.
+    # If project chat links are already visible, nothing to do.
     try:
         if project_chat_links(page).count() > 0:
             return
@@ -289,9 +294,11 @@ def ensure_project_available(page):
             "ShapeDividers Shapes is not visible in the sidebar yet."
         )
         print(
-            "Open/expand the Pinned section or ShapeDividers Shapes manually."
+            "Expand the Pinned section and ShapeDividers Shapes manually."
         )
-        input("Press ENTER when the project conversations are visible...")
+        input(
+            "Press ENTER when the project conversations are visible..."
+        )
 
         if project_chat_links(page).count() > 0:
             return
@@ -313,13 +320,28 @@ def ensure_project_available(page):
         expanded = None
 
     if expanded == "false":
-        # Clicking the row itself only toggles its sidebar expansion.
-        # We do NOT click the trailing Open project home control.
         row.click()
         page.wait_for_timeout(
             500
         )
 
+    # Wait for the specific project chat list first.
+    chat_list = page.locator(
+        PROJECT_CHAT_LIST
+    ).first
+
+    try:
+        chat_list.wait_for(
+            state="attached",
+            timeout=20_000,
+        )
+    except Exception:
+        raise RuntimeError(
+            "ShapeDividers Shapes was found, but its project chat list "
+            "did not appear."
+        )
+
+    # A newly expanded list can render before its links are mounted.
     deadline = time.monotonic() + 20.0
 
     while time.monotonic() < deadline:
@@ -334,24 +356,36 @@ def ensure_project_available(page):
         )
 
     raise RuntimeError(
-        "ShapeDividers Shapes was found, but no direct project conversation "
-        "links appeared in the sidebar."
+        "ShapeDividers Shapes was found and its chat list appeared, "
+        "but no existing conversation links were detected."
     )
 
 
 def expand_all_project_chats(page):
     """
-    Expand the project conversation list until no visible Show more control
-    reveals additional direct /c/ conversation links.
+    Expand only the ShapeDividers project's own conversation list.
+
+    The 2026-09-25 UI places Show more inside the project container.
+    Scoping it here prevents accidentally clicking a Show more belonging
+    to another sidebar section.
     """
     clicks = 0
+
+    container = page.locator(
+        PROJECT_CONTAINER
+    ).first
+
+    container.wait_for(
+        state="attached",
+        timeout=20_000,
+    )
 
     while True:
         before = project_thread_count(
             page
         )
 
-        candidates = page.get_by_role(
+        candidates = container.get_by_role(
             "button",
             name="Show more",
         )
@@ -405,13 +439,11 @@ def expand_all_project_chats(page):
 
         if clicks >= 500:
             raise RuntimeError(
-                "Stopped after 500 Show more clicks. "
+                "Stopped after 500 project Show more clicks. "
                 "The UI may have changed."
             )
 
         if not grew:
-            # If the button did not reveal more project /c/ links, stop rather
-            # than risk clicking unrelated Show more controls elsewhere.
             break
 
     return clicks
@@ -1139,8 +1171,8 @@ def main():
         "and no longer stop the batch."
     )
     print(
-        "Safety mode: only existing /c/ conversation URLs are used; "
-        "the script will not open a fresh project chat."
+        "Safety mode: only existing /c/ conversation URLs inside the "
+        "ShapeDividers project's own chat list are used."
     )
 
     if args.dry_run:
