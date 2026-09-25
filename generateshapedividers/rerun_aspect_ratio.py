@@ -31,10 +31,6 @@ PROJECT_ROW_OLD = (
     f'[data-app-action-sidebar-project-id="{PROJECT_ID}"]'
 )
 
-PROJECT_HOME_BUTTON = (
-    'button[aria-label="Open project home"]'
-)
-
 PROJECT_CHAT_LINK = (
     f'a[data-sidebar-item="true"]'
     f'[aria-label*=", chat in project {PROJECT_NAME}"]'
@@ -49,6 +45,12 @@ PROJECT_CHAT_ANY = (
     f'a[data-sidebar-item="true"]'
     f'[href^="/g/{PROJECT_ID}/c/"]'
 )
+
+# Threads accidentally created by older rerun versions are skipped so the
+# automation does not recurse into its own follow-up-only conversations.
+SKIP_THREAD_TITLES = {
+    "widen divider design",
+}
 
 COMPOSER = (
     'div.ProseMirror'
@@ -185,15 +187,47 @@ def get_chatgpt_page(context):
     return context.new_page()
 
 
+def project_chat_links(page):
+    """
+    Return only real conversation links that belong to ShapeDividers Shapes.
+
+    The current sidebar exposes direct anchors like:
+      /g/<project-id>/c/<conversation-id>
+
+    We deliberately avoid clicking the project row or project-home controls,
+    because those controls can open a fresh project chat.
+    """
+    return page.locator(
+        PROJECT_CHAT_ANY
+    )
+
+
+def clean_thread_title(raw_label):
+    title = re.sub(
+        rf",\s*(?:pinned\s+)?chat in project {re.escape(PROJECT_NAME)}(?:,\s*unread)?$",
+        "",
+        raw_label or "",
+        flags=re.IGNORECASE,
+    ).strip()
+
+    return title
+
+
+def should_skip_thread_title(title):
+    normalized = re.sub(
+        r"\s+",
+        " ",
+        (title or "").strip().lower(),
+    )
+
+    return normalized in SKIP_THREAD_TITLES
+
+
 def find_project_row(page):
     """
-    Find the ShapeDividers Shapes project row in either the old or new UI.
-
-    Current UI no longer exposes data-app-action-sidebar-project-id on
-    the row. Instead, the row contains the visible project name and a
-    trailing button with aria-label="Open project home".
+    Find the visible ShapeDividers Shapes project row without using it to
+    navigate. It is used only to expand the sidebar section when needed.
     """
-    # Old UI compatibility.
     old = page.locator(
         PROJECT_ROW_OLD
     ).first
@@ -204,7 +238,6 @@ def find_project_row(page):
     except Exception:
         pass
 
-    # New UI: locate the project name text, then its project row.
     name = page.get_by_text(
         PROJECT_NAME,
         exact=True,
@@ -231,41 +264,20 @@ def find_project_row(page):
     return None
 
 
-def project_chat_links(page):
+def ensure_project_available(page):
     """
-    Return project conversation links in both current and fallback markup.
+    Make sure ShapeDividers project chat links are available in the sidebar.
+
+    IMPORTANT: this function never clicks "Open project home" and never uses
+    the project URL to create a new chat.
     """
-    current = page.locator(
-        PROJECT_CHAT_LINK
-    )
-
-    pinned = page.locator(
-        PROJECT_PINNED_CHAT_LINK
-    )
-
-    href_only = page.locator(
-        PROJECT_CHAT_ANY
-    )
-
-    # Prefer aria-label scoped project links when available.
+    # Best case: the project is already expanded and its direct conversation
+    # links are visible. This is the safest path.
     try:
-        if current.count() > 0 or pinned.count() > 0:
-            return page.locator(
-                f'{PROJECT_CHAT_LINK}, {PROJECT_PINNED_CHAT_LINK}'
-            )
+        if project_chat_links(page).count() > 0:
+            return
     except Exception:
         pass
-
-    return href_only
-
-
-def ensure_project_available(page):
-    if "chatgpt.com" not in page.url:
-        page.goto(
-            PROJECT_URL,
-            wait_until="domcontentloaded",
-        )
-        page.wait_for_timeout(1500)
 
     row = find_project_row(
         page
@@ -274,32 +286,15 @@ def ensure_project_available(page):
     if row is None:
         print()
         print(
-            "The ShapeDividers Shapes project was not detected in the sidebar."
+            "ShapeDividers Shapes is not visible in the sidebar yet."
         )
         print(
-            "Trying the Projects page automatically..."
+            "Open/expand the Pinned section or ShapeDividers Shapes manually."
         )
+        input("Press ENTER when the project conversations are visible...")
 
-        try:
-            page.goto(
-                "https://chatgpt.com/projects",
-                wait_until="domcontentloaded",
-                timeout=60_000,
-            )
-            page.wait_for_timeout(1500)
-        except Exception:
-            pass
-
-        row = find_project_row(
-            page
-        )
-
-    if row is None:
-        print()
-        print(
-            "Open the ShapeDividers Shapes project manually in this Chrome window."
-        )
-        input("Press ENTER when ready...")
+        if project_chat_links(page).count() > 0:
+            return
 
         row = find_project_row(
             page
@@ -307,7 +302,7 @@ def ensure_project_available(page):
 
         if row is None:
             raise RuntimeError(
-                "Could not detect ShapeDividers Shapes after manual navigation."
+                "Could not detect ShapeDividers Shapes in the sidebar."
             )
 
     try:
@@ -318,35 +313,12 @@ def ensure_project_available(page):
         expanded = None
 
     if expanded == "false":
+        # Clicking the row itself only toggles its sidebar expansion.
+        # We do NOT click the trailing Open project home control.
         row.click()
         page.wait_for_timeout(
             500
         )
-
-    # If the project row is present but the chat links are not yet visible,
-    # hover it and try the trailing Open project home button as a fallback.
-    links = project_chat_links(
-        page
-    )
-
-    try:
-        if links.count() == 0:
-            row.hover()
-            page.wait_for_timeout(
-                250
-            )
-
-            button = page.locator(
-                PROJECT_HOME_BUTTON
-            ).first
-
-            if button.count() and button.is_visible():
-                button.click()
-                page.wait_for_timeout(
-                    700
-                )
-    except Exception:
-        pass
 
     deadline = time.monotonic() + 20.0
 
@@ -362,37 +334,23 @@ def ensure_project_available(page):
         )
 
     raise RuntimeError(
-        "ShapeDividers Shapes was found, but its project conversation "
-        "links did not appear. The sidebar markup may have changed again."
+        "ShapeDividers Shapes was found, but no direct project conversation "
+        "links appeared in the sidebar."
     )
 
 
 def expand_all_project_chats(page):
     """
-    Expand the ShapeDividers project conversation list.
-
-    Current UI no longer wraps chats in role=list. Project chat links are
-    direct sidebar anchors. Click visible Show more buttons until no more
-    project conversations are revealed.
+    Expand the project conversation list until no visible Show more control
+    reveals additional direct /c/ conversation links.
     """
     clicks = 0
-    previous_count = -1
-    stable_rounds = 0
 
     while True:
-        current_count = project_thread_count(
+        before = project_thread_count(
             page
         )
 
-        if current_count == previous_count:
-            stable_rounds += 1
-        else:
-            stable_rounds = 0
-
-        previous_count = current_count
-
-        # Prefer a Show more button close to the project row, but fall back
-        # to any visible Show more in the sidebar.
         candidates = page.get_by_role(
             "button",
             name="Show more",
@@ -418,8 +376,6 @@ def expand_all_project_chats(page):
         if visible is None:
             break
 
-        before = current_count
-
         try:
             visible.scroll_into_view_if_needed()
             visible.click()
@@ -432,6 +388,7 @@ def expand_all_project_chats(page):
         )
 
         deadline = time.monotonic() + 5.0
+        grew = False
 
         while time.monotonic() < deadline:
             after = project_thread_count(
@@ -439,6 +396,7 @@ def expand_all_project_chats(page):
             )
 
             if after > before:
+                grew = True
                 break
 
             page.wait_for_timeout(
@@ -451,23 +409,102 @@ def expand_all_project_chats(page):
                 "The UI may have changed."
             )
 
-        if stable_rounds >= 3:
+        if not grew:
+            # If the button did not reveal more project /c/ links, stop rather
+            # than risk clicking unrelated Show more controls elsewhere.
             break
 
     return clicks
 
 
+def snapshot_project_threads(page):
+    """
+    Snapshot conversation IDs, titles, and URLs BEFORE navigating away.
+
+    This is the key safety change: we never click a sidebar chat row to
+    discover its URL. We read the existing href directly and then navigate
+    to that exact conversation URL.
+    """
+    rows = project_chat_links(
+        page
+    )
+
+    records = []
+    seen = set()
+
+    count = rows.count()
+
+    for i in range(count):
+        row = rows.nth(i)
+
+        try:
+            href = row.get_attribute(
+                "href"
+            )
+            raw_label = row.get_attribute(
+                "aria-label"
+            ) or ""
+
+            if not href:
+                continue
+
+            conversation_id = (
+                conversation_key_from_url(
+                    href
+                )
+            )
+
+            if not conversation_id:
+                continue
+
+            if conversation_id in seen:
+                continue
+
+            seen.add(
+                conversation_id
+            )
+
+            title = clean_thread_title(
+                raw_label
+            )
+
+            if should_skip_thread_title(
+                title
+            ):
+                continue
+
+            if href.startswith("/"):
+                url = (
+                    "https://chatgpt.com"
+                    + href
+                )
+            else:
+                url = href
+
+            # Strip messageId/query fragments. We want the base conversation.
+            url = url.split(
+                "?",
+                1,
+            )[0].split(
+                "#",
+                1,
+            )[0]
+
+            records.append(
+                {
+                    "conversation_id": conversation_id,
+                    "title": title or f"thread-{i + 1}",
+                    "url": url,
+                }
+            )
+
+        except Exception:
+            continue
+
+    return records
+
+
 def project_thread_rows(page):
-    """
-    Return ShapeDividers project conversation anchors.
-
-    Current UI examples:
-      <a ... aria-label="Create Cathedral Divider, chat in project ShapeDividers Shapes"
-         href="/g/g-p-.../c/<conversation-id>">
-
-    Pinned chats use:
-      "... pinned chat in project ShapeDividers Shapes"
-    """
     return project_chat_links(
         page
     )
@@ -475,7 +512,7 @@ def project_thread_rows(page):
 
 def project_thread_count(page):
     try:
-        return project_thread_rows(
+        return project_chat_links(
             page
         ).count()
     except Exception:
@@ -483,43 +520,98 @@ def project_thread_count(page):
 
 
 def conversation_key_from_url(url):
-    """
-    Use the conversation UUID as the durable de-duplication key.
-
-    ChatGPT URLs can change shape, so search the full URL
-    for UUIDs and ignore the project id, which is not a UUID.
-    """
-    matches = UUID_RE.findall(url)
+    matches = UUID_RE.findall(
+        url or ""
+    )
 
     if not matches:
         return None
 
-    # Conversation URLs normally contain exactly one UUID.
-    # Use the last UUID if another UUID ever appears earlier.
     return matches[-1].lower()
 
 
-def wait_for_conversation(page, old_url=None):
+def choose_next_unprocessed_thread(
+    page,
+    log_data,
+    retry_reserved=False,
+):
     """
-    Allow the SPA navigation to settle, then extract the
-    conversation id from the current URL.
+    Pick the next existing project conversation from a href snapshot.
+
+    No sidebar conversation is clicked. Therefore this function cannot create
+    a new ShapeDividers chat.
     """
-    deadline = time.monotonic() + 15.0
-    last_url = page.url
-
-    while time.monotonic() < deadline:
-        last_url = page.url
-        key = conversation_key_from_url(last_url)
-
-        if key:
-            return key, last_url
-
-        page.wait_for_timeout(150)
-
-    raise RuntimeError(
-        "Could not determine the conversation ID after opening a thread. "
-        f"Current URL: {last_url}"
+    expand_all_project_chats(
+        page
     )
+
+    records = snapshot_project_threads(
+        page
+    )
+
+    if not records:
+        raise RuntimeError(
+            "No existing ShapeDividers conversation links were found."
+        )
+
+    print()
+    print(
+        f"Existing project conversations currently loaded: {len(records)}"
+    )
+
+    threads = log_data[
+        "threads"
+    ]
+
+    # Process bottom-to-top to preserve the behavior of the previous script.
+    for record in reversed(
+        records
+    ):
+        conversation_id = record[
+            "conversation_id"
+        ]
+        title = record[
+            "title"
+        ]
+        url = record[
+            "url"
+        ]
+
+        entry = threads.get(
+            conversation_id
+        )
+
+        if entry:
+            status = entry.get(
+                "status"
+            )
+
+            if (
+                status == "reserved"
+                and retry_reserved
+            ):
+                print(
+                    f"Retrying reserved thread: "
+                    f"{title} [{conversation_id}]"
+                )
+                return (
+                    conversation_id,
+                    url,
+                    title,
+                )
+
+            if status_is_protected(
+                entry
+            ):
+                continue
+
+        return (
+            conversation_id,
+            url,
+            title,
+        )
+
+    return None
 
 
 def page_is_usable(page):
@@ -729,6 +821,20 @@ def prepare_thread_page(
     This handles the two intermittent failures seen in the logs:
     a closed target page and a conversation whose composer never mounted.
     """
+    conversation_id = conversation_key_from_url(
+        url
+    )
+
+    if (
+        not conversation_id
+        or f"/g/{PROJECT_ID}/c/" not in url
+    ):
+        raise RuntimeError(
+            "Refusing to send because target URL is not an existing "
+            "ShapeDividers conversation: "
+            f"{url}"
+        )
+
     last_error = None
 
     for attempt in range(
@@ -1032,6 +1138,10 @@ def main():
         "Temporary page/composer failures are retried automatically "
         "and no longer stop the batch."
     )
+    print(
+        "Safety mode: only existing /c/ conversation URLs are used; "
+        "the script will not open a fresh project chat."
+    )
 
     if args.dry_run:
         print()
@@ -1081,27 +1191,23 @@ def main():
             )
 
             if args.dry_run:
-                rows = project_thread_rows(
+                records = snapshot_project_threads(
                     page
                 )
 
                 print()
                 print(
-                    "Visible project thread titles:"
+                    "Existing project conversations that are eligible for scanning:"
                 )
 
-                for i in range(
-                    rows.count()
+                for i, record in enumerate(
+                    records,
+                    start=1,
                 ):
-                    title = (
-                        rows.nth(i)
-                        .get_attribute(
-                            "aria-label"
-                        )
-                        or "(untitled)"
-                    )
                     print(
-                        f"{i + 1:03d}. {title}"
+                        f"{i:03d}. "
+                        f"{record['title']} "
+                        f"[{record['conversation_id']}]"
                     )
 
                 print()
@@ -1155,7 +1261,7 @@ def main():
                         page = recover_page(
                             context,
                             page,
-                            target_url=PROJECT_URL,
+                            target_url=None,
                         )
                         ensure_project_available(
                             page
@@ -1284,7 +1390,7 @@ def main():
                         page = recover_page(
                             context,
                             page,
-                            target_url=PROJECT_URL,
+                            target_url=None,
                         )
                         ensure_project_available(
                             page
@@ -1363,7 +1469,7 @@ def main():
                         page = recover_page(
                             context,
                             page,
-                            target_url=PROJECT_URL,
+                            target_url=None,
                         )
                         ensure_project_available(
                             page
