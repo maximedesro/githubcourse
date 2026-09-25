@@ -143,6 +143,40 @@ The script reads `aspect-ratio-done-threads.json` and skips conversations that i
 
 
 
+## 2026-09-25 ChatGPT sidebar update
+
+ChatGPT changed the project conversation link markup again.
+
+The project row once again exposes:
+
+```text
+data-app-action-sidebar-project-id="g-p-6aa5e3c7d10c8191a7e9547580d0be0b"
+```
+
+and its conversations are now nested in:
+
+```text
+role="list"
+aria-label="Chats in ShapeDividers Shapes"
+```
+
+Inside that list, conversation anchors now use:
+
+```text
+data-interactive-row-link="true"
+href="/g/<project-id>/c/<conversation-id>"
+```
+
+They no longer carry the older `data-sidebar-item="true"` attribute.
+
+The rerun script now scopes discovery strictly to the ShapeDividers project
+container and its own chat list. The **Show more** button is also searched only
+inside that project container, preventing accidental clicks in other sidebar
+sections.
+
+Your existing `aspect-ratio-done-threads.json` remains compatible. Do not reset
+it when updating the script.
+
 ## 2026-09-24 safety fix: existing conversations only
 
 A newer ChatGPT sidebar behavior could cause earlier versions of the rerun script
