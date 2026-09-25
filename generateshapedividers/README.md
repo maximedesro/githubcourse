@@ -143,6 +143,19 @@ The script reads `aspect-ratio-done-threads.json` and skips conversations that i
 
 
 
+## 2026-09-25 duplicate scanner bugfix
+
+A stale older copy of `choose_next_unprocessed_thread()` remained lower in the
+Python file after the sidebar refactor. In Python, the later function definition
+overrides the earlier one, so the automation was accidentally running the old
+click-based scanner and calling the removed `wait_for_conversation()` helper.
+
+That obsolete duplicate function has now been removed. The script now uses only
+the safe href-snapshot scanner that reads existing conversation URLs directly.
+
+A small startup structure check was also added so future edit/merge mistakes fail
+immediately instead of entering a repeating recovery loop.
+
 ## 2026-09-25 ChatGPT sidebar update
 
 ChatGPT changed the project conversation link markup again.
