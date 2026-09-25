@@ -958,114 +958,35 @@ def status_is_protected(entry):
     }
 
 
-def choose_next_unprocessed_thread(
-    page,
-    log_data,
-    retry_reserved=False,
-):
+def validate_script_structure():
     """
-    Scan the ShapeDividers project from oldest-looking visible row
-    to newest-looking row (bottom to top).
-
-    Each candidate is opened only long enough to obtain its durable
-    conversation UUID. The done log decides whether it is eligible.
-
-    Returns:
-      (conversation_id, url, title)
-    or None when every discovered project conversation is already
-    protected by the log.
+    Lightweight startup sanity check so stale/duplicate helper code fails
+    clearly instead of entering a recovery loop.
     """
-    expand_all_project_chats(page)
+    required = [
+        "choose_next_unprocessed_thread",
+        "snapshot_project_threads",
+        "conversation_key_from_url",
+        "prepare_thread_page",
+        "submit_followup",
+    ]
 
-    rows = project_thread_rows(page)
-    count = rows.count()
+    missing = [
+        name
+        for name in required
+        if name not in globals()
+    ]
 
-    if count == 0:
+    if missing:
         raise RuntimeError(
-            "No conversations were found inside ShapeDividers Shapes."
+            "Automation script is missing required helpers: "
+            + ", ".join(missing)
         )
-
-    print()
-    print(f"Project conversations currently loaded: {count}")
-
-    threads = log_data["threads"]
-
-    # Bottom-to-top works well because a conversation that receives
-    # a new message usually moves toward the top.
-    for index in range(count - 1, -1, -1):
-        # Re-resolve after every navigation because React may rerender.
-        rows = project_thread_rows(page)
-
-        if index >= rows.count():
-            continue
-
-        row = rows.nth(index)
-
-        try:
-            raw_label = (
-                row.get_attribute("aria-label")
-                or f"thread-{index + 1}"
-            )
-
-            title = re.sub(
-                rf",\s*(?:pinned\s+)?chat in project {re.escape(PROJECT_NAME)}(?:,\s*unread)?$",
-                "",
-                raw_label,
-                flags=re.IGNORECASE,
-            )
-        except Exception:
-            title = f"thread-{index + 1}"
-
-        try:
-            row.scroll_into_view_if_needed()
-            row.click()
-        except Exception:
-            # One retry after a fresh DOM lookup.
-            rows = project_thread_rows(page)
-            row = rows.nth(index)
-            row.scroll_into_view_if_needed()
-            row.click()
-
-        page.wait_for_timeout(500)
-
-        conversation_id, url = (
-            wait_for_conversation(page)
-        )
-
-        entry = threads.get(
-            conversation_id
-        )
-
-        if entry:
-            status = entry.get("status")
-
-            if (
-                status == "reserved"
-                and retry_reserved
-            ):
-                print(
-                    f"Retrying reserved thread: "
-                    f"{title} [{conversation_id}]"
-                )
-                return (
-                    conversation_id,
-                    url,
-                    title,
-                )
-
-            if status_is_protected(entry):
-                continue
-
-        return (
-            conversation_id,
-            url,
-            title,
-        )
-
-    return None
 
 
 def main():
+    validate_script_structure()
+
     parser = argparse.ArgumentParser(
         description=(
             "Visit every conversation in the ShapeDividers Shapes "
