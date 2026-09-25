@@ -143,6 +143,36 @@ The script reads `aspect-ratio-done-threads.json` and skips conversations that i
 
 
 
+## 2026-09-24 safety fix: existing conversations only
+
+A newer ChatGPT sidebar behavior could cause earlier versions of the rerun script
+to enter the project home/new-chat flow. That produced new conversations titled
+things such as **Widen Divider Design** instead of replying inside the original
+image-generation thread.
+
+The rerun automation now has a stricter safety model:
+
+- it never clicks **Open project home**;
+- it never clicks a sidebar conversation merely to discover its URL;
+- it snapshots the existing project conversation anchors and reads each `href`
+  directly;
+- it only sends when the target URL contains the exact existing-conversation
+  route `/g/<ShapeDividers project id>/c/<conversation id>`;
+- if a target does not contain an existing `/c/` conversation ID, sending is
+  refused;
+- accidental follow-up-only threads titled **Widen Divider Design** are ignored,
+  so the automation does not recurse into chats created by older broken runs.
+
+Keep your existing `aspect-ratio-done-threads.json`. Do **not** reset it.
+
+Before resuming a long run, use:
+
+```bash
+./.venv/bin/python rerun_aspect_ratio.py --dry-run
+```
+
+The dry run now prints the exact existing conversation UUIDs it plans to scan.
+
 ## 2026-09-24 ChatGPT sidebar update
 
 ChatGPT changed the project sidebar markup again.
