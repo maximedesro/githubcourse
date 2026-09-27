@@ -22,6 +22,8 @@ if (!previewHost) {
         ['animLength', animLength],
         ['animLongAxis', animLongAxis],
         ['shapeColor', shapeColor],
+        ['gradient', gradient],
+        ['gradientColor', gradientColor],
         ['si', svgDividers[shapeIndex].si],
         ['shapeRatio', shapeRatio],
         ['mobileReady', mobileReady]
@@ -37,6 +39,8 @@ if (!previewHost) {
         ['tabletAnimLength', tabletAnimLength],
         ['tabletAnimLongAxis', tabletAnimLongAxis],
         ['tabletShapeColor', tabletShapeColor],
+        ['tabletGradient', tabletGradient],
+        ['tabletGradientColor', tabletGradientColor],
         ['tsi', svgDividers[tabletShapeIndex].si],
         ['tabletShapeRatio', tabletShapeRatio],
         ['mobileDividerDirection', mobileDividerDirection],
@@ -48,6 +52,8 @@ if (!previewHost) {
         ['mobileAnimLength', mobileAnimLength],
         ['mobileAnimLongAxis', mobileAnimLongAxis],
         ['mobileShapeColor', mobileShapeColor],
+        ['mobileGradient', mobileGradient],
+        ['mobileGradientColor', mobileGradientColor],
         ['msi', svgDividers[mobileShapeIndex].si],
         ['mobileShapeRatio', mobileShapeRatio]
     ];
@@ -103,6 +109,16 @@ if (urlParams.has('animLongAxis')) {
 }
 document.getElementById('shape-color').value = '#' + urlParams.get('shapeColor');
 document.getElementById('shape-color-code').value = '#' + urlParams.get('shapeColor');
+if (urlParams.has('gradient')) {
+    document.getElementById('gradient-checkbox').checked =
+        ('true' == urlParams.get('gradient'));
+}
+if (urlParams.has('gradientColor')) {
+    document.getElementById('gradient-color').value =
+        '#' + urlParams.get('gradientColor');
+    document.getElementById('gradient-color-code').value =
+        '#' + urlParams.get('gradientColor');
+}
 shapeIndex = getShapeIndex('si');
 document.getElementById('mobile-ready').checked = ('true' == urlParams.get('mobileReady'));
 }
@@ -122,6 +138,16 @@ if (urlParams.has('tabletAnimLongAxis')) {
 }
 document.getElementById('tablet-shape-color').value = '#' + urlParams.get('tabletShapeColor');
 document.getElementById('tablet-shape-color-code').value = '#' + urlParams.get('tabletShapeColor');
+if (urlParams.has('tabletGradient')) {
+    document.getElementById('tablet-gradient-checkbox').checked =
+        ('true' == urlParams.get('tabletGradient'));
+}
+if (urlParams.has('tabletGradientColor')) {
+    document.getElementById('tablet-gradient-color').value =
+        '#' + urlParams.get('tabletGradientColor');
+    document.getElementById('tablet-gradient-color-code').value =
+        '#' + urlParams.get('tabletGradientColor');
+}
 tabletShapeIndex =  getShapeIndex('tsi');
 
 
@@ -139,6 +165,16 @@ if (urlParams.has('mobileAnimLongAxis')) {
 }
 document.getElementById('mobile-shape-color').value = '#' + urlParams.get('mobileShapeColor');
 document.getElementById('mobile-shape-color-code').value = '#' + urlParams.get('mobileShapeColor');
+if (urlParams.has('mobileGradient')) {
+    document.getElementById('mobile-gradient-checkbox').checked =
+        ('true' == urlParams.get('mobileGradient'));
+}
+if (urlParams.has('mobileGradientColor')) {
+    document.getElementById('mobile-gradient-color').value =
+        '#' + urlParams.get('mobileGradientColor');
+    document.getElementById('mobile-gradient-color-code').value =
+        '#' + urlParams.get('mobileGradientColor');
+}
 mobileShapeIndex = getShapeIndex('msi');
 }
 
@@ -165,11 +201,11 @@ function getShapeIndex(param) {
 
 /* Form styling in part from https://codepen.io/dapacreative/pen/bdzYEe */
    
-let dividerDirection, longAxisValue, shortAxisValue, positionValue, flipped, animate, animLength, animLongAxis, animHorName, animVerName, shapeDiv, shapeColor, shapeIndex, selectedShape, shapeRatio;
+let dividerDirection, longAxisValue, shortAxisValue, positionValue, flipped, animate, animLength, animLongAxis, animHorName, animVerName, shapeDiv, shapeColor, gradient, gradientColor, shapeIndex, selectedShape, shapeRatio;
 
-let tabletDividerDirection, tabletLongAxisValue, tabletShortAxisValue, tabletPositionValue, tabletFlipped, tabletAnimate, tabletAnimLength, tabletAnimLongAxis, tabletShapeDiv, tabletShapeColor, tabletShapeIndex, tabletSelectedShape, tabletShapeRatio;
+let tabletDividerDirection, tabletLongAxisValue, tabletShortAxisValue, tabletPositionValue, tabletFlipped, tabletAnimate, tabletAnimLength, tabletAnimLongAxis, tabletShapeDiv, tabletShapeColor, tabletGradient, tabletGradientColor, tabletShapeIndex, tabletSelectedShape, tabletShapeRatio;
 
-let mobileDividerDirection, mobileLongAxisValue, mobileShortAxisValue, mobilePositionValue, mobileFlipped, mobileAnimate, mobileAnimLength, mobileAnimLongAxis, mobileShapeDiv, mobileShapeColor, mobileShapeIndex, mobileSelectedShape, mobileShapeRatio;
+let mobileDividerDirection, mobileLongAxisValue, mobileShortAxisValue, mobilePositionValue, mobileFlipped, mobileAnimate, mobileAnimLength, mobileAnimLongAxis, mobileShapeDiv, mobileShapeColor, mobileGradient, mobileGradientColor, mobileShapeIndex, mobileSelectedShape, mobileShapeRatio;
 
 let mobileReady;
 
@@ -224,6 +260,49 @@ tabletColorCode.addEventListener('input', function() {
    tabletColorPicker.value = tabletColorCode.value;
 });
 
+function bindColorPair(colorId, codeId) {
+    const picker = document.getElementById(colorId);
+    const code = document.getElementById(codeId);
+
+    picker.addEventListener('input', function() {
+        code.value = picker.value;
+    });
+
+    code.addEventListener('input', function() {
+        picker.value = code.value;
+    });
+}
+
+bindColorPair('gradient-color', 'gradient-color-code');
+bindColorPair('tablet-gradient-color', 'tablet-gradient-color-code');
+bindColorPair('mobile-gradient-color', 'mobile-gradient-color-code');
+
+function syncGradientControl(prefix) {
+    const checkbox = document.getElementById(
+        prefixedId(prefix, 'gradient-checkbox')
+    );
+    const colorInput = document.getElementById(
+        prefixedId(prefix, 'shape-color')
+    );
+    const colorRow = colorInput.closest('.color-row');
+
+    if (colorRow) {
+        colorRow.classList.toggle('gradient-enabled', checkbox.checked);
+    }
+}
+
+['', 'tablet', 'mobile'].forEach((prefix) => {
+    const checkbox = document.getElementById(
+        prefixedId(prefix, 'gradient-checkbox')
+    );
+
+    checkbox.addEventListener('change', () => {
+        syncGradientControl(prefix);
+    });
+
+    syncGradientControl(prefix);
+});
+
 const views = document.querySelectorAll('.view_select div');
 const viewsSettings = document.querySelectorAll('.desktop_settings, .tablet_settings, .mobile_settings');
 
@@ -275,6 +354,107 @@ function normalizeSvgForCanvas(svgMarkup, color) {
     return svgMarkup
         .replaceAll('%23000000', '#' + color)
         .replaceAll('%23', '#');
+}
+
+function replaceSvgColorsWithPaint(svgMarkup, paint) {
+    const paintAttributes =
+        /\b(fill|stroke|color|stop-color|flood-color|lighting-color)=(["'])(.*?)\2/gi;
+
+    const paintDeclarations =
+        /\b(fill|stroke|color|stop-color|flood-color|lighting-color)\s*:\s*([^;"'}]+)/gi;
+
+    function shouldReplacePaint(value) {
+        const normalized = String(value).trim().toLowerCase();
+
+        return !(
+            normalized === '' ||
+            normalized === 'none' ||
+            normalized === 'transparent' ||
+            normalized === 'inherit' ||
+            normalized === 'currentcolor' ||
+            normalized.startsWith('url(') ||
+            normalized.startsWith('var(')
+        );
+    }
+
+    return svgMarkup
+        .replace(paintAttributes, (match, property, quote, value) => {
+            if (!shouldReplacePaint(value)) return match;
+            return property + '=' + quote + paint + quote;
+        })
+        .replace(paintDeclarations, (match, property, value) => {
+            if (!shouldReplacePaint(value)) return match;
+            return property + ':' + paint;
+        });
+}
+
+function getGradientVector(direction) {
+    if (direction === 'bottom') {
+        return { x1: 0, y1: 1, x2: 0, y2: 0 };
+    }
+
+    if (direction === 'left') {
+        return { x1: 0, y1: 0, x2: 1, y2: 0 };
+    }
+
+    if (direction === 'right') {
+        return { x1: 1, y1: 0, x2: 0, y2: 0 };
+    }
+
+    return { x1: 0, y1: 0, x2: 0, y2: 1 };
+}
+
+function addGradientToSvg(
+    svgMarkup,
+    startColor,
+    endColor,
+    direction,
+    gradientId
+) {
+    const vector = getGradientVector(direction);
+    const paintedSvg = replaceSvgColorsWithPaint(
+        svgMarkup,
+        'url(#' + gradientId + ')'
+    );
+    const gradientMarkup =
+        '<defs><linearGradient id="' + gradientId + '"' +
+        ' x1="' + vector.x1 + '" y1="' + vector.y1 + '"' +
+        ' x2="' + vector.x2 + '" y2="' + vector.y2 + '">' +
+        '<stop offset="0%" stop-color="#' + startColor + '"/>' +
+        '<stop offset="100%" stop-color="#' + endColor + '"/>' +
+        '</linearGradient></defs>';
+
+    return paintedSvg.replace(
+        /<svg\b([^>]*)>/i,
+        (match) => match + gradientMarkup
+    );
+}
+
+function buildShapeSvgMarkup(
+    rawSvg,
+    color,
+    gradientEnabled,
+    endColor,
+    direction,
+    gradientId = 'sd-gradient'
+) {
+    const normalizedSvg = normalizeSvgForCanvas(rawSvg, color);
+
+    if (!gradientEnabled) {
+        return normalizedSvg;
+    }
+
+    return addGradientToSvg(
+        normalizedSvg,
+        color,
+        endColor,
+        direction,
+        gradientId
+    );
+}
+
+function encodeSvgForCss(svgMarkup) {
+    return svgMarkup.replaceAll('#', '%23');
 }
 
 function getSvgAspectRatio(svgMarkup) {
@@ -574,6 +754,8 @@ async function getCachedDividerBitmap(state, bounds, revision) {
         state.shapeIndex,
         state.direction,
         state.color,
+        state.gradient ? 'gradient' : 'solid',
+        state.gradientColor || '',
         longSide
     ].join('|');
 
@@ -592,7 +774,13 @@ async function getCachedDividerBitmap(state, bounds, revision) {
 
     if (!pending) {
         const rawSvg = svgDividers[state.shapeIndex][state.direction];
-        const svgMarkup = normalizeSvgForCanvas(rawSvg, state.color);
+        const svgMarkup = buildShapeSvgMarkup(
+            rawSvg,
+            state.color,
+            state.gradient,
+            state.gradientColor,
+            state.direction
+        );
 
         pending = {
             latestRevision: revision,
@@ -836,6 +1024,8 @@ function getActiveCanvasState() {
             shapeIndex,
             direction: dividerDirection,
             color: shapeColor,
+            gradient: gradient,
+            gradientColor: gradientColor,
             longAxis: longAxisValue,
             shortAxis: shortAxisValue,
             position: positionValue,
@@ -852,6 +1042,8 @@ function getActiveCanvasState() {
             shapeIndex: tabletShapeIndex,
             direction: tabletDividerDirection,
             color: tabletShapeColor,
+            gradient: tabletGradient,
+            gradientColor: tabletGradientColor,
             longAxis: tabletLongAxisValue,
             shortAxis: tabletShortAxisValue,
             position: tabletPositionValue,
@@ -867,6 +1059,8 @@ function getActiveCanvasState() {
         shapeIndex: mobileShapeIndex,
         direction: mobileDividerDirection,
         color: mobileShapeColor,
+        gradient: mobileGradient,
+        gradientColor: mobileGradientColor,
         longAxis: mobileLongAxisValue,
         shortAxis: mobileShortAxisValue,
         position: mobilePositionValue,
@@ -930,6 +1124,13 @@ function syncResponsiveControlsFromDesktop() {
             document.getElementById('shape-color').value;
         document.getElementById(prefixedId(prefix, 'shape-color-code')).value =
             document.getElementById('shape-color-code').value;
+        document.getElementById(prefixedId(prefix, 'gradient-checkbox')).checked =
+            document.getElementById('gradient-checkbox').checked;
+        document.getElementById(prefixedId(prefix, 'gradient-color')).value =
+            document.getElementById('gradient-color').value;
+        document.getElementById(prefixedId(prefix, 'gradient-color-code')).value =
+            document.getElementById('gradient-color-code').value;
+        syncGradientControl(prefix);
         document.getElementById(prefixedId(prefix, 'long_axis')).value =
             document.getElementById('long_axis').value;
         document.getElementById(prefixedId(prefix, 'short_axis')).value =
@@ -1009,12 +1210,15 @@ function hasPremiumAccess() {
 function requiresPremiumFeatures() {
     return (
         Boolean(animate) ||
+        Boolean(gradient) ||
         svgDividers[shapeIndex].pro ||
         (
             mobileReady &&
             (
                 Boolean(tabletAnimate) ||
                 Boolean(mobileAnimate) ||
+                Boolean(tabletGradient) ||
+                Boolean(mobileGradient) ||
                 svgDividers[tabletShapeIndex].pro ||
                 svgDividers[mobileShapeIndex].pro
             )
@@ -1058,6 +1262,12 @@ function getCheckedDirection(prefix) {
 
 function readViewportControls(prefix, selectedIndex) {
     const colorInput = document.getElementById(prefixedId(prefix, 'shape-color'));
+    const gradientInput = document.getElementById(
+        prefixedId(prefix, 'gradient-checkbox')
+    );
+    const gradientColorInput = document.getElementById(
+        prefixedId(prefix, 'gradient-color')
+    );
     const longAxisInput = document.getElementById(prefixedId(prefix, 'long_axis'));
     const shortAxisInput = document.getElementById(prefixedId(prefix, 'short_axis'));
     const positionInput = document.getElementById(prefixedId(prefix, 'position'));
@@ -1068,6 +1278,8 @@ function readViewportControls(prefix, selectedIndex) {
 
     const direction = getCheckedDirection(prefix);
     const color = colorInput.value.slice(1);
+    const gradientEnabled = gradientInput.checked;
+    const endColor = gradientColorInput.value.slice(1);
     const selectedDivider = svgDividers[selectedIndex];
     const rawSvg = selectedDivider[direction];
     const preservesRatio = !getPreserveAspectRatio(rawSvg).none;
@@ -1075,6 +1287,8 @@ function readViewportControls(prefix, selectedIndex) {
     return {
         direction,
         color,
+        gradient: gradientEnabled,
+        gradientColor: endColor,
         longAxis: longAxisInput.value,
         shortAxis: shortAxisInput.value,
         position: positionInput.value,
@@ -1082,9 +1296,15 @@ function readViewportControls(prefix, selectedIndex) {
         animate: animateInput.checked,
         animationLength: animationLengthInput.value,
         animationLongAxis: animationLongAxisInput.value,
-        selectedShape: rawSvg
-            .replaceAll('%23000000', '%23' + color)
-            .replaceAll('#', '%23'),
+        selectedShape: encodeSvgForCss(
+            buildShapeSvgMarkup(
+                rawSvg,
+                color,
+                gradientEnabled,
+                endColor,
+                direction
+            )
+        ),
         ratio: preservesRatio,
         positionInput
     };
@@ -1113,6 +1333,9 @@ function updateShape() {
     const desktopState = readViewportControls('', shapeIndex);
 
     shapeColor = desktopState.color;
+    gradient = desktopState.gradient;
+    gradientColor = desktopState.gradientColor;
+    syncGradientControl('');
     dividerDirection = desktopState.direction;
     longAxisValue = desktopState.longAxis;
     shortAxisValue = desktopState.shortAxis;
@@ -1136,6 +1359,9 @@ function updateShape() {
         const tabletState = readViewportControls('tablet', tabletShapeIndex);
 
         tabletShapeColor = tabletState.color;
+        tabletGradient = tabletState.gradient;
+        tabletGradientColor = tabletState.gradientColor;
+        syncGradientControl('tablet');
         tabletDividerDirection = tabletState.direction;
         tabletLongAxisValue = tabletState.longAxis;
         tabletShortAxisValue = tabletState.shortAxis;
@@ -1153,6 +1379,9 @@ function updateShape() {
         const mobileState = readViewportControls('mobile', mobileShapeIndex);
 
         mobileShapeColor = mobileState.color;
+        mobileGradient = mobileState.gradient;
+        mobileGradientColor = mobileState.gradientColor;
+        syncGradientControl('mobile');
         mobileDividerDirection = mobileState.direction;
         mobileLongAxisValue = mobileState.longAxis;
         mobileShortAxisValue = mobileState.shortAxis;
@@ -1266,35 +1495,7 @@ copiedCount = random(0, 9999);
 
 
 function replaceInlineSvgColorsWithCurrentColor(svgMarkup) {
-    const paintAttributes =
-        /\b(fill|stroke|color|stop-color|flood-color|lighting-color)=(["'])(.*?)\2/gi;
-
-    const paintDeclarations =
-        /\b(fill|stroke|color|stop-color|flood-color|lighting-color)\s*:\s*([^;"'}]+)/gi;
-
-    function shouldReplacePaint(value) {
-        const normalized = String(value).trim().toLowerCase();
-
-        return !(
-            normalized === '' ||
-            normalized === 'none' ||
-            normalized === 'transparent' ||
-            normalized === 'inherit' ||
-            normalized === 'currentcolor' ||
-            normalized.startsWith('url(') ||
-            normalized.startsWith('var(')
-        );
-    }
-
-    return svgMarkup
-        .replace(paintAttributes, (match, property, quote, value) => {
-            if (!shouldReplacePaint(value)) return match;
-            return property + '=' + quote + 'currentColor' + quote;
-        })
-        .replace(paintDeclarations, (match, property, value) => {
-            if (!shouldReplacePaint(value)) return match;
-            return property + ':currentColor';
-        });
+    return replaceSvgColorsWithPaint(svgMarkup, 'currentColor');
 }
 
 function addClassToInlineSvg(svgMarkup, className) {
@@ -1318,6 +1519,8 @@ function getSvgExportStates() {
             shapeIndex,
             direction: dividerDirection,
             color: shapeColor,
+            gradient,
+            gradientColor,
             longAxis: longAxisValue,
             shortAxis: shortAxisValue,
             position: positionValue,
@@ -1336,6 +1539,8 @@ function getSvgExportStates() {
                 shapeIndex: tabletShapeIndex,
                 direction: tabletDividerDirection,
                 color: tabletShapeColor,
+                gradient: tabletGradient,
+                gradientColor: tabletGradientColor,
                 longAxis: tabletLongAxisValue,
                 shortAxis: tabletShortAxisValue,
                 position: tabletPositionValue,
@@ -1350,6 +1555,8 @@ function getSvgExportStates() {
                 shapeIndex: mobileShapeIndex,
                 direction: mobileDividerDirection,
                 color: mobileShapeColor,
+                gradient: mobileGradient,
+                gradientColor: mobileGradientColor,
                 longAxis: mobileLongAxisValue,
                 shortAxis: mobileShortAxisValue,
                 position: mobilePositionValue,
@@ -1427,11 +1634,25 @@ function namespaceInlineSvgIds(svgMarkup, namespace) {
     return namespacedSvg;
 }
 
-function getPlainExportSvg(shapeIndex, direction, className) {
+function getPlainExportSvg(
+    shapeIndex,
+    direction,
+    className,
+    gradientEnabled,
+    color,
+    endColor
+) {
     const rawSvg = svgDividers[shapeIndex][direction];
-    const inlineSvg = replaceInlineSvgColorsWithCurrentColor(
-        normalizeSvgForCanvas(rawSvg, '000000')
-    );
+    const normalizedSvg = normalizeSvgForCanvas(rawSvg, '000000');
+    const inlineSvg = gradientEnabled
+        ? addGradientToSvg(
+            normalizedSvg,
+            color,
+            endColor,
+            direction,
+            className + '-gradient'
+        )
+        : replaceInlineSvgColorsWithCurrentColor(normalizedSvg);
     const namespacedSvg = namespaceInlineSvgIds(
         inlineSvg,
         className
@@ -1566,8 +1787,20 @@ function formatDeclarationRule(selector, declarations) {
 }
 
 function statesAreSameShape(a, b) {
-    return a.shapeIndex === b.shapeIndex &&
-        a.direction === b.direction;
+    if (
+        a.shapeIndex !== b.shapeIndex ||
+        a.direction !== b.direction ||
+        Boolean(a.gradient) !== Boolean(b.gradient)
+    ) {
+        return false;
+    }
+
+    if (a.gradient) {
+        return a.color === b.color &&
+            a.gradientColor === b.gradientColor;
+    }
+
+    return true;
 }
 
 function buildSvgExportCode() {
@@ -1732,7 +1965,10 @@ function buildSvgExportCode() {
         getPlainExportSvg(
             entry.state.shapeIndex,
             entry.state.direction,
-            entry.className
+            entry.className,
+            entry.state.gradient,
+            entry.state.color,
+            entry.state.gradientColor
         )
     );
 
@@ -1897,7 +2133,7 @@ animation:none;`:''}
 background-size: ${(dividerDirection === 'top' || dividerDirection === 'bottom')? longAxisValue + '%' : shortAxisValue + 'px'} ${(dividerDirection === 'top' || dividerDirection === 'bottom')? shortAxisValue + 'px' : longAxisValue + '%'};`}
 background-position: ${dividerDirection === 'left'? 0 : dividerDirection === 'right'? 100 : positionValue}% ${dividerDirection === 'top'? 0 : dividerDirection === 'bottom'? 100 : positionValue }%; ${(flipped && !animate) ? `
 transform: rotate${ (dividerDirection === 'top' || dividerDirection === 'bottom')? 'Y' : 'X'}(180deg);` : ''} ${mobileReady? `${tabletSelectedShape == selectedShape? '': `
-background-image: url('data:image/svg+xml;charset=utf8, ${selectedShape}'); `}` : `background-image: url('data:image/svg+xml;charset=utf8, ${selectedShape}'); `}
+background-image: url('data:image/svg+xml;charset=utf8, ${selectedShape}'); `}` : `\nbackground-image: url('data:image/svg+xml;charset=utf8, ${selectedShape}'); `}
 }
 ${mobileReady? '}' : ''}
 ${(dividerDirection === 'top' || dividerDirection === 'bottom')? `@media (min-width:2100px){
@@ -1927,7 +2163,15 @@ ${(mobileDividerDirection != dividerDirection || mobileShapeRatio != shapeRatio 
       tabletPositionValue = document.getElementById("tablet-position").value;
       tabletFlipped = document.getElementById('tablet-flipped-checkbox').checked;
 
-      tabletSelectedShape = svgDividers[tabletShapeIndex][tabletDividerDirection].replaceAll('%23000000', '%23' + tabletShapeColor).replaceAll('#', '%23');
+      tabletSelectedShape = encodeSvgForCss(
+         buildShapeSvgMarkup(
+            svgDividers[tabletShapeIndex][tabletDividerDirection],
+            tabletShapeColor,
+            tabletGradient,
+            tabletGradientColor,
+            tabletDividerDirection
+         )
+      );
 
       if (views[1].classList.contains('active')) {
          colorDiv.style.backgroundColor = '#' + tabletShapeColor;
@@ -1966,7 +2210,15 @@ ${(mobileDividerDirection != tabletDividerDirection || mobileShapeRatio != table
       mobilePositionValue = document.getElementById("mobile-position").value;
       mobileFlipped = document.getElementById('mobile-flipped-checkbox').checked;
 
-      mobileSelectedShape = svgDividers[mobileShapeIndex][mobileDividerDirection].replaceAll('%23000000', '%23' + mobileShapeColor).replaceAll('#', '%23');
+      mobileSelectedShape = encodeSvgForCss(
+         buildShapeSvgMarkup(
+            svgDividers[mobileShapeIndex][mobileDividerDirection],
+            mobileShapeColor,
+            mobileGradient,
+            mobileGradientColor,
+            mobileDividerDirection
+         )
+      );
       if (views[2].classList.contains('active')) {
          colorDiv.style.backgroundColor = '#' + mobileShapeColor;
       }
