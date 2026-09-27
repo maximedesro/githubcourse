@@ -371,7 +371,10 @@ function replaceSvgColorsWithPaint(svgMarkup, paint) {
             normalized === 'none' ||
             normalized === 'transparent' ||
             normalized === 'inherit' ||
-            normalized === 'currentcolor' ||
+            (
+                normalized === 'currentcolor' &&
+                String(paint).toLowerCase() === 'currentcolor'
+            ) ||
             normalized.startsWith('url(') ||
             normalized.startsWith('var(')
         );
