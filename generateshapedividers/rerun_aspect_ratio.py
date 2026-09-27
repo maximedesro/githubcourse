@@ -46,6 +46,12 @@ PROJECT_CHAT_ANY = (
     f'[href^="/g/{PROJECT_ID}/c/"]'
 )
 
+PROJECT_SHOW_MORE_SELECTORS = [
+    'button:has-text("Show more")',
+    '[role="button"]:has-text("Show more")',
+    '[data-testid*="show-more"]',
+]
+
 # Threads accidentally created by older rerun versions are skipped so the
 # automation does not recurse into its own follow-up-only conversations.
 SKIP_THREAD_TITLES = {
@@ -361,23 +367,117 @@ def ensure_project_available(page):
     )
 
 
-def expand_all_project_chats(page):
+def find_project_show_more(page):
     """
-    Expand only the ShapeDividers project's own conversation list.
+    Find the ShapeDividers project's own Show more control.
 
-    The 2026-09-25 UI places Show more inside the project container.
-    Scoping it here prevents accidentally clicking a Show more belonging
-    to another sidebar section.
+    ChatGPT has changed this element between button/role-button variants,
+    so use several selectors and re-resolve the project container every time.
     """
-    clicks = 0
-
     container = page.locator(
         PROJECT_CONTAINER
     ).first
 
-    container.wait_for(
-        state="attached",
-        timeout=20_000,
+    try:
+        container.wait_for(
+            state="attached",
+            timeout=10_000,
+        )
+    except Exception:
+        return None
+
+    for selector in PROJECT_SHOW_MORE_SELECTORS:
+        try:
+            candidates = container.locator(
+                selector
+            )
+
+            count = candidates.count()
+
+            for i in range(count):
+                candidate = candidates.nth(
+                    i
+                )
+
+                # Prefer an attached, visible control.
+                try:
+                    if candidate.is_visible():
+                        return candidate
+                except Exception:
+                    pass
+
+                # Keep an attached fallback even if Playwright currently
+                # considers it outside the viewport.
+                try:
+                    if candidate.count() > 0:
+                        return candidate
+                except Exception:
+                    pass
+
+        except Exception:
+            pass
+
+    return None
+
+
+def click_project_show_more(page):
+    """
+    Click one project Show more control if present.
+
+    Returns True if a click/dispatch was attempted successfully.
+    """
+    control = find_project_show_more(
+        page
+    )
+
+    if control is None:
+        return False
+
+    try:
+        control.scroll_into_view_if_needed(
+            timeout=5_000,
+        )
+    except Exception:
+        pass
+
+    try:
+        control.click(
+            timeout=5_000,
+        )
+        return True
+    except Exception:
+        # Some sidebar refreshes briefly leave the control attached but not
+        # normally clickable. Dispatching a click is a safe fallback because
+        # the locator is already scoped to the ShapeDividers project container.
+        try:
+            control.dispatch_event(
+                "click"
+            )
+            return True
+        except Exception:
+            return False
+
+
+def expand_all_project_chats(page):
+    """
+    Fully expand ShapeDividers conversations every time this is called.
+
+    Important: navigating into a conversation can cause ChatGPT to rebuild
+    the sidebar and collapse the project back to a handful of chats. Therefore
+    this function never assumes a previous expansion is still valid.
+
+    It repeatedly re-resolves the project container and clicks Show more until
+    the control is truly gone. A click is not considered finished merely
+    because the chat count did not grow immediately; the UI is allowed several
+    seconds to rerender.
+    """
+    total_clicks = 0
+    no_progress_clicks = 0
+
+    # Re-check project availability first because SPA navigation can replace
+    # the entire sidebar between conversations.
+    ensure_project_available(
+        page
     )
 
     while True:
@@ -385,68 +485,94 @@ def expand_all_project_chats(page):
             page
         )
 
-        candidates = container.get_by_role(
-            "button",
-            name="Show more",
+        control = find_project_show_more(
+            page
         )
 
-        visible = None
-
-        try:
-            count = candidates.count()
-        except Exception:
-            count = 0
-
-        for i in range(count):
-            candidate = candidates.nth(i)
-
-            try:
-                if candidate.is_visible():
-                    visible = candidate
-                    break
-            except Exception:
-                pass
-
-        if visible is None:
+        if control is None:
             break
 
-        try:
-            visible.scroll_into_view_if_needed()
-            visible.click()
-        except Exception:
-            break
+        if not click_project_show_more(
+            page
+        ):
+            # Re-resolve once after a short delay before giving up.
+            page.wait_for_timeout(
+                500
+            )
 
-        clicks += 1
-        page.wait_for_timeout(
-            700
-        )
+            if not click_project_show_more(
+                page
+            ):
+                break
 
-        deadline = time.monotonic() + 5.0
-        grew = False
+        total_clicks += 1
+
+        # Give React enough time to append more chat links. We intentionally
+        # keep going even if this particular click does not change the count,
+        # because ChatGPT sometimes rebuilds the same first batch before
+        # revealing the next one.
+        deadline = time.monotonic() + 8.0
+        after = before
 
         while time.monotonic() < deadline:
+            page.wait_for_timeout(
+                200
+            )
+
             after = project_thread_count(
                 page
             )
 
             if after > before:
-                grew = True
                 break
 
-            page.wait_for_timeout(
-                150
-            )
+            # If the old Show more disappeared/replaced, the click was handled
+            # even when the count update is delayed.
+            if find_project_show_more(
+                page
+            ) is None:
+                break
 
-        if clicks >= 500:
+        if after > before:
+            no_progress_clicks = 0
+        else:
+            no_progress_clicks += 1
+
+        print(
+            f"Project expansion: {after} conversations loaded "
+            f"after {total_clicks} Show more click(s)."
+        )
+
+        if total_clicks >= 1000:
             raise RuntimeError(
-                "Stopped after 500 project Show more clicks. "
-                "The UI may have changed."
+                "Stopped after 1000 project Show more clicks. "
+                "The ChatGPT UI may have changed."
             )
 
-        if not grew:
+        # Avoid an infinite loop on a broken control, but tolerate several
+        # no-growth clicks because sidebar rerenders can temporarily report
+        # the same count.
+        if no_progress_clicks >= 5:
+            print(
+                "Show more is still present but five clicks produced no "
+                "additional conversation links. Rechecking once more..."
+            )
+
+            page.wait_for_timeout(
+                1500
+            )
+
+            # If it is now gone, expansion is complete. If still present,
+            # stop this pass rather than loop forever; choose_next will call
+            # this function again before ever declaring the batch complete.
+            if find_project_show_more(
+                page
+            ) is None:
+                break
+
             break
 
-    return clicks
+    return total_clicks
 
 
 def snapshot_project_threads(page):
@@ -568,81 +694,107 @@ def choose_next_unprocessed_thread(
     retry_reserved=False,
 ):
     """
-    Pick the next existing project conversation from a href snapshot.
+    Pick the next existing project conversation.
 
-    No sidebar conversation is clicked. Therefore this function cannot create
-    a new ShapeDividers chat.
+    Before returning None, perform two full expansion/snapshot passes. This is
+    deliberate: opening a conversation can make ChatGPT collapse the project
+    sidebar back to a small first batch, so seeing only completed chats is not
+    enough to conclude that the whole project is finished.
     """
-    expand_all_project_chats(
-        page
-    )
-
-    records = snapshot_project_threads(
-        page
-    )
-
-    if not records:
-        raise RuntimeError(
-            "No existing ShapeDividers conversation links were found."
-        )
-
-    print()
-    print(
-        f"Existing project conversations currently loaded: {len(records)}"
-    )
-
     threads = log_data[
         "threads"
     ]
 
-    # Process bottom-to-top to preserve the behavior of the previous script.
-    for record in reversed(
-        records
+    for expansion_pass in range(
+        1,
+        3,
     ):
-        conversation_id = record[
-            "conversation_id"
-        ]
-        title = record[
-            "title"
-        ]
-        url = record[
-            "url"
-        ]
-
-        entry = threads.get(
-            conversation_id
+        clicks = expand_all_project_chats(
+            page
         )
 
-        if entry:
-            status = entry.get(
-                "status"
+        records = snapshot_project_threads(
+            page
+        )
+
+        if not records:
+            raise RuntimeError(
+                "No existing ShapeDividers conversation links were found."
             )
 
-            if (
-                status == "reserved"
-                and retry_reserved
-            ):
-                print(
-                    f"Retrying reserved thread: "
-                    f"{title} [{conversation_id}]"
-                )
-                return (
-                    conversation_id,
-                    url,
-                    title,
-                )
-
-            if status_is_protected(
-                entry
-            ):
-                continue
-
-        return (
-            conversation_id,
-            url,
-            title,
+        print()
+        print(
+            f"Existing project conversations currently loaded: "
+            f"{len(records)} "
+            f"(expansion pass {expansion_pass}, Show more clicks: {clicks})"
         )
 
+        for record in reversed(
+            records
+        ):
+            conversation_id = record[
+                "conversation_id"
+            ]
+            title = record[
+                "title"
+            ]
+            url = record[
+                "url"
+            ]
+
+            entry = threads.get(
+                conversation_id
+            )
+
+            if entry:
+                status = entry.get(
+                    "status"
+                )
+
+                if (
+                    status == "reserved"
+                    and retry_reserved
+                ):
+                    print(
+                        f"Retrying reserved thread: "
+                        f"{title} [{conversation_id}]"
+                    )
+                    return (
+                        conversation_id,
+                        url,
+                        title,
+                    )
+
+                if status_is_protected(
+                    entry
+                ):
+                    continue
+
+            return (
+                conversation_id,
+                url,
+                title,
+            )
+
+        # All chats in this snapshot were done/reserved. Never trust that on
+        # the first pass: the sidebar may simply have collapsed after the last
+        # conversation navigation.
+        if expansion_pass == 1:
+            print(
+                "All chats in the current snapshot are already processed. "
+                "Rechecking Show more before declaring the project complete..."
+            )
+
+            page.wait_for_timeout(
+                1000
+            )
+
+            # Re-establish/expand the project section before the second pass.
+            ensure_project_available(
+                page
+            )
+
+    # Only reached after TWO expansion passes found no unprocessed thread.
     return None
 
 
@@ -1234,9 +1386,9 @@ def main():
                 if next_thread is None:
                     print()
                     print(
-                        "All currently discovered "
-                        "ShapeDividers Shapes conversations "
-                        "are already in the done/reserved log."
+                        "All ShapeDividers Shapes conversations found "
+                        "after repeated Show more expansion checks are already "
+                        "in the done/reserved log."
                     )
                     break
 
