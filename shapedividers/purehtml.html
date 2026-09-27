@@ -51,14 +51,25 @@
          <input type="radio" name="dividerdirection" value="left" id="divider-direction-left" />
          <label for="divider-direction-left">Radio</label>
       </div>
-      <div class="row">
+      <div class="row color-row">
          <label for="shape-color">Color</label>
-         <div class='flexrow'>
+         <div class='flexrow color-controls'>
             <div class="cp_wrapper">
                <input type="color" name="shapeColor" id="shape-color" value="#FBD8C2">
             </div>
             <input type="text" class="shape-color-code" name="shapeColorCode" id="shape-color-code" value="#FBD8C2"/>
+            <div class="gradient-color-secondary">
+               <div class="cp_wrapper">
+                  <input type="color" name="gradientColor" id="gradient-color" value="#FE6DA8">
+               </div>
+               <input type="text" class="shape-color-code" name="gradientColorCode" id="gradient-color-code" value="#FE6DA8"/>
+            </div>
          </div>
+      </div>
+      <div class="row gradient-toggle-container" style='display:flex; align-items:center;'>
+         <input type="checkbox" name="gradient-checkbox" id="gradient-checkbox"/>
+         <label for="gradient-checkbox">Checkbox</label>
+         <label for="gradient-checkbox" class="gradient-toggle-label">Gradient</label>
       </div>
       <div class="range-slider row long-axis-container desktop-long-axis-container">
          <label for="long_axis">Long Axis</label>
@@ -108,14 +119,25 @@
          <input type="radio" name="tabletdividerdirection" value="left" id="tabletdivider-direction-left" />
          <label for="tabletdivider-direction-left">Radio</label>
       </div>
-      <div class="row">
+      <div class="row color-row">
          <label for="tablet-shape-color">Color</label>
-         <div class='flexrow'>
+         <div class='flexrow color-controls'>
             <div class="cp_wrapper">
                <input type="color" name="tablet-shapeColor" id="tablet-shape-color" value="#FBD8C2">
             </div>
             <input type="text" class="shape-color-code" name="tablet-shapeColorCode" id="tablet-shape-color-code" value="#FBD8C2"/>
+            <div class="gradient-color-secondary">
+               <div class="cp_wrapper">
+                  <input type="color" name="tablet-gradientColor" id="tablet-gradient-color" value="#FE6DA8">
+               </div>
+               <input type="text" class="shape-color-code" name="tablet-gradientColorCode" id="tablet-gradient-color-code" value="#FE6DA8"/>
+            </div>
          </div>
+      </div>
+      <div class="row gradient-toggle-container" style='display:flex; align-items:center;'>
+         <input type="checkbox" name="tablet-gradient-checkbox" id="tablet-gradient-checkbox"/>
+         <label for="tablet-gradient-checkbox">Checkbox</label>
+         <label for="tablet-gradient-checkbox" class="gradient-toggle-label">Gradient</label>
       </div>
       <div class="range-slider row long-axis-container tablet-long-axis-container">
          <label for="tablet-long_axis">Long Axis</label>
@@ -165,14 +187,25 @@
          <input type="radio" name="mobiledividerdirection" value="left" id="mobiledivider-direction-left" />
          <label for="mobiledivider-direction-left">Radio</label>
       </div>
-      <div class="row">
+      <div class="row color-row">
          <label for="mobile-shape-color">Color</label>
-         <div class='flexrow'>
+         <div class='flexrow color-controls'>
             <div class="cp_wrapper">
                <input type="color" name="mobile-shapeColor" id="mobile-shape-color" value="#FBD8C2">
             </div>
             <input type="text" class="shape-color-code" name="mobile-shapeColorCode" id="mobile-shape-color-code" value="#FBD8C2"/>
+            <div class="gradient-color-secondary">
+               <div class="cp_wrapper">
+                  <input type="color" name="mobile-gradientColor" id="mobile-gradient-color" value="#FE6DA8">
+               </div>
+               <input type="text" class="shape-color-code" name="mobile-gradientColorCode" id="mobile-gradient-color-code" value="#FE6DA8"/>
+            </div>
          </div>
+      </div>
+      <div class="row gradient-toggle-container" style='display:flex; align-items:center;'>
+         <input type="checkbox" name="mobile-gradient-checkbox" id="mobile-gradient-checkbox"/>
+         <label for="mobile-gradient-checkbox">Checkbox</label>
+         <label for="mobile-gradient-checkbox" class="gradient-toggle-label">Gradient</label>
       </div>
       <div class="range-slider row long-axis-container mobile-long-axis-container">
          <label for="mobile-long_axis">Long Axis</label>
