@@ -23,6 +23,11 @@ PROJECT_URL = (
 DEFAULT_CDP_URL = "http://127.0.0.1:9222"
 DEFAULT_INTERVAL = 240.0
 
+# ShapeDividers Shapes currently contains 400+ conversations.
+# This prevents a collapsed sidebar showing 6/20/25 chats from being
+# mistaken for the complete project.
+EXPECTED_MIN_PROJECT_THREADS = 400
+
 PROMPT_FILE = HERE / "aspect-ratio-followup.txt"
 LOG_FILE = HERE / "aspect-ratio-done-threads.json"
 SCREENSHOT_DIR = HERE / "aspect-ratio-debug-screenshots"
@@ -50,6 +55,7 @@ PROJECT_SHOW_MORE_SELECTORS = [
     'button:has-text("Show more")',
     '[role="button"]:has-text("Show more")',
     '[data-testid*="show-more"]',
+    'text="Show more"',
 ]
 
 # Threads accidentally created by older rerun versions are skipped so the
@@ -367,12 +373,76 @@ def ensure_project_available(page):
     )
 
 
+def project_chat_list_locator(page):
+    return page.locator(
+        PROJECT_CHAT_LIST
+    ).first
+
+
+def scroll_project_list_to_bottom(page):
+    """
+    Force the ShapeDividers project list to its bottom.
+
+    ChatGPT sometimes reveals the next Show more control only after the
+    project list has been scrolled to the bottom. In some UI versions the
+    list also lazy-loads additional rows from scrolling alone.
+    """
+    chat_list = project_chat_list_locator(
+        page
+    )
+
+    try:
+        chat_list.wait_for(
+            state="attached",
+            timeout=10_000,
+        )
+    except Exception:
+        return
+
+    # Bring the last known conversation into view first.
+    try:
+        rows = project_chat_links(
+            page
+        )
+
+        count = rows.count()
+
+        if count > 0:
+            rows.nth(
+                count - 1
+            ).scroll_into_view_if_needed(
+                timeout=5_000,
+            )
+    except Exception:
+        pass
+
+    # Then force the actual list/container scroll position to the bottom.
+    for locator in [
+        chat_list,
+        page.locator(
+            PROJECT_CONTAINER
+        ).first,
+    ]:
+        try:
+            locator.evaluate(
+                """el => {
+                    el.scrollTop = el.scrollHeight;
+                    const parent = el.parentElement;
+                    if (parent) {
+                        parent.scrollTop = parent.scrollHeight;
+                    }
+                }"""
+            )
+        except Exception:
+            pass
+
+
 def find_project_show_more(page):
     """
     Find the ShapeDividers project's own Show more control.
 
-    ChatGPT has changed this element between button/role-button variants,
-    so use several selectors and re-resolve the project container every time.
+    The control can briefly disappear while React rebuilds the sidebar, so
+    callers must not interpret a single None result as "fully expanded".
     """
     container = page.locator(
         PROJECT_CONTAINER
@@ -399,15 +469,28 @@ def find_project_show_more(page):
                     i
                 )
 
-                # Prefer an attached, visible control.
+                try:
+                    text = (
+                        candidate.inner_text(
+                            timeout=1_000
+                        )
+                        or ""
+                    ).strip()
+
+                    if (
+                        "show more" not in text.lower()
+                        and selector == 'text="Show more"'
+                    ):
+                        continue
+                except Exception:
+                    pass
+
                 try:
                     if candidate.is_visible():
                         return candidate
                 except Exception:
                     pass
 
-                # Keep an attached fallback even if Playwright currently
-                # considers it outside the viewport.
                 try:
                     if candidate.count() > 0:
                         return candidate
@@ -420,14 +503,46 @@ def find_project_show_more(page):
     return None
 
 
+def wait_for_project_show_more(
+    page,
+    timeout_ms=6_000,
+):
+    """
+    Wait for Show more to reappear after a React/sidebar refresh.
+
+    A single instantaneous lookup is unreliable: after each expansion click,
+    ChatGPT often removes and recreates the control.
+    """
+    deadline = time.monotonic() + (
+        timeout_ms / 1000
+    )
+
+    while time.monotonic() < deadline:
+        scroll_project_list_to_bottom(
+            page
+        )
+
+        control = find_project_show_more(
+            page
+        )
+
+        if control is not None:
+            return control
+
+        page.wait_for_timeout(
+            250
+        )
+
+    return None
+
+
 def click_project_show_more(page):
     """
     Click one project Show more control if present.
-
-    Returns True if a click/dispatch was attempted successfully.
     """
-    control = find_project_show_more(
-        page
+    control = wait_for_project_show_more(
+        page,
+        timeout_ms=2_500,
     )
 
     if control is None:
@@ -446,9 +561,6 @@ def click_project_show_more(page):
         )
         return True
     except Exception:
-        # Some sidebar refreshes briefly leave the control attached but not
-        # normally clickable. Dispatching a click is a safe fallback because
-        # the locator is already scoped to the ShapeDividers project container.
         try:
             control.dispatch_event(
                 "click"
@@ -458,88 +570,218 @@ def click_project_show_more(page):
             return False
 
 
-def expand_all_project_chats(page):
+def expand_all_project_chats(
+    page,
+    minimum_expected=EXPECTED_MIN_PROJECT_THREADS,
+):
     """
-    Fully expand ShapeDividers conversations every time this is called.
+    Re-expand the ShapeDividers project completely.
 
-    Important: navigating into a conversation can cause ChatGPT to rebuild
-    the sidebar and collapse the project back to a handful of chats. Therefore
-    this function never assumes a previous expansion is still valid.
+    ChatGPT collapses/rebuilds the sidebar after conversation navigation.
+    The key safety rule is therefore:
 
-    It repeatedly re-resolves the project container and clicks Show more until
-    the control is truly gone. A click is not considered finished merely
-    because the chat count did not grow immediately; the UI is allowed several
-    seconds to rerender.
+      NEVER treat "Show more is missing right now" as completion when
+      fewer than minimum_expected conversations are loaded.
+
+    The script keeps scrolling, waiting for React to recreate Show more,
+    and retrying. Once the known 400-chat floor is reached, it still keeps
+    expanding until Show more has been stably absent for several checks.
     """
     total_clicks = 0
-    no_progress_clicks = 0
+    stable_absent_checks = 0
+    stalled_cycles = 0
+    best_count = project_thread_count(
+        page
+    )
 
-    # Re-check project availability first because SPA navigation can replace
-    # the entire sidebar between conversations.
     ensure_project_available(
         page
     )
 
+    print(
+        f"Expansion target floor: {minimum_expected}+ conversations."
+    )
+
     while True:
+        scroll_project_list_to_bottom(
+            page
+        )
+
         before = project_thread_count(
             page
         )
+        best_count = max(
+            best_count,
+            before,
+        )
 
-        control = find_project_show_more(
+        # Scrolling itself may lazy-load more rows.
+        page.wait_for_timeout(
+            500
+        )
+
+        after_scroll = project_thread_count(
             page
         )
 
+        if after_scroll > before:
+            best_count = max(
+                best_count,
+                after_scroll,
+            )
+            stalled_cycles = 0
+            stable_absent_checks = 0
+
+            print(
+                f"Project expansion: {after_scroll} conversations loaded "
+                f"from scrolling/lazy load."
+            )
+
+            continue
+
+        control = wait_for_project_show_more(
+            page,
+            timeout_ms=4_000,
+        )
+
         if control is None:
-            break
+            current = project_thread_count(
+                page
+            )
+            best_count = max(
+                best_count,
+                current,
+            )
+
+            # Below the known project-size floor, missing Show more is treated
+            # as a temporary React/sidebar state, never as completion.
+            if current < minimum_expected:
+                stalled_cycles += 1
+
+                print(
+                    f"Show more temporarily missing at {current} conversations "
+                    f"(need at least {minimum_expected}). "
+                    f"Rechecking... [{stalled_cycles}/20]"
+                )
+
+                # Re-assert the project section and force the list bottom.
+                try:
+                    ensure_project_available(
+                        page
+                    )
+                except Exception:
+                    pass
+
+                scroll_project_list_to_bottom(
+                    page
+                )
+
+                page.wait_for_timeout(
+                    min(
+                        500 + stalled_cycles * 150,
+                        2_500,
+                    )
+                )
+
+                if stalled_cycles >= 20:
+                    raise RuntimeError(
+                        "The sidebar still exposes only "
+                        f"{current} ShapeDividers conversations, below the "
+                        f"known minimum of {minimum_expected}, and Show more "
+                        "did not reappear after repeated scrolling/waits. "
+                        "Refusing to declare the project complete."
+                    )
+
+                continue
+
+            # At/above the known floor, require several consecutive absent
+            # checks before deciding that the list is really exhausted.
+            stable_absent_checks += 1
+
+            print(
+                f"No Show more found at {current} conversations "
+                f"(stable check {stable_absent_checks}/5)."
+            )
+
+            if stable_absent_checks >= 5:
+                break
+
+            page.wait_for_timeout(
+                750
+            )
+            continue
+
+        stable_absent_checks = 0
 
         if not click_project_show_more(
             page
         ):
-            # Re-resolve once after a short delay before giving up.
-            page.wait_for_timeout(
-                500
+            stalled_cycles += 1
+
+            print(
+                "Found Show more but could not click it; "
+                f"retrying... [{stalled_cycles}/20]"
             )
 
-            if not click_project_show_more(
-                page
-            ):
-                break
+            page.wait_for_timeout(
+                750
+            )
+
+            if stalled_cycles >= 20:
+                raise RuntimeError(
+                    "Show more remains present but could not be clicked "
+                    "after 20 retries."
+                )
+
+            continue
 
         total_clicks += 1
 
-        # Give React enough time to append more chat links. We intentionally
-        # keep going even if this particular click does not change the count,
-        # because ChatGPT sometimes rebuilds the same first batch before
-        # revealing the next one.
-        deadline = time.monotonic() + 8.0
-        after = before
+        before_click = project_thread_count(
+            page
+        )
+
+        # Wait for count growth. Do NOT stop just because Show more itself
+        # disappears during this rerender.
+        deadline = time.monotonic() + 10.0
+        grew = False
 
         while time.monotonic() < deadline:
             page.wait_for_timeout(
                 200
             )
 
-            after = project_thread_count(
+            scroll_project_list_to_bottom(
                 page
             )
 
-            if after > before:
-                break
-
-            # If the old Show more disappeared/replaced, the click was handled
-            # even when the count update is delayed.
-            if find_project_show_more(
+            current = project_thread_count(
                 page
-            ) is None:
+            )
+
+            if current > before_click:
+                grew = True
+                best_count = max(
+                    best_count,
+                    current,
+                )
                 break
 
-        if after > before:
-            no_progress_clicks = 0
+        current = project_thread_count(
+            page
+        )
+        best_count = max(
+            best_count,
+            current,
+        )
+
+        if grew:
+            stalled_cycles = 0
         else:
-            no_progress_clicks += 1
+            stalled_cycles += 1
 
         print(
-            f"Project expansion: {after} conversations loaded "
+            f"Project expansion: {current} conversations loaded "
             f"after {total_clicks} Show more click(s)."
         )
 
@@ -549,28 +791,22 @@ def expand_all_project_chats(page):
                 "The ChatGPT UI may have changed."
             )
 
-        # Avoid an infinite loop on a broken control, but tolerate several
-        # no-growth clicks because sidebar rerenders can temporarily report
-        # the same count.
-        if no_progress_clicks >= 5:
-            print(
-                "Show more is still present but five clicks produced no "
-                "additional conversation links. Rechecking once more..."
-            )
+        if stalled_cycles >= 20:
+            if current < minimum_expected:
+                raise RuntimeError(
+                    "Expansion stalled at "
+                    f"{current} conversations, below the known minimum "
+                    f"of {minimum_expected}. Refusing to declare completion."
+                )
 
-            page.wait_for_timeout(
-                1500
-            )
+            # If already above the floor, let the stable-absence logic decide
+            # completion on subsequent cycles.
+            stalled_cycles = 0
 
-            # If it is now gone, expansion is complete. If still present,
-            # stop this pass rather than loop forever; choose_next will call
-            # this function again before ever declaring the batch complete.
-            if find_project_show_more(
-                page
-            ) is None:
-                break
-
-            break
+    print(
+        f"Project expansion complete for this pass: "
+        f"{project_thread_count(page)} conversations loaded."
+    )
 
     return total_clicks
 
@@ -705,12 +941,24 @@ def choose_next_unprocessed_thread(
         "threads"
     ]
 
+    protected_logged_count = sum(
+        1
+        for entry in threads.values()
+        if status_is_protected(entry)
+    )
+
+    minimum_expected = max(
+        EXPECTED_MIN_PROJECT_THREADS,
+        protected_logged_count,
+    )
+
     for expansion_pass in range(
         1,
         3,
     ):
         clicks = expand_all_project_chats(
-            page
+            page,
+            minimum_expected=minimum_expected,
         )
 
         records = snapshot_project_threads(
