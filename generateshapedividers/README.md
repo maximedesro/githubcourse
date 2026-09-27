@@ -1,3 +1,23 @@
+## 2026-09-27.2 Show more remount timing fix
+
+After each **Show more** click, ChatGPT temporarily removes the control from the
+DOM while it appends the next batch of conversations. Looking again immediately
+can therefore falsely look like the end of the list.
+
+The script now:
+
+- waits **1.75 seconds after every successful Show more click** before testing the
+  conversation count;
+- waits up to **15 seconds** for the newly loaded conversation batch;
+- waits another **1.25 seconds** before looking for the replacement Show more;
+- waits up to **15 seconds** for Show more itself to reappear;
+- refuses to report completion below the known 400-conversation floor;
+- prints `Script version: 2026-09-27.2` at startup so you can confirm your Mac
+  is actually running this revision.
+
+If your terminal does not show that version line, your local
+`rerun_aspect_ratio.py` has not yet been replaced with the current GitHub copy.
+
 ## 2026-09-27 400+ conversation expansion floor
 
 The project has 400+ conversations, so the script now treats that as a known
