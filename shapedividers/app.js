@@ -345,13 +345,10 @@ const previewCanvas = document.createElement('canvas');
 previewCanvas.className = 'shape-divider-canvas';
 Object.assign(previewCanvas.style, {
     position: 'absolute',
-    inset: '0',
-    bottom: '-0.1vw',
     left: '-0.1vw',
-    right: '-0.1vw',
     top: '-0.1vw',
-    width: '100%',
-    height: '100%',
+    width: 'calc(100% + 0.2vw)',
+    height: 'calc(100% + 0.2vw)',
     pointerEvents: 'none',
     zIndex: '4'
 });
