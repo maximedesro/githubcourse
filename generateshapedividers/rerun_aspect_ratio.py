@@ -22,7 +22,7 @@ PROJECT_URL = (
 
 DEFAULT_CDP_URL = "http://127.0.0.1:9222"
 DEFAULT_INTERVAL = 240.0
-SCRIPT_VERSION = "2026-09-27.2"
+SCRIPT_VERSION = "2026-09-27.3"
 
 # ShapeDividers Shapes currently contains 400+ conversations.
 # This prevents a collapsed sidebar showing 6/20/25 chats from being
@@ -506,19 +506,54 @@ def find_project_show_more(page):
 
 def wait_for_project_show_more(
     page,
-    timeout_ms=6_000,
+    timeout_ms=15_000,
 ):
     """
-    Wait for Show more to reappear after a React/sidebar refresh.
+    Wait for Show more to reappear, checking quickly instead of sleeping
+    for the whole timeout.
 
-    A single instantaneous lookup is unreliable: after each expansion click,
-    ChatGPT often removes and recreates the control.
+    The control is checked immediately, then again at roughly:
+      +1s, +2s, +3s, ... up to the timeout.
+
+    So if ChatGPT recreates Show more after 1-3 seconds, the script clicks it
+    right away instead of waiting the full 15 seconds.
     """
-    deadline = time.monotonic() + (
-        timeout_ms / 1000
+    control = find_project_show_more(
+        page
     )
 
-    while time.monotonic() < deadline:
+    if control is not None:
+        return control
+
+    max_seconds = max(
+        1,
+        int(timeout_ms / 1000),
+    )
+
+    started = time.monotonic()
+
+    for second in range(
+        1,
+        max_seconds + 1,
+    ):
+        # Wait only until the next 1-second checkpoint.
+        target = (
+            started
+            + second
+        )
+
+        remaining = (
+            target
+            - time.monotonic()
+        )
+
+        if remaining > 0:
+            page.wait_for_timeout(
+                int(
+                    remaining * 1000
+                )
+            )
+
         scroll_project_list_to_bottom(
             page
         )
@@ -529,10 +564,6 @@ def wait_for_project_show_more(
 
         if control is not None:
             return control
-
-        page.wait_for_timeout(
-            250
-        )
 
     return None
 
@@ -725,10 +756,10 @@ def expand_all_project_chats(
 
         total_clicks += 1
 
-        # CRITICAL: always wait after a successful click. ChatGPT removes the
-        # old button and asynchronously mounts the next batch/button.
+        # Always allow a short settle after a successful click. ChatGPT removes
+        # the old button and asynchronously mounts the next batch/button.
         page.wait_for_timeout(
-            1_750
+            1_000
         )
 
         # Wait up to 15 seconds for the conversation count to grow. Even if it
@@ -763,7 +794,7 @@ def expand_all_project_chats(
         # Let React finish mounting the replacement Show more control before
         # the next loop iteration.
         page.wait_for_timeout(
-            1_250
+            750
         )
 
         if total_clicks >= 1000:
