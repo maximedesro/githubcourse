@@ -1,3 +1,27 @@
+## 2026-09-27.3 faster Show more polling
+
+The script no longer waits a full 15 seconds before trying **Show more** again.
+
+It now checks immediately, then at approximately:
+
+```text
++1s, +2s, +3s, ... up to +15s
+```
+
+and clicks as soon as the control reappears. This keeps the protection against
+slow sidebar rerenders without adding an unnecessary 15-second delay when
+ChatGPT recreates the button quickly.
+
+The fixed post-click settle delay was also reduced from 1.75 seconds to 1.0
+second, with the final React settle delay reduced from 1.25 seconds to 0.75
+seconds.
+
+The startup version is now:
+
+```text
+Script version: 2026-09-27.3
+```
+
 ## 2026-09-27.2 Show more remount timing fix
 
 After each **Show more** click, ChatGPT temporarily removes the control from the
