@@ -571,6 +571,28 @@ input[type='color'] {
     display: inline-block;
     text-transform: uppercase;
 }
+
+.color-controls{
+    flex-wrap: wrap;
+}
+
+.gradient-color-secondary{
+    display:none;
+    align-items:center;
+}
+
+.color-row.gradient-enabled .gradient-color-secondary{
+    display:flex;
+}
+
+.gradient-toggle-container{
+    margin-top:-8px;
+}
+
+.gradient-toggle-label{
+    width:auto!important;
+    margin-left:10px;
+}
 #flipped-checkbox + label + label, #tablet-flipped-checkbox + label + label, #mobile-flipped-checkbox + label + label{
     width: 84px;
     margin-left:10px;
