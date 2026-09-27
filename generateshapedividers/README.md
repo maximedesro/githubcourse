@@ -1,3 +1,21 @@
+## 2026-09-27.4 MutationObserver Show more detection
+
+The rerun automation now uses a browser-side `MutationObserver` to detect when
+ChatGPT re-mounts the ShapeDividers **Show more** control.
+
+Instead of checking once per second, the observer watches the live sidebar DOM
+and resolves immediately when the button appears. The existing 15-second value
+is now only a maximum safety timeout, not a normal delay.
+
+Because the observer handles the remount directly, the fixed post-click waits
+were reduced to roughly 350 ms and 250 ms.
+
+The startup version is now:
+
+```text
+Script version: 2026-09-27.4
+```
+
 ## 2026-09-27.3 faster Show more polling
 
 The script no longer waits a full 15 seconds before trying **Show more** again.
