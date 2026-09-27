@@ -1,3 +1,26 @@
+## 2026-09-27 persistent Show more expansion fix
+
+ChatGPT can collapse the ShapeDividers project conversation list back to a small
+initial batch after navigating into a conversation or after a sidebar refresh.
+
+The rerun script therefore no longer assumes that a previous **Show more**
+expansion remains valid.
+
+Before selecting **every** next conversation it now:
+
+- re-detects the ShapeDividers project section;
+- re-resolves the project's **Show more** control from the current DOM;
+- supports button, role-button, and test-id variants of **Show more**;
+- repeatedly clicks **Show more** until it is no longer present;
+- tolerates delayed React rerenders where a click does not immediately increase
+  the visible conversation count;
+- if all currently visible chats are already done/reserved, performs a second
+  full expansion pass before declaring the project complete.
+
+This specifically prevents the false-completion case where the sidebar resets
+to six chats and all six happen to already be in
+`aspect-ratio-done-threads.json`.
+
 # ShapeDividers automation folder
 
 These files are intended to live **inside your existing**:
