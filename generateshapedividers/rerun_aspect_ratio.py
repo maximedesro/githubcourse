@@ -22,7 +22,7 @@ PROJECT_URL = (
 
 DEFAULT_CDP_URL = "http://127.0.0.1:9222"
 DEFAULT_INTERVAL = 240.0
-SCRIPT_VERSION = "2026-09-27.3"
+SCRIPT_VERSION = "2026-09-27.4"
 
 # ShapeDividers Shapes currently contains 400+ conversations.
 # This prevents a collapsed sidebar showing 6/20/25 chats from being
@@ -509,15 +509,14 @@ def wait_for_project_show_more(
     timeout_ms=15_000,
 ):
     """
-    Wait for Show more to reappear, checking quickly instead of sleeping
-    for the whole timeout.
+    Wait for Show more using a DOM MutationObserver.
 
-    The control is checked immediately, then again at roughly:
-      +1s, +2s, +3s, ... up to the timeout.
-
-    So if ChatGPT recreates Show more after 1-3 seconds, the script clicks it
-    right away instead of waiting the full 15 seconds.
+    The observer watches the live sidebar subtree and resolves as soon as
+    ChatGPT mounts/re-mounts a Show more control for ShapeDividers Shapes.
+    This avoids fixed polling delays while still keeping the full timeout as
+    a safety ceiling.
     """
+    # Fast path: it may already exist.
     control = find_project_show_more(
         page
     )
@@ -525,47 +524,104 @@ def wait_for_project_show_more(
     if control is not None:
         return control
 
-    max_seconds = max(
-        1,
-        int(timeout_ms / 1000),
+    try:
+        found = page.evaluate(
+            """({projectId, timeoutMs}) => {
+                return new Promise((resolve) => {
+                    const projectSelector =
+                        'div[data-sidebar-project-container-id="project:' +
+                        projectId + '"]';
+
+                    const findShowMore = () => {
+                        const project = document.querySelector(
+                            projectSelector
+                        );
+
+                        if (!project) {
+                            return false;
+                        }
+
+                        const candidates = [
+                            ...project.querySelectorAll(
+                                'button, [role="button"], [data-testid]'
+                            )
+                        ];
+
+                        return candidates.some((el) => {
+                            const text = (
+                                el.textContent || ''
+                            ).trim().toLowerCase();
+
+                            const testId = (
+                                el.getAttribute('data-testid') || ''
+                            ).toLowerCase();
+
+                            return (
+                                text === 'show more' ||
+                                text.includes('show more') ||
+                                testId.includes('show-more')
+                            );
+                        });
+                    };
+
+                    if (findShowMore()) {
+                        resolve(true);
+                        return;
+                    }
+
+                    const root =
+                        document.querySelector(
+                            '#app-shell-sidebar'
+                        ) ||
+                        document.body;
+
+                    const observer = new MutationObserver(() => {
+                        if (findShowMore()) {
+                            observer.disconnect();
+                            clearTimeout(timer);
+                            resolve(true);
+                        }
+                    });
+
+                    observer.observe(
+                        root,
+                        {
+                            childList: true,
+                            subtree: true,
+                            attributes: true,
+                            attributeFilter: [
+                                'aria-hidden',
+                                'aria-expanded',
+                                'style',
+                                'class',
+                                'data-testid',
+                            ],
+                        }
+                    );
+
+                    const timer = setTimeout(() => {
+                        observer.disconnect();
+                        resolve(false);
+                    }, timeoutMs);
+                });
+            }""",
+            {
+                "projectId": PROJECT_ID,
+                "timeoutMs": timeout_ms,
+            },
+        )
+
+    except Exception:
+        found = False
+
+    if not found:
+        return None
+
+    # Re-acquire a Playwright locator after the observer signals that the
+    # control exists. React may have replaced the exact DOM node.
+    return find_project_show_more(
+        page
     )
-
-    started = time.monotonic()
-
-    for second in range(
-        1,
-        max_seconds + 1,
-    ):
-        # Wait only until the next 1-second checkpoint.
-        target = (
-            started
-            + second
-        )
-
-        remaining = (
-            target
-            - time.monotonic()
-        )
-
-        if remaining > 0:
-            page.wait_for_timeout(
-                int(
-                    remaining * 1000
-                )
-            )
-
-        scroll_project_list_to_bottom(
-            page
-        )
-
-        control = find_project_show_more(
-            page
-        )
-
-        if control is not None:
-            return control
-
-    return None
 
 
 def click_project_show_more(page):
@@ -650,8 +706,8 @@ def expand_all_project_chats(
             )
             last_count = current
 
-        # Give the UI a real chance to recreate Show more. This is intentionally
-        # much slower than before because the sidebar rebuild can take seconds.
+        # MutationObserver resolves as soon as React recreates Show more.
+        # The 15-second value is only the maximum safety timeout.
         control = wait_for_project_show_more(
             page,
             timeout_ms=15_000,
@@ -759,7 +815,7 @@ def expand_all_project_chats(
         # Always allow a short settle after a successful click. ChatGPT removes
         # the old button and asynchronously mounts the next batch/button.
         page.wait_for_timeout(
-            1_000
+            350
         )
 
         # Wait up to 15 seconds for the conversation count to grow. Even if it
@@ -794,7 +850,7 @@ def expand_all_project_chats(
         # Let React finish mounting the replacement Show more control before
         # the next loop iteration.
         page.wait_for_timeout(
-            750
+            250
         )
 
         if total_clicks >= 1000:
