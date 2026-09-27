@@ -92,103 +92,128 @@ function checkRadioByValue(group, value) {
 
 
 
-function updateSettingsfromURL(){
+function setInputValueFromParam(id, param, transform = (value) => value) {
+    if (!urlParams.has(param)) return;
 
-if (!urlStylesLoaded){
-if (urlParams.has('dividerDirection')){
-checkRadioByValue(genform.dividerdirection, urlParams.get('dividerDirection'));
-document.getElementById("long_axis").value = urlParams.get('longAxisValue');
-document.getElementById("short_axis").value = urlParams.get('shortAxisValue');
-document.getElementById("position").value = urlParams.get('positionValue');
-document.getElementById('flipped-checkbox').checked = ('true' == urlParams.get('flipped') );
-document.getElementById('animate-checkbox').checked = ('true' == urlParams.get('animate'));
-document.getElementById('animation_length').value = urlParams.get('animLength');
-if (urlParams.has('animLongAxis')) {
-    document.getElementById('animation_long_axis').value =
-        urlParams.get('animLongAxis');
-}
-document.getElementById('shape-color').value = '#' + urlParams.get('shapeColor');
-document.getElementById('shape-color-code').value = '#' + urlParams.get('shapeColor');
-if (urlParams.has('gradient')) {
-    document.getElementById('gradient-checkbox').checked =
-        ('true' == urlParams.get('gradient'));
-}
-if (urlParams.has('gradientColor')) {
-    document.getElementById('gradient-color').value =
-        '#' + urlParams.get('gradientColor');
-    document.getElementById('gradient-color-code').value =
-        '#' + urlParams.get('gradientColor');
-}
-shapeIndex = getShapeIndex('si');
-document.getElementById('mobile-ready').checked = ('true' == urlParams.get('mobileReady'));
-}
-if (urlParams.has('tabletDividerDirection')){
+    const input = document.getElementById(id);
+    if (!input) return;
 
-
-checkRadioByValue(genform.tabletdividerdirection, urlParams.get('tabletDividerDirection'));
-document.getElementById("tablet-long_axis").value = urlParams.get('tabletLongAxisValue');
-document.getElementById("tablet-short_axis").value = urlParams.get('tabletShortAxisValue');
-document.getElementById("tablet-position").value = urlParams.get('tabletPositionValue');
-document.getElementById('tablet-flipped-checkbox').checked = ('true' == urlParams.get('tabletFlipped') );
-document.getElementById('tablet-animate-checkbox').checked = ('true' == urlParams.get('tabletAnimate'));
-document.getElementById('tablet-animation_length').value = urlParams.get('tabletAnimLength');
-if (urlParams.has('tabletAnimLongAxis')) {
-    document.getElementById('tablet-animation_long_axis').value =
-        urlParams.get('tabletAnimLongAxis');
-}
-document.getElementById('tablet-shape-color').value = '#' + urlParams.get('tabletShapeColor');
-document.getElementById('tablet-shape-color-code').value = '#' + urlParams.get('tabletShapeColor');
-if (urlParams.has('tabletGradient')) {
-    document.getElementById('tablet-gradient-checkbox').checked =
-        ('true' == urlParams.get('tabletGradient'));
-}
-if (urlParams.has('tabletGradientColor')) {
-    document.getElementById('tablet-gradient-color').value =
-        '#' + urlParams.get('tabletGradientColor');
-    document.getElementById('tablet-gradient-color-code').value =
-        '#' + urlParams.get('tabletGradientColor');
-}
-tabletShapeIndex =  getShapeIndex('tsi');
-
-
-
-checkRadioByValue(genform.mobiledividerdirection, urlParams.get('mobileDividerDirection'));
-document.getElementById("mobile-long_axis").value = urlParams.get('mobileLongAxisValue');
-document.getElementById("mobile-short_axis").value = urlParams.get('mobileShortAxisValue');
-document.getElementById("mobile-position").value = urlParams.get('mobilePositionValue');
-document.getElementById('mobile-flipped-checkbox').checked = ('true' == urlParams.get('mobileFlipped') );
-document.getElementById('mobile-animate-checkbox').checked = ('true' == urlParams.get('mobileAnimate'));
-document.getElementById('mobile-animation_length').value = urlParams.get('mobileAnimLength');
-if (urlParams.has('mobileAnimLongAxis')) {
-    document.getElementById('mobile-animation_long_axis').value =
-        urlParams.get('mobileAnimLongAxis');
-}
-document.getElementById('mobile-shape-color').value = '#' + urlParams.get('mobileShapeColor');
-document.getElementById('mobile-shape-color-code').value = '#' + urlParams.get('mobileShapeColor');
-if (urlParams.has('mobileGradient')) {
-    document.getElementById('mobile-gradient-checkbox').checked =
-        ('true' == urlParams.get('mobileGradient'));
-}
-if (urlParams.has('mobileGradientColor')) {
-    document.getElementById('mobile-gradient-color').value =
-        '#' + urlParams.get('mobileGradientColor');
-    document.getElementById('mobile-gradient-color-code').value =
-        '#' + urlParams.get('mobileGradientColor');
-}
-mobileShapeIndex = getShapeIndex('msi');
+    input.value = transform(urlParams.get(param));
 }
 
-urlStylesLoaded = true;
+function setCheckboxFromParam(id, param) {
+    if (!urlParams.has(param)) return;
 
-const responsiveEnabled =
-    document.getElementById('mobile-ready').checked;
+    const input = document.getElementById(id);
+    if (!input) return;
 
-viewsSelect.style.display = responsiveEnabled ? 'flex' : 'none';
-
-refreshRangeSliders();
-
+    input.checked = urlParams.get(param) === 'true';
 }
 
+function restoreViewportFromURL(prefix, paramPrefix, shapeParam) {
+    const groupName = prefix ? prefix + 'dividerdirection' : 'dividerdirection';
+    const key = (desktopKey, responsiveKey) =>
+        prefix ? paramPrefix + responsiveKey : desktopKey;
+    const directionParam = key('dividerDirection', 'DividerDirection');
+
+    if (urlParams.has(directionParam) && genform[groupName]) {
+        checkRadioByValue(
+            genform[groupName],
+            urlParams.get(directionParam)
+        );
+    }
+
+    setInputValueFromParam(
+        prefixedId(prefix, 'long_axis'),
+        key('longAxisValue', 'LongAxisValue')
+    );
+    setInputValueFromParam(
+        prefixedId(prefix, 'short_axis'),
+        key('shortAxisValue', 'ShortAxisValue')
+    );
+    setInputValueFromParam(
+        prefixedId(prefix, 'position'),
+        key('positionValue', 'PositionValue')
+    );
+    setCheckboxFromParam(
+        prefixedId(prefix, 'flipped-checkbox'),
+        key('flipped', 'Flipped')
+    );
+    setCheckboxFromParam(
+        prefixedId(prefix, 'animate-checkbox'),
+        key('animate', 'Animate')
+    );
+    setInputValueFromParam(
+        prefixedId(prefix, 'animation_length'),
+        key('animLength', 'AnimLength')
+    );
+    setInputValueFromParam(
+        prefixedId(prefix, 'animation_long_axis'),
+        key('animLongAxis', 'AnimLongAxis')
+    );
+    setInputValueFromParam(
+        prefixedId(prefix, 'shape-color'),
+        key('shapeColor', 'ShapeColor'),
+        (value) => '#' + value
+    );
+    setInputValueFromParam(
+        prefixedId(prefix, 'shape-color-code'),
+        key('shapeColor', 'ShapeColor'),
+        (value) => '#' + value
+    );
+    setCheckboxFromParam(
+        prefixedId(prefix, 'gradient-checkbox'),
+        key('gradient', 'Gradient')
+    );
+    setInputValueFromParam(
+        prefixedId(prefix, 'gradient-color'),
+        key('gradientColor', 'GradientColor'),
+        (value) => '#' + value
+    );
+    setInputValueFromParam(
+        prefixedId(prefix, 'gradient-color-code'),
+        key('gradientColor', 'GradientColor'),
+        (value) => '#' + value
+    );
+
+    if (urlParams.has(shapeParam)) {
+        const restoredIndex = getShapeIndex(shapeParam);
+
+        if (prefix === 'tablet') {
+            tabletShapeIndex = restoredIndex;
+        } else if (prefix === 'mobile') {
+            mobileShapeIndex = restoredIndex;
+        } else {
+            shapeIndex = restoredIndex;
+        }
+    }
+
+    syncGradientControl(prefix);
+}
+
+function updateSettingsfromURL() {
+    if (urlStylesLoaded) return;
+
+    if (urlParams.has('dividerDirection')) {
+        restoreViewportFromURL('', 'divider', 'si');
+        setCheckboxFromParam('mobile-ready', 'mobileReady');
+    }
+
+    if (urlParams.has('tabletDividerDirection')) {
+        restoreViewportFromURL('tablet', 'tablet', 'tsi');
+    }
+
+    if (urlParams.has('mobileDividerDirection')) {
+        restoreViewportFromURL('mobile', 'mobile', 'msi');
+    }
+
+    urlStylesLoaded = true;
+
+    const responsiveEnabled =
+        document.getElementById('mobile-ready').checked;
+
+    viewsSelect.style.display = responsiveEnabled ? 'flex' : 'none';
+    refreshRangeSliders();
 }
 
 
@@ -1331,8 +1356,6 @@ function updateViewportControlVisibility(viewIndex, state) {
 
 
 function updateShape() {
-    updateSettingsfromURL();
-
     const desktopState = readViewportControls('', shapeIndex);
 
     shapeColor = desktopState.color;
@@ -2314,6 +2337,7 @@ function refreshRangeSliders() {
     });
 }
 
+updateSettingsfromURL();
 updateShape();
 
 const shapePicker = document.createElement('div');
