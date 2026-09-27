@@ -573,16 +573,33 @@ input[type='color'] {
 }
 
 .color-controls{
-    flex-wrap: wrap;
+    display:flex!important;
+    align-items:center;
+    flex-wrap:nowrap;
+    gap:10px;
+    width:100%;
+}
+
+.color-controls .cp_wrapper{
+    flex:0 0 2em;
+    width:2em;
+    height:2em;
+    margin:0;
+    border-radius:50%;
+}
+
+.color-controls .shape-color-code{
+    flex:0 0 100px;
+    width:100px;
+    min-width:0;
 }
 
 .gradient-color-secondary{
     display:none;
-    align-items:center;
 }
 
 .color-row.gradient-enabled .gradient-color-secondary{
-    display:flex;
+    display:contents;
 }
 
 .gradient-toggle-container{
