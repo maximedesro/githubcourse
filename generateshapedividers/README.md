@@ -1,3 +1,30 @@
+## 2026-09-27 400+ conversation expansion floor
+
+The project has 400+ conversations, so the script now treats that as a known
+minimum safety floor.
+
+A temporary sidebar state showing 6, 20, or 25 conversations can no longer be
+accepted as "fully expanded." If **Show more** temporarily disappears while
+fewer than 400 conversations are loaded, the script keeps:
+
+- scrolling the ShapeDividers chat list to the bottom;
+- waiting for React to recreate the **Show more** control;
+- checking for lazy-loaded rows;
+- retrying the project section;
+- clicking **Show more** again as soon as it reappears.
+
+The current number of protected IDs in
+`aspect-ratio-done-threads.json` is also used as an additional lower bound if
+it ever exceeds 400.
+
+Only after at least that minimum is loaded will the script accept a missing
+**Show more** control, and even then it requires five consecutive absence checks
+before considering the list exhausted.
+
+If the sidebar remains below the known minimum after repeated retries, the
+script now raises a clear error instead of falsely reporting that the project is
+complete.
+
 ## 2026-09-27 persistent Show more expansion fix
 
 ChatGPT can collapse the ShapeDividers project conversation list back to a small
