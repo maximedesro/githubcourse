@@ -413,20 +413,83 @@ function replaceSvgColorsWithPaint(svgMarkup, paint) {
         });
 }
 
-function getGradientVector(direction) {
+function getSvgViewBoxMetrics(svgMarkup) {
+    const viewBoxMatch = svgMarkup.match(
+        /\bviewBox=(["'])([^"']+)\1/i
+    );
+
+    if (!viewBoxMatch) {
+        return {
+            minX: 0,
+            minY: 0,
+            width: 1,
+            height: 1
+        };
+    }
+
+    const values = viewBoxMatch[2]
+        .trim()
+        .split(/[\s,]+/)
+        .map(Number);
+
+    if (
+        values.length !== 4 ||
+        values.some((value) => !Number.isFinite(value))
+    ) {
+        return {
+            minX: 0,
+            minY: 0,
+            width: 1,
+            height: 1
+        };
+    }
+
+    const [minX, minY, width, height] = values;
+
+    return {
+        minX,
+        minY,
+        width: width || 1,
+        height: height || 1
+    };
+}
+
+function getGradientVector(direction, viewBox) {
+    const { minX, minY, width, height } = viewBox;
+
     if (direction === 'bottom') {
-        return { x1: 0, y1: 1, x2: 0, y2: 0 };
+        return {
+            x1: minX,
+            y1: minY + height,
+            x2: minX,
+            y2: minY
+        };
     }
 
     if (direction === 'left') {
-        return { x1: 0, y1: 0, x2: 1, y2: 0 };
+        return {
+            x1: minX,
+            y1: minY,
+            x2: minX + width,
+            y2: minY
+        };
     }
 
     if (direction === 'right') {
-        return { x1: 1, y1: 0, x2: 0, y2: 0 };
+        return {
+            x1: minX + width,
+            y1: minY,
+            x2: minX,
+            y2: minY
+        };
     }
 
-    return { x1: 0, y1: 0, x2: 0, y2: 1 };
+    return {
+        x1: minX,
+        y1: minY,
+        x2: minX,
+        y2: minY + height
+    };
 }
 
 function addGradientToSvg(
@@ -436,13 +499,15 @@ function addGradientToSvg(
     direction,
     gradientId
 ) {
-    const vector = getGradientVector(direction);
+    const viewBox = getSvgViewBoxMetrics(svgMarkup);
+    const vector = getGradientVector(direction, viewBox);
     const paintedSvg = replaceSvgColorsWithPaint(
         svgMarkup,
         'url(#' + gradientId + ')'
     );
     const gradientMarkup =
         '<defs><linearGradient id="' + gradientId + '"' +
+        ' gradientUnits="userSpaceOnUse"' +
         ' x1="' + vector.x1 + '" y1="' + vector.y1 + '"' +
         ' x2="' + vector.x2 + '" y2="' + vector.y2 + '">' +
         '<stop offset="0%" stop-color="#' + startColor + '"/>' +
