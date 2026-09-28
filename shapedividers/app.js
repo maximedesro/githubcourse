@@ -1762,7 +1762,14 @@ function getPlainExportSvg(
         );
 }
 
-function getSvgStateDeclarations(state, animationNamespace) {
+function getSvgStateDeclarations(
+    state,
+    animationNamespace,
+    {
+        includeTransformReset = true,
+        includeAnimationReset = true
+    } = {}
+) {
     const horizontal = state.direction === 'top' || state.direction === 'bottom';
     const longAxis = Number(state.longAxis) || 100;
     const shortAxis = Number(state.shortAxis) || 0;
@@ -1790,9 +1797,13 @@ function getSvgStateDeclarations(state, animationNamespace) {
         left: 'auto',
         width: 'auto',
         height: 'auto',
-        transform: 'none',
-        'transform-origin': 'center',
-        animation: 'none'
+        ...(includeTransformReset ? {
+            transform: 'none',
+            'transform-origin': 'center'
+        } : {}),
+        ...(includeAnimationReset ? {
+            animation: 'none'
+        } : {})
     };
 
     let keyframes = '';
@@ -1907,6 +1918,14 @@ function statesAreSameShape(a, b) {
 function buildSvgExportCode() {
     const wrapperClass = shapeCSSName + '-svg';
     const states = getSvgExportStates();
+    const hasAnyAnimation = states.some((state) => state.animate);
+    const hasAnyTransform = states.some(
+        (state) => state.animate || state.flipped
+    );
+    const stateDeclarationOptions = {
+        includeTransformReset: hasAnyTransform,
+        includeAnimationReset: hasAnyAnimation
+    };
 
     const mobileState = mobileReady
         ? states.find((state) => state.key === 'mobile')
@@ -1964,7 +1983,11 @@ function buildSvgExportCode() {
     }
 
     const baseEntry = getShapeEntry(mobileState);
-    const baseStateCss = getSvgStateDeclarations(mobileState, wrapperClass);
+    const baseStateCss = getSvgStateDeclarations(
+        mobileState,
+        wrapperClass,
+        stateDeclarationOptions
+    );
     const baseDeclarations = {
         ...baseStateCss.declarations,
         'z-index': '3',
@@ -1993,7 +2016,11 @@ function buildSvgExportCode() {
 
     responsiveSteps.forEach(({ minWidth, state }) => {
         const entry = getShapeEntry(state);
-        const stateCss = getSvgStateDeclarations(state, wrapperClass);
+        const stateCss = getSvgStateDeclarations(
+            state,
+            wrapperClass,
+            stateDeclarationOptions
+        );
         const mediaRules = [];
 
         if (entry !== previousEntry) {
@@ -2118,7 +2145,15 @@ function getMaskBackground(state) {
     );
 }
 
-function getMaskStateDeclarations(state, fileName, animationNamespace) {
+function getMaskStateDeclarations(
+    state,
+    fileName,
+    animationNamespace,
+    {
+        includeTransformReset = true,
+        includeAnimationReset = true
+    } = {}
+) {
     const horizontal =
         state.direction === 'top' || state.direction === 'bottom';
     const longAxis = Number(state.longAxis) || 100;
@@ -2149,9 +2184,13 @@ function getMaskStateDeclarations(state, fileName, animationNamespace) {
         left: 'auto',
         width: 'auto',
         height: 'auto',
-        transform: 'none',
-        'transform-origin': 'center',
-        animation: 'none'
+        ...(includeTransformReset ? {
+            transform: 'none',
+            'transform-origin': 'center'
+        } : {}),
+        ...(includeAnimationReset ? {
+            animation: 'none'
+        } : {})
     };
 
     let keyframes = '';
@@ -2228,6 +2267,14 @@ function getMaskStateDeclarations(state, fileName, animationNamespace) {
 function buildMaskExportCode() {
     const wrapperClass = shapeCSSName + '-mask';
     const states = getSvgExportStates();
+    const hasAnyAnimation = states.some((state) => state.animate);
+    const hasAnyTransform = states.some(
+        (state) => state.animate || state.flipped
+    );
+    const stateDeclarationOptions = {
+        includeTransformReset: hasAnyTransform,
+        includeAnimationReset: hasAnyAnimation
+    };
 
     const mobileState = mobileReady
         ? states.find((state) => state.key === 'mobile')
@@ -2302,7 +2349,8 @@ function buildMaskExportCode() {
     const baseCss = getMaskStateDeclarations(
         mobileState,
         baseEntry.fileName,
-        wrapperClass
+        wrapperClass,
+        stateDeclarationOptions
     );
 
     rules.push(
@@ -2334,7 +2382,8 @@ function buildMaskExportCode() {
         const stateCss = getMaskStateDeclarations(
             state,
             entry.fileName,
-            wrapperClass
+            wrapperClass,
+            stateDeclarationOptions
         );
         const mediaRules = [];
 
