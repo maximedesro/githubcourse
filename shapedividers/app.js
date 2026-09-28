@@ -505,13 +505,18 @@ function addGradientToSvg(
         svgMarkup,
         'url(#' + gradientId + ')'
     );
+    const formatGradientColor = (value) =>
+        String(value).startsWith('var(') ? value : '#' + value;
+
     const gradientMarkup =
         '<defs><linearGradient id="' + gradientId + '"' +
         ' gradientUnits="userSpaceOnUse"' +
         ' x1="' + vector.x1 + '" y1="' + vector.y1 + '"' +
         ' x2="' + vector.x2 + '" y2="' + vector.y2 + '">' +
-        '<stop offset="0%" stop-color="#' + startColor + '"/>' +
-        '<stop offset="100%" stop-color="#' + endColor + '"/>' +
+        '<stop offset="0%" stop-color="' +
+        formatGradientColor(startColor) + '"/>' +
+        '<stop offset="100%" stop-color="' +
+        formatGradientColor(endColor) + '"/>' +
         '</linearGradient></defs>';
 
     return paintedSvg.replace(
@@ -1505,6 +1510,8 @@ if (exportModal && exportModal.parentElement !== document.body) {
 
 const exportCssCode = document.getElementById("export-code-css");
 const exportSvgCode = document.getElementById("export-code-svg");
+const exportMaskCode = document.getElementById("export-code-mask");
+const exportMaskDownloadButton = document.getElementById("export-mask-download");
 const exportCopyButton = document.getElementById("export-copy");
 const exportCopyLabel = exportCopyButton?.querySelector("span");
 const exportTabs = [...document.querySelectorAll("[data-export-tab]")];
@@ -1513,6 +1520,8 @@ const exportPanels = [...document.querySelectorAll("[data-export-panel]")];
 let activeExportTab = "css";
 let preparedCssExport = "";
 let preparedSvgExport = "";
+let preparedMaskExport = "";
+let preparedMaskFiles = [];
 
 
 
@@ -1735,8 +1744,8 @@ function getPlainExportSvg(
     const inlineSvg = gradientEnabled
         ? addGradientToSvg(
             normalizedSvg,
-            color,
-            endColor,
+            'var(--shape-gradient-color-1)',
+            'var(--shape-gradient-color-2)',
             direction,
             className + '-gradient'
         )
@@ -1770,6 +1779,10 @@ function getSvgStateDeclarations(state, animationNamespace) {
         display: 'block',
         position: 'absolute',
         color: '#' + state.color,
+        ...(state.gradient ? {
+            '--shape-gradient-color-1': '#' + state.color,
+            '--shape-gradient-color-2': '#' + state.gradientColor
+        } : {}),
         'max-width': 'none',
         top: 'auto',
         right: 'auto',
@@ -2077,6 +2090,366 @@ function buildSvgExportCode() {
     );
 }
 
+
+function getMaskSvg(shapeIndex, direction) {
+    const rawSvg = svgDividers[shapeIndex][direction];
+    const normalizedSvg = normalizeSvgForCanvas(rawSvg, 'ffffff');
+
+    return replaceSvgColorsWithPaint(normalizedSvg, '#fff')
+        .replace(/\saria-hidden=(["']).*?\1/gi, '')
+        .replace(/\sfocusable=(["']).*?\1/gi, '');
+}
+
+function getMaskBackground(state) {
+    if (!state.gradient) {
+        return '#' + state.color;
+    }
+
+    const cssDirection =
+        state.direction === 'top' ? 'to bottom' :
+        state.direction === 'bottom' ? 'to top' :
+        state.direction === 'left' ? 'to right' :
+        'to left';
+
+    return (
+        'linear-gradient(' + cssDirection + ', ' +
+        '#' + state.color + ', ' +
+        '#' + state.gradientColor + ')'
+    );
+}
+
+function getMaskStateDeclarations(state, fileName, animationNamespace) {
+    const horizontal =
+        state.direction === 'top' || state.direction === 'bottom';
+    const longAxis = Number(state.longAxis) || 100;
+    const shortAxis = Number(state.shortAxis) || 0;
+    const position = Number(state.position) || 0;
+    const positionedPercent =
+        state.flipped && !state.animate
+            ? 100 - position
+            : position;
+    const offset =
+        positionedPercent * (1 - longAxis / 100);
+    const animationScale =
+        Math.max(1, Number(state.animationLongAxis) || 1);
+
+    const declarations = {
+        display: 'block',
+        position: 'absolute',
+        background: getMaskBackground(state),
+        '-webkit-mask-image': 'url("' + fileName + '")',
+        'mask-image': 'url("' + fileName + '")',
+        '-webkit-mask-repeat': 'no-repeat',
+        'mask-repeat': 'no-repeat',
+        '-webkit-mask-size': '100% 100%',
+        'mask-size': '100% 100%',
+        top: 'auto',
+        right: 'auto',
+        bottom: 'auto',
+        left: 'auto',
+        width: 'auto',
+        height: 'auto',
+        transform: 'none',
+        'transform-origin': 'center',
+        animation: 'none'
+    };
+
+    let keyframes = '';
+
+    if (state.animate) {
+        if (horizontal) {
+            declarations.width = '100%';
+            declarations.height = shortAxis + 'px';
+            declarations.left = '0';
+            declarations[state.direction === 'top' ? 'top' : 'bottom'] =
+                '-0.1vw';
+        } else {
+            declarations.width = shortAxis + 'px';
+            declarations.height = '100%';
+            declarations.top = '0';
+            declarations[state.direction === 'left' ? 'left' : 'right'] =
+                '-0.1vw';
+        }
+
+        const scaleFunction = horizontal
+            ? 'scale' + (state.ratio ? '' : 'X')
+            : 'scale' + (state.ratio ? '' : 'Y');
+
+        const transformOrigin =
+            state.direction === 'top' ? '100% 0' :
+            state.direction === 'bottom' ? '100% 100%' :
+            state.direction === 'right' ? '100% 100%' :
+            '0 100%';
+
+        const keyframeName =
+            animationNamespace + '-' + state.key + '-animation';
+
+        declarations.transform =
+            scaleFunction + '(' + animationScale + ')';
+        declarations['transform-origin'] = transformOrigin;
+        declarations.animation =
+            (Number(state.animationLength) || 1) +
+            's infinite alternate ' + keyframeName + ' linear';
+
+        const translateAxis = horizontal ? 'X' : 'Y';
+
+        keyframes =
+            '@keyframes ' + keyframeName + '{\n' +
+            '  100%{transform:' +
+            scaleFunction + '(' + animationScale + ') translate' +
+            translateAxis +
+            '(calc(100% - (100% / ' + animationScale + ')));}\n' +
+            '}';
+    } else {
+        if (horizontal) {
+            declarations.width = longAxis + '%';
+            declarations.height = shortAxis + 'px';
+            declarations.left = offset + '%';
+            declarations[state.direction === 'top' ? 'top' : 'bottom'] =
+                '-0.1vw';
+        } else {
+            declarations.width = shortAxis + 'px';
+            declarations.height = longAxis + '%';
+            declarations.top = offset + '%';
+            declarations[state.direction === 'left' ? 'left' : 'right'] =
+                '-0.1vw';
+        }
+
+        if (state.flipped) {
+            declarations.transform = horizontal
+                ? 'scaleX(-1)'
+                : 'scaleY(-1)';
+        }
+    }
+
+    return { declarations, keyframes };
+}
+
+function buildMaskExportCode() {
+    const wrapperClass = shapeCSSName + '-mask';
+    const states = getSvgExportStates();
+
+    const mobileState = mobileReady
+        ? states.find((state) => state.key === 'mobile')
+        : states[0];
+    const tabletState = mobileReady
+        ? states.find((state) => state.key === 'tablet')
+        : null;
+    const desktopState =
+        states.find((state) => state.key === 'desktop');
+
+    const uniqueShapeStates = [];
+
+    [mobileState, tabletState, desktopState]
+        .filter(Boolean)
+        .forEach((state) => {
+            const existing = uniqueShapeStates.find(
+                (candidate) =>
+                    candidate.shapeIndex === state.shapeIndex &&
+                    candidate.direction === state.direction
+            );
+
+            if (!existing) uniqueShapeStates.push(state);
+        });
+
+    const shapeEntries = uniqueShapeStates.map((state, index) => ({
+        state,
+        className: wrapperClass + '__shape-' + index,
+        fileName: wrapperClass + '-' + index + '.svg'
+    }));
+
+    function getShapeEntry(state) {
+        return shapeEntries.find(
+            (entry) =>
+                entry.state.shapeIndex === state.shapeIndex &&
+                entry.state.direction === state.direction
+        );
+    }
+
+    preparedMaskFiles = shapeEntries.map((entry) => ({
+        fileName: entry.fileName,
+        svg: getMaskSvg(
+            entry.state.shapeIndex,
+            entry.state.direction
+        )
+    }));
+
+    const rules = [
+        formatDeclarationRule(
+            '.' + wrapperClass,
+            {
+                position: 'absolute',
+                inset: '0',
+                overflow: 'hidden',
+                'pointer-events': 'none',
+                'z-index': '3'
+            }
+        )
+    ];
+
+    if (shapeEntries.length > 1) {
+        rules.push(
+            shapeEntries
+                .map((entry) =>
+                    '.' + wrapperClass + ' .' + entry.className
+                )
+                .join(', ') +
+            '{display:none;}'
+        );
+    }
+
+    const baseEntry = getShapeEntry(mobileState);
+    const baseCss = getMaskStateDeclarations(
+        mobileState,
+        baseEntry.fileName,
+        wrapperClass
+    );
+
+    rules.push(
+        formatDeclarationRule(
+            '.' + wrapperClass + ' .' + baseEntry.className,
+            {
+                ...baseCss.declarations,
+                'z-index': '3',
+                'pointer-events': 'none'
+            }
+        )
+    );
+
+    const keyframes = [];
+    if (baseCss.keyframes) keyframes.push(baseCss.keyframes);
+
+    let previousEntry = baseEntry;
+    let previousDeclarations = baseCss.declarations;
+
+    const responsiveSteps = mobileReady
+        ? [
+            { minWidth: 768, state: tabletState },
+            { minWidth: 1025, state: desktopState }
+        ]
+        : [];
+
+    responsiveSteps.forEach(({ minWidth, state }) => {
+        const entry = getShapeEntry(state);
+        const stateCss = getMaskStateDeclarations(
+            state,
+            entry.fileName,
+            wrapperClass
+        );
+        const mediaRules = [];
+
+        if (entry !== previousEntry) {
+            mediaRules.push(
+                '.' + wrapperClass + ' .' +
+                previousEntry.className + '{display:none;}'
+            );
+
+            mediaRules.push(
+                formatDeclarationRule(
+                    '.' + wrapperClass + ' .' + entry.className,
+                    {
+                        ...stateCss.declarations,
+                        display: 'block'
+                    }
+                )
+            );
+        } else {
+            const changed = diffDeclarations(
+                previousDeclarations,
+                stateCss.declarations
+            );
+            const changedRule = formatDeclarationRule(
+                '.' + wrapperClass + ' .' + entry.className,
+                changed
+            );
+
+            if (changedRule) mediaRules.push(changedRule);
+        }
+
+        if (mediaRules.length) {
+            rules.push(
+                '@media (min-width:' + minWidth + 'px){\n' +
+                mediaRules.join('\n\n') +
+                '\n}'
+            );
+        }
+
+        if (stateCss.keyframes) keyframes.push(stateCss.keyframes);
+
+        previousEntry = entry;
+        previousDeclarations = stateCss.declarations;
+    });
+
+    if (
+        desktopState.direction === 'top' ||
+        desktopState.direction === 'bottom'
+    ) {
+        const desktopEntry = getShapeEntry(desktopState);
+
+        rules.push(
+            '@media (min-width:2100px){\n' +
+            formatDeclarationRule(
+                '.' + wrapperClass + ' .' +
+                desktopEntry.className,
+                {
+                    height:
+                        'calc(2vw + ' +
+                        (Number(desktopState.shortAxis) || 0) +
+                        'px)'
+                }
+            ) +
+            '\n}'
+        );
+    }
+
+    const markup =
+        '<div class="' + wrapperClass + '">\n' +
+        shapeEntries
+            .map((entry) =>
+                '  <div class="' + entry.className + '"></div>'
+            )
+            .join('\n') +
+        '\n</div>';
+
+    const styleCode = rules
+        .filter(Boolean)
+        .concat([...new Set(keyframes)])
+        .join('\n\n');
+
+    return (
+        '<style>\n' +
+        styleCode +
+        '\n</style>\n\n' +
+        markup
+    );
+}
+
+function downloadPreparedMaskFiles() {
+    if (!preparedMaskFiles.length) return;
+
+    preparedMaskFiles.forEach((file, index) => {
+        window.setTimeout(() => {
+            const blob = new Blob(
+                [file.svg],
+                { type: 'image/svg+xml;charset=utf-8' }
+            );
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+
+            link.href = url;
+            link.download = file.fileName;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+
+            window.setTimeout(
+                () => URL.revokeObjectURL(url),
+                1000
+            );
+        }, index * 150);
+    });
+}
+
 function setExportTab(tabName) {
     activeExportTab = tabName;
 
@@ -2105,14 +2478,18 @@ function prepareExportModalCode() {
         const message = getPremiumExportMessage();
         preparedCssExport = message;
         preparedSvgExport = message;
+        preparedMaskExport = message;
+        preparedMaskFiles = [];
     } else {
         generateUniqueCSSName();
         preparedCssExport = generateCssExportCode({ renewClassName: false });
         preparedSvgExport = buildSvgExportCode();
+        preparedMaskExport = buildMaskExportCode();
     }
 
     if (exportCssCode) exportCssCode.textContent = preparedCssExport;
     if (exportSvgCode) exportSvgCode.textContent = preparedSvgExport;
+    if (exportMaskCode) exportMaskCode.textContent = preparedMaskExport;
 }
 
 function openExportModal() {
@@ -2145,12 +2522,20 @@ document.querySelectorAll('[data-export-close]').forEach((control) => {
     control.addEventListener('click', closeExportModal);
 });
 
+exportMaskDownloadButton?.addEventListener(
+    'click',
+    downloadPreparedMaskFiles
+);
+
 exportCopyButton?.addEventListener('click', async () => {
     await updateURL(false);
 
-    const code = activeExportTab === 'svg'
-        ? preparedSvgExport
-        : preparedCssExport;
+    const code =
+        activeExportTab === 'svg'
+            ? preparedSvgExport
+            : activeExportTab === 'mask'
+                ? preparedMaskExport
+                : preparedCssExport;
 
     const copied = await writeClipboard(code);
 
