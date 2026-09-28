@@ -282,6 +282,7 @@
     <div class="export-modal__tabs" role="tablist" aria-label="Export format">
       <button id="export-tab-css" class="export-modal__tab is-active" type="button" role="tab" aria-selected="true" aria-controls="export-panel-css" data-export-tab="css">Copy CSS code</button>
       <button id="export-tab-svg" class="export-modal__tab" type="button" role="tab" aria-selected="false" aria-controls="export-panel-svg" data-export-tab="svg">Copy SVG code</button>
+      <button id="export-tab-mask" class="export-modal__tab" type="button" role="tab" aria-selected="false" aria-controls="export-panel-mask" data-export-tab="mask">SVG mask</button>
     </div>
 
     <div id="export-panel-css" class="export-modal__panel is-active" role="tabpanel" aria-labelledby="export-tab-css" data-export-panel="css">
@@ -301,6 +302,14 @@
           Need help? See
           <a href="https://shapedividers.com/how-to-use-the-svg-code-from-shapedividers-com/" target="_blank" rel="noopener">How to add the SVG to your page</a>
         </p>
+      </div>
+    </div>
+
+    <div id="export-panel-mask" class="export-modal__panel" role="tabpanel" aria-labelledby="export-tab-mask" data-export-panel="mask">
+      <div class="export-modal__panel-content">
+        <pre class="export-modal__code"><code id="export-code-mask"></code></pre>
+        <p class="export-modal__help">Upload the downloaded SVG mask file(s) next to your page, then use the generated HTML and CSS above. The colors stay editable in CSS.</p>
+        <button id="export-mask-download" class="export-modal__download" type="button">Download SVG mask</button>
       </div>
     </div>
 
