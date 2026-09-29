@@ -1,3 +1,37 @@
+## 2026-09-29.1 direct-link mode — no Show more
+
+ChatGPT's new project layout exposes the project conversations directly as
+anchor elements such as:
+
+```html
+<a
+  data-interactive-row-link="true"
+  aria-label="Create Dancing Divider"
+  href="/g/g-p-6aa5e3c7d10c8191a7e9547580d0be0b/c/6ab32859-b4ec-83ea-ab5a-0d6b1077880e">
+```
+
+The automation now uses those captured direct URLs from
+`project-thread-links.json`.
+
+The manifest contains **427 unique direct conversation links**
+from the supplied ShapeDividers markup. The automation no longer clicks,
+waits for, observes, or depends on **Show more** at all.
+
+Only this conversation UUID is intentionally ignored:
+
+```text
+6aa5d391-9e94-83ea-bfe0-a8909756dfc6
+```
+
+All other manifest conversations are eligible, subject to the existing
+`aspect-ratio-done-threads.json` done/reserved log.
+
+Startup version:
+
+```text
+Script version: 2026-09-29.1
+```
+
 ## 2026-09-27.4 MutationObserver Show more detection
 
 The rerun automation now uses a browser-side `MutationObserver` to detect when
