@@ -22,7 +22,7 @@ PROJECT_URL = (
 
 DEFAULT_CDP_URL = "http://127.0.0.1:9222"
 DEFAULT_INTERVAL = 240.0
-SCRIPT_VERSION = "2026-09-29.3"
+SCRIPT_VERSION = "2026-09-29.4"
 
 # ShapeDividers Shapes currently contains 400+ conversations.
 # This prevents a collapsed sidebar showing 6/20/25 chats from being
@@ -1351,25 +1351,20 @@ def read_prompt():
 
 def status_is_protected(entry):
     """
-    Conversations already sent or possibly sent are NEVER eligible.
+    Only confirmed successful sends are protected.
 
-    - done: confirmed successful send
-    - reserved: Enter was attempted / send may have happened
-
-    Both are skipped to prevent duplicate follow-ups.
+    - done: skip forever
+    - reserved: eligible again, because the user wants these retried
     """
-    return entry.get("status") in {
-        "reserved",
-        "done",
-    }
+    return entry.get("status") == "done"
 
 
 def is_thread_eligible(entry):
     """
-    A thread is eligible only if it has no protected send state.
+    A thread is eligible unless it is confirmed DONE.
 
-    Missing entries and diagnostic states such as prepare_failed can be retried.
-    done/reserved entries cannot.
+    Missing entries, reserved entries, and diagnostic states such as
+    prepare_failed may be retried.
     """
     if not entry:
         return True
@@ -1408,10 +1403,10 @@ def validate_script_structure():
 
 def print_progress(log_data):
     """
-    Print progress for the direct-link manifest.
+    Print confirmed completion progress for the direct-link manifest.
 
-    done + reserved are both treated as already handled/protected so the
-    automation sends only to conversations it has not attempted before.
+    Only DONE counts as complete. RESERVED remains in the remaining workload
+    and is shown separately so it is clear those chats will be retried.
     """
     records = load_project_threads()
     manifest_ids = {
@@ -1421,7 +1416,7 @@ def print_progress(log_data):
 
     done_count = 0
     reserved_count = 0
-    eligible_count = 0
+    remaining_count = 0
 
     threads = log_data.get(
         "threads",
@@ -1433,35 +1428,23 @@ def print_progress(log_data):
             conversation_id
         )
 
-        if not entry:
-            eligible_count += 1
+        if entry and entry.get("status") == "done":
+            done_count += 1
             continue
 
-        status = entry.get(
-            "status"
-        )
+        remaining_count += 1
 
-        if status == "done":
-            done_count += 1
-        elif status == "reserved":
+        if entry and entry.get("status") == "reserved":
             reserved_count += 1
-        elif is_thread_eligible(
-            entry
-        ):
-            eligible_count += 1
 
     total_count = len(
         records
     )
-    protected_count = (
-        done_count
-        + reserved_count
-    )
 
     print(
-        f"Progress: {protected_count} / {total_count} already handled "
-        f"({done_count} done, {reserved_count} reserved); "
-        f"{eligible_count} remaining"
+        f"Progress: {done_count} / {total_count} done; "
+        f"{remaining_count} remaining "
+        f"({reserved_count} reserved to retry)"
     )
 
 def main():
@@ -1526,8 +1509,8 @@ def main():
         "--retry-reserved",
         action="store_true",
         help=(
-            "Deprecated safety option. Reserved threads are always skipped "
-            "to prevent duplicate sends."
+            "Deprecated compatibility flag. Reserved threads are retried "
+            "automatically; only DONE threads are skipped."
         ),
     )
 
@@ -1564,8 +1547,8 @@ def main():
     print(prompt)
     print()
     print(
-        "Duplicate protection: DONE and RESERVED conversation IDs are "
-        "always skipped. Only never-sent/unprotected chats are eligible."
+        "Duplicate protection: only DONE conversation IDs are skipped. "
+        "RESERVED chats are retried automatically."
     )
     print(
         "Temporary page/composer failures are retried automatically "
@@ -1704,8 +1687,7 @@ def main():
                     print()
                     print(
                         "All direct ShapeDividers conversation links in "
-                        "project-thread-links.json are already in the "
-                        "done/reserved log."
+                        "project-thread-links.json are marked DONE."
                     )
                     print_progress(
                         log_data
