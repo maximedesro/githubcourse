@@ -1,3 +1,79 @@
+## Generated image downloader
+
+A separate script, `download_generated_images.py`, downloads the generated
+images from the existing ShapeDividers Shapes conversations.
+
+It reuses the same local automation folder, the same `.venv`, the same
+Chrome remote-debugging/CDP setup, and the same
+`project-thread-links.json` direct conversation manifest.
+
+### What it does
+
+- Visits the existing ShapeDividers conversation URLs directly.
+- Uses a default throttle of **240 seconds (4 minutes) between thread visits**.
+- Scrolls through the virtualized conversation transcript so older generated
+  image turns are mounted.
+- Walks upward through the thread and then back downward to catch images that
+  ChatGPT only mounts while scrolling.
+- Reads the generated image directly from the
+  `data-testid="generated-image-gallery"` image blob.
+- Does **not** need to click the image preview to open a larger version.
+- Saves original image bytes rather than screenshots.
+- Downloads to:
+
+```text
+~/Downloads/shape_dividers
+```
+
+- Uses the conversation title as the preferred filename.
+- For multiple images in one thread, adds ` - 1`, ` - 2`, etc.
+- If multiple conversations have the same title, adds part of the conversation
+  ID only when needed to prevent overwriting an existing file.
+- Maintains a separate resumable progress file:
+
+```text
+download-images-progress.json
+```
+
+- Skips threads whose image downloads are already recorded as complete and
+  whose saved files still exist.
+- Failed/no-image threads are left eligible for retry on a future run.
+
+### Run it
+
+From the existing local automation folder:
+
+```bash
+cd /Users/maxime/Desktop/shapedividers_shapes/shapedivider_automation
+```
+
+Dry run:
+
+```bash
+./.venv/bin/python download_generated_images.py --dry-run
+```
+
+Short test with two conversations and a 20-second interval:
+
+```bash
+./.venv/bin/python download_generated_images.py --limit 2 --interval 20
+```
+
+Normal full run with the 4-minute throttle:
+
+```bash
+./.venv/bin/python download_generated_images.py
+```
+
+The terminal reports per-thread results and cumulative progress, for example:
+
+```text
+DONE #4: Create Temple Divider — 2 image(s)
+Progress: 4 / 426 threads downloaded; 422 remaining; 8 images saved
+```
+
+The output directory is created automatically if it does not already exist.
+
 ## 2026-09-29.1 direct-link mode — no Show more
 
 ChatGPT's new project layout exposes the project conversations directly as
