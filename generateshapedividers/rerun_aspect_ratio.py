@@ -22,7 +22,7 @@ PROJECT_URL = (
 
 DEFAULT_CDP_URL = "http://127.0.0.1:9222"
 DEFAULT_INTERVAL = 240.0
-SCRIPT_VERSION = "2026-09-29.2"
+SCRIPT_VERSION = "2026-09-29.3"
 
 # ShapeDividers Shapes currently contains 400+ conversations.
 # This prevents a collapsed sidebar showing 6/20/25 chats from being
@@ -1041,20 +1041,6 @@ def choose_next_unprocessed_thread(
                 "status"
             )
 
-            if (
-                status == "reserved"
-                and retry_reserved
-            ):
-                print(
-                    f"Retrying reserved thread: "
-                    f"{title} [{conversation_id}]"
-                )
-                return (
-                    conversation_id,
-                    url,
-                    title,
-                )
-
             if status_is_protected(
                 entry
             ):
@@ -1365,19 +1351,32 @@ def read_prompt():
 
 def status_is_protected(entry):
     """
-    Both reserved and done are skipped automatically.
+    Conversations already sent or possibly sent are NEVER eligible.
 
-    'reserved' is written immediately before pressing Enter.
-    This prevents a crash at exactly the wrong moment from causing
-    the same conversation to receive the follow-up twice.
+    - done: confirmed successful send
+    - reserved: Enter was attempted / send may have happened
 
-    If a reserved entry truly needs another attempt, run with
-    --retry-reserved.
+    Both are skipped to prevent duplicate follow-ups.
     """
     return entry.get("status") in {
         "reserved",
         "done",
     }
+
+
+def is_thread_eligible(entry):
+    """
+    A thread is eligible only if it has no protected send state.
+
+    Missing entries and diagnostic states such as prepare_failed can be retried.
+    done/reserved entries cannot.
+    """
+    if not entry:
+        return True
+
+    return not status_is_protected(
+        entry
+    )
 
 
 def validate_script_structure():
@@ -1409,11 +1408,10 @@ def validate_script_structure():
 
 def print_progress(log_data):
     """
-    Print progress against the direct-link manifest.
+    Print progress for the direct-link manifest.
 
-    'done' means a confirmed successful send.
-    'reserved' is shown separately because those threads are intentionally
-    protected from duplicate sends.
+    done + reserved are both treated as already handled/protected so the
+    automation sends only to conversations it has not attempted before.
     """
     records = load_project_threads()
     manifest_ids = {
@@ -1423,12 +1421,20 @@ def print_progress(log_data):
 
     done_count = 0
     reserved_count = 0
+    eligible_count = 0
 
-    for conversation_id, entry in log_data.get(
+    threads = log_data.get(
         "threads",
         {}
-    ).items():
-        if conversation_id not in manifest_ids:
+    )
+
+    for conversation_id in manifest_ids:
+        entry = threads.get(
+            conversation_id
+        )
+
+        if not entry:
+            eligible_count += 1
             continue
 
         status = entry.get(
@@ -1439,20 +1445,24 @@ def print_progress(log_data):
             done_count += 1
         elif status == "reserved":
             reserved_count += 1
+        elif is_thread_eligible(
+            entry
+        ):
+            eligible_count += 1
 
     total_count = len(
         records
     )
-
-    print(
-        f"Progress: {done_count} / {total_count} done"
-        + (
-            f" ({reserved_count} reserved)"
-            if reserved_count
-            else ""
-        )
+    protected_count = (
+        done_count
+        + reserved_count
     )
 
+    print(
+        f"Progress: {protected_count} / {total_count} already handled "
+        f"({done_count} done, {reserved_count} reserved); "
+        f"{eligible_count} remaining"
+    )
 
 def main():
     validate_script_structure()
@@ -1516,9 +1526,8 @@ def main():
         "--retry-reserved",
         action="store_true",
         help=(
-            "Retry entries left in 'reserved' state by an interrupted run. "
-            "This can duplicate a message if the earlier send actually "
-            "succeeded, so use only after checking those chats manually."
+            "Deprecated safety option. Reserved threads are always skipped "
+            "to prevent duplicate sends."
         ),
     )
 
@@ -1555,8 +1564,8 @@ def main():
     print(prompt)
     print()
     print(
-        "Reserved and completed conversation IDs are skipped "
-        "to prevent duplicate follow-ups."
+        "Duplicate protection: DONE and RESERVED conversation IDs are "
+        "always skipped. Only never-sent/unprotected chats are eligible."
     )
     print(
         "Temporary page/composer failures are retried automatically "
