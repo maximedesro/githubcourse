@@ -22,7 +22,7 @@ PROJECT_URL = (
 
 DEFAULT_CDP_URL = "http://127.0.0.1:9222"
 DEFAULT_INTERVAL = 240.0
-SCRIPT_VERSION = "2026-09-27.4"
+SCRIPT_VERSION = "2026-09-29.1"
 
 # ShapeDividers Shapes currently contains 400+ conversations.
 # This prevents a collapsed sidebar showing 6/20/25 chats from being
@@ -31,7 +31,13 @@ EXPECTED_MIN_PROJECT_THREADS = 400
 
 PROMPT_FILE = HERE / "aspect-ratio-followup.txt"
 LOG_FILE = HERE / "aspect-ratio-done-threads.json"
+THREAD_LINKS_FILE = HERE / "project-thread-links.json"
 SCREENSHOT_DIR = HERE / "aspect-ratio-debug-screenshots"
+
+# Only this conversation is intentionally excluded from the rerun.
+IGNORE_CONVERSATION_IDS = {
+    "6aa5d391-9e94-83ea-bfe0-a8909756dfc6",
+}
 
 PROJECT_ROW_OLD = (
     f'[data-app-action-sidebar-project-id="{PROJECT_ID}"]'
@@ -59,12 +65,6 @@ PROJECT_SHOW_MORE_SELECTORS = [
     'text="Show more"',
 ]
 
-# Threads accidentally created by older rerun versions are skipped so the
-# automation does not recurse into its own follow-up-only conversations.
-SKIP_THREAD_TITLES = {
-    "widen divider design",
-}
-
 COMPOSER = (
     'div.ProseMirror'
     '[contenteditable="true"]'
@@ -77,6 +77,104 @@ UUID_RE = re.compile(
     r"(?![0-9a-f])",
     re.IGNORECASE,
 )
+
+
+def load_project_threads():
+    """
+    Load the direct conversation URLs captured from ChatGPT's project markup.
+
+    This intentionally does NOT inspect/click the sidebar and does NOT use
+    Show more. The manifest contains the 427 existing <a href="/g/.../c/...">
+    conversation links supplied from the new layout.
+    """
+    if not THREAD_LINKS_FILE.exists():
+        raise RuntimeError(
+            f"Missing direct thread manifest: {THREAD_LINKS_FILE}"
+        )
+
+    try:
+        data = json.loads(
+            THREAD_LINKS_FILE.read_text(
+                encoding="utf-8"
+            )
+        )
+    except Exception as exc:
+        raise RuntimeError(
+            f"Could not read {THREAD_LINKS_FILE}: {exc}"
+        )
+
+    raw_threads = data.get(
+        "threads",
+        []
+    )
+
+    if not isinstance(raw_threads, list):
+        raise RuntimeError(
+            f"{THREAD_LINKS_FILE} must contain a 'threads' array."
+        )
+
+    records = []
+    seen = set()
+
+    for item in raw_threads:
+        if not isinstance(item, dict):
+            continue
+
+        url = (
+            item.get("url")
+            or ""
+        ).strip()
+
+        conversation_id = (
+            item.get("conversation_id")
+            or conversation_key_from_url(url)
+        )
+
+        if not conversation_id:
+            continue
+
+        conversation_id = conversation_id.lower()
+
+        # User explicitly requested that ONLY this current thread be ignored.
+        if conversation_id in IGNORE_CONVERSATION_IDS:
+            continue
+
+        if conversation_id in seen:
+            continue
+
+        if f"/g/{PROJECT_ID}/c/" not in url:
+            raise RuntimeError(
+                "Manifest contains a URL outside the ShapeDividers project: "
+                f"{url}"
+            )
+
+        seen.add(
+            conversation_id
+        )
+
+        records.append(
+            {
+                "conversation_id": conversation_id,
+                "title": (
+                    item.get("title")
+                    or f"thread-{len(records) + 1}"
+                ),
+                "url": url.split(
+                    "?",
+                    1,
+                )[0].split(
+                    "#",
+                    1,
+                )[0],
+            }
+        )
+
+    if not records:
+        raise RuntimeError(
+            "The direct thread manifest contains no usable conversations."
+        )
+
+    return records
 
 
 def now_iso():
@@ -228,16 +326,6 @@ def clean_thread_title(raw_label):
     ).strip()
 
     return title
-
-
-def should_skip_thread_title(title):
-    normalized = re.sub(
-        r"\s+",
-        " ",
-        (title or "").strip().lower(),
-    )
-
-    return normalized in SKIP_THREAD_TITLES
 
 
 def find_project_row(page):
@@ -877,106 +965,25 @@ def expand_all_project_chats(
     return total_clicks
 
 
-def snapshot_project_threads(page):
+def snapshot_project_threads(page=None):
     """
-    Snapshot conversation IDs, titles, and URLs BEFORE navigating away.
+    Return the static direct-link manifest.
 
-    This is the key safety change: we never click a sidebar chat row to
-    discover its URL. We read the existing href directly and then navigate
-    to that exact conversation URL.
+    The page argument is retained only for compatibility with older call sites.
+    No DOM inspection is performed.
     """
-    rows = project_chat_links(
-        page
+    return load_project_threads()
+
+
+def project_thread_rows(page=None):
+    # Kept only so older diagnostics do not crash.
+    return []
+
+
+def project_thread_count(page=None):
+    return len(
+        load_project_threads()
     )
-
-    records = []
-    seen = set()
-
-    count = rows.count()
-
-    for i in range(count):
-        row = rows.nth(i)
-
-        try:
-            href = row.get_attribute(
-                "href"
-            )
-            raw_label = row.get_attribute(
-                "aria-label"
-            ) or ""
-
-            if not href:
-                continue
-
-            conversation_id = (
-                conversation_key_from_url(
-                    href
-                )
-            )
-
-            if not conversation_id:
-                continue
-
-            if conversation_id in seen:
-                continue
-
-            seen.add(
-                conversation_id
-            )
-
-            title = clean_thread_title(
-                raw_label
-            )
-
-            if should_skip_thread_title(
-                title
-            ):
-                continue
-
-            if href.startswith("/"):
-                url = (
-                    "https://chatgpt.com"
-                    + href
-                )
-            else:
-                url = href
-
-            # Strip messageId/query fragments. We want the base conversation.
-            url = url.split(
-                "?",
-                1,
-            )[0].split(
-                "#",
-                1,
-            )[0]
-
-            records.append(
-                {
-                    "conversation_id": conversation_id,
-                    "title": title or f"thread-{i + 1}",
-                    "url": url,
-                }
-            )
-
-        except Exception:
-            continue
-
-    return records
-
-
-def project_thread_rows(page):
-    return project_chat_links(
-        page
-    )
-
-
-def project_thread_count(page):
-    try:
-        return project_chat_links(
-            page
-        ).count()
-    except Exception:
-        return 0
 
 
 def conversation_key_from_url(url):
@@ -996,121 +1003,70 @@ def choose_next_unprocessed_thread(
     retry_reserved=False,
 ):
     """
-    Pick the next existing project conversation.
+    Pick the next conversation directly from project-thread-links.json.
 
-    Before returning None, perform two full expansion/snapshot passes. This is
-    deliberate: opening a conversation can make ChatGPT collapse the project
-    sidebar back to a small first batch, so seeing only completed chats is not
-    enough to conclude that the whole project is finished.
+    No sidebar scanning, Show more clicking, DOM mutation observing, or project
+    expansion is involved.
     """
+    records = load_project_threads()
     threads = log_data[
         "threads"
     ]
 
-    protected_logged_count = sum(
-        1
-        for entry in threads.values()
-        if status_is_protected(entry)
+    print()
+    print(
+        f"Direct conversation links available: {len(records)}"
     )
 
-    minimum_expected = max(
-        EXPECTED_MIN_PROJECT_THREADS,
-        protected_logged_count,
-    )
-
-    for expansion_pass in range(
-        1,
-        3,
+    # Preserve the earlier bottom-to-top processing order.
+    for record in reversed(
+        records
     ):
-        clicks = expand_all_project_chats(
-            page,
-            minimum_expected=minimum_expected,
+        conversation_id = record[
+            "conversation_id"
+        ]
+        title = record[
+            "title"
+        ]
+        url = record[
+            "url"
+        ]
+
+        entry = threads.get(
+            conversation_id
         )
 
-        records = snapshot_project_threads(
-            page
-        )
-
-        if not records:
-            raise RuntimeError(
-                "No existing ShapeDividers conversation links were found."
+        if entry:
+            status = entry.get(
+                "status"
             )
 
-        print()
-        print(
-            f"Existing project conversations currently loaded: "
-            f"{len(records)} "
-            f"(expansion pass {expansion_pass}, Show more clicks: {clicks})"
-        )
-
-        for record in reversed(
-            records
-        ):
-            conversation_id = record[
-                "conversation_id"
-            ]
-            title = record[
-                "title"
-            ]
-            url = record[
-                "url"
-            ]
-
-            entry = threads.get(
-                conversation_id
-            )
-
-            if entry:
-                status = entry.get(
-                    "status"
+            if (
+                status == "reserved"
+                and retry_reserved
+            ):
+                print(
+                    f"Retrying reserved thread: "
+                    f"{title} [{conversation_id}]"
+                )
+                return (
+                    conversation_id,
+                    url,
+                    title,
                 )
 
-                if (
-                    status == "reserved"
-                    and retry_reserved
-                ):
-                    print(
-                        f"Retrying reserved thread: "
-                        f"{title} [{conversation_id}]"
-                    )
-                    return (
-                        conversation_id,
-                        url,
-                        title,
-                    )
+            if status_is_protected(
+                entry
+            ):
+                continue
 
-                if status_is_protected(
-                    entry
-                ):
-                    continue
+        return (
+            conversation_id,
+            url,
+            title,
+        )
 
-            return (
-                conversation_id,
-                url,
-                title,
-            )
-
-        # All chats in this snapshot were done/reserved. Never trust that on
-        # the first pass: the sidebar may simply have collapsed after the last
-        # conversation navigation.
-        if expansion_pass == 1:
-            print(
-                "All chats in the current snapshot are already processed. "
-                "Rechecking Show more before declaring the project complete..."
-            )
-
-            page.wait_for_timeout(
-                1000
-            )
-
-            # Re-establish/expand the project section before the second pass.
-            ensure_project_available(
-                page
-            )
-
-    # Only reached after TWO expansion passes found no unprocessed thread.
     return None
-
 
 def page_is_usable(page):
     try:
@@ -1432,6 +1388,7 @@ def validate_script_structure():
     required = [
         "choose_next_unprocessed_thread",
         "snapshot_project_threads",
+        "load_project_threads",
         "conversation_key_from_url",
         "prepare_thread_page",
         "submit_followup",
@@ -1493,7 +1450,7 @@ def main():
         "--dry-run",
         action="store_true",
         help=(
-            "Expand the project and inspect conversations, "
+            "Inspect the direct conversation manifest, "
             "but do not send the follow-up."
         ),
     )
@@ -1559,8 +1516,12 @@ def main():
         "and no longer stop the batch."
     )
     print(
-        "Safety mode: only existing /c/ conversation URLs inside the "
-        "ShapeDividers project's own chat list are used."
+        "Direct-link mode: using project-thread-links.json; "
+        "no Show more/sidebar expansion is used."
+    )
+    print(
+        "Ignored conversation: "
+        "6aa5d391-9e94-83ea-bfe0-a8909756dfc6"
     )
 
     if args.dry_run:
@@ -1587,27 +1548,17 @@ def main():
                 20_000
             )
 
-            ensure_project_available(
-                page
-            )
-
-            show_more_clicks = (
-                expand_all_project_chats(
-                    page
-                )
-            )
+            records = load_project_threads()
 
             print()
             print(
-                "Initial project expansion complete."
+                "Direct project thread manifest loaded."
             )
             print(
-                f"Show more clicks: "
-                f"{show_more_clicks}"
+                f"Threads available: {len(records)}"
             )
             print(
-                f"Threads loaded: "
-                f"{project_thread_count(page)}"
+                "Show more / sidebar expansion: disabled"
             )
 
             if args.dry_run:
@@ -1617,7 +1568,7 @@ def main():
 
                 print()
                 print(
-                    "Existing project conversations that are eligible for scanning:"
+                    "Direct project conversations eligible for scanning:"
                 )
 
                 for i, record in enumerate(
@@ -1653,10 +1604,6 @@ def main():
                         page,
                     )
 
-                    ensure_project_available(
-                        page
-                    )
-
                     next_thread = (
                         choose_next_unprocessed_thread(
                             page,
@@ -1683,12 +1630,7 @@ def main():
                             page,
                             target_url=None,
                         )
-                        ensure_project_available(
-                            page
-                        )
-                        expand_all_project_chats(
-                            page
-                        )
+                        # Direct-link mode: no sidebar recovery/expansion needed.
                     except Exception as recover_exc:
                         print(
                             "Recovery attempt failed: "
@@ -1701,9 +1643,9 @@ def main():
                 if next_thread is None:
                     print()
                     print(
-                        "All ShapeDividers Shapes conversations found "
-                        "after repeated Show more expansion checks are already "
-                        "in the done/reserved log."
+                        "All direct ShapeDividers conversation links in "
+                        "project-thread-links.json are already in the "
+                        "done/reserved log."
                     )
                     break
 
@@ -1812,12 +1754,7 @@ def main():
                             page,
                             target_url=None,
                         )
-                        ensure_project_available(
-                            page
-                        )
-                        expand_all_project_chats(
-                            page
-                        )
+                        # Direct-link mode: no sidebar recovery/expansion needed.
                     except Exception as recover_exc:
                         print(
                             "Project-page recovery also failed: "
@@ -1891,12 +1828,7 @@ def main():
                             page,
                             target_url=None,
                         )
-                        ensure_project_available(
-                            page
-                        )
-                        expand_all_project_chats(
-                            page
-                        )
+                        # Direct-link mode: no sidebar recovery/expansion needed.
                     except Exception as recover_exc:
                         print(
                             "Project-page recovery failed: "
