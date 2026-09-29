@@ -22,7 +22,7 @@ PROJECT_URL = (
 
 DEFAULT_CDP_URL = "http://127.0.0.1:9222"
 DEFAULT_INTERVAL = 240.0
-SCRIPT_VERSION = "2026-09-29.1"
+SCRIPT_VERSION = "2026-09-29.2"
 
 # ShapeDividers Shapes currently contains 400+ conversations.
 # This prevents a collapsed sidebar showing 6/20/25 chats from being
@@ -1407,6 +1407,53 @@ def validate_script_structure():
         )
 
 
+def print_progress(log_data):
+    """
+    Print progress against the direct-link manifest.
+
+    'done' means a confirmed successful send.
+    'reserved' is shown separately because those threads are intentionally
+    protected from duplicate sends.
+    """
+    records = load_project_threads()
+    manifest_ids = {
+        record["conversation_id"]
+        for record in records
+    }
+
+    done_count = 0
+    reserved_count = 0
+
+    for conversation_id, entry in log_data.get(
+        "threads",
+        {}
+    ).items():
+        if conversation_id not in manifest_ids:
+            continue
+
+        status = entry.get(
+            "status"
+        )
+
+        if status == "done":
+            done_count += 1
+        elif status == "reserved":
+            reserved_count += 1
+
+    total_count = len(
+        records
+    )
+
+    print(
+        f"Progress: {done_count} / {total_count} done"
+        + (
+            f" ({reserved_count} reserved)"
+            if reserved_count
+            else ""
+        )
+    )
+
+
 def main():
     validate_script_structure()
 
@@ -1561,6 +1608,10 @@ def main():
                 "Show more / sidebar expansion: disabled"
             )
 
+            print_progress(
+                log_data
+            )
+
             if args.dry_run:
                 records = snapshot_project_threads(
                     page
@@ -1646,6 +1697,9 @@ def main():
                         "All direct ShapeDividers conversation links in "
                         "project-thread-links.json are already in the "
                         "done/reserved log."
+                    )
+                    print_progress(
+                        log_data
                     )
                     break
 
@@ -1865,6 +1919,10 @@ def main():
                 print(
                     f"Marked done: "
                     f"{conversation_id}"
+                )
+
+                print_progress(
+                    log_data
                 )
 
                 # Do not wait for image generation to finish.
