@@ -1404,13 +1404,9 @@ def main():
             )
 
         finally:
-            # CDP disconnect only. The user's Chrome window remains open.
-            try:
-                if browser is not None:
-                    browser.close()
-            except Exception:
-                pass
-
+            # Do not call browser.close() on a CDP-connected browser.
+            # Leaving the sync_playwright() context disconnects automation
+            # without intentionally closing the user's Chrome window.
             print()
             print(
                 "Automation disconnected."
