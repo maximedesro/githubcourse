@@ -1,7 +1,7 @@
 /**
  * Plugin Name: Amelia SMS Monitoring
  * Description: Monitors Amelia SMS authentication, retries/provider status, and stuck SMS queues.
- * Version: 2.0.0
+ * Version: 2.1.0
  */
 
 defined('ABSPATH') || exit;
@@ -434,20 +434,12 @@ function amelia_sms_monitoring_run($force_email = false) {
      * authenticated successfully.
      */
     $provider_checked     = 0;
-	$provider_delivered   = 0;
-	$provider_sent        = 0;
-	$provider_still_stuck = 0;
-	$provider_failed      = 0;
-	$provider_errors      = 0;
-	$missing_log_id       = 0;
-
-	/**
-	 * Track provider results by send batch.
-	 *
-	 * We use the original Amelia dateTime rounded/grouped to the minute.
-	 * Messages generated together by the scheduler share the same batch.
-	 */
-	$provider_batches = [];
+    $provider_delivered   = 0;
+    $provider_sent        = 0;
+    $provider_still_stuck = 0;
+    $provider_failed      = 0;
+    $provider_errors      = 0;
+    $missing_log_id       = 0;
 
 
     if (
@@ -497,34 +489,6 @@ function amelia_sms_monitoring_run($force_email = false) {
             $history_id =
                 (int) $row['id'];
 
-			/**
-			 * Identify the sending batch.
-			 *
-			 * Amelia's scheduled messages generated together normally share
-			 * the same dateTime minute, e.g. 2026-09-28 23:00 UTC.
-			 */
-			$batch_key = 'unknown';
-
-			if (!empty($row['dateTime'])) {
-				$batch_timestamp = strtotime($row['dateTime'] . ' UTC');
-
-				if ($batch_timestamp) {
-					$batch_key = gmdate('Y-m-d H:i', $batch_timestamp);
-				}
-			}
-
-			if (!isset($provider_batches[$batch_key])) {
-				$provider_batches[$batch_key] = [
-					'total'      => 0,
-					'successful' => 0,
-					'failed'     => 0,
-					'pending'    => 0,
-					'errors'     => 0,
-				];
-			}
-
-			$provider_batches[$batch_key]['total']++;
-			
             $log_id =
                 isset($row['logId'])
                     ? trim((string) $row['logId'])
@@ -566,13 +530,12 @@ function amelia_sms_monitoring_run($force_email = false) {
                 );
 
 
-			if (!$refresh['ok']) {
+            if (!$refresh['ok']) {
 
-				$provider_errors++;
-				$provider_batches[$batch_key]['errors']++;
+                $provider_errors++;
 
-				continue;
-			}
+                continue;
+            }
 
 
             $message =
@@ -582,7 +545,7 @@ function amelia_sms_monitoring_run($force_email = false) {
             if (!is_array($message)) {
 
                 $provider_errors++;
-				$provider_batches[$batch_key]['errors']++;
+
                 continue;
             }
 
@@ -606,17 +569,16 @@ function amelia_sms_monitoring_run($force_email = false) {
             ];
 
 
-			if (
-				!in_array(
-					$provider_status,
-					$valid_statuses,
-					true
-				)
-			) {
-				$provider_errors++;
-				$provider_batches[$batch_key]['errors']++;
-				continue;
-			}
+            if (
+                !in_array(
+                    $provider_status,
+                    $valid_statuses,
+                    true
+                )
+            ) {
+                $provider_errors++;
+                continue;
+            }
 
 
             /**
@@ -681,42 +643,38 @@ function amelia_sms_monitoring_run($force_email = false) {
             /**
              * Interpret provider status.
              */
-			switch ($provider_status) {
+            switch ($provider_status) {
 
-				case 'delivered':
+                case 'delivered':
 
-					$provider_delivered++;
-					$provider_batches[$batch_key]['successful']++;
+                    $provider_delivered++;
 
-					break;
-
-
-				case 'sent':
-
-					$provider_sent++;
-					$provider_batches[$batch_key]['successful']++;
-
-					break;
+                    break;
 
 
-				case 'failed':
-				case 'undelivered':
+                case 'sent':
 
-					$provider_failed++;
-					$provider_batches[$batch_key]['failed']++;
+                    $provider_sent++;
 
-					break;
+                    break;
 
 
-				case 'prepared':
-				case 'accepted':
-				case 'queued':
+                case 'failed':
+                case 'undelivered':
 
-					$provider_still_stuck++;
-					$provider_batches[$batch_key]['pending']++;
+                    $provider_failed++;
 
-					break;
-			}
+                    break;
+
+
+                case 'prepared':
+                case 'accepted':
+                case 'queued':
+
+                    $provider_still_stuck++;
+
+                    break;
+            }
         }
     }
 
@@ -746,47 +704,82 @@ function amelia_sms_monitoring_run($force_email = false) {
     }
 
 
-	/**
-	 * Alert only when an entire send batch failed.
-	 *
-	 * Individual failed/undelivered SMS messages are expected occasionally
-	 * (for example, customers providing landline numbers).
-	 */
-	$fully_failed_batches = [];
+    /**
+     * ---------------------------------------------------------------------
+     * Evaluate complete send batches, not only the stale rows refreshed
+     * during this run.
+     *
+     * A few failed/undelivered messages are expected (for example, a
+     * customer may have supplied a landline). We alert only when EVERY SMS
+     * in a batch failed/was undelivered.
+     *
+     * Amelia's scheduled sends share the same UTC dateTime minute, so a
+     * batch is grouped by YYYY-MM-DD HH:MM. We inspect recent batches from
+     * the last 24 hours that are already older than the one-hour grace
+     * period. Because this query runs AFTER the provider refreshes above,
+     * it sees the newly refreshed statuses plus rows that were already
+     * delivered/sent/failed before this watchdog ran.
+     * ---------------------------------------------------------------------
+     */
+    $batch_window_start =
+        gmdate('Y-m-d H:i:s', time() - DAY_IN_SECONDS);
 
-	foreach ($provider_batches as $batch_key => $batch) {
+    $batch_rows = $wpdb->get_results(
+        $wpdb->prepare(
+            "
+            SELECT
+                DATE_FORMAT(dateTime, '%%Y-%%m-%%d %%H:%%i') AS batch_key,
+                COUNT(*) AS total,
+                SUM(status IN ('delivered', 'sent')) AS successful,
+                SUM(status IN ('failed', 'undelivered')) AS failed,
+                SUM(status IN ('prepared', 'accepted', 'queued')) AS pending
+            FROM {$history_table}
+            WHERE dateTime IS NOT NULL
+              AND dateTime >= %s
+              AND dateTime < %s
+            GROUP BY batch_key
+            ORDER BY batch_key ASC
+            ",
+            $batch_window_start,
+            $stale_cutoff
+        ),
+        ARRAY_A
+    );
 
-		/**
-		 * A batch is considered completely failed only when:
-		 *
-		 * - at least one provider result exists
-		 * - zero messages succeeded
-		 * - zero messages remain pending
-		 * - zero provider lookup errors occurred
-		 * - every checked message failed/was undelivered
-		 */
-		if (
-			$batch['total'] > 0 &&
-			$batch['successful'] === 0 &&
-			$batch['pending'] === 0 &&
-			$batch['errors'] === 0 &&
-			$batch['failed'] === $batch['total']
-		) {
-			$fully_failed_batches[$batch_key] = $batch;
-		}
-	}
+    $fully_failed_batches = [];
 
-	if (!empty($fully_failed_batches)) {
+    foreach ($batch_rows as $batch) {
 
-		foreach ($fully_failed_batches as $batch_key => $batch) {
+        $total      = (int) $batch['total'];
+        $successful = (int) $batch['successful'];
+        $failed     = (int) $batch['failed'];
+        $pending    = (int) $batch['pending'];
 
-			$problems[] = sprintf(
-				'All %d SMS message(s) in send batch %s were confirmed failed or undelivered by the Amelia SMS provider.',
-				$batch['total'],
-				$batch_key
-			);
-		}
-	}
+        if (
+            $total > 0 &&
+            $successful === 0 &&
+            $pending === 0 &&
+            $failed === $total
+        ) {
+            $fully_failed_batches[] = [
+                'batch_key' => (string) $batch['batch_key'],
+                'total'     => $total,
+            ];
+        }
+    }
+
+    foreach ($fully_failed_batches as $batch) {
+
+        $problems[] = sprintf(
+            'All %d SMS message(s) in send batch %s UTC were confirmed failed or undelivered by the Amelia SMS provider.',
+            $batch['total'],
+            $batch['batch_key']
+        );
+    }
+
+    $details[] =
+        'Fully failed send batches in last 24 hours: ' .
+        count($fully_failed_batches);
 
 
     if ($provider_errors > 0) {
