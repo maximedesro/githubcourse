@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ShapeDividers Sorter</title>
+  <link rel="stylesheet" href="/shape_sorter.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>ShapeDividers Sorter</h1>
+      <div class="subline">
+        <span id="count">Loading…</span>
+        <span>•</span>
+        <span>Newest modified first</span>
+        <span>•</span>
+        <span>Mousewheel over an image: 1× / 2× / 3× / 4×</span>
+      </div>
+    </div>
+
+    <button id="refreshButton" class="secondaryButton" type="button">
+      Refresh
+    </button>
+  </header>
+
+  <main id="list" class="shapeList" aria-live="polite"></main>
+
+  <div id="emptyState" class="emptyState" hidden>
+    No images found in <code>shapedividers_newshapes/new</code>.
+  </div>
+
+  <div id="status" class="statusToast" hidden></div>
+
+  <button id="sortButton" class="sortButton" type="button">
+    Sort selected
+    <span id="selectedCount" class="selectedCount">0</span>
+  </button>
+
+  <script src="/shape_sorter.js"></script>
+</body>
+</html>
