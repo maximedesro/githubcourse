@@ -1,3 +1,73 @@
+## Local shape sorter UI
+
+The local sorter provides a browser interface for reviewing downloaded shapes
+inside:
+
+```text
+shapedividers_newshapes/new
+```
+
+It moves selected files into:
+
+```text
+shapedividers_newshapes/accepted
+shapedividers_newshapes/maybe
+shapedividers_newshapes/delete
+```
+
+Required files:
+
+```text
+shape_sorter.py
+shape_sorter.html
+shape_sorter.css
+shape_sorter.js
+```
+
+Place all four files in the existing automation folder:
+
+```text
+/Users/maxime/Desktop/shapedividers_shapes/shapedivider_automation
+```
+
+Then run:
+
+```bash
+cd /Users/maxime/Desktop/shapedividers_shapes/shapedivider_automation
+./.venv/bin/python shape_sorter.py
+```
+
+The script automatically opens:
+
+```text
+http://127.0.0.1:8765/
+```
+
+The UI automatically reads supported image files from `/new`, sorted by
+**Date Modified, newest first**. It refreshes the folder every five seconds
+while preserving selections already made in the browser.
+
+Each image uses one full-width row and has three radio choices:
+
+- Accepted
+- Maybe
+- Delete
+
+The fixed **Sort selected** button in the lower-right moves every image that has
+a radio choice into the matching folder. Images without a choice stay in
+`/new`.
+
+When the mouse pointer is over an image preview, use the mousewheel to switch
+between **1×, 2×, 3×, and 4×** preview width. Scroll upward to zoom in and
+downward to zoom out. At zoom levels above 1× the preview can be scrolled
+horizontally.
+
+If a destination already contains a file with the same name, the sorter keeps
+both files by adding ` (2)`, ` (3)`, etc. instead of overwriting anything.
+
+The sorter uses only Python's standard library, so no new Python package is
+required.
+
 ## Generated image downloader
 
 A separate script, `download_generated_images.py`, downloads the generated
