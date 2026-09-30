@@ -35,7 +35,7 @@ PROJECT_NAME = "ShapeDividers Shapes"
 
 DEFAULT_CDP_URL = "http://127.0.0.1:9222"
 DEFAULT_INTERVAL = 240.0
-SCRIPT_VERSION = "2026-09-29.1"
+SCRIPT_VERSION = "2026-09-30.2"
 
 THREAD_LINKS_FILE = HERE / "project-thread-links.json"
 DOWNLOAD_LOG_FILE = HERE / "download-images-progress.json"
@@ -44,8 +44,9 @@ DEFAULT_OUTPUT_DIR = Path.home() / "Downloads" / "shape_dividers"
 
 THREAD_SCROLL = '[data-app-action-timeline-scroll]'
 GENERATED_IMAGE = (
-    '[data-testid="generated-image-gallery"] '
-    'img[alt^="Generated image"]'
+    '[data-testid="generated-image-gallery"] img, '
+    '[role="group"][aria-label="Generated images"] '
+    'button[aria-label^="Show generated image"] img'
 )
 
 UUID_RE = re.compile(
@@ -492,9 +493,13 @@ def image_info(locator):
         return locator.evaluate(
             """img => {
                 const turn = img.closest('[data-turn-key]');
+                const button = img.closest('button');
                 return {
                     src: img.currentSrc || img.src || '',
                     alt: img.getAttribute('alt') || '',
+                    buttonLabel: button
+                        ? (button.getAttribute('aria-label') || '')
+                        : '',
                     complete: !!img.complete,
                     naturalWidth: img.naturalWidth || 0,
                     naturalHeight: img.naturalHeight || 0,
@@ -563,7 +568,20 @@ def collect_visible_images(
     page,
     collected,
     seen_keys,
+    seen_digests,
 ):
+    """
+    Capture every generated image currently mounted in the transcript.
+
+    ChatGPT has two image layouts:
+      1) a normal generated-image preview; and
+      2) a versions layout where only one image is the large preview and the
+         other generated images exist in a vertical thumbnail rail.
+
+    GENERATED_IMAGE intentionally includes both the main preview and every
+    "Show generated image N" thumbnail. We normalize both layouts to the same
+    per-turn image number so the selected thumbnail is not downloaded twice.
+    """
     images = page.locator(
         GENERATED_IMAGE
     )
@@ -588,28 +606,41 @@ def collect_visible_images(
         if not src:
             continue
 
-        # data-turn-key + generated-image alt is stable across virtualization.
-        # Fall back to the blob URL if a turn key is unavailable.
+        label = (
+            info.get("buttonLabel")
+            or info.get("alt")
+            or ""
+        )
+
+        number_match = re.search(
+            r"generated image\s+(\d+)",
+            label,
+            re.IGNORECASE,
+        )
+
+        if number_match:
+            image_identity = (
+                "generated-image-"
+                + number_match.group(1)
+            )
+        else:
+            # Fallback for any future image layout that lacks numbered labels.
+            image_identity = src
+
         stable_key = (
             (
                 info.get("turnKey")
                 or ""
             )
             + "|"
-            + (
-                info.get("alt")
-                or f"image-{index + 1}"
-            )
+            + image_identity
         ).strip("|")
-
-        if not stable_key:
-            stable_key = src
 
         if stable_key in seen_keys:
             continue
 
-        # Wait briefly for the <img> to have a real source. The actual bytes
-        # are fetched directly from its blob URL; no preview click is needed.
+        # Wait briefly for lazy thumbnail/main-preview images to resolve their
+        # blob source. The bytes are fetched directly; no preview click needed.
         if not info.get("complete"):
             try:
                 locator.evaluate(
@@ -648,12 +679,24 @@ def collect_visible_images(
             )
             continue
 
+        digest = sha256_bytes(
+            data
+        )
+
+        # The versions layout can expose the selected image twice:
+        # once as the large preview and once in its thumbnail rail. The stable
+        # key normally catches that, while the digest is a second safety net.
+        if digest in seen_digests:
+            seen_keys.add(
+                stable_key
+            )
+            continue
+
         seen_keys.add(
             stable_key
         )
-
-        digest = sha256_bytes(
-            data
+        seen_digests.add(
+            digest
         )
 
         collected.append(
@@ -748,6 +791,7 @@ def walk_scroll_direction(
     direction,
     collected,
     seen_keys,
+    seen_digests,
     max_steps=300,
 ):
     """
@@ -763,6 +807,7 @@ def walk_scroll_direction(
             page,
             collected,
             seen_keys,
+            seen_digests,
         )
 
         before = scroll_state(
@@ -792,6 +837,7 @@ def walk_scroll_direction(
             page,
             collected,
             seen_keys,
+            seen_digests,
         )
 
         after = scroll_state(
@@ -836,6 +882,7 @@ def collect_all_thread_images(page):
 
     collected = []
     seen_keys = set()
+    seen_digests = set()
 
     # Start from whatever ChatGPT mounted (usually the newest response), then
     # walk completely upward to load older generated-image turns.
@@ -843,6 +890,7 @@ def collect_all_thread_images(page):
         page,
         collected,
         seen_keys,
+        seen_digests,
     )
 
     walk_scroll_direction(
@@ -851,6 +899,7 @@ def collect_all_thread_images(page):
         -1,
         collected,
         seen_keys,
+        seen_digests,
     )
 
     # Walk all the way back down too. This catches any image turns ChatGPT
@@ -861,12 +910,14 @@ def collect_all_thread_images(page):
         +1,
         collected,
         seen_keys,
+        seen_digests,
     )
 
     collect_visible_images(
         page,
         collected,
         seen_keys,
+        seen_digests,
     )
 
     return collected
