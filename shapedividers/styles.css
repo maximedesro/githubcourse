@@ -1569,6 +1569,31 @@ margin-bottom:8px;
   text-underline-offset: 3px;
 }
 
+.landing-faq {
+  background: var(--sd-surface-soft);
+  border-top: 1px solid var(--sd-line);
+  border-bottom: 1px solid var(--sd-line);
+}
+
+.faq-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sd-space-2);
+  margin-top: var(--sd-space-4);
+}
+
+.faq-item {
+  padding: var(--sd-space-3);
+  background: var(--sd-surface);
+  border: 1px solid var(--sd-line);
+  border-radius: var(--sd-radius-md);
+}
+
+.faq-item p {
+  margin-top: var(--sd-space-2);
+  color: var(--sd-ink-soft);
+}
+
 .landing-premium {
   color: #fff;
   background: var(--sd-paper);
@@ -1642,7 +1667,8 @@ margin-bottom:8px;
     grid-template-columns: 1fr;
   }
 
-  .landing-card-grid--three {
+  .landing-card-grid--three,
+  .faq-list {
     grid-template-columns: 1fr;
   }
 
