@@ -1572,8 +1572,8 @@ margin-bottom:8px;
 .landing-premium {
   color: #fff;
   background:
-    linear-gradient(120deg, rgba(26,188,156,.92), rgba(26,188,156,.74)),
-    var(--sd-teal);
+    radial-gradient(circle at 85% 15%, rgba(254,109,168,.22), transparent 24rem),
+    linear-gradient(135deg, #101817 0%, #142824 52%, #0f1716 100%);
 }
 
 .landing-premium__inner {
@@ -1595,6 +1595,14 @@ margin-bottom:8px;
   max-width: 760px;
   margin-top: var(--sd-space-2);
   color: rgba(255,255,255,.88);
+}
+
+.landing-premium__price {
+  font-size: var(--sd-text-lg);
+}
+
+.landing-premium__price strong {
+  color: #fff;
 }
 
 .landing-premium__actions {
