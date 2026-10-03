@@ -415,12 +415,12 @@ body .site-main.post-3062 {
 
 .edd-paypal-card-field > div {
   width: 100% !important;
-  height: 52px !important;
+  height: 77px !important;
 }
 
 .edd-paypal-card-field iframe {
   width: 100% !important;
-  height: 100% !important;
+  height: 77px !important;
 }
 
 /* Final card purchase button */
