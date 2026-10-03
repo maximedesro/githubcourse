@@ -35,10 +35,6 @@ body .site-main.post-3062 {
   min-height: 100vh;
   padding: 0 16px;
   color: var(--sd-ink);
-  background:
-    radial-gradient(circle at 88% 7%, rgba(254,109,168,.18), transparent 28rem),
-    radial-gradient(circle at 9% 91%, rgba(26,188,156,.14), transparent 25rem),
-    linear-gradient(135deg, #fff 0%, var(--sd-paper) 60%, #fff2ea 100%);
 }
 
 .site-main.post-3062 .page-content {
