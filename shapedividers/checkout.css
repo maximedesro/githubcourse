@@ -33,7 +33,7 @@ body {
 
 body .site-main.post-3062 {
   min-height: 100vh;
-  padding: clamp(34px, 6vw, 80px) 16px;
+  padding: 0 16px;
   color: var(--sd-ink);
   background:
     radial-gradient(circle at 88% 7%, rgba(254,109,168,.18), transparent 28rem),
@@ -342,7 +342,6 @@ body .site-main.post-3062 {
   font-family: var(--sd-font-heading);
   font-size: 1.2rem;
   font-weight: 700;
-  color: #8df0dc;
 }
 
 /* Wallets */
