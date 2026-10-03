@@ -1,0 +1,1127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ShapeDividers Premium — Lifetime SVG Shape Dividers</title>
+  <meta name="description" content="Unlock the full ShapeDividers library, gradients, animation, unlimited projects and no attribution for $49 lifetime. Team lifetime access is available for up to 30 designers.">
+  <link rel="canonical" href="https://shapedividers.com/buy-now/">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&family=Unbounded:wght@700&display=swap');
+
+    :root {
+      --sd-font-body: 'Lexend', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --sd-font-heading: 'Unbounded', var(--sd-font-body);
+
+      --sd-ink: #171717;
+      --sd-ink-soft: #5f5f62;
+      --sd-paper: #fffaf7;
+      --sd-surface: #ffffff;
+      --sd-surface-soft: #f7f4f2;
+      --sd-dark: #121212;
+      --sd-dark-soft: #1d1d1f;
+      --sd-teal: #1abc9c;
+      --sd-teal-dark: #109b82;
+      --sd-pink: #fe6da8;
+      --sd-peach: #fbd8c2;
+      --sd-line: #e4ddd8;
+
+      --sd-radius-sm: 10px;
+      --sd-radius-md: 18px;
+      --sd-radius-lg: 30px;
+      --sd-radius-pill: 999px;
+
+      --sd-shadow-sm: 0 10px 30px rgba(23, 23, 23, .08);
+      --sd-shadow-lg: 0 28px 80px rgba(23, 23, 23, .16);
+
+      --sd-space-1: clamp(.5rem, .42rem + .25vw, .75rem);
+      --sd-space-2: clamp(.8rem, .65rem + .5vw, 1.25rem);
+      --sd-space-3: clamp(1.25rem, .95rem + 1vw, 2rem);
+      --sd-space-4: clamp(2rem, 1.35rem + 2vw, 3.5rem);
+      --sd-space-5: clamp(3rem, 2rem + 3vw, 5.5rem);
+      --sd-space-6: clamp(4.5rem, 2.5rem + 5vw, 8rem);
+
+      --sd-text-sm: clamp(.82rem, .79rem + .1vw, .9rem);
+      --sd-text-base: clamp(1rem, .95rem + .2vw, 1.12rem);
+      --sd-text-lg: clamp(1.15rem, 1.02rem + .45vw, 1.45rem);
+      --sd-h3: clamp(1.15rem, 1rem + .55vw, 1.55rem);
+      --sd-h2: clamp(1.8rem, 1.25rem + 2vw, 3.25rem);
+      --sd-h1: clamp(2.35rem, 1.3rem + 4.3vw, 5.7rem);
+    }
+
+    * {
+      box-sizing: border-box;
+      scrollbar-width: none;
+    }
+
+    *::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      overflow-x: hidden;
+      font-family: var(--sd-font-body);
+      font-size: var(--sd-text-base);
+      line-height: 1.7;
+      color: var(--sd-ink);
+      background: var(--sd-paper);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: var(--sd-font-heading);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -.045em;
+    }
+
+    h1 {
+      max-width: 12ch;
+      font-size: var(--sd-h1);
+    }
+
+    h2 {
+      max-width: 19ch;
+      font-size: var(--sd-h2);
+    }
+
+    h3 {
+      font-size: var(--sd-h3);
+      letter-spacing: -.025em;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 2 * var(--sd-space-3)));
+      margin-inline: auto;
+    }
+
+    .kicker {
+      margin-bottom: var(--sd-space-2);
+      font-size: var(--sd-text-sm);
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--sd-teal-dark);
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 22px;
+      border: 2px solid var(--sd-ink);
+      border-radius: var(--sd-radius-pill);
+      font-weight: 700;
+      line-height: 1;
+      text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--sd-shadow-sm);
+    }
+
+    .button--dark {
+      color: #fff;
+      background: var(--sd-ink);
+    }
+
+    .button--light {
+      background: rgba(255,255,255,.84);
+    }
+
+    .site-bar {
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(23,23,23,.08);
+      background: rgba(255,250,247,.9);
+      backdrop-filter: blur(12px);
+    }
+
+    .site-bar__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      font-family: var(--sd-font-heading);
+      font-size: .92rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .site-bar__link {
+      font-size: .92rem;
+      font-weight: 700;
+      color: var(--sd-teal-dark);
+      text-underline-offset: 3px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: var(--sd-space-6) 0;
+      background:
+        radial-gradient(circle at 86% 18%, rgba(254,109,168,.28), transparent 28rem),
+        radial-gradient(circle at 10% 86%, rgba(26,188,156,.2), transparent 25rem),
+        linear-gradient(135deg, #fff 0%, var(--sd-paper) 58%, #fff2ea 100%);
+      border-bottom: 1px solid var(--sd-line);
+    }
+
+    .hero__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(310px, .75fr);
+      gap: var(--sd-space-5);
+      align-items: center;
+    }
+
+    .hero__lede {
+      max-width: 760px;
+      margin-top: var(--sd-space-3);
+      font-size: var(--sd-text-lg);
+      color: var(--sd-ink-soft);
+    }
+
+    .hero__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: var(--sd-space-3);
+    }
+
+    .hero__note {
+      margin-top: var(--sd-space-2);
+      font-size: .9rem;
+      color: var(--sd-ink-soft);
+    }
+
+    .price-card {
+      position: relative;
+      padding: clamp(28px, 4vw, 44px);
+      border-radius: var(--sd-radius-lg);
+      color: #fff;
+      background:
+        radial-gradient(circle at 85% 12%, rgba(254,109,168,.25), transparent 18rem),
+        linear-gradient(135deg, #101817 0%, #142824 52%, #0f1716 100%);
+      box-shadow: var(--sd-shadow-lg);
+    }
+
+    .price-card::before {
+      content: '';
+      position: absolute;
+      inset: -12px;
+      border: 5px dashed #101817;
+      border-radius: calc(var(--sd-radius-lg) + 10px);
+      pointer-events: none;
+    }
+
+    .price-card__label {
+      display: block;
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #8df0dc;
+    }
+
+    .price-card__price {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .price-card__price strong {
+      font-family: var(--sd-font-heading);
+      font-size: clamp(3rem, 7vw, 5.4rem);
+      line-height: 1;
+      letter-spacing: -.06em;
+    }
+
+    .price-card__price span {
+      color: rgba(255,255,255,.72);
+    }
+
+    .price-card p {
+      margin-top: 14px;
+      color: rgba(255,255,255,.82);
+    }
+
+    .price-card .button {
+      width: 100%;
+      margin-top: 24px;
+      color: var(--sd-ink);
+      background: #fff;
+      border-color: #fff;
+    }
+
+    .section {
+      padding: var(--sd-space-6) 0;
+    }
+
+    .section-heading {
+      max-width: 820px;
+    }
+
+    .section-heading > p:not(.kicker) {
+      max-width: 720px;
+      margin-top: var(--sd-space-2);
+      color: var(--sd-ink-soft);
+    }
+
+    .benefit-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--sd-space-2);
+      margin-top: var(--sd-space-4);
+    }
+
+    .benefit-card {
+      min-height: 250px;
+      padding: var(--sd-space-3);
+      border: 1px solid var(--sd-line);
+      border-radius: var(--sd-radius-md);
+      background: var(--sd-surface);
+      box-shadow: var(--sd-shadow-sm);
+    }
+
+    .benefit-card__mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: var(--sd-space-3);
+      border-radius: 50%;
+      font-weight: 700;
+      background: var(--sd-peach);
+    }
+
+    .benefit-card:nth-child(2) .benefit-card__mark {
+      background: rgba(26,188,156,.22);
+    }
+
+    .benefit-card:nth-child(3) .benefit-card__mark {
+      background: rgba(254,109,168,.2);
+    }
+
+    .benefit-card p {
+      margin-top: var(--sd-space-2);
+      color: var(--sd-ink-soft);
+    }
+
+    .comparison-section {
+      color: #fff;
+      background:
+        radial-gradient(circle at 10% 15%, rgba(26,188,156,.15), transparent 24rem),
+        radial-gradient(circle at 92% 90%, rgba(254,109,168,.14), transparent 28rem),
+        var(--sd-dark);
+    }
+
+    .comparison-section .kicker {
+      color: #7ee6d1;
+    }
+
+    .comparison-section .section-heading > p:not(.kicker) {
+      color: #c9c9ca;
+    }
+
+    .comparison-wrap {
+      margin-top: var(--sd-space-4);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: var(--sd-radius-md);
+      background: rgba(255,255,255,.04);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th,
+    td {
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      vertical-align: middle;
+    }
+
+    th {
+      font-family: var(--sd-font-heading);
+      font-size: .92rem;
+      line-height: 1.3;
+    }
+
+    th:not(:first-child),
+    td:not(:first-child) {
+      text-align: center;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    td:first-child {
+      color: #ededed;
+    }
+
+    .yes {
+      font-weight: 700;
+      color: #8df0dc;
+    }
+
+    .limited {
+      color: #d3d3d5;
+    }
+
+    .comparison-cta {
+      display: flex;
+      justify-content: center;
+      margin-top: var(--sd-space-3);
+    }
+
+    .comparison-cta .button {
+      color: var(--sd-ink);
+      background: #fff;
+      border-color: #fff;
+    }
+
+    .value-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(300px, .8fr);
+      gap: var(--sd-space-5);
+      align-items: start;
+    }
+
+    .value-copy p {
+      max-width: 720px;
+      margin-top: var(--sd-space-2);
+      color: var(--sd-ink-soft);
+    }
+
+    .value-callout {
+      padding: var(--sd-space-3);
+      border: 1px solid var(--sd-line);
+      border-radius: var(--sd-radius-md);
+      background: var(--sd-surface);
+      box-shadow: var(--sd-shadow-sm);
+    }
+
+    .value-callout strong {
+      display: block;
+      font-family: var(--sd-font-heading);
+      font-size: 1rem;
+    }
+
+    .value-callout p {
+      margin-top: 10px;
+      color: var(--sd-ink-soft);
+    }
+
+    .plans {
+      background: var(--sd-surface-soft);
+      border-top: 1px solid var(--sd-line);
+      border-bottom: 1px solid var(--sd-line);
+    }
+
+    .plans-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+      gap: var(--sd-space-3);
+      margin-top: var(--sd-space-4);
+    }
+
+    .plan {
+      padding: var(--sd-space-4);
+      border-radius: var(--sd-radius-lg);
+      background: #fff;
+      border: 1px solid var(--sd-line);
+      box-shadow: var(--sd-shadow-sm);
+    }
+
+    .plan--featured {
+      position: relative;
+      color: #fff;
+      background:
+        radial-gradient(circle at 88% 0%, rgba(254,109,168,.25), transparent 20rem),
+        linear-gradient(135deg, #101817 0%, #142824 55%, #0f1716 100%);
+      border-color: transparent;
+      box-shadow: var(--sd-shadow-lg);
+    }
+
+    .plan__eyebrow {
+      display: block;
+      margin-bottom: 8px;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--sd-teal-dark);
+    }
+
+    .plan--featured .plan__eyebrow {
+      color: #8df0dc;
+    }
+
+    .plan__price {
+      margin-top: 14px;
+      font-family: var(--sd-font-heading);
+      font-size: clamp(2.6rem, 5vw, 4.4rem);
+      line-height: 1;
+      letter-spacing: -.055em;
+    }
+
+    .plan__price small {
+      font-family: var(--sd-font-body);
+      font-size: .95rem;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    .plan p {
+      margin-top: 16px;
+      color: var(--sd-ink-soft);
+    }
+
+    .plan--featured p {
+      color: rgba(255,255,255,.8);
+    }
+
+    .plan ul {
+      display: grid;
+      gap: 10px;
+      margin: 22px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .plan li::before {
+      content: '✓';
+      margin-right: 10px;
+      font-weight: 700;
+      color: var(--sd-teal);
+    }
+
+    .plan--featured li::before {
+      color: #8df0dc;
+    }
+
+    .plan .button {
+      width: 100%;
+      margin-top: 26px;
+    }
+
+    .plan--featured .button {
+      color: var(--sd-ink);
+      background: #fff;
+      border-color: #fff;
+    }
+
+    .faq {
+      background: var(--sd-paper);
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 12px;
+      max-width: 900px;
+      margin-top: var(--sd-space-4);
+    }
+
+    details {
+      border: 1px solid var(--sd-line);
+      border-radius: var(--sd-radius-md);
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(23,23,23,.05);
+    }
+
+    summary {
+      position: relative;
+      padding: 20px 56px 20px 22px;
+      cursor: pointer;
+      list-style: none;
+      font-weight: 700;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: '+';
+      position: absolute;
+      top: 50%;
+      right: 22px;
+      transform: translateY(-50%);
+      font-family: var(--sd-font-heading);
+      font-size: 1.25rem;
+      color: var(--sd-teal-dark);
+    }
+
+    details[open] summary::after {
+      content: '–';
+    }
+
+    .faq-answer {
+      padding: 0 22px 22px;
+      color: var(--sd-ink-soft);
+    }
+
+    .faq-answer p + p {
+      margin-top: 12px;
+    }
+
+    .final-cta {
+      padding: 0 0 var(--sd-space-6);
+    }
+
+    .final-cta__box {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--sd-space-5);
+      align-items: center;
+      padding: var(--sd-space-5);
+      color: #fff;
+      background:
+        radial-gradient(circle at 85% 15%, rgba(254,109,168,.22), transparent 24rem),
+        linear-gradient(135deg, #101817 0%, #142824 52%, #0f1716 100%);
+      border-radius: var(--sd-radius-lg);
+    }
+
+    .final-cta__box::before {
+      content: '';
+      position: absolute;
+      inset: -14px;
+      border: 6px dashed #101817;
+      border-radius: calc(var(--sd-radius-lg) + 12px);
+      pointer-events: none;
+    }
+
+    .final-cta .kicker {
+      color: rgba(255,255,255,.75);
+    }
+
+    .final-cta p {
+      max-width: 720px;
+      margin-top: var(--sd-space-2);
+      color: rgba(255,255,255,.84);
+    }
+
+    .final-cta__actions {
+      display: flex;
+      min-width: 245px;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .final-cta .button {
+      color: var(--sd-ink);
+      background: #fff;
+      border-color: #fff;
+    }
+
+    .final-cta__secondary {
+      text-align: center;
+      font-size: .9rem;
+      color: rgba(255,255,255,.78);
+    }
+
+    @media (max-width: 920px) {
+      .hero__grid,
+      .plans-grid,
+      .value-grid,
+      .final-cta__box {
+        grid-template-columns: 1fr;
+      }
+
+      .benefit-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .benefit-card {
+        min-height: 0;
+      }
+
+      .price-card {
+        margin: 14px;
+      }
+
+      .final-cta__actions {
+        min-width: 0;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .shell {
+        width: min(100% - 32px, 1180px);
+      }
+
+      .site-bar__inner {
+        align-items: flex-start;
+      }
+
+      h1 {
+        font-size: clamp(2.2rem, 11vw, 3.8rem);
+      }
+
+      th,
+      td {
+        padding: 14px 10px;
+        font-size: .82rem;
+      }
+
+      th:first-child,
+      td:first-child {
+        width: 46%;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .hero__actions {
+        flex-direction: column;
+      }
+
+      .plan,
+      .final-cta__box {
+        padding: var(--sd-space-3);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-bar">
+    <div class="shell site-bar__inner">
+      <a class="brand" href="https://shapedividers.com/">ShapeDividers.com</a>
+      <a class="site-bar__link" href="https://shapedividers.com/">Back to the SVG Shape Dividers Generator →</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="shell hero__grid">
+        <div>
+          <p class="kicker">ShapeDividers Premium</p>
+          <h1>More shapes. More control. One lifetime payment.</h1>
+          <p class="hero__lede"><strong>ShapeDividers Premium unlocks the complete shape library, gradients and animation for $49 lifetime.</strong> Use it on unlimited personal and client projects, export without attribution, and keep lifetime access to the generator.</p>
+
+          <div class="hero__actions">
+            <a class="button button--dark" href="https://shapedividers.com/?edd_action=add_to_cart&download_id=306">Get Premium for $49</a>
+            <a class="button button--light" href="#compare">Compare Free vs Premium</a>
+          </div>
+
+          <p class="hero__note">One designer · Unlimited projects · No attribution required · 30-day refund window</p>
+        </div>
+
+        <aside class="price-card" aria-label="Premium lifetime price">
+          <span class="price-card__label">Premium Lifetime</span>
+          <div class="price-card__price">
+            <strong>$49</strong>
+            <span>one time</span>
+          </div>
+          <p>For one designer. Unlock the full tool and use it across unlimited projects for yourself and your clients.</p>
+          <a class="button" href="https://shapedividers.com/?edd_action=add_to_cart&download_id=306">Buy Premium Lifetime</a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="section-heading">
+          <p class="kicker">Why Premium</p>
+          <h2>What does ShapeDividers Premium add?</h2>
+          <p>Premium removes the main creative limits from the free SVG shape divider generator: it opens the complete library, enables gradient and animated dividers, removes the attribution requirement and includes lifetime tool access for one designer.</p>
+        </div>
+
+        <div class="benefit-grid">
+          <article class="benefit-card">
+            <span class="benefit-card__mark">01</span>
+            <h3>Access the entire shape library</h3>
+            <p>Move beyond a small starter set and choose from the full collection: waves, clouds, mountains, leaves, music, seasonal shapes, travel motifs, skylines, abstract edges, Buddhist and ancient-world designs, cute illustrations and more.</p>
+          </article>
+
+          <article class="benefit-card">
+            <span class="benefit-card__mark">02</span>
+            <h3>Create gradients and animated dividers</h3>
+            <p>Use two-color gradients that follow the divider direction, or animate shapes across the long axis. Responsive controls let desktop, tablet and mobile use different shapes or settings when needed.</p>
+          </article>
+
+          <article class="benefit-card">
+            <span class="benefit-card__mark">03</span>
+            <h3>Export production-ready code</h3>
+            <p>Export compact CSS, inline SVG or an SVG mask. Most shapes are less than 4 KB gzipped, and the output stays editable with CSS for sizing, positioning, colors, gradients, flips and animation.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section comparison-section" id="compare">
+      <div class="shell">
+        <div class="section-heading">
+          <p class="kicker">Free vs Premium</p>
+          <h2>Which ShapeDividers plan is right for you?</h2>
+          <p>The free generator is useful for testing the workflow and creating dividers from the free shape selection. Premium is for designers who want the complete library, advanced effects and unrestricted client use without attribution.</p>
+        </div>
+
+        <div class="comparison-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Free</th>
+                <th>Premium Lifetime</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>SVG shape divider generator</td>
+                <td class="yes">Yes</td>
+                <td class="yes">Yes</td>
+              </tr>
+              <tr>
+                <td>CSS export</td>
+                <td class="yes">Yes</td>
+                <td class="yes">Yes</td>
+              </tr>
+              <tr>
+                <td>Inline SVG export</td>
+                <td class="yes">Yes</td>
+                <td class="yes">Yes</td>
+              </tr>
+              <tr>
+                <td>SVG mask export</td>
+                <td class="yes">Yes</td>
+                <td class="yes">Yes</td>
+              </tr>
+              <tr>
+                <td>Responsive desktop, tablet and mobile settings</td>
+                <td class="yes">Yes</td>
+                <td class="yes">Yes</td>
+              </tr>
+              <tr>
+                <td>Shape library</td>
+                <td class="limited">Free shapes</td>
+                <td class="yes">Entire library</td>
+              </tr>
+              <tr>
+                <td>Gradient dividers</td>
+                <td class="limited">Premium feature</td>
+                <td class="yes">Included</td>
+              </tr>
+              <tr>
+                <td>Animated dividers</td>
+                <td class="limited">Premium feature</td>
+                <td class="yes">Included</td>
+              </tr>
+              <tr>
+                <td>Unlimited projects</td>
+                <td class="limited">—</td>
+                <td class="yes">Included</td>
+              </tr>
+              <tr>
+                <td>No attribution required</td>
+                <td class="limited">—</td>
+                <td class="yes">Included</td>
+              </tr>
+              <tr>
+                <td>Lifetime tool access</td>
+                <td class="limited">—</td>
+                <td class="yes">Included</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="comparison-cta">
+          <a class="button" href="https://shapedividers.com/?edd_action=add_to_cart&download_id=306">Unlock Premium for $49</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell value-grid">
+        <div class="value-copy">
+          <p class="kicker">Built for real projects</p>
+          <h2>Spend less time drawing dividers from scratch.</h2>
+          <p>A custom shape divider often means opening a design tool, drawing or tracing the shape, exporting it, optimizing the SVG, integrating it into the page and then adjusting it again for responsive layouts.</p>
+          <p>ShapeDividers puts those decisions into one visual generator. Even when the divider itself is a small detail, the saved design and implementation time can quickly be worth more than the one-time Premium price.</p>
+        </div>
+
+        <aside class="value-callout">
+          <strong>Use Premium for client work</strong>
+          <p>Premium can be used on unlimited projects for you and your clients. The $49 lifetime option is licensed for one designer.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section plans">
+      <div class="shell">
+        <div class="section-heading">
+          <p class="kicker">Lifetime access</p>
+          <h2>Choose individual or team access.</h2>
+          <p>Most users only need the $49 Premium Lifetime option. Teams of up to 30 designers can request Team Lifetime access by email.</p>
+        </div>
+
+        <div class="plans-grid">
+          <article class="plan plan--featured">
+            <span class="plan__eyebrow">Best for individual designers</span>
+            <h3>Premium Lifetime</h3>
+            <div class="plan__price">$49 <small>one time</small></div>
+            <p>Full Premium access for one designer.</p>
+            <ul>
+              <li>Entire shape library</li>
+              <li>Gradient and animation features</li>
+              <li>Unlimited personal and client projects</li>
+              <li>No attribution required</li>
+              <li>Lifetime tool access</li>
+            </ul>
+            <a class="button" href="https://shapedividers.com/?edd_action=add_to_cart&download_id=306">Buy Premium Lifetime</a>
+          </article>
+
+          <article class="plan">
+            <span class="plan__eyebrow">For design teams</span>
+            <h3>Team Lifetime</h3>
+            <div class="plan__price">$499 <small>one time</small></div>
+            <p>Premium access for a team of up to 30 designers.</p>
+            <ul>
+              <li>Entire shape library</li>
+              <li>Gradient and animation features</li>
+              <li>Unlimited projects</li>
+              <li>No attribution required</li>
+              <li>Lifetime tool access</li>
+            </ul>
+            <a class="button button--dark" href="mailto:maxime@shapedividers.com">Email about Team Lifetime</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section faq" id="faq">
+      <div class="shell">
+        <div class="section-heading">
+          <p class="kicker">FAQ</p>
+          <h2>ShapeDividers Premium questions</h2>
+          <p>Direct answers about compatibility, licensing, refunds and what changes when you upgrade.</p>
+        </div>
+
+        <div class="faq-list">
+          <details>
+            <summary>Will ShapeDividers work with my website builder or platform?</summary>
+            <div class="faq-answer">
+              <p>The easiest test is the free generator. If the CSS or SVG generated by the free tool works correctly in your platform, the Premium output uses the same web technologies and will work the same way.</p>
+              <p>ShapeDividers is designed around standard HTML, CSS and SVG rather than a proprietary page-builder format.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>What is included with the $49 Premium Lifetime purchase?</summary>
+            <div class="faq-answer">
+              <p>The $49 lifetime option is for one designer. It unlocks the complete shape library, gradients, animation, unlimited projects, no attribution requirement and lifetime access to the tool.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Can I use Premium shape dividers on client websites?</summary>
+            <div class="faq-answer">
+              <p>Yes. Premium can be used on unlimited projects for yourself and your clients. The $49 license is for one designer using the tool.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Why pay for Premium if there is a free generator?</summary>
+            <div class="faq-answer">
+              <p>The free version lets you test the generator and create useful SVG dividers from the free selection. Premium is for users who want the full shape library and advanced features such as gradients and animation, while also removing the attribution requirement.</p>
+              <p>For designers and developers, the practical value is time: creating, exporting, optimizing and integrating a custom divider manually can take longer than generating the same kind of result visually in ShapeDividers.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Do I have to pay every year?</summary>
+            <div class="faq-answer">
+              <p>No. The Premium Lifetime option is a single $49 payment for one designer and includes lifetime tool access.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Are refunds available?</summary>
+            <div class="faq-answer">
+              <p>Yes. Refunds are available within one month of purchase. If you are not satisfied, contact ShapeDividers by email.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>What is the $499 Team Lifetime option?</summary>
+            <div class="faq-answer">
+              <p>Team Lifetime provides Premium access for a team of up to 30 designers. It includes the same Premium shape library, advanced features, unlimited projects, no attribution requirement and lifetime tool access. Contact maxime@shapedividers.com to purchase it.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>What export formats can I use with Premium?</summary>
+            <div class="faq-answer">
+              <p>You can export a divider as CSS with embedded SVG, inline SVG markup or a reusable SVG mask. Gradient and animated designs can be generated from the same visual tool, and responsive settings can vary between desktop, tablet and mobile.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Can I change the colors after exporting?</summary>
+            <div class="faq-answer">
+              <p>Yes. Inline SVG exports can use CSS <code>currentColor</code> for solid colors, gradient SVG exports expose CSS variables for both colors, and SVG mask exports keep the visible color or gradient in CSS.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="shell final-cta__box">
+        <div>
+          <p class="kicker">ShapeDividers Premium</p>
+          <h2>Unlock the complete generator for $49 lifetime.</h2>
+          <p>Get the full shape library, gradients, animation, unlimited projects, no attribution requirement and lifetime access for one designer.</p>
+        </div>
+
+        <div class="final-cta__actions">
+          <a class="button" href="https://shapedividers.com/?edd_action=add_to_cart&download_id=306">Get Premium for $49</a>
+          <a class="final-cta__secondary" href="mailto:maxime@shapedividers.com">Need Team Lifetime? Email me →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "ShapeDividers.com",
+        "url": "https://shapedividers.com/",
+        "applicationCategory": "DesignApplication",
+        "operatingSystem": "Any desktop web browser",
+        "description": "A browser-based SVG shape divider generator with CSS, inline SVG and SVG mask exports, responsive settings, gradients and animation.",
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "Premium Lifetime",
+            "price": "49",
+            "priceCurrency": "USD",
+            "description": "Lifetime Premium access for one designer."
+          },
+          {
+            "@type": "Offer",
+            "name": "Team Lifetime",
+            "price": "499",
+            "priceCurrency": "USD",
+            "description": "Lifetime Premium access for a team of up to 30 designers."
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Will ShapeDividers work with my website builder or platform?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The easiest test is the free generator. If the CSS or SVG generated by the free tool works correctly in your platform, the Premium output uses the same web technologies and will work the same way."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is included with the $49 Premium Lifetime purchase?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The $49 lifetime option is for one designer. It unlocks the complete shape library, gradients, animation, unlimited projects, no attribution requirement and lifetime access to the tool."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I use Premium shape dividers on client websites?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Premium can be used on unlimited projects for yourself and your clients. The $49 license is for one designer using the tool."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why pay for Premium if there is a free generator?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The free version lets you test the generator and create SVG dividers from the free selection. Premium adds the full shape library, gradients, animation and no-attribution use."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I have to pay every year?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. The Premium Lifetime option is a single $49 payment for one designer and includes lifetime tool access."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are refunds available?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Refunds are available within one month of purchase."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the $499 Team Lifetime option?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Team Lifetime provides Premium access for a team of up to 30 designers, including the full shape library, advanced features, unlimited projects, no attribution requirement and lifetime tool access."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What export formats can I use with Premium?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ShapeDividers can export CSS with embedded SVG, inline SVG markup or a reusable SVG mask, with responsive settings available for desktop, tablet and mobile."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I change the colors after exporting?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Inline SVG exports can use CSS currentColor for solid colors, gradient SVG exports expose CSS variables for both colors, and SVG mask exports keep the visible color or gradient in CSS."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</body>
+</html>
