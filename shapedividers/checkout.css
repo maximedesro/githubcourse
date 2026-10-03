@@ -300,7 +300,15 @@ body .site-main.post-3062 {
 /* Billing layout */
 #edd-card-country-wrap,
 #edd-card-state-wrap {
+  display: grid;
+  grid-template-rows: auto minmax(2.9em, auto) auto;
   min-width: 0;
+  align-self: start;
+}
+
+#edd-card-country-wrap .edd-description,
+#edd-card-state-wrap .edd-description {
+  align-self: start;
 }
 
 /* Purchase / payment section */
