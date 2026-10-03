@@ -352,6 +352,11 @@ body .site-main.post-3062 {
   margin: 0 0 10px !important;
 }
 
+#edd-paypal-container {
+  position: relative;
+  z-index: 11;
+}
+
 #edd-paypal-applepay-container apple-pay-button,
 #edd-paypal-googlepay-container .gpay-button-fill,
 #edd-paypal-googlepay-container button,
