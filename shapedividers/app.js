@@ -307,9 +307,9 @@ if (!genform) {
 const formEntries = document.querySelectorAll("#genform input");
 const directionEntry = document.querySelectorAll(".row.radio input");
 
-dividerDirection = 'top';
-tabletDividerDirection = 'top';
-mobileDividerDirection = 'top';
+dividerDirection = 'bottom';
+tabletDividerDirection = 'bottom';
+mobileDividerDirection = 'bottom';
 shapeIndex = 0;
 tabletShapeIndex = 0;
 mobileShapeIndex = 0;
@@ -1415,7 +1415,7 @@ function prefixedId(prefix, baseId) {
 
 function getCheckedDirection(prefix) {
     const groupName = prefix ? `${prefix}dividerdirection` : 'dividerdirection';
-    return [...genform[groupName]].find((radio) => radio.checked)?.value || 'top';
+    return [...genform[groupName]].find((radio) => radio.checked)?.value || 'bottom';
 }
 
 function readViewportControls(prefix, selectedIndex) {
