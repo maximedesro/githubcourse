@@ -3286,6 +3286,21 @@ function observePickerCanvases(revision) {
 const PICKER_CATEGORY_LIMIT = 10;
 const expandedPickerCategories = new Set();
 
+function getPickerCategoryEntries(entries, expanded) {
+    if (expanded) return entries;
+
+    const featured = [];
+    const remaining = [];
+
+    entries.forEach((entry) => {
+        const isFeatured =
+            String(entry.shape.featured).trim().toUpperCase() === 'TRUE';
+        (isFeatured ? featured : remaining).push(entry);
+    });
+
+    return featured.concat(remaining).slice(0, PICKER_CATEGORY_LIMIT);
+}
+
 function renderShapePicker() {
     const activeDirection = getActiveDirection();
     const activeShapeIndex = getActiveShapeIndex();
@@ -3318,9 +3333,7 @@ function renderShapePicker() {
         list.className = 'shape-category-items';
         list.id = 'shape-category-' + fragment.childElementCount;
 
-        const visibleEntries = expanded
-            ? entries
-            : entries.slice(0, PICKER_CATEGORY_LIMIT);
+        const visibleEntries = getPickerCategoryEntries(entries, expanded);
 
         visibleEntries.forEach(({ shape, index }) => {
             const item = document.createElement('div');
