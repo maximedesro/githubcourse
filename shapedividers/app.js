@@ -1,3 +1,56 @@
+const SHAPE_DIVIDERS_LOADER_MARKUP = "<div id=\"sd-loader\" class=\"sd-loader\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\">\n  <div class=\"sd-loader__card\">\n    <div class=\"sd-loader__brand\"><span class=\"sd-loader__spark\" aria-hidden=\"true\">✳</span> ShapeDividers</div>\n    <div class=\"sd-loader__art\" aria-hidden=\"true\">\n      <svg viewBox=\"0 0 600 180\" preserveAspectRatio=\"none\"><path class=\"sd-loader__wave sd-loader__wave--back\" d=\"M-100 70Q50 0 200 70T500 70T800 70V220H-100Z\"/><path class=\"sd-loader__wave sd-loader__wave--mid\" d=\"M-100 95Q50 25 200 95T500 95T800 95V220H-100Z\"/><path class=\"sd-loader__wave sd-loader__wave--front\" d=\"M-100 120Q50 50 200 120T500 120T800 120V220H-100Z\"/></svg>\n      <span class=\"sd-loader__art-label\">GOOD THINGS TAKE SHAPE</span>\n    </div>\n    <span class=\"sd-loader__eyebrow\">YOUR NEXT GREAT DESIGN</span>\n    <h2 class=\"sd-loader__title\">Just taking shape.</h2>\n    <p class=\"sd-loader__message\" data-loader-message>Loading your shape library…</p>\n    <div class=\"sd-loader__track\" aria-hidden=\"true\"><span></span></div>\n    <ol class=\"sd-loader__steps\" aria-hidden=\"true\"><li class=\"is-active\">Library</li><li>Canvas</li><li>Ready</li></ol>\n    <button class=\"sd-loader__retry\" type=\"button\" hidden>Try again</button>\n  </div>\n</div>";
+
+function getShapeDividersLoader() {
+    let loader = document.getElementById('sd-loader');
+    if (!loader) {
+        document.body.insertAdjacentHTML('beforeend', SHAPE_DIVIDERS_LOADER_MARKUP);
+        loader = document.getElementById('sd-loader');
+    }
+    return loader;
+}
+
+function setShapeDividersLoadingStage(stage, message) {
+    const loader = getShapeDividersLoader();
+    loader.querySelector('[data-loader-message]').textContent = message;
+    loader.querySelectorAll('.sd-loader__steps li').forEach((step, index) => {
+        step.classList.toggle('is-active', index === stage);
+        step.classList.toggle('is-complete', index < stage);
+    });
+}
+
+function finishShapeDividersLoading() {
+    const loader = getShapeDividersLoader();
+    setShapeDividersLoadingStage(2, 'Your canvas is ready.');
+    document.body.classList.remove('sd-is-loading');
+    document.getElementById('shape-divider-tool')?.removeAttribute('aria-busy');
+    loader.classList.add('is-leaving');
+    // Keep a timeout fallback for reduced motion and background tabs.
+    const remove = () => loader.remove();
+    loader.addEventListener('transitionend', (event) => {
+        if (event.target === loader) remove();
+    }, { once: true });
+    window.setTimeout(remove, 500);
+}
+
+function failShapeDividersLoading(error) {
+    const loader = getShapeDividersLoader();
+    loader.classList.add('has-error');
+    loader.querySelector('.sd-loader__title').textContent = 'A small pause in the flow.';
+    loader.querySelector('[data-loader-message]').textContent =
+        'We couldn’t finish loading the creator. Please check your connection and try again.';
+    const retry = loader.querySelector('.sd-loader__retry');
+    retry.hidden = false;
+    retry.onclick = () => window.location.reload();
+    console.error('ShapeDividers failed to initialize:', error);
+}
+
+async function paintShapeDividersLoader() {
+    if (document.hidden) return;
+    await new Promise((resolve) => requestAnimationFrame(() => {
+        window.setTimeout(resolve, 0);
+    }));
+}
+
 function prepareShapeDividerSvgs(shapes) {
     const alignment = {
         top: 'xMidYMax slice',
@@ -66,11 +119,17 @@ function initShapeDividersApp() {
     // Prepare them before any UI state or bitmap cache reads the source data.
     prepareShapeDividerSvgs(svgDividers);
     window.__shapeDividersAppInitialized = true;
+    // Resolve only after the first successful preview draw, including animation.
+    let resolveInitialPreview;
+    let rejectInitialPreview;
+    const initialPreviewReady = new Promise((resolve, reject) => {
+        resolveInitialPreview = resolve;
+        rejectInitialPreview = reject;
+    });
 /* Runtime preview stylesheet */
 const previewHost = document.querySelector('.htmlpreview > div');
 if (!previewHost) {
-    console.error('ShapeDividers: preview host was not found.');
-    return;
+    throw new Error('ShapeDividers: preview host was not found.');
 }
 
 
@@ -300,8 +359,7 @@ let mobileReady;
 
 const genform = document.getElementById('genform');
 if (!genform) {
-    console.error('ShapeDividers: #genform was not found.');
-    return;
+    throw new Error('ShapeDividers: #genform was not found.');
 }
 
 const formEntries = document.querySelectorAll("#genform input");
@@ -1149,6 +1207,7 @@ async function renderCanvasPreview(state) {
 
         if (!state.animate) {
             drawDividerBitmap(bitmap, state);
+            resolveInitialPreview();
             return;
         }
 
@@ -1165,11 +1224,13 @@ async function renderCanvasPreview(state) {
             }
 
             drawDividerBitmap(bitmap, state, timestamp);
+            resolveInitialPreview();
             animationFrameId = requestAnimationFrame(animateFrame);
         };
 
         animationFrameId = requestAnimationFrame(animateFrame);
     } catch (error) {
+        rejectInitialPreview(error);
         console.error('ShapeDividers: canvas preview rendering failed.', error);
     }
 }
@@ -2908,15 +2969,30 @@ hoverHereHint.className = 'hover-here-hint';
 hoverHereHint.textContent = 'Hover here';
 document.body.appendChild(hoverHereHint);
 
-shapePicker.addEventListener('mouseenter', () => {
-    if (!hoverHereHint) return;
+let hoverHintTimer = null;
 
-    hoverHereHint.classList.add('is-hidden');
-    hoverHereHint.addEventListener('transitionend', () => {
-        hoverHereHint?.remove();
-        hoverHereHint = null;
-    }, { once: true });
-}, { once: true });
+shapePicker.addEventListener('mouseenter', () => {
+    if (!hoverHereHint || hoverHereHint.classList.contains('is-hidden')) return;
+
+    window.clearTimeout(hoverHintTimer);
+    hoverHintTimer = window.setTimeout(() => {
+        hoverHintTimer = null;
+        if (!hoverHereHint) return;
+
+        hoverHereHint.classList.add('is-hidden');
+        const removeHint = () => {
+            hoverHereHint?.remove();
+            hoverHereHint = null;
+        };
+        hoverHereHint.addEventListener('transitionend', removeHint, { once: true });
+        window.setTimeout(removeHint, 500);
+    }, 1400);
+});
+
+shapePicker.addEventListener('mouseleave', () => {
+    window.clearTimeout(hoverHintTimer);
+    hoverHintTimer = null;
+});
 
 function configureAnimationAxisForShape(shape, direction) {
     const activeIndex = Math.max(0, getActiveViewIndex());
@@ -3486,6 +3562,7 @@ function formUpdate() {
 }
 
 
+    return initialPreviewReady;
 }
 
 async function ensureShapeDataLoaded() {
@@ -3519,15 +3596,35 @@ async function ensureShapeDataLoaded() {
 }
 
 (async function bootShapeDividersApp() {
+    let loadTimeout;
     try {
-        await ensureShapeDataLoaded();
+        document.body.classList.add('sd-is-loading');
+        document.getElementById('shape-divider-tool')?.setAttribute('aria-busy', 'true');
+        getShapeDividersLoader();
+        await paintShapeDividersLoader();
+
+        await Promise.race([
+            ensureShapeDataLoaded(),
+            new Promise((resolve, reject) => {
+                loadTimeout = window.setTimeout(() => {
+                    reject(new Error('Shape library loading timed out.'));
+                }, 120000);
+            })
+        ]);
+        window.clearTimeout(loadTimeout);
 
         if (typeof svgDividers === 'undefined' || !Array.isArray(svgDividers)) {
             throw new Error('__.js loaded without exposing a valid svgDividers array.');
         }
 
-        initShapeDividersApp();
+        setShapeDividersLoadingStage(1, 'Preparing your canvas…');
+        await paintShapeDividersLoader();
+        await initShapeDividersApp();
+        await paintShapeDividersLoader();
+        finishShapeDividersLoading();
     } catch (error) {
-        console.error('ShapeDividers failed to initialize:', error);
+        failShapeDividersLoading(error);
+    } finally {
+        window.clearTimeout(loadTimeout);
     }
 })();
