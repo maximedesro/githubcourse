@@ -1,7 +1,42 @@
+function prepareShapeDividerSvgs(shapes) {
+    const alignment = {
+        top: 'xMidYMax slice',
+        right: 'xMinYMid slice',
+        bottom: 'xMidYMin slice',
+        left: 'xMaxYMid slice'
+    };
+
+    shapes.forEach((shape) => {
+        const preservesRatio =
+            String(shape.ratio).trim().toUpperCase() === 'TRUE';
+
+        Object.entries(alignment).forEach(([direction, alignmentValue]) => {
+            if (typeof shape[direction] !== 'string') return;
+
+            const value = preservesRatio ? alignmentValue : 'none';
+            shape[direction] = shape[direction].replace(
+                /<svg\b[^>]*>/i,
+                (rootTag) => rootTag
+                    .replace(
+                        /\s+preserveAspectRatio\s*=\s*(?:"[^"]*"|'[^']*')/gi,
+                        ''
+                    )
+                    .replace(
+                        /^<svg\b/i,
+                        '<svg preserveAspectRatio="' + value + '"'
+                    )
+            );
+        });
+    });
+}
+
 function initShapeDividersApp() {
     if (window.__shapeDividersAppInitialized) {
         return;
     }
+    // All previews, canvas rasterizers and exports consume these SVG strings.
+    // Prepare them before any UI state or bitmap cache reads the source data.
+    prepareShapeDividerSvgs(svgDividers);
     window.__shapeDividersAppInitialized = true;
 /* Runtime preview stylesheet */
 const previewHost = document.querySelector('.htmlpreview > div');
