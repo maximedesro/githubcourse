@@ -207,7 +207,7 @@ position:relative;
     font-size: 12px;
     position: absolute;
     right: 12px;
-    top: 72px;
+    top: 132px;
 }
 .container div.premium.right::after, .container div.premium.left::after {
     right: 24px;
@@ -1809,6 +1809,10 @@ margin-bottom:8px;
   line-height: 1.4;
 }
 .container .shape-category-toggle {
+  display: block;
+  width: max-content;
+  max-width: calc(100% - 42px);
+  margin: 12px auto 0;
   flex: 0 0 auto;
   padding: 7px 12px;
   border: 1px solid #fe6da8;
