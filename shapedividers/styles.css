@@ -1167,7 +1167,7 @@ select {
   line-height: 1.15;
   color: #FE6DA8;
   background-color: #fff !important;
-  z-index: 100;
+  z-index: 98;
   pointer-events: none;
   opacity: 1;
   transition: opacity .35s ease;
