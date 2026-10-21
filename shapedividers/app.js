@@ -13,8 +13,36 @@ function prepareShapeDividerSvgs(shapes) {
         Object.entries(alignment).forEach(([direction, alignmentValue]) => {
             if (typeof shape[direction] !== 'string') return;
 
+            let svgMarkup = shape[direction];
+
+            // Join sheet overflow columns before inspecting or rendering the SVG.
+            // A complete SVG may already have been joined by the data exporter
+            // or an earlier preparation pass; do not append its chunks twice.
+            if (!/<\/svg>\s*$/i.test(svgMarkup)) {
+                const extraColumns = Object.keys(shape)
+                    .map((key) => {
+                        const match = key.match(/^extra(\d*)-(top|right|bottom|left)$/);
+                        if (!match || match[2] !== direction) return null;
+
+                        return {
+                            key,
+                            part: Number(match[1] || 1)
+                        };
+                    })
+                    .filter((column) =>
+                        column &&
+                        column.part >= 1 &&
+                        typeof shape[column.key] === 'string'
+                    )
+                    .sort((a, b) => a.part - b.part);
+
+                svgMarkup += extraColumns
+                    .map((column) => shape[column.key])
+                    .join('');
+            }
+
             const value = preservesRatio ? alignmentValue : 'none';
-            shape[direction] = shape[direction].replace(
+            shape[direction] = svgMarkup.replace(
                 /<svg\b[^>]*>/i,
                 (rootTag) => rootTag
                     .replace(
