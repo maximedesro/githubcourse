@@ -3318,22 +3318,6 @@ function renderShapePicker() {
         list.className = 'shape-category-items';
         list.id = 'shape-category-' + fragment.childElementCount;
 
-        if (entries.length > PICKER_CATEGORY_LIMIT) {
-            const toggle = document.createElement('button');
-            toggle.type = 'button';
-            toggle.className = 'shape-category-toggle';
-            toggle.dataset.categoryToggle = category;
-            toggle.setAttribute('aria-expanded', String(expanded));
-            toggle.setAttribute('aria-controls', list.id);
-            toggle.setAttribute('aria-label',
-                (expanded ? 'Show fewer shapes in ' : 'Show all shapes in ') + category
-            );
-            toggle.textContent = expanded
-                ? 'Show less'
-                : 'Show all (' + entries.length + ')';
-            header.appendChild(toggle);
-        }
-
         const visibleEntries = expanded
             ? entries
             : entries.slice(0, PICKER_CATEGORY_LIMIT);
@@ -3362,6 +3346,22 @@ function renderShapePicker() {
 
         section.appendChild(header);
         section.appendChild(list);
+        if (entries.length > PICKER_CATEGORY_LIMIT) {
+            const toggle = document.createElement('button');
+            toggle.type = 'button';
+            toggle.className = 'shape-category-toggle';
+            toggle.dataset.categoryToggle = category;
+            toggle.setAttribute('aria-expanded', String(expanded));
+            toggle.setAttribute('aria-controls', list.id);
+            toggle.setAttribute('aria-label',
+                (expanded ? 'Show fewer shapes in ' : 'Show all shapes in ') + category
+            );
+            toggle.textContent = expanded
+                ? 'Show less'
+                : 'Show all (' + entries.length + ')';
+            section.appendChild(toggle);
+        }
+
         fragment.appendChild(section);
     });
 
