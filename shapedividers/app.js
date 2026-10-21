@@ -3427,7 +3427,7 @@ async function ensureShapeDataLoaded() {
 
     await new Promise((resolve, reject) => {
         const script = document.createElement('script');
-        script.src = '/wp-content/uploads/shapes.js';
+        script.src = '/wp-content/uploads/__.js';
         script.dataset.shapedividersShapes = 'true';
         script.addEventListener('load', resolve, { once: true });
         script.addEventListener('error', reject, { once: true });
@@ -3440,7 +3440,7 @@ async function ensureShapeDataLoaded() {
         await ensureShapeDataLoaded();
 
         if (typeof svgDividers === 'undefined' || !Array.isArray(svgDividers)) {
-            throw new Error('shapes.js loaded without exposing a valid svgDividers array.');
+            throw new Error('__.js loaded without exposing a valid svgDividers array.');
         }
 
         initShapeDividersApp();
