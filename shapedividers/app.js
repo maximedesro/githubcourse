@@ -3283,6 +3283,9 @@ function observePickerCanvases(revision) {
     canvases.forEach((canvas) => shapePickerObserver.observe(canvas));
 }
 
+const PICKER_CATEGORY_LIMIT = 10;
+const expandedPickerCategories = new Set();
+
 function renderShapePicker() {
     const activeDirection = getActiveDirection();
     const activeShapeIndex = getActiveShapeIndex();
@@ -3291,27 +3294,75 @@ function renderShapePicker() {
     shapePicker.className = `container ${activeDirection}`;
 
     const fragment = document.createDocumentFragment();
+    const categories = new Map();
 
     svgDividers.forEach((shape, index) => {
-        const item = document.createElement('div');
-        item.dataset.shapeIndex = String(index);
-        item.classList.add(shape.slug, activeDirection);
+        const category = String(shape.category || '').trim() || 'Other';
+        if (!categories.has(category)) categories.set(category, []);
+        categories.get(category).push({ shape, index });
+    });
 
-        if (shape.pro) item.classList.add('premium');
-        if (index === activeShapeIndex) item.classList.add('selected');
+    categories.forEach((entries, category) => {
+        const expanded = expandedPickerCategories.has(category);
+        const section = document.createElement('section');
+        section.className = 'shape-category';
 
-        const canvas = document.createElement('canvas');
-        canvas.width = 1;
-        canvas.height = 1;
-        canvas.dataset.shapePreview = String(index);
-        canvas.dataset.direction = activeDirection;
-        canvas.dataset.nearby = 'false';
-        canvas.dataset.rendered = 'false';
-        canvas.dataset.renderVersion = '0';
-        canvas.setAttribute('aria-hidden', 'true');
+        const header = document.createElement('div');
+        header.className = 'shape-category-header';
+        const title = document.createElement('h2');
+        title.className = 'shape-category-title';
+        title.textContent = category + ' (' + entries.length + ')';
+        header.appendChild(title);
 
-        item.appendChild(canvas);
-        fragment.appendChild(item);
+        const list = document.createElement('div');
+        list.className = 'shape-category-items';
+        list.id = 'shape-category-' + fragment.childElementCount;
+
+        if (entries.length > PICKER_CATEGORY_LIMIT) {
+            const toggle = document.createElement('button');
+            toggle.type = 'button';
+            toggle.className = 'shape-category-toggle';
+            toggle.dataset.categoryToggle = category;
+            toggle.setAttribute('aria-expanded', String(expanded));
+            toggle.setAttribute('aria-controls', list.id);
+            toggle.setAttribute('aria-label',
+                (expanded ? 'Show fewer shapes in ' : 'Show all shapes in ') + category
+            );
+            toggle.textContent = expanded
+                ? 'Show less'
+                : 'Show all (' + entries.length + ')';
+            header.appendChild(toggle);
+        }
+
+        const visibleEntries = expanded
+            ? entries
+            : entries.slice(0, PICKER_CATEGORY_LIMIT);
+
+        visibleEntries.forEach(({ shape, index }) => {
+            const item = document.createElement('div');
+            item.dataset.shapeIndex = String(index);
+            item.classList.add('shape-picker-item', shape.slug, activeDirection);
+
+            if (shape.pro) item.classList.add('premium');
+            if (index === activeShapeIndex) item.classList.add('selected');
+
+            const canvas = document.createElement('canvas');
+            canvas.width = 1;
+            canvas.height = 1;
+            canvas.dataset.shapePreview = String(index);
+            canvas.dataset.direction = activeDirection;
+            canvas.dataset.nearby = 'false';
+            canvas.dataset.rendered = 'false';
+            canvas.dataset.renderVersion = '0';
+            canvas.setAttribute('aria-hidden', 'true');
+
+            item.appendChild(canvas);
+            list.appendChild(item);
+        });
+
+        section.appendChild(header);
+        section.appendChild(list);
+        fragment.appendChild(section);
     });
 
     shapePicker.replaceChildren(fragment);
@@ -3319,6 +3370,25 @@ function renderShapePicker() {
 }
 
 shapePicker.addEventListener('click', (event) => {
+    const toggle = event.target.closest('[data-category-toggle]');
+    if (toggle && shapePicker.contains(toggle)) {
+        const category = toggle.dataset.categoryToggle;
+        const scrollTop = shapePicker.scrollTop;
+        if (expandedPickerCategories.has(category)) {
+            expandedPickerCategories.delete(category);
+        } else {
+            expandedPickerCategories.add(category);
+        }
+        renderShapePicker();
+        shapePicker.scrollTop = scrollTop;
+        shapePicker.querySelectorAll('[data-category-toggle]').forEach((button) => {
+            if (button.dataset.categoryToggle === category) {
+                button.focus({ preventScroll: true });
+            }
+        });
+        return;
+    }
+
     const item = event.target.closest('[data-shape-index]');
     if (!item || !shapePicker.contains(item)) return;
 
