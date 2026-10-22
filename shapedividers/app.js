@@ -828,6 +828,23 @@ function drawImagePreservingSvgAspectRatio(
     );
 }
 
+function getPreviewShortAxis(state) {
+    const shortAxis = Math.max(0, Number(state.shortAxis) || 0);
+    const horizontal = state.direction === 'top' || state.direction === 'bottom';
+
+    // Match the exported desktop @media rule; responsive device previews
+    // must keep their own short axis even on a wide browser window.
+    if (
+        horizontal &&
+        getActiveViewIndex() <= 0 &&
+        window.matchMedia('(min-width:2100px)').matches
+    ) {
+        return shortAxis + window.innerWidth * 0.02;
+    }
+
+    return shortAxis;
+}
+
 function getBitmapLongSide(state, bounds) {
     const dpr = Math.min(window.devicePixelRatio || 1, 3);
     const horizontal = state.direction === 'top' || state.direction === 'bottom';
@@ -839,7 +856,7 @@ function getBitmapLongSide(state, bounds) {
 
     const rawSvg = svgDividers[state.shapeIndex][state.direction];
     const aspectRatio = Math.max(getSvgAspectRatio(rawSvg), 0.0001);
-    const shortAxis = Math.max(1, Number(state.shortAxis) || 1);
+    const shortAxis = Math.max(1, getPreviewShortAxis(state));
 
     const longSideForDisplay =
         displayLongSide * dpr * requestedScale * 1.75;
@@ -1105,7 +1122,7 @@ function drawDividerBitmap(bitmap, state, timestamp = performance.now()) {
     previewContext.clearRect(0, 0, width, height);
 
     const horizontal = state.direction === 'top' || state.direction === 'bottom';
-    const shortAxis = Math.max(0, Number(state.shortAxis) || 0);
+    const shortAxis = getPreviewShortAxis(state);
     const longAxisScale = Math.max(0, Number(state.longAxis) / 100 || 0);
     const animationScale = Math.max(1, Number(state.animationLongAxis) || 1);
     const position = Math.max(0, Math.min(100, Number(state.position) || 0)) / 100;
