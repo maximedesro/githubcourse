@@ -2979,6 +2979,7 @@ updateShape();
 
 const shapePicker = document.createElement('div');
 shapePicker.className = 'container';
+shapePicker.style.overflowAnchor = 'none';
 document.body.appendChild(shapePicker);
 
 let hoverHereHint = document.createElement('div');
@@ -3380,8 +3381,6 @@ const PICKER_CATEGORY_LIMIT = 10;
 const expandedPickerCategories = new Set();
 
 function getPickerCategoryEntries(entries, expanded) {
-    if (expanded) return entries;
-
     const featured = [];
     const remaining = [];
 
@@ -3391,10 +3390,77 @@ function getPickerCategoryEntries(entries, expanded) {
         (isFeatured ? featured : remaining).push(entry);
     });
 
-    return featured.concat(remaining).slice(0, PICKER_CATEGORY_LIMIT);
+    const ordered = featured.concat(remaining);
+    return expanded ? ordered : ordered.slice(0, PICKER_CATEGORY_LIMIT);
 }
 
-function renderShapePicker() {
+function capturePickerScrollAnchor(toggle) {
+    const bounds = shapePicker.getBoundingClientRect();
+    const anchors = [];
+    const addAnchor = (element, kind, key) => {
+        const rect = element.getBoundingClientRect();
+        if (rect.bottom > bounds.top && rect.top < bounds.bottom) {
+            anchors.push({ kind, key, offset: rect.top - bounds.top });
+        }
+    };
+
+    // Prefer a visible shape that still exists after the category changes.
+    shapePicker.querySelectorAll('[data-shape-index]').forEach((item) => {
+        addAnchor(item, 'shape', item.dataset.shapeIndex);
+    });
+    if (toggle) {
+        addAnchor(toggle, 'toggle', toggle.dataset.categoryToggle);
+    }
+    shapePicker.querySelectorAll('[data-picker-category]').forEach((section) => {
+        const header = section.querySelector('.shape-category-header');
+        if (header) addAnchor(header, 'category', section.dataset.pickerCategory);
+    });
+
+    return { anchors, scrollTop: shapePicker.scrollTop };
+}
+
+function restorePickerScrollAnchor(snapshot) {
+    for (const anchor of snapshot.anchors) {
+        let element;
+        if (anchor.kind === 'shape') {
+            element = shapePicker.querySelector(
+                '[data-shape-index="' + anchor.key + '"]'
+            );
+        } else if (anchor.kind === 'toggle') {
+            element = [...shapePicker.querySelectorAll('[data-category-toggle]')]
+                .find((button) => button.dataset.categoryToggle === anchor.key);
+        } else {
+            const section = [...shapePicker.querySelectorAll('[data-picker-category]')]
+                .find((item) => item.dataset.pickerCategory === anchor.key);
+            element = section?.querySelector('.shape-category-header');
+        }
+        if (!element) continue;
+
+        const currentOffset =
+            element.getBoundingClientRect().top -
+            shapePicker.getBoundingClientRect().top;
+        shapePicker.scrollTop += currentOffset - anchor.offset;
+        return;
+    }
+
+    shapePicker.scrollTop = snapshot.scrollTop;
+}
+
+function scrollPickerToSelectedShape() {
+    const selected = shapePicker.querySelector(
+        '[data-shape-index="' + getActiveShapeIndex() + '"]'
+    );
+    if (!selected) return;
+
+    const bounds = shapePicker.getBoundingClientRect();
+    const itemBounds = selected.getBoundingClientRect();
+    const inset = Math.max(24, (shapePicker.clientHeight - itemBounds.height) / 2);
+
+    // Scroll only the picker, never the surrounding page or preview.
+    shapePicker.scrollTop += itemBounds.top - bounds.top - inset;
+}
+
+function renderShapePicker({ revealSelected = true, scrollAnchor = null } = {}) {
     const activeDirection = getActiveDirection();
     const activeShapeIndex = getActiveShapeIndex();
     const revision = ++shapePickerRenderRevision;
@@ -3411,9 +3477,18 @@ function renderShapePicker() {
     });
 
     categories.forEach((entries, category) => {
+        if (
+            revealSelected &&
+            entries.some((entry) => entry.index === activeShapeIndex) &&
+            !getPickerCategoryEntries(entries, false)
+                .some((entry) => entry.index === activeShapeIndex)
+        ) {
+            expandedPickerCategories.add(category);
+        }
         const expanded = expandedPickerCategories.has(category);
         const section = document.createElement('section');
         section.className = 'shape-category';
+        section.dataset.pickerCategory = category;
 
         const header = document.createElement('div');
         header.className = 'shape-category-header';
@@ -3472,6 +3547,11 @@ function renderShapePicker() {
     });
 
     shapePicker.replaceChildren(fragment);
+    if (scrollAnchor) {
+        restorePickerScrollAnchor(scrollAnchor);
+    } else if (revealSelected) {
+        scrollPickerToSelectedShape();
+    }
     observePickerCanvases(revision);
 }
 
@@ -3479,14 +3559,13 @@ shapePicker.addEventListener('click', (event) => {
     const toggle = event.target.closest('[data-category-toggle]');
     if (toggle && shapePicker.contains(toggle)) {
         const category = toggle.dataset.categoryToggle;
-        const scrollTop = shapePicker.scrollTop;
+        const scrollAnchor = capturePickerScrollAnchor(toggle);
         if (expandedPickerCategories.has(category)) {
             expandedPickerCategories.delete(category);
         } else {
             expandedPickerCategories.add(category);
         }
-        renderShapePicker();
-        shapePicker.scrollTop = scrollTop;
+        renderShapePicker({ revealSelected: false, scrollAnchor });
         shapePicker.querySelectorAll('[data-category-toggle]').forEach((button) => {
             if (button.dataset.categoryToggle === category) {
                 button.focus({ preventScroll: true });
