@@ -3010,7 +3010,7 @@ shapePicker.addEventListener('mouseenter', () => {
         };
         hoverHereHint.addEventListener('transitionend', removeHint, { once: true });
         window.setTimeout(removeHint, 500);
-    }, 1400);
+    }, 700);
 });
 
 shapePicker.addEventListener('mouseleave', () => {
