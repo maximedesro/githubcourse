@@ -3661,7 +3661,13 @@ function formUpdate() {
     formMobileReady.value = mobileReady;
     formAnimated.value = animate || (mobileReady && (tabletAnimate || mobileAnimate));
     formHasPremium.value = hasPremiumAccess();
-    formShapeIsPremium.value = requiresPremiumFeatures();
+    formShapeIsPremium.value = Boolean(
+        svgDividers[shapeIndex].pro ||
+        (mobileReady && (
+            svgDividers[tabletShapeIndex].pro ||
+            svgDividers[mobileShapeIndex].pro
+        ))
+    );
 
     const submitButton = formElement.querySelector('button[type="submit"]');
     if (submitButton) {
