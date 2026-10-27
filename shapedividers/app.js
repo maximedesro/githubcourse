@@ -1682,7 +1682,7 @@ function getPremiumExportMessage() {
     return (
         'Oups! Looks like you have selected a premium shape or feature! ' +
         'Get premium here : https://shapedividers.com/get-premium/ , or login here ' +
-        'https://shapedividers.com/account/ if you have premium already!\n\nThank you!'
+        'https://shapedividers.com/wp-login.php if you have premium already!\n\nThank you!'
     );
 }
 
@@ -2700,7 +2700,15 @@ function closeExportModal() {
     copyCodeButton?.focus();
 }
 
-copyCodeButton?.addEventListener('click', openExportModal);
+copyCodeButton?.addEventListener('click', async () => {
+    await updateURL(false);
+    formUpdate();
+    openExportModal();
+});
+
+premiumButton?.addEventListener('click', () => {
+    formUpdate();
+});
 
 exportTabs.forEach((tab) => {
     tab.addEventListener('click', () => {
@@ -2738,8 +2746,6 @@ exportCopyButton?.addEventListener('click', async () => {
         }
         return;
     }
-
-    formUpdate();
 
     if (exportCopyLabel) {
         exportCopyLabel.textContent = 'Copied!';
@@ -3629,6 +3635,8 @@ let formTsi = document.getElementById('form-field-tsi');
 let formMsi = document.getElementById('form-field-msi');
 let formMobileReady = document.getElementById('form-field-mobileready');
 let formAnimated = document.getElementById('form-field-animated');
+let formHasPremium = document.getElementById('form-field-haspremium');
+let formShapeIsPremium = document.getElementById('form-field-shapeispremium');
 
 
 function formUpdate() {
@@ -3639,7 +3647,9 @@ function formUpdate() {
         !formTsi ||
         !formMsi ||
         !formMobileReady ||
-        !formAnimated
+        !formAnimated ||
+        !formHasPremium ||
+        !formShapeIsPremium
     ) {
         return;
     }
@@ -3650,6 +3660,8 @@ function formUpdate() {
     formMsi.value = svgDividers[mobileShapeIndex].si;
     formMobileReady.value = mobileReady;
     formAnimated.value = animate || (mobileReady && (tabletAnimate || mobileAnimate));
+    formHasPremium.value = hasPremiumAccess();
+    formShapeIsPremium.value = requiresPremiumFeatures();
 
     const submitButton = formElement.querySelector('button[type="submit"]');
     if (submitButton) {
