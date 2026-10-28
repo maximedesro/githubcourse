@@ -2700,8 +2700,7 @@ function closeExportModal() {
     copyCodeButton?.focus();
 }
 
-copyCodeButton?.addEventListener('click', async () => {
-    await updateURL(false);
+copyCodeButton?.addEventListener('click', () => {
     formUpdate();
     openExportModal();
 });
@@ -3654,7 +3653,10 @@ function formUpdate() {
         return;
     }
 
-    formCreatedShape.value = location.href;
+    // Always serialize the current generator settings before capturing the URL.
+    // replaceState runs synchronously; the Elementor submission then uses the fresh URL.
+    updateURL(false);
+    formCreatedShape.value = window.location.href;
     formSi.value = svgDividers[shapeIndex].si;
     formTsi.value = svgDividers[tabletShapeIndex].si;
     formMsi.value = svgDividers[mobileShapeIndex].si;
