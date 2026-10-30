@@ -3634,6 +3634,7 @@ let formTsi = document.getElementById('form-field-tsi');
 let formMsi = document.getElementById('form-field-msi');
 let formMobileReady = document.getElementById('form-field-mobileready');
 let formAnimated = document.getElementById('form-field-animated');
+let formGradient = document.getElementById('form-field-gradient');
 let formHasPremium = document.getElementById('form-field-haspremium');
 let formShapeIsPremium = document.getElementById('form-field-shapeispremium');
 
@@ -3647,6 +3648,7 @@ function formUpdate() {
         !formMsi ||
         !formMobileReady ||
         !formAnimated ||
+        !formGradient ||
         !formHasPremium ||
         !formShapeIsPremium
     ) {
@@ -3662,6 +3664,7 @@ function formUpdate() {
     formMsi.value = svgDividers[mobileShapeIndex].si;
     formMobileReady.value = mobileReady;
     formAnimated.value = animate || (mobileReady && (tabletAnimate || mobileAnimate));
+    formGradient.value = (gradient || (mobileReady && (tabletGradient || mobileGradient))) ? 'TRUE' : 'FALSE';
     formHasPremium.value = hasPremiumAccess();
     formShapeIsPremium.value = Boolean(
         svgDividers[shapeIndex].pro ||
