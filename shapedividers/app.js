@@ -2937,6 +2937,7 @@ ${mobileAnimate?`
  const shareLink = document.getElementById('share');
 shareLink.addEventListener("click", async () => {
     const copied = await updateURL(true);
+    formUpdate();
 
     if (!copied) {
         console.error('ShapeDividers: share link copy failed.');
