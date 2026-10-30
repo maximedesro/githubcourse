@@ -3543,8 +3543,8 @@ function renderShapePicker({ revealSelected = true, scrollAnchor = null } = {}) 
                 (expanded ? 'Show fewer shapes in ' : 'Show all shapes in ') + category
             );
             toggle.textContent = expanded
-                ? 'Show less'
-                : 'Show all (' + entries.length + ')';
+                ? 'Show less ' + category
+                : 'Show All ' + category + ' (' + entries.length + ')';
             section.appendChild(toggle);
         }
 
