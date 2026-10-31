@@ -2427,8 +2427,9 @@ body.sd-is-loading {
   margin: 18px 6px 0;
   font-family: var(--sd-font-body);
 }
-.sd-tool-actions .export-actions { display: flex; margin: 0; }
+.sd-tool-actions .export-actions { display: flex; margin: 0; max-width: 100%; }
 .sd-tool-actions #copye,
+.sd-tool-actions #premium,
 .sd-tool-actions #share,
 .sd-tool-actions .sd-login-link {
   display: inline-flex;
@@ -2451,8 +2452,9 @@ body.sd-is-loading {
   letter-spacing: 0;
   cursor: pointer;
 }
-.sd-tool-actions #copye { color: var(--sd-surface); border-color: var(--sd-teal); background: var(--sd-teal); font-weight: 700; }
-.sd-tool-actions #copye:hover { background: var(--sd-teal-dark); border-color: var(--sd-teal-dark); }
+.sd-tool-actions #premium { display: none; }
+.sd-tool-actions #copye, .sd-tool-actions #premium { color: var(--sd-surface); border-color: var(--sd-teal); background: var(--sd-teal); font-weight: 700; }
+.sd-tool-actions #copye:hover, .sd-tool-actions #premium:hover { background: var(--sd-teal-dark); border-color: var(--sd-teal-dark); }
 .sd-tool-actions #share:hover { background: var(--sd-surface-soft); }
 .sd-tool-actions .sd-login-link { border: 0; padding: 8px 0; }
 .sd-tool-actions .sd-icon { width: 22px; height: 22px; }
@@ -2477,11 +2479,12 @@ body.sd-is-loading {
   #genform .sd-color-section .sd-toggle-label { font-size: 13px; }
   #genform .color-controls .shape-color-code { flex-basis: 70px; font-size: 12px; }
   .sd-tool-actions { gap: 8px; }
-  .sd-tool-actions #copye, .sd-tool-actions #share, .sd-tool-actions .sd-login-link { padding-inline: 8px; font-size: 11px; gap: 6px; }
+  .sd-tool-actions #copye, .sd-tool-actions #premium, .sd-tool-actions #share, .sd-tool-actions .sd-login-link { padding-inline: 8px; font-size: 11px; gap: 6px; }
   .sd-tool-actions .sd-login-link { padding-inline: 0; }
   .sd-tool-actions .sd-icon { width: 18px; height: 18px; }
 }
 @media (prefers-reduced-motion: reduce) {
   #genform .sd-direction-card, #genform .sd-switch::after { transition: none; }
 }
+
 
