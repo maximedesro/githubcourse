@@ -2047,7 +2047,7 @@ body.sd-is-loading {
 #shape-divider-tool .settings_window {
   top: 24px;
   left: 24px;
-  width: clamp(360px, 37vw, 500px);
+  width: clamp(360px, 37vw, 416px);
   max-height: calc(100vh - 48px);
   color: var(--sd-ink);
 }
