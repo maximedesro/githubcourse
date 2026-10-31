@@ -2932,13 +2932,26 @@ ${mobileAnimate?`
  * Code for Share Link Design url
  * *******/
  
- const shareLink = document.getElementById('share');
+const shareLink = document.getElementById('share');
+const shareLabel = shareLink.querySelector('[data-share-label]');
+const shareDefaultLabel = shareLabel?.textContent || 'Share Your Design';
+let shareFeedbackTimeout;
+
 shareLink.addEventListener("click", async () => {
     const copied = await updateURL(true);
     formUpdate();
 
     if (!copied) {
         console.error('ShapeDividers: share link copy failed.');
+        return;
+    }
+
+    if (shareLabel) {
+        window.clearTimeout(shareFeedbackTimeout);
+        shareLabel.textContent = 'Copied!';
+        shareFeedbackTimeout = window.setTimeout(() => {
+            shareLabel.textContent = shareDefaultLabel;
+        }, 4000);
     }
 });
 
@@ -3746,6 +3759,7 @@ async function ensureShapeDataLoaded() {
         window.clearTimeout(loadTimeout);
     }
 })();
+
 
 
 
