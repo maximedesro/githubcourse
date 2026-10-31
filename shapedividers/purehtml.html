@@ -34,244 +34,226 @@
   </div>
 </div>
 
-<section class="settings_window">
+<section class="settings_window" aria-label="Shape divider controls">
   <div class="settings-panel">
-<form action="" id='genform'>
-   <div class='row'>
-      <span class="tool-title">SVG Shape Dividers Creator</span>
-   </div>
-   <div class="view_select">
-      <div class="desktop_view active">Desktop</div>
-      <div class="tablet_view">Tablet</div>
-      <div class="mobile_view">Mobile</div>
-   </div>
-   <div class='desktop_settings'>
-      <div class="row radio textlabel">
-         <div>Top</div>
-         <div>Right</div>
-         <div>Bottom</div>
-         <div>Left</div>
-      </div>
-      <div class="row radio">
-         <input type="radio" name="dividerdirection" value="top" id="divider-direction-top"/>
-         <label for="divider-direction-top">Radio</label>
-         <input type="radio" name="dividerdirection" value="right" id="divider-direction-right" />
-         <label for="divider-direction-right">Radio</label>
-         <input type="radio" name="dividerdirection" value="bottom" id="divider-direction-bottom" checked/>
-         <label for="divider-direction-bottom">Radio</label>
-         <input type="radio" name="dividerdirection" value="left" id="divider-direction-left" />
-         <label for="divider-direction-left">Radio</label>
-      </div>
-      <div class="row color-row">
-         <label for="shape-color">Color</label>
-         <div class='flexrow color-controls'>
-            <div class="cp_wrapper">
-               <input type="color" name="shapeColor" id="shape-color" value="#FBD8C2">
-            </div>
-            <input type="text" class="shape-color-code" name="shapeColorCode" id="shape-color-code" value="#FBD8C2"/>
-            <div class="gradient-color-secondary">
-               <div class="cp_wrapper">
-                  <input type="color" name="gradientColor" id="gradient-color" value="#FE6DA8">
-               </div>
-               <input type="text" class="shape-color-code" name="gradientColorCode" id="gradient-color-code" value="#FE6DA8"/>
-            </div>
-         </div>
-      </div>
-      <div class="row gradient-toggle-container" style='display:flex; align-items:center;'>
-         <input type="checkbox" name="gradient-checkbox" id="gradient-checkbox"/>
-         <label for="gradient-checkbox">Checkbox</label>
-         <label for="gradient-checkbox" class="gradient-toggle-label">Gradient</label>
-      </div>
-      <div class="range-slider row long-axis-container desktop-long-axis-container">
-         <label for="long_axis">Long Axis</label>
-         <input class="range-slider__range" type="range" value="100" min="100" max="400" id='long_axis'> <span class="range-slider__value">100</span>
-      </div>
-      <div class="range-slider row">
-         <label for="short_axis">Short Axis</label>
-         <input class="range-slider__range" type="range" value="140" min="0" max="400" id='short_axis'> <span class="range-slider__value">140</span>
-      </div>
-      <div class="range-slider row position-container desktop-position-container">
-         <label for="position">Position</label>
-         <input class="range-slider__range" type="range" value="50" min="0" max="100" id='position'> <span class="range-slider__value">50</span>
-      </div>
-      <div class="row flipped-container" style='display:flex; align-items:center;'>
-         <input type="checkbox" name="flipped-checkbox" id="flipped-checkbox"/>
-         <label for="flipped-checkbox">Checkbox</label>
-         <label for="flipped-checkbox">Flip</label>
-      </div>
-      <div class="range-slider row animation-length-container desktop-animation-length-container">
-         <label for="animation_length">Animation Duration</label>
-         <input class="range-slider__range" type="range" value="10" min="4" max="200" id='animation_length'> <span class="range-slider__value">10</span>
-      </div>
-      <div class="range-slider row animation-long-axis-container desktop-animation-long-axis-container">
-         <label for="animation_long_axis">Long Axis</label>
-         <input class="range-slider__range" type="range" value="4" min="1" max="10" step="0.1" id='animation_long_axis'> <span class="range-slider__value">4</span>
-      </div>
-      <div class="row" style='display:flex; align-items:center;'>
-         <input type="checkbox" name="animate-checkbox" id="animate-checkbox"/>
-         <label for="animate-checkbox">Checkbox</label>
-         <label for="animate-checkbox" style='margin-left:10px; width:40px;'>Animate</label>
-      </div>
-   </div>
-   <div class='tablet_settings'>
-      <div class="row radio textlabel">
-         <div>Top</div>
-         <div>Right</div>
-         <div>Bottom</div>
-         <div>Left</div>
-      </div>
-      <div class="tablet row radio">
-         <input type="radio" name="tabletdividerdirection" value="top" id="tabletdivider-direction-top"/>
-         <label for="tabletdivider-direction-top">Radio</label>
-         <input type="radio" name="tabletdividerdirection" value="right" id="tabletdivider-direction-right" />
-         <label for="tabletdivider-direction-right">Radio</label>
-         <input type="radio" name="tabletdividerdirection" value="bottom" id="tabletdivider-direction-bottom" checked/>
-         <label for="tabletdivider-direction-bottom">Radio</label>
-         <input type="radio" name="tabletdividerdirection" value="left" id="tabletdivider-direction-left" />
-         <label for="tabletdivider-direction-left">Radio</label>
-      </div>
-      <div class="row color-row">
-         <label for="tablet-shape-color">Color</label>
-         <div class='flexrow color-controls'>
-            <div class="cp_wrapper">
-               <input type="color" name="tablet-shapeColor" id="tablet-shape-color" value="#FBD8C2">
-            </div>
-            <input type="text" class="shape-color-code" name="tablet-shapeColorCode" id="tablet-shape-color-code" value="#FBD8C2"/>
-            <div class="gradient-color-secondary">
-               <div class="cp_wrapper">
-                  <input type="color" name="tablet-gradientColor" id="tablet-gradient-color" value="#FE6DA8">
-               </div>
-               <input type="text" class="shape-color-code" name="tablet-gradientColorCode" id="tablet-gradient-color-code" value="#FE6DA8"/>
-            </div>
-         </div>
-      </div>
-      <div class="row gradient-toggle-container" style='display:flex; align-items:center;'>
-         <input type="checkbox" name="tablet-gradient-checkbox" id="tablet-gradient-checkbox"/>
-         <label for="tablet-gradient-checkbox">Checkbox</label>
-         <label for="tablet-gradient-checkbox" class="gradient-toggle-label">Gradient</label>
-      </div>
-      <div class="range-slider row long-axis-container tablet-long-axis-container">
-         <label for="tablet-long_axis">Long Axis</label>
-         <input class="range-slider__range" type="range" value="100" min="100" max="400" id='tablet-long_axis'> <span class="range-slider__value">100</span>
-      </div>
-      <div class="range-slider row">
-         <label for="tablet-short_axis">Short Axis</label>
-         <input class="range-slider__range" type="range" value="140" min="0" max="400" id='tablet-short_axis'> <span class="range-slider__value">140</span>
-      </div>
-      <div class="range-slider row position-container tablet-position-container">
-         <label for="tablet-position">Position</label>
-         <input class="range-slider__range" type="range" value="50" min="0" max="100" id='tablet-position'> <span class="range-slider__value">50</span>
-      </div>
-      <div class="row flipped-container" style='display:flex; align-items:center;'>
-         <input type="checkbox" name="tablet-flipped-checkbox" id="tablet-flipped-checkbox"/>
-         <label for="tablet-flipped-checkbox">Checkbox</label>
-         <label for="tablet-flipped-checkbox">Flip</label>
-      </div>
-     <div class="range-slider row animation-length-container tablet-animation-length-container">
-         <label for="tablet-animation_length">Animation Duration</label>
-         <input class="range-slider__range" type="range" value="10" min="4" max="200" id='tablet-animation_length'> <span class="range-slider__value">10</span>
-      </div>
-      <div class="range-slider row animation-long-axis-container tablet-animation-long-axis-container">
-         <label for="tablet-animation_long_axis">Long Axis</label>
-         <input class="range-slider__range" type="range" value="4" min="1" max="10" step="0.1" id='tablet-animation_long_axis'> <span class="range-slider__value">4</span>
-      </div>
-     <div class="row" style='display:flex; align-items:center;'>
-         <input type="checkbox" name="tablet-animate-checkbox" id="tablet-animate-checkbox"/>
-         <label for="tablet-animate-checkbox">Checkbox</label>
-         <label for="tablet-animate-checkbox" style='margin-left:10px; width:40px;'>Animate</label>
-      </div>
-   </div>
-   <div class='mobile_settings'>
-      <div class="row radio textlabel">
-         <div>Top</div>
-         <div>Right</div>
-         <div>Bottom</div>
-         <div>Left</div>
-      </div>
-      <div class="mobile row radio">
-         <input type="radio" name="mobiledividerdirection" value="top" id="mobiledivider-direction-top"/>
-         <label for="mobiledivider-direction-top">Radio</label>
-         <input type="radio" name="mobiledividerdirection" value="right" id="mobiledivider-direction-right" />
-         <label for="mobiledivider-direction-right">Radio</label>
-         <input type="radio" name="mobiledividerdirection" value="bottom" id="mobiledivider-direction-bottom" checked/>
-         <label for="mobiledivider-direction-bottom">Radio</label>
-         <input type="radio" name="mobiledividerdirection" value="left" id="mobiledivider-direction-left" />
-         <label for="mobiledivider-direction-left">Radio</label>
-      </div>
-      <div class="row color-row">
-         <label for="mobile-shape-color">Color</label>
-         <div class='flexrow color-controls'>
-            <div class="cp_wrapper">
-               <input type="color" name="mobile-shapeColor" id="mobile-shape-color" value="#FBD8C2">
-            </div>
-            <input type="text" class="shape-color-code" name="mobile-shapeColorCode" id="mobile-shape-color-code" value="#FBD8C2"/>
-            <div class="gradient-color-secondary">
-               <div class="cp_wrapper">
-                  <input type="color" name="mobile-gradientColor" id="mobile-gradient-color" value="#FE6DA8">
-               </div>
-               <input type="text" class="shape-color-code" name="mobile-gradientColorCode" id="mobile-gradient-color-code" value="#FE6DA8"/>
-            </div>
-         </div>
-      </div>
-      <div class="row gradient-toggle-container" style='display:flex; align-items:center;'>
-         <input type="checkbox" name="mobile-gradient-checkbox" id="mobile-gradient-checkbox"/>
-         <label for="mobile-gradient-checkbox">Checkbox</label>
-         <label for="mobile-gradient-checkbox" class="gradient-toggle-label">Gradient</label>
-      </div>
-      <div class="range-slider row long-axis-container mobile-long-axis-container">
-         <label for="mobile-long_axis">Long Axis</label>
-         <input class="range-slider__range" type="range" value="100" min="100" max="400" id="mobile-long_axis"> <span class="range-slider__value">100</span>
-      </div>
-      <div class="range-slider row">
-         <label for="mobile-short_axis">Short Axis</label>
-         <input class="range-slider__range" type="range" value="140" min="0" max="400" id="mobile-short_axis"> <span class="range-slider__value">140</span>
-      </div>
-      <div class="range-slider row position-container mobile-position-container">
-         <label for="mobile-position">Position</label>
-         <input class="range-slider__range" type="range" value="50" min="0" max="100" id="mobile-position"> <span class="range-slider__value">50</span>
-      </div>
-      <div class="row flipped-container" style='display:flex; align-items:center;'>
-         <input type="checkbox" name="mobile-flipped-checkbox" id="mobile-flipped-checkbox"/>
-         <label for="mobile-flipped-checkbox">Checkbox</label>
-         <label for="mobile-flipped-checkbox">Flip</label>
-      </div>
-      <div class="range-slider row animation-length-container mobile-animation-length-container">
-         <label for="mobile-animation_length">Animation Duration</label>
-         <input class="range-slider__range" type="range" value="10" min="4" max="200" id='mobile-animation_length'> <span class="range-slider__value">10</span>
-      </div>
-      <div class="range-slider row animation-long-axis-container mobile-animation-long-axis-container">
-         <label for="mobile-animation_long_axis">Long Axis</label>
-         <input class="range-slider__range" type="range" value="4" min="1" max="10" step="0.1" id='mobile-animation_long_axis'> <span class="range-slider__value">4</span>
-      </div>
-            <div class="row" style='display:flex; align-items:center;'>
-         <input type="checkbox" name="mobile-animate-checkbox" id="mobile-animate-checkbox"/>
-         <label for="mobile-animate-checkbox">Checkbox</label>
-         <label for="mobile-animate-checkbox" style='margin-left:10px; width:40px;'>Animate</label>
-      </div>
-
-   </div>
-   <div class="row" style='display:flex; align-items:center;'>
-      <input type="checkbox" name="mobile-ready" id="mobile-ready"/>
-      <label for="mobile-ready">Checkbox</label>
-      <label for="mobile-ready" class="mobile tooltip-trigger" style='margin-left:10px; width:140px;' aria-describedby="responsive-tooltip">
-         Responsive
-         <svg class="tooltip-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.713 16.713Q13 16.425 13 16v-4q0-.425-.288-.712T12 11t-.712.288T11 12v4q0 .425.288.713T12 17t.713-.288m0-8Q13 8.425 13 8t-.288-.712T12 7t-.712.288T11 8t.288.713T12 9t.713-.288M12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"/></svg>
-         <span id="responsive-tooltip" class="ui-tooltip" role="tooltip">Generate different shape dividers for different viewports, or just different settings.<br><br>Frequent use case: Vertical divider on desktop becomes horizontal on mobile.</span>
-      </label>
-   </div>
-</form>
-<div class="export-actions">
-<button id='copye' type="button">Copy Code</button>
+    <form action="" id="genform">
+      <div class="sd-tool-header"><svg class="sd-brandmark" viewBox="-4 -10 120 75" aria-hidden="true"><path d="M0 23 C20 -9 40 -9 61 13 C77 31 91 39 108 24 Q115 20 110 29 C91 59 70 58 51 38 C34 20 18 13 4 27 Q-4 32 0 23 Z" fill="currentColor"/></svg><span class="tool-title">Shape Dividers Creator</span></div>
+      <div class="view_select" role="group" aria-label="Device settings"><div class="desktop_view active"><button type="button" class="sd-device-tab" id="sd-desktop-tab" aria-controls="sd-desktop-settings"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M7 8 H41 Q44 8 44 11 V32 Q44 35 41 35 H7 Q4 35 4 32 V11 Q4 8 7 8 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 35 V44 M14 44 H34" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>Desktop<span class="sd-tab-current"> (active)</span></button></div>
+<div class="tablet_view"><button type="button" class="sd-device-tab" id="sd-tablet-tab" aria-controls="sd-tablet-settings"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M10.5 8 H32.5 Q35 8 35 10.5 V41.5 Q35 44 32.5 44 H10.5 Q8 44 8 41.5 V10.5 Q8 8 10.5 8 Z" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M23.1 38 A1.6 1.6 0 1 0 19.9 38 A1.6 1.6 0 1 0 23.1 38 Z" fill="currentColor"/></svg>Tablet<span class="sd-tab-current"> (active)</span></button></div>
+<div class="mobile_view"><button type="button" class="sd-device-tab" id="sd-mobile-tab" aria-controls="sd-mobile-settings"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M10.5 8 H28.5 Q31 8 31 10.5 V41.5 Q31 44 28.5 44 H10.5 Q8 44 8 41.5 V10.5 Q8 8 10.5 8 Z" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M21.1 38 A1.6 1.6 0 1 0 17.9 38 A1.6 1.6 0 1 0 21.1 38 Z" fill="currentColor"/></svg>Mobile<span class="sd-tab-current"> (active)</span></button></div></div>
+      <div class="sd-device-scope" role="group" aria-label="Device-specific divider settings">
+<div class="desktop_settings sd-viewport-settings" id="sd-desktop-settings" role="region" aria-labelledby="sd-desktop-tab">
+<h2 class="sd-control-heading" id="desktop-direction-title">Direction</h2>
+<div class="row radio sd-direction-options" role="group" aria-labelledby="desktop-direction-title">
+<input type="radio" name="dividerdirection" value="top" id="divider-direction-top">
+<label class="sd-direction-card" for="divider-direction-top"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 H179 V39 C150 32 136 72 93 61 C52 50 47 12 0 53 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Top</span></label>
+<input type="radio" name="dividerdirection" value="right" id="divider-direction-right">
+<label class="sd-direction-card" for="divider-direction-right"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M122 0 C131 44 72 52 105 96 C115 111 121 118 122 125 H179 V0 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Right</span></label>
+<input type="radio" name="dividerdirection" value="bottom" id="divider-direction-bottom" checked>
+<label class="sd-direction-card" for="divider-direction-bottom"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M0 97 C25 98 31 74 67 76 C102 76 105 99 138 100 C155 100 167 93 179 84 V125 H0 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Bottom</span></label>
+<input type="radio" name="dividerdirection" value="left" id="divider-direction-left">
+<label class="sd-direction-card" for="divider-direction-left"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 H66 C93 48 25 65 44 104 Q48 115 54 125 H0 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Left</span></label>
 </div>
-<a id='premium' href='#premium-cta'>Premium Feature: Get Pro Now!</a>
-<a id='login' href='https://shapedividers.com/wp-login.php'>Already a premium user? login here</a>
-<div class="row" style='display:flex; align-items:center; justify-content:flex-end; gap:28px; margin:40px 20px 0; font-size:14px;'>
-      <a id='share' class='links tooltip-trigger' aria-describedby='share-tooltip'>
-         Share Your Design
-         <span id='share-tooltip' class='ui-tooltip' role='tooltip'>Get the direct URL to the design you have created.<br><br>It will be automatically copied to your clipboard on click.</span>
-      </a>
-      <a class='links logged-out-only' href="https://shapedividers.com/wp-login.php">Log in</a>
-   </div>
+<div class="sd-color-section">
+<div class="row color-row">
+  <label class="sd-control-heading" for="shape-color">Color</label>
+  <div class="flexrow color-controls">
+    <div class="cp_wrapper"><input type="color" name="shapeColor" id="shape-color" value="#FBD8C2"></div>
+    <input type="text" class="shape-color-code" name="shapeColorCode" id="shape-color-code" value="#FBD8C2" aria-label="Desktop color hex code" spellcheck="false" maxlength="7">
+    <div class="gradient-color-secondary">
+      <div class="cp_wrapper"><input type="color" name="gradientColor" id="gradient-color" value="#FE6DA8" aria-label="Desktop gradient end color"></div>
+      <input type="text" class="shape-color-code" name="gradientColorCode" id="gradient-color-code" value="#FE6DA8" aria-label="Desktop gradient end hex code" spellcheck="false" maxlength="7">
+    </div>
+  </div>
+</div>
+<div class="row sd-toggle-control gradient-toggle-container">
+  <input type="checkbox" name="gradient-checkbox" id="gradient-checkbox" role="switch">
+  <label class="sd-switch" for="gradient-checkbox" aria-hidden="true"></label>
+  <label class="sd-toggle-label " for="gradient-checkbox">Gradient</label>
+</div>
+</div>
+<div class="range-slider row sd-axis-control long-axis-container desktop-long-axis-container">
+  <label for="long_axis"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 24 H43 M13 16 L5 24 L13 32 M35 16 L43 24 L35 32" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Long Axis</label>
+  <input class="range-slider__range" type="range" value="100" min="100" max="400" id="long_axis">
+  <span class="range-slider__value">100</span>
+</div>
+<div class="range-slider row sd-axis-control ">
+  <label for="short_axis"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M24 5 V43 M16 13 L24 5 L32 13 M16 35 L24 43 L32 35" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Short Axis</label>
+  <input class="range-slider__range" type="range" value="140" min="0" max="400" id="short_axis">
+  <span class="range-slider__value">140</span>
+</div>
+<div class="range-slider row sd-axis-control position-container desktop-position-container">
+  <label for="position"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 24 H43 M13 16 L5 24 L13 32 M35 16 L43 24 L35 32" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Position</label>
+  <input class="range-slider__range" type="range" value="50" min="0" max="100" id="position">
+  <span class="range-slider__value">50</span>
+</div>
+<div class="row sd-toggle-control flipped-container">
+  <input type="checkbox" name="flipped-checkbox" id="flipped-checkbox" role="switch">
+  <label class="sd-switch" for="flipped-checkbox" aria-hidden="true"></label>
+  <label class="sd-toggle-label " for="flipped-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M24 3 V8 M24 14 V19 M24 25 V30 M24 36 V41" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 7 L17 36 H5 Z M43 7 L31 36 H43 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Flip horizontally</label>
+</div>
+<div class="range-slider row sd-axis-control animation-length-container desktop-animation-length-container">
+  <label for="animation_length"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M8 9 Q10 7 13 9 L40 23 Q42 24 40 26 L10 42 Q8 43 8 40 L8 21" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Animation Duration</label>
+  <input class="range-slider__range" type="range" value="10" min="4" max="200" id="animation_length">
+  <span class="range-slider__value">10</span>
+</div>
+<div class="range-slider row sd-axis-control animation-long-axis-container desktop-animation-long-axis-container">
+  <label for="animation_long_axis"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 24 H43 M13 16 L5 24 L13 32 M35 16 L43 24 L35 32" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Long Axis</label>
+  <input class="range-slider__range" type="range" value="4" min="1" max="10" id="animation_long_axis" step=".1">
+  <span class="range-slider__value">4</span>
+</div>
+<div class="row sd-toggle-control sd-animate-control">
+  <input type="checkbox" name="animate-checkbox" id="animate-checkbox" role="switch">
+  <label class="sd-switch" for="animate-checkbox" aria-hidden="true"></label>
+  <label class="sd-toggle-label " for="animate-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M8 9 Q10 7 13 9 L40 23 Q42 24 40 26 L10 42 Q8 43 8 40 L8 21" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Animate</label>
+</div>
+</div>
+<div class="tablet_settings sd-viewport-settings" id="sd-tablet-settings" role="region" aria-labelledby="sd-tablet-tab">
+<h2 class="sd-control-heading" id="tablet-direction-title">Direction</h2>
+<div class="row radio sd-direction-options" role="group" aria-labelledby="tablet-direction-title">
+<input type="radio" name="tabletdividerdirection" value="top" id="tabletdivider-direction-top">
+<label class="sd-direction-card" for="tabletdivider-direction-top"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 H179 V39 C150 32 136 72 93 61 C52 50 47 12 0 53 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Top</span></label>
+<input type="radio" name="tabletdividerdirection" value="right" id="tabletdivider-direction-right">
+<label class="sd-direction-card" for="tabletdivider-direction-right"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M122 0 C131 44 72 52 105 96 C115 111 121 118 122 125 H179 V0 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Right</span></label>
+<input type="radio" name="tabletdividerdirection" value="bottom" id="tabletdivider-direction-bottom" checked>
+<label class="sd-direction-card" for="tabletdivider-direction-bottom"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M0 97 C25 98 31 74 67 76 C102 76 105 99 138 100 C155 100 167 93 179 84 V125 H0 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Bottom</span></label>
+<input type="radio" name="tabletdividerdirection" value="left" id="tabletdivider-direction-left">
+<label class="sd-direction-card" for="tabletdivider-direction-left"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 H66 C93 48 25 65 44 104 Q48 115 54 125 H0 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Left</span></label>
+</div>
+<div class="sd-color-section">
+<div class="row color-row">
+  <label class="sd-control-heading" for="tablet-shape-color">Color</label>
+  <div class="flexrow color-controls">
+    <div class="cp_wrapper"><input type="color" name="tablet-shapeColor" id="tablet-shape-color" value="#FBD8C2"></div>
+    <input type="text" class="shape-color-code" name="tablet-shapeColorCode" id="tablet-shape-color-code" value="#FBD8C2" aria-label="Tablet color hex code" spellcheck="false" maxlength="7">
+    <div class="gradient-color-secondary">
+      <div class="cp_wrapper"><input type="color" name="tablet-gradientColor" id="tablet-gradient-color" value="#FE6DA8" aria-label="Tablet gradient end color"></div>
+      <input type="text" class="shape-color-code" name="tablet-gradientColorCode" id="tablet-gradient-color-code" value="#FE6DA8" aria-label="Tablet gradient end hex code" spellcheck="false" maxlength="7">
+    </div>
+  </div>
+</div>
+<div class="row sd-toggle-control gradient-toggle-container">
+  <input type="checkbox" name="tablet-gradient-checkbox" id="tablet-gradient-checkbox" role="switch">
+  <label class="sd-switch" for="tablet-gradient-checkbox" aria-hidden="true"></label>
+  <label class="sd-toggle-label " for="tablet-gradient-checkbox">Gradient</label>
+</div>
+</div>
+<div class="range-slider row sd-axis-control long-axis-container tablet-long-axis-container">
+  <label for="tablet-long_axis"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 24 H43 M13 16 L5 24 L13 32 M35 16 L43 24 L35 32" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Long Axis</label>
+  <input class="range-slider__range" type="range" value="100" min="100" max="400" id="tablet-long_axis">
+  <span class="range-slider__value">100</span>
+</div>
+<div class="range-slider row sd-axis-control ">
+  <label for="tablet-short_axis"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M24 5 V43 M16 13 L24 5 L32 13 M16 35 L24 43 L32 35" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Short Axis</label>
+  <input class="range-slider__range" type="range" value="140" min="0" max="400" id="tablet-short_axis">
+  <span class="range-slider__value">140</span>
+</div>
+<div class="range-slider row sd-axis-control position-container tablet-position-container">
+  <label for="tablet-position"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 24 H43 M13 16 L5 24 L13 32 M35 16 L43 24 L35 32" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Position</label>
+  <input class="range-slider__range" type="range" value="50" min="0" max="100" id="tablet-position">
+  <span class="range-slider__value">50</span>
+</div>
+<div class="row sd-toggle-control flipped-container">
+  <input type="checkbox" name="tablet-flipped-checkbox" id="tablet-flipped-checkbox" role="switch">
+  <label class="sd-switch" for="tablet-flipped-checkbox" aria-hidden="true"></label>
+  <label class="sd-toggle-label " for="tablet-flipped-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M24 3 V8 M24 14 V19 M24 25 V30 M24 36 V41" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 7 L17 36 H5 Z M43 7 L31 36 H43 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Flip horizontally</label>
+</div>
+<div class="range-slider row sd-axis-control animation-length-container tablet-animation-length-container">
+  <label for="tablet-animation_length"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M8 9 Q10 7 13 9 L40 23 Q42 24 40 26 L10 42 Q8 43 8 40 L8 21" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Animation Duration</label>
+  <input class="range-slider__range" type="range" value="10" min="4" max="200" id="tablet-animation_length">
+  <span class="range-slider__value">10</span>
+</div>
+<div class="range-slider row sd-axis-control animation-long-axis-container tablet-animation-long-axis-container">
+  <label for="tablet-animation_long_axis"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 24 H43 M13 16 L5 24 L13 32 M35 16 L43 24 L35 32" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Long Axis</label>
+  <input class="range-slider__range" type="range" value="4" min="1" max="10" id="tablet-animation_long_axis" step=".1">
+  <span class="range-slider__value">4</span>
+</div>
+<div class="row sd-toggle-control sd-animate-control">
+  <input type="checkbox" name="tablet-animate-checkbox" id="tablet-animate-checkbox" role="switch">
+  <label class="sd-switch" for="tablet-animate-checkbox" aria-hidden="true"></label>
+  <label class="sd-toggle-label " for="tablet-animate-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M8 9 Q10 7 13 9 L40 23 Q42 24 40 26 L10 42 Q8 43 8 40 L8 21" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Animate</label>
+</div>
+</div>
+<div class="mobile_settings sd-viewport-settings" id="sd-mobile-settings" role="region" aria-labelledby="sd-mobile-tab">
+<h2 class="sd-control-heading" id="mobile-direction-title">Direction</h2>
+<div class="row radio sd-direction-options" role="group" aria-labelledby="mobile-direction-title">
+<input type="radio" name="mobiledividerdirection" value="top" id="mobiledivider-direction-top">
+<label class="sd-direction-card" for="mobiledivider-direction-top"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 H179 V39 C150 32 136 72 93 61 C52 50 47 12 0 53 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Top</span></label>
+<input type="radio" name="mobiledividerdirection" value="right" id="mobiledivider-direction-right">
+<label class="sd-direction-card" for="mobiledivider-direction-right"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M122 0 C131 44 72 52 105 96 C115 111 121 118 122 125 H179 V0 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Right</span></label>
+<input type="radio" name="mobiledividerdirection" value="bottom" id="mobiledivider-direction-bottom" checked>
+<label class="sd-direction-card" for="mobiledivider-direction-bottom"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M0 97 C25 98 31 74 67 76 C102 76 105 99 138 100 C155 100 167 93 179 84 V125 H0 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Bottom</span></label>
+<input type="radio" name="mobiledividerdirection" value="left" id="mobiledivider-direction-left">
+<label class="sd-direction-card" for="mobiledivider-direction-left"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 H66 C93 48 25 65 44 104 Q48 115 54 125 H0 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Left</span></label>
+</div>
+<div class="sd-color-section">
+<div class="row color-row">
+  <label class="sd-control-heading" for="mobile-shape-color">Color</label>
+  <div class="flexrow color-controls">
+    <div class="cp_wrapper"><input type="color" name="mobile-shapeColor" id="mobile-shape-color" value="#FBD8C2"></div>
+    <input type="text" class="shape-color-code" name="mobile-shapeColorCode" id="mobile-shape-color-code" value="#FBD8C2" aria-label="Mobile color hex code" spellcheck="false" maxlength="7">
+    <div class="gradient-color-secondary">
+      <div class="cp_wrapper"><input type="color" name="mobile-gradientColor" id="mobile-gradient-color" value="#FE6DA8" aria-label="Mobile gradient end color"></div>
+      <input type="text" class="shape-color-code" name="mobile-gradientColorCode" id="mobile-gradient-color-code" value="#FE6DA8" aria-label="Mobile gradient end hex code" spellcheck="false" maxlength="7">
+    </div>
+  </div>
+</div>
+<div class="row sd-toggle-control gradient-toggle-container">
+  <input type="checkbox" name="mobile-gradient-checkbox" id="mobile-gradient-checkbox" role="switch">
+  <label class="sd-switch" for="mobile-gradient-checkbox" aria-hidden="true"></label>
+  <label class="sd-toggle-label " for="mobile-gradient-checkbox">Gradient</label>
+</div>
+</div>
+<div class="range-slider row sd-axis-control long-axis-container mobile-long-axis-container">
+  <label for="mobile-long_axis"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 24 H43 M13 16 L5 24 L13 32 M35 16 L43 24 L35 32" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Long Axis</label>
+  <input class="range-slider__range" type="range" value="100" min="100" max="400" id="mobile-long_axis">
+  <span class="range-slider__value">100</span>
+</div>
+<div class="range-slider row sd-axis-control ">
+  <label for="mobile-short_axis"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M24 5 V43 M16 13 L24 5 L32 13 M16 35 L24 43 L32 35" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Short Axis</label>
+  <input class="range-slider__range" type="range" value="140" min="0" max="400" id="mobile-short_axis">
+  <span class="range-slider__value">140</span>
+</div>
+<div class="range-slider row sd-axis-control position-container mobile-position-container">
+  <label for="mobile-position"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 24 H43 M13 16 L5 24 L13 32 M35 16 L43 24 L35 32" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Position</label>
+  <input class="range-slider__range" type="range" value="50" min="0" max="100" id="mobile-position">
+  <span class="range-slider__value">50</span>
+</div>
+<div class="row sd-toggle-control flipped-container">
+  <input type="checkbox" name="mobile-flipped-checkbox" id="mobile-flipped-checkbox" role="switch">
+  <label class="sd-switch" for="mobile-flipped-checkbox" aria-hidden="true"></label>
+  <label class="sd-toggle-label " for="mobile-flipped-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M24 3 V8 M24 14 V19 M24 25 V30 M24 36 V41" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 7 L17 36 H5 Z M43 7 L31 36 H43 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Flip horizontally</label>
+</div>
+<div class="range-slider row sd-axis-control animation-length-container mobile-animation-length-container">
+  <label for="mobile-animation_length"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M8 9 Q10 7 13 9 L40 23 Q42 24 40 26 L10 42 Q8 43 8 40 L8 21" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Animation Duration</label>
+  <input class="range-slider__range" type="range" value="10" min="4" max="200" id="mobile-animation_length">
+  <span class="range-slider__value">10</span>
+</div>
+<div class="range-slider row sd-axis-control animation-long-axis-container mobile-animation-long-axis-container">
+  <label for="mobile-animation_long_axis"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 24 H43 M13 16 L5 24 L13 32 M35 16 L43 24 L35 32" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Long Axis</label>
+  <input class="range-slider__range" type="range" value="4" min="1" max="10" id="mobile-animation_long_axis" step=".1">
+  <span class="range-slider__value">4</span>
+</div>
+<div class="row sd-toggle-control sd-animate-control">
+  <input type="checkbox" name="mobile-animate-checkbox" id="mobile-animate-checkbox" role="switch">
+  <label class="sd-switch" for="mobile-animate-checkbox" aria-hidden="true"></label>
+  <label class="sd-toggle-label " for="mobile-animate-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M8 9 Q10 7 13 9 L40 23 Q42 24 40 26 L10 42 Q8 43 8 40 L8 21" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Animate</label>
+</div>
+</div>
+<div class="row sd-toggle-control sd-responsive-control">
+  <input type="checkbox" name="mobile-ready" id="mobile-ready" role="switch">
+  <label class="sd-switch" for="mobile-ready" aria-hidden="true"></label>
+  <label class="sd-toggle-label mobile tooltip-trigger" for="mobile-ready"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 48"><path d="M7 6 H39 Q42 6 42 9 V31 Q42 34 39 34 H7 Q4 34 4 31 V9 Q4 6 7 6 Z" fill="none" stroke="currentColor" stroke-width="3.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M23 34 V42 M15 42 H31" fill="none" stroke="currentColor" stroke-width="3.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M32.5 17 H45.5 Q48 17 48 19.5 V41.5 Q48 44 45.5 44 H32.5 Q30 44 30 41.5 V19.5 Q30 17 32.5 17 Z" fill="var(--sd-surface-soft)" stroke="currentColor" stroke-width="3.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M40.2 40 A1.2 1.2 0 1 0 37.8 40 A1.2 1.2 0 1 0 40.2 40 Z" fill="currentColor"/></svg>Responsive <svg class="tooltip-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 11v6M12 7v1" fill="none" stroke="var(--sd-surface)" stroke-width="2" stroke-linecap="round"/></svg><span id="responsive-tooltip" class="ui-tooltip" role="tooltip">Use different shapes and settings for desktop, tablet and mobile.</span></label>
+</div>
+      </div>
+    </form>
+    <div class="sd-tool-actions">
+      <div class="export-actions"><button id="copye" type="button"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M29 5 H7 Q3 5 3 9 V31" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 14 H34.5 Q37 14 37 16.5 V40.5 Q37 43 34.5 43 H14.5 Q12 43 12 40.5 V16.5 Q12 14 14.5 14 Z" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Copy Code</button></div>
+      <button id="share" class="links tooltip-trigger" type="button" aria-describedby="share-tooltip"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M14 22 L30 12 M14 27 L30 37" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24.5 A6 6 0 1 0 2 24.5 A6 6 0 1 0 14 24.5 Z" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M40 9 A6 6 0 1 0 28 9 A6 6 0 1 0 40 9 Z" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M40 40 A6 6 0 1 0 28 40 A6 6 0 1 0 40 40 Z" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Share Your Design<span id="share-tooltip" class="ui-tooltip" role="tooltip">Copy a direct link to this design to your clipboard.</span></button>
+      <a class="links logged-out-only sd-login-link" href="https://shapedividers.com/wp-login.php"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M30 16 A8 8 0 1 0 14 16 A8 8 0 1 0 30 16 Z" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 42 V38 C7 28 37 28 37 38 V42 Z" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Log in</a>
+    </div>
+    <a id="premium" href="#premium-cta">Premium Feature: Get Pro Now!</a>
+    <a id="login" href="https://shapedividers.com/wp-login.php">Already a premium user? Log in</a>
   </div>
 </section>
 
@@ -582,3 +564,4 @@
   ]
 }
 </script>
+
