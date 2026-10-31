@@ -1467,8 +1467,7 @@ function premiumCheck() {
 
     if (!hasPremiumAccess()) {
         copyCodeButton.style.display = premiumRequired ? 'none' : '';
-        premiumButton.style.display = premiumRequired ? 'block' : 'none';
-        loginButton.style.display = premiumRequired ? 'block' : 'none';
+        premiumButton.style.display = premiumRequired ? 'inline-flex' : 'none';
     }
 }
 
@@ -1641,7 +1640,6 @@ function updateShape() {
 
 const copyCodeButton = document.getElementById("copye");
 const premiumButton = document.getElementById("premium");
-const loginButton = document.getElementById("login");
 
 const exportModal = document.getElementById("export-modal");
 
@@ -3743,4 +3741,5 @@ async function ensureShapeDataLoaded() {
         window.clearTimeout(loadTimeout);
     }
 })();
+
 
