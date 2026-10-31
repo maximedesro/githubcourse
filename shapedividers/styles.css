@@ -2043,17 +2043,15 @@ body.sd-is-loading {
 }
 
 
-/* FigCraft creator panel: device tabs scope the controls; export/share stay global. */
 #shape-divider-tool .settings_window {
   top: 24px;
   left: 24px;
   width: clamp(360px, 37vw, 416px);
-  max-height: calc(100vh - 48px);
   color: var(--sd-ink);
 }
 #shape-divider-tool .settings-panel {
   width: 100%;
-  max-height: calc(100vh - 48px);
+  max-height: calc(100vh - 108px);
   padding: 24px 18px 18px;
   box-sizing: border-box;
   border: 1px solid var(--sd-line);
