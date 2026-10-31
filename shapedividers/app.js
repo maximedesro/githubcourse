@@ -1410,7 +1410,77 @@ views.forEach((view, index) => {
 
 const viewsSelect = document.querySelector('.view_select');
 
+let responsiveRevealRevision = 0;
+let responsiveScrollFrame = null;
+let responsiveTabAnimations = [];
+
+function cancelResponsiveReveal() {
+    responsiveRevealRevision += 1;
+    window.cancelAnimationFrame(responsiveScrollFrame);
+    responsiveScrollFrame = null;
+    responsiveTabAnimations.forEach(animation => animation.cancel());
+    responsiveTabAnimations = [];
+    viewsSelect.classList.remove('sd-tabs-revealing');
+}
+
+function revealResponsiveTabs(panel) {
+    const revision = responsiveRevealRevision;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const reveal = () => {
+        if (revision !== responsiveRevealRevision) return;
+        viewsSelect.style.display = 'flex';
+        if (reduceMotion) return;
+
+        const style = window.getComputedStyle(viewsSelect);
+        const height = viewsSelect.getBoundingClientRect().height;
+        viewsSelect.classList.add('sd-tabs-revealing');
+
+        // Open a slot in the layout, then let the three device cards settle into it.
+        responsiveTabAnimations = [viewsSelect.animate([
+            { height: '0px', paddingTop: '0px', paddingBottom: '0px', opacity: 0, overflow: 'hidden' },
+            { height: `${height}px`, paddingTop: style.paddingTop, paddingBottom: style.paddingBottom, opacity: 1, overflow: 'hidden' }
+        ], { duration: 240, easing: 'cubic-bezier(.2,.8,.2,1)' }),
+        ...Array.from(views, (view, index) => view.animate([
+            { opacity: 0, transform: 'translateY(8px) scale(.97)' },
+            { opacity: 1, transform: 'translateY(0) scale(1)' }
+        ], { duration: 240, delay: 50 + index * 40, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' }))];
+
+        Promise.all(responsiveTabAnimations.map(animation => animation.finished.catch(() => {})))
+            .then(() => {
+                if (revision !== responsiveRevealRevision) return;
+                responsiveTabAnimations = [];
+                viewsSelect.classList.remove('sd-tabs-revealing');
+            });
+    };
+
+    const start = panel?.scrollTop || 0;
+    if (reduceMotion || start <= 1 || !panel || panel.scrollHeight <= panel.clientHeight) {
+        if (panel) panel.scrollTop = 0;
+        reveal();
+        return;
+    }
+
+    const duration = Math.min(280, 180 + start * .08);
+    const startedAt = performance.now();
+    const scroll = now => {
+        if (revision !== responsiveRevealRevision) return;
+        const progress = Math.min(1, (now - startedAt) / duration);
+        panel.scrollTop = start * Math.pow(1 - progress, 3);
+        if (progress < 1) {
+            responsiveScrollFrame = window.requestAnimationFrame(scroll);
+        } else {
+            responsiveScrollFrame = null;
+            panel.scrollTop = 0;
+            reveal();
+        }
+    };
+    responsiveScrollFrame = window.requestAnimationFrame(scroll);
+}
+
+
 document.getElementById('mobile-ready').addEventListener('change', function() {
+    cancelResponsiveReveal();
     if (this.checked) {
         if (
             !alreadyChangedView &&
@@ -1420,7 +1490,8 @@ document.getElementById('mobile-ready').addEventListener('change', function() {
         }
 
         alreadyChangedView = true;
-        viewsSelect.style.display = 'flex';
+        // Keep the tabs hidden until the panel reaches its top.
+        viewsSelect.style.display = 'none';
     } else {
         viewsSelect.style.display = 'none';
         views.forEach((view) => view.classList.remove('active'));
@@ -1437,8 +1508,7 @@ document.getElementById('mobile-ready').addEventListener('change', function() {
     updateSelectedShape();
 
     if (this.checked) {
-        const panel = this.closest('.settings-panel');
-        if (panel) panel.scrollTop = 0;
+        revealResponsiveTabs(this.closest('.settings-panel'));
     }
 });
 
@@ -3759,6 +3829,7 @@ async function ensureShapeDataLoaded() {
         window.clearTimeout(loadTimeout);
     }
 })();
+
 
 
 
