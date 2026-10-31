@@ -2043,3 +2043,430 @@ body.sd-is-loading {
 @media print {
   .sd-loader { display: none !important; }
 }
+
+
+/* FigCraft creator panel: device tabs scope the controls; export/share stay global. */
+#shape-divider-tool .settings_window {
+  top: 24px;
+  left: 24px;
+  width: clamp(360px, 37vw, 500px);
+  max-height: calc(100vh - 48px);
+  color: var(--sd-ink);
+}
+#shape-divider-tool .settings-panel {
+  width: 100%;
+  max-height: calc(100vh - 48px);
+  padding: 24px 18px 18px;
+  box-sizing: border-box;
+  border: 1px solid var(--sd-line);
+  border-radius: 28px;
+  background: var(--sd-surface);
+  box-shadow: var(--sd-shadow-lg);
+  scrollbar-width: thin;
+  scrollbar-color: var(--sd-line) transparent;
+}
+#genform { padding: 0; }
+#genform *, .sd-tool-actions * { box-sizing: border-box; }
+#genform .sd-tool-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 4px 22px;
+}
+#genform .sd-brandmark {
+  flex: 0 0 54px;
+  width: 54px;
+  height: 38px;
+  color: var(--sd-peach);
+}
+#genform .tool-title {
+  width: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  text-align: left;
+  font-size: clamp(15px, 1.4vw, 19px);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -.035em;
+  color: var(--sd-ink);
+}
+.sd-icon {
+  display: block;
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+}
+#genform .view_select {
+  position: relative;
+  z-index: 1;
+  display: none; /* Existing app.js reveals the tabs only when Responsive is on. */
+  gap: 4px;
+  padding: 4px;
+  margin: 0 2px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--sd-surface);
+  box-shadow: 0 4px 12px #1717170d;
+}
+#genform .view_select > div {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 0;
+  min-height: 46px;
+  padding: 10px 6px;
+  margin: 0;
+  border: 0;
+  border-radius: 9px;
+  opacity: 1;
+  color: var(--sd-ink-soft);
+  background: var(--sd-surface);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  cursor: pointer;
+}
+#genform .view_select > div:hover { background: var(--sd-surface-soft); }
+#genform .sd-device-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: inherit;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+#genform .sd-tab-current { display: none; }
+#genform .active .sd-tab-current {
+  position: absolute;
+  display: inline;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+#genform .view_select > .active {
+  background: var(--sd-teal-dark);
+  color: var(--sd-surface);
+  font-weight: 700;
+  box-shadow: 0 3px 8px #109b8226;
+}
+#genform .view_select > .active:hover { background: var(--sd-teal-dark); }
+#genform .view_select > .active::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: calc(50% - 7px);
+  border: 7px solid transparent;
+  border-top-color: var(--sd-teal-dark);
+  border-bottom: 0;
+}
+#genform .sd-device-scope {
+  padding: 16px 6px 8px;
+  margin-top: -4px;
+  border: 1px solid #1abc9c66;
+  border-radius: 12px;
+}
+#genform .sd-control-heading {
+  display: block;
+  width: auto;
+  margin: 0 0 10px;
+  color: var(--sd-ink);
+  font-family: var(--sd-font-body);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+#genform .sd-viewport-settings > .sd-control-heading { margin-left: 2px; }
+#genform .row { margin-bottom: 18px; }
+#genform .sd-direction-options {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+  margin-bottom: 22px;
+}
+#genform input[type="radio"] + .sd-direction-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 9px;
+  width: 100%;
+  height: auto;
+  min-width: 0;
+  padding: 6px 6px 9px;
+  overflow: visible;
+  border: 1px solid var(--sd-line);
+  border-radius: 10px;
+  text-indent: 0;
+  text-align: center;
+  background: var(--sd-surface);
+  color: var(--sd-ink);
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+#genform input[type="radio"] + .sd-direction-card::before { content: none; }
+#genform .sd-direction-preview {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 179 / 125;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--sd-surface-soft);
+  fill: #5f5f6247;
+}
+#genform .sd-direction-check {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: none;
+  width: 25px;
+  height: 25px;
+  padding: 5px;
+  border-radius: 50%;
+  color: var(--sd-surface);
+  background: var(--sd-teal);
+}
+#genform input[type="radio"]:checked + .sd-direction-card {
+  border-color: var(--sd-teal);
+  background: #1abc9c14;
+  color: var(--sd-teal-dark);
+  font-weight: 700;
+}
+#genform input[type="radio"]:checked + .sd-direction-card .sd-direction-preview {
+  background: #1abc9c1f;
+  fill: var(--sd-teal);
+}
+#genform input[type="radio"]:checked + .sd-direction-card .sd-direction-check { display: block; }
+#genform .sd-color-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 15px;
+  align-items: end;
+  margin: 0 2px 22px;
+}
+#genform .sd-color-section .row { margin: 0; }
+#genform .color-controls { gap: 12px; flex-wrap: wrap; }
+#genform .color-controls .cp_wrapper {
+  flex-basis: 42px;
+  width: 42px;
+  height: 42px;
+  box-shadow: none;
+  border: 1px solid var(--sd-line);
+}
+#genform .cp_wrapper input[type="color"] {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+#genform input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+#genform input[type="color"]::-webkit-color-swatch { border: 0; border-radius: 50%; }
+#genform input[type="color"]::-moz-color-swatch { border: 0; border-radius: 50%; }
+#genform .color-controls .shape-color-code {
+  flex: 1 1 90px;
+  width: 90px;
+  height: 40px;
+  padding: 8px 10px;
+  border: 1px solid var(--sd-line);
+  border-radius: 9px;
+  background: var(--sd-surface);
+  color: var(--sd-ink);
+  font: 400 14px var(--sd-font-body);
+}
+#genform .gradient-color-secondary { display: none; }
+#genform .gradient-enabled .gradient-color-secondary {
+  display: flex;
+  flex: 1 1 100%;
+  align-items: center;
+  gap: 12px;
+}
+#genform .sd-color-section .gradient-toggle-container {
+  min-height: 42px;
+  padding: 0 0 0 15px;
+  border-left: 1px solid var(--sd-line);
+  border-radius: 0;
+  background: transparent;
+}
+#genform .sd-toggle-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 48px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--sd-surface-soft);
+}
+#genform .sd-toggle-control .sd-toggle-label {
+  display: flex;
+  flex: 1 1 auto;
+  order: 0;
+  align-items: center;
+  gap: 18px;
+  width: auto;
+  min-width: 0;
+  margin: 0;
+  color: var(--sd-ink);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.3;
+  cursor: pointer;
+}
+#genform .sd-toggle-control input[type="checkbox"] + .sd-switch {
+  position: relative;
+  flex: 0 0 54px;
+  order: 1;
+  width: 54px;
+  height: 30px;
+  margin: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 20px;
+  background: #5f5f6261;
+  text-indent: 0;
+}
+#genform input[type="checkbox"] + .sd-switch::before { content: none; }
+#genform input[type="checkbox"] + .sd-switch::after {
+  top: 3px;
+  left: 3px;
+  width: 24px;
+  height: 24px;
+  box-shadow: 0 1px 3px #17171714;
+  background: var(--sd-surface);
+}
+#genform input[type="checkbox"]:checked + .sd-switch { background: var(--sd-teal); }
+#genform input[type="checkbox"]:checked + .sd-switch::after { left: 27px; }
+#genform .sd-responsive-control { margin-bottom: 0; }
+#genform .sd-toggle-control:not(.sd-responsive-control):not(.gradient-toggle-container) { margin-bottom: 4px; }
+#genform .sd-toggle-label .tooltip-icon { flex: 0 0 17px; width: 17px; height: 17px; margin: 0; color: var(--sd-ink-soft); }
+#genform .sd-axis-control {
+  position: relative;
+  min-height: 60px;
+  padding: 0 0 0 40px;
+  margin: 0 2px 18px;
+}
+#genform .sd-axis-control label {
+  width: auto;
+  margin: 0 64px 10px 0;
+  color: var(--sd-ink);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+#genform .sd-axis-control label .sd-icon { position: absolute; top: 0; left: 0; width: 25px; height: 25px; }
+#genform .sd-axis-control .range-slider__range {
+  width: calc(100% - 76px);
+  height: 10px;
+  margin: 5px 0 9px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--sd-line);
+  accent-color: var(--sd-teal);
+  cursor: pointer;
+}
+#genform .range-slider__range::-webkit-slider-thumb { width: 24px; height: 24px; background: var(--sd-dark); box-shadow: 0 2px 4px #17171726; }
+#genform .range-slider__range::-moz-range-thumb { width: 24px; height: 24px; background: var(--sd-dark); box-shadow: 0 2px 4px #17171726; }
+#genform .range-slider__range::-moz-range-track { background: transparent; }
+#genform .range-slider__value {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 40px;
+  margin: 0;
+  padding: 0 4px;
+  border: 1px solid var(--sd-line);
+  border-radius: 9px;
+  color: var(--sd-ink);
+  background: var(--sd-surface);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.3;
+}
+#genform .range-slider__value::before { content: none; }
+.sd-tool-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 6px 0;
+  font-family: var(--sd-font-body);
+}
+.sd-tool-actions .export-actions { display: flex; margin: 0; }
+.sd-tool-actions #copye,
+.sd-tool-actions #share,
+.sd-tool-actions .sd-login-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 46px;
+  height: auto;
+  width: auto;
+  padding: 8px 12px;
+  margin: 0;
+  border: 1px solid var(--sd-line);
+  border-radius: 10px;
+  color: var(--sd-ink);
+  background: var(--sd-surface);
+  font: 400 13px/1.3 var(--sd-font-body);
+  text-transform: none;
+  text-decoration: none;
+  text-shadow: none;
+  letter-spacing: 0;
+  cursor: pointer;
+}
+.sd-tool-actions #copye { color: var(--sd-surface); border-color: var(--sd-teal); background: var(--sd-teal); font-weight: 700; }
+.sd-tool-actions #copye:hover { background: var(--sd-teal-dark); border-color: var(--sd-teal-dark); }
+.sd-tool-actions #share:hover { background: var(--sd-surface-soft); }
+.sd-tool-actions .sd-login-link { border: 0; padding: 8px 0; }
+.sd-tool-actions .sd-icon { width: 22px; height: 22px; }
+.logged-in .sd-tool-actions .logged-out-only { display: none; }
+#genform input[type="radio"]:focus-visible + label,
+#genform input[type="checkbox"]:focus-visible + label,
+#genform .sd-device-tab:focus-visible,
+.sd-tool-actions :is(button, a):focus-visible,
+#genform input[type="text"]:focus-visible {
+  outline: 2px solid var(--sd-teal-dark);
+  outline-offset: 3px;
+}
+@media (max-width: 1100px) and (min-width: 768px) {
+  #shape-divider-tool .settings_window { top: 16px; left: 16px; max-height: calc(100vh - 32px); }
+  #shape-divider-tool .settings-panel { padding: 20px 12px 14px; max-height: calc(100vh - 32px); }
+  #genform .sd-tool-header { gap: 10px; }
+  #genform .sd-brandmark { flex-basis: 40px; width: 40px; }
+  #genform .view_select > div { gap: 6px; font-size: 12px; }
+  #genform .view_select .sd-icon { width: 22px; height: 22px; }
+  #genform .sd-color-section { grid-template-columns: minmax(0, 1fr) 150px; gap: 10px; }
+  #genform .sd-color-section .gradient-toggle-container { padding-left: 10px; }
+  #genform .sd-color-section .sd-toggle-label { font-size: 13px; }
+  #genform .color-controls .shape-color-code { flex-basis: 70px; font-size: 12px; }
+  .sd-tool-actions { gap: 8px; }
+  .sd-tool-actions #copye, .sd-tool-actions #share, .sd-tool-actions .sd-login-link { padding-inline: 8px; font-size: 11px; gap: 6px; }
+  .sd-tool-actions .sd-login-link { padding-inline: 0; }
+  .sd-tool-actions .sd-icon { width: 18px; height: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #genform .sd-direction-card, #genform .sd-switch::after { transition: none; }
+}
