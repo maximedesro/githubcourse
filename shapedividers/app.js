@@ -1435,6 +1435,11 @@ document.getElementById('mobile-ready').addEventListener('change', function() {
     updateShape();
     renderShapePicker();
     updateSelectedShape();
+
+    if (this.checked) {
+        const panel = this.closest('.settings-panel');
+        if (panel) panel.scrollTop = 0;
+    }
 });
 
 
@@ -3741,5 +3746,6 @@ async function ensureShapeDataLoaded() {
         window.clearTimeout(loadTimeout);
     }
 })();
+
 
 
