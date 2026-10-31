@@ -1703,11 +1703,6 @@ function generateCssExportCode({ renewClassName = true } = {}) {
 }
 
 
-if (settingsWindow) {
-    settingsWindow.addEventListener('mouseleave', function () {
-        copyCodeButton.innerText = 'Copy code';
-    });
-}
 
 
 
@@ -3748,3 +3743,4 @@ async function ensureShapeDataLoaded() {
         window.clearTimeout(loadTimeout);
     }
 })();
+
