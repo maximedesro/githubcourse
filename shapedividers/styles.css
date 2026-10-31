@@ -2238,7 +2238,7 @@ body.sd-is-loading {
   padding: 5px;
   border-radius: 50%;
   color: var(--sd-surface);
-  background: var(--sd-teal);
+  background: var(--sd-teal-dark);
 }
 #genform input[type="radio"]:checked + .sd-direction-card {
   border-color: var(--sd-teal);
@@ -2358,6 +2358,20 @@ body.sd-is-loading {
 #genform .sd-responsive-control { margin-bottom: 0; }
 #genform .sd-toggle-control:not(.sd-responsive-control):not(.gradient-toggle-container) { margin-bottom: 4px; }
 #genform .sd-toggle-label .tooltip-icon { flex: 0 0 17px; width: 17px; height: 17px; margin: 0; color: var(--sd-ink-soft); }
+#genform .sd-tooltip-anchor {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 17px;
+  align-items: center;
+  width: 17px;
+  height: 17px;
+}
+#genform .sd-responsive-control .sd-toggle-label:hover .ui-tooltip,
+#genform .sd-responsive-control:focus-within .ui-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
 #genform .sd-axis-control {
   position: relative;
   min-height: 60px;
@@ -2470,3 +2484,4 @@ body.sd-is-loading {
 @media (prefers-reduced-motion: reduce) {
   #genform .sd-direction-card, #genform .sd-switch::after { transition: none; }
 }
+
