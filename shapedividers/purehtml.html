@@ -73,14 +73,24 @@
 </div>
 </div>
 <div class="range-slider row sd-axis-control long-axis-container desktop-long-axis-container">
-  <label for="long_axis"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 24 H43 M13 16 L5 24 L13 32 M35 16 L43 24 L35 32" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Long Axis</label>
+  <label for="long_axis"><svg class="sd-icon" aria-hidden="true" focusable="false" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M280-160 80-360l200-200 56 57-103 103h287v80H233l103 103-56 57Zm400-240-56-57 103-103H440v-80h287L624-743l56-57 200 200-200 200Z"/></svg>Long Axis</label>
   <input class="range-slider__range" type="range" value="100" min="100" max="400" id="long_axis">
   <span class="range-slider__value">100</span>
 </div>
+<div class="range-slider row sd-axis-control animation-long-axis-container desktop-animation-long-axis-container">
+  <label for="animation_long_axis"><svg class="sd-icon" aria-hidden="true" focusable="false" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M280-160 80-360l200-200 56 57-103 103h287v80H233l103 103-56 57Zm400-240-56-57 103-103H440v-80h287L624-743l56-57 200 200-200 200Z"/></svg>Long Axis</label>
+  <input class="range-slider__range" type="range" value="4" min="1" max="10" id="animation_long_axis" step=".1">
+  <span class="range-slider__value">4</span>
+</div>
 <div class="range-slider row sd-axis-control ">
-  <label for="short_axis"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M24 5 V43 M16 13 L24 5 L32 13 M16 35 L24 43 L32 35" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Short Axis</label>
+  <label for="short_axis"><svg class="sd-icon" aria-hidden="true" focusable="false" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M320-440v-287L217-624l-57-56 200-200 200 200-57 56-103-103v287h-80ZM600-80 400-280l57-56 103 103v-287h80v287l103-103 57 56L600-80Z"/></svg>Short Axis</label>
   <input class="range-slider__range" type="range" value="140" min="0" max="400" id="short_axis">
   <span class="range-slider__value">140</span>
+</div>
+<div class="range-slider row sd-axis-control animation-length-container desktop-animation-length-container">
+  <label for="animation_length"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M8 9 Q10 7 13 9 L40 23 Q42 24 40 26 L10 42 Q8 43 8 40 L8 21" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Animation Duration</label>
+  <input class="range-slider__range" type="range" value="10" min="4" max="200" id="animation_length">
+  <span class="range-slider__value">10</span>
 </div>
 <div class="range-slider row sd-axis-control position-container desktop-position-container">
   <label for="position"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 24 H43 M13 16 L5 24 L13 32 M35 16 L43 24 L35 32" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Position</label>
@@ -92,16 +102,8 @@
   <label class="sd-switch" for="flipped-checkbox" aria-hidden="true"></label>
   <label class="sd-toggle-label " for="flipped-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M24 3 V8 M24 14 V19 M24 25 V30 M24 36 V41" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 7 L17 36 H5 Z M43 7 L31 36 H43 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Flip horizontally</label>
 </div>
-<div class="range-slider row sd-axis-control animation-length-container desktop-animation-length-container">
-  <label for="animation_length"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M8 9 Q10 7 13 9 L40 23 Q42 24 40 26 L10 42 Q8 43 8 40 L8 21" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Animation Duration</label>
-  <input class="range-slider__range" type="range" value="10" min="4" max="200" id="animation_length">
-  <span class="range-slider__value">10</span>
-</div>
-<div class="range-slider row sd-axis-control animation-long-axis-container desktop-animation-long-axis-container">
-  <label for="animation_long_axis"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 24 H43 M13 16 L5 24 L13 32 M35 16 L43 24 L35 32" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Long Axis</label>
-  <input class="range-slider__range" type="range" value="4" min="1" max="10" id="animation_long_axis" step=".1">
-  <span class="range-slider__value">4</span>
-</div>
+
+
 <div class="row sd-toggle-control sd-animate-control">
   <input type="checkbox" name="animate-checkbox" id="animate-checkbox" role="switch">
   <label class="sd-switch" for="animate-checkbox" aria-hidden="true"></label>
@@ -139,14 +141,24 @@
 </div>
 </div>
 <div class="range-slider row sd-axis-control long-axis-container tablet-long-axis-container">
-  <label for="tablet-long_axis"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 24 H43 M13 16 L5 24 L13 32 M35 16 L43 24 L35 32" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Long Axis</label>
+  <label for="tablet-long_axis"><svg class="sd-icon" aria-hidden="true" focusable="false" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M280-160 80-360l200-200 56 57-103 103h287v80H233l103 103-56 57Zm400-240-56-57 103-103H440v-80h287L624-743l56-57 200 200-200 200Z"/></svg>Long Axis</label>
   <input class="range-slider__range" type="range" value="100" min="100" max="400" id="tablet-long_axis">
   <span class="range-slider__value">100</span>
 </div>
+<div class="range-slider row sd-axis-control animation-long-axis-container tablet-animation-long-axis-container">
+  <label for="tablet-animation_long_axis"><svg class="sd-icon" aria-hidden="true" focusable="false" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M280-160 80-360l200-200 56 57-103 103h287v80H233l103 103-56 57Zm400-240-56-57 103-103H440v-80h287L624-743l56-57 200 200-200 200Z"/></svg>Long Axis</label>
+  <input class="range-slider__range" type="range" value="4" min="1" max="10" id="tablet-animation_long_axis" step=".1">
+  <span class="range-slider__value">4</span>
+</div>
 <div class="range-slider row sd-axis-control ">
-  <label for="tablet-short_axis"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M24 5 V43 M16 13 L24 5 L32 13 M16 35 L24 43 L32 35" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Short Axis</label>
+  <label for="tablet-short_axis"><svg class="sd-icon" aria-hidden="true" focusable="false" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M320-440v-287L217-624l-57-56 200-200 200 200-57 56-103-103v287h-80ZM600-80 400-280l57-56 103 103v-287h80v287l103-103 57 56L600-80Z"/></svg>Short Axis</label>
   <input class="range-slider__range" type="range" value="140" min="0" max="400" id="tablet-short_axis">
   <span class="range-slider__value">140</span>
+</div>
+<div class="range-slider row sd-axis-control animation-length-container tablet-animation-length-container">
+  <label for="tablet-animation_length"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M8 9 Q10 7 13 9 L40 23 Q42 24 40 26 L10 42 Q8 43 8 40 L8 21" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Animation Duration</label>
+  <input class="range-slider__range" type="range" value="10" min="4" max="200" id="tablet-animation_length">
+  <span class="range-slider__value">10</span>
 </div>
 <div class="range-slider row sd-axis-control position-container tablet-position-container">
   <label for="tablet-position"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 24 H43 M13 16 L5 24 L13 32 M35 16 L43 24 L35 32" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Position</label>
@@ -158,16 +170,8 @@
   <label class="sd-switch" for="tablet-flipped-checkbox" aria-hidden="true"></label>
   <label class="sd-toggle-label " for="tablet-flipped-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M24 3 V8 M24 14 V19 M24 25 V30 M24 36 V41" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 7 L17 36 H5 Z M43 7 L31 36 H43 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Flip horizontally</label>
 </div>
-<div class="range-slider row sd-axis-control animation-length-container tablet-animation-length-container">
-  <label for="tablet-animation_length"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M8 9 Q10 7 13 9 L40 23 Q42 24 40 26 L10 42 Q8 43 8 40 L8 21" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Animation Duration</label>
-  <input class="range-slider__range" type="range" value="10" min="4" max="200" id="tablet-animation_length">
-  <span class="range-slider__value">10</span>
-</div>
-<div class="range-slider row sd-axis-control animation-long-axis-container tablet-animation-long-axis-container">
-  <label for="tablet-animation_long_axis"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 24 H43 M13 16 L5 24 L13 32 M35 16 L43 24 L35 32" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Long Axis</label>
-  <input class="range-slider__range" type="range" value="4" min="1" max="10" id="tablet-animation_long_axis" step=".1">
-  <span class="range-slider__value">4</span>
-</div>
+
+
 <div class="row sd-toggle-control sd-animate-control">
   <input type="checkbox" name="tablet-animate-checkbox" id="tablet-animate-checkbox" role="switch">
   <label class="sd-switch" for="tablet-animate-checkbox" aria-hidden="true"></label>
@@ -205,14 +209,24 @@
 </div>
 </div>
 <div class="range-slider row sd-axis-control long-axis-container mobile-long-axis-container">
-  <label for="mobile-long_axis"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 24 H43 M13 16 L5 24 L13 32 M35 16 L43 24 L35 32" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Long Axis</label>
+  <label for="mobile-long_axis"><svg class="sd-icon" aria-hidden="true" focusable="false" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M280-160 80-360l200-200 56 57-103 103h287v80H233l103 103-56 57Zm400-240-56-57 103-103H440v-80h287L624-743l56-57 200 200-200 200Z"/></svg>Long Axis</label>
   <input class="range-slider__range" type="range" value="100" min="100" max="400" id="mobile-long_axis">
   <span class="range-slider__value">100</span>
 </div>
+<div class="range-slider row sd-axis-control animation-long-axis-container mobile-animation-long-axis-container">
+  <label for="mobile-animation_long_axis"><svg class="sd-icon" aria-hidden="true" focusable="false" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M280-160 80-360l200-200 56 57-103 103h287v80H233l103 103-56 57Zm400-240-56-57 103-103H440v-80h287L624-743l56-57 200 200-200 200Z"/></svg>Long Axis</label>
+  <input class="range-slider__range" type="range" value="4" min="1" max="10" id="mobile-animation_long_axis" step=".1">
+  <span class="range-slider__value">4</span>
+</div>
 <div class="range-slider row sd-axis-control ">
-  <label for="mobile-short_axis"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M24 5 V43 M16 13 L24 5 L32 13 M16 35 L24 43 L32 35" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Short Axis</label>
+  <label for="mobile-short_axis"><svg class="sd-icon" aria-hidden="true" focusable="false" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M320-440v-287L217-624l-57-56 200-200 200 200-57 56-103-103v287h-80ZM600-80 400-280l57-56 103 103v-287h80v287l103-103 57 56L600-80Z"/></svg>Short Axis</label>
   <input class="range-slider__range" type="range" value="140" min="0" max="400" id="mobile-short_axis">
   <span class="range-slider__value">140</span>
+</div>
+<div class="range-slider row sd-axis-control animation-length-container mobile-animation-length-container">
+  <label for="mobile-animation_length"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M8 9 Q10 7 13 9 L40 23 Q42 24 40 26 L10 42 Q8 43 8 40 L8 21" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Animation Duration</label>
+  <input class="range-slider__range" type="range" value="10" min="4" max="200" id="mobile-animation_length">
+  <span class="range-slider__value">10</span>
 </div>
 <div class="range-slider row sd-axis-control position-container mobile-position-container">
   <label for="mobile-position"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 24 H43 M13 16 L5 24 L13 32 M35 16 L43 24 L35 32" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Position</label>
@@ -224,16 +238,8 @@
   <label class="sd-switch" for="mobile-flipped-checkbox" aria-hidden="true"></label>
   <label class="sd-toggle-label " for="mobile-flipped-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M24 3 V8 M24 14 V19 M24 25 V30 M24 36 V41" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 7 L17 36 H5 Z M43 7 L31 36 H43 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Flip horizontally</label>
 </div>
-<div class="range-slider row sd-axis-control animation-length-container mobile-animation-length-container">
-  <label for="mobile-animation_length"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M8 9 Q10 7 13 9 L40 23 Q42 24 40 26 L10 42 Q8 43 8 40 L8 21" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Animation Duration</label>
-  <input class="range-slider__range" type="range" value="10" min="4" max="200" id="mobile-animation_length">
-  <span class="range-slider__value">10</span>
-</div>
-<div class="range-slider row sd-axis-control animation-long-axis-container mobile-animation-long-axis-container">
-  <label for="mobile-animation_long_axis"><svg class="sd-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M5 24 H43 M13 16 L5 24 L13 32 M35 16 L43 24 L35 32" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Long Axis</label>
-  <input class="range-slider__range" type="range" value="4" min="1" max="10" id="mobile-animation_long_axis" step=".1">
-  <span class="range-slider__value">4</span>
-</div>
+
+
 <div class="row sd-toggle-control sd-animate-control">
   <input type="checkbox" name="mobile-animate-checkbox" id="mobile-animate-checkbox" role="switch">
   <label class="sd-switch" for="mobile-animate-checkbox" aria-hidden="true"></label>
@@ -243,7 +249,7 @@
 <div class="row sd-toggle-control sd-responsive-control">
   <input type="checkbox" name="mobile-ready" id="mobile-ready" role="switch">
   <label class="sd-switch" for="mobile-ready" aria-hidden="true"></label>
-  <label class="sd-toggle-label mobile tooltip-trigger" for="mobile-ready"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 48"><path d="M7 6 H39 Q42 6 42 9 V31 Q42 34 39 34 H7 Q4 34 4 31 V9 Q4 6 7 6 Z" fill="none" stroke="currentColor" stroke-width="3.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M23 34 V42 M15 42 H31" fill="none" stroke="currentColor" stroke-width="3.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M32.5 17 H45.5 Q48 17 48 19.5 V41.5 Q48 44 45.5 44 H32.5 Q30 44 30 41.5 V19.5 Q30 17 32.5 17 Z" fill="var(--sd-surface-soft)" stroke="currentColor" stroke-width="3.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M40.2 40 A1.2 1.2 0 1 0 37.8 40 A1.2 1.2 0 1 0 40.2 40 Z" fill="currentColor"/></svg>Responsive <svg class="tooltip-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 11v6M12 7v1" fill="none" stroke="var(--sd-surface)" stroke-width="2" stroke-linecap="round"/></svg><span id="responsive-tooltip" class="ui-tooltip" role="tooltip">Use different shapes and settings for desktop, tablet and mobile.</span></label>
+  <label class="sd-toggle-label mobile tooltip-trigger" for="mobile-ready"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 48"><path d="M7 6 H39 Q42 6 42 9 V31 Q42 34 39 34 H7 Q4 34 4 31 V9 Q4 6 7 6 Z" fill="none" stroke="currentColor" stroke-width="3.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M23 34 V42 M15 42 H31" fill="none" stroke="currentColor" stroke-width="3.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M32.5 17 H45.5 Q48 17 48 19.5 V41.5 Q48 44 45.5 44 H32.5 Q30 44 30 41.5 V19.5 Q30 17 32.5 17 Z" fill="var(--sd-surface-soft)" stroke="currentColor" stroke-width="3.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M40.2 40 A1.2 1.2 0 1 0 37.8 40 A1.2 1.2 0 1 0 40.2 40 Z" fill="currentColor"/></svg>Responsive <span class="sd-tooltip-anchor"><svg class="tooltip-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 11v6M12 7v1" fill="none" stroke="var(--sd-surface)" stroke-width="2" stroke-linecap="round"/></svg><span id="responsive-tooltip" class="ui-tooltip" role="tooltip">Use different shapes and settings for desktop, tablet and mobile.</span></span></label>
 </div>
       </div>
     </form>
@@ -564,4 +570,5 @@
   ]
 }
 </script>
+
 
