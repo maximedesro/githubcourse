@@ -952,9 +952,7 @@ pointer-events:none!important;
 }
 
 .tooltip-trigger:hover > .ui-tooltip,
-.tooltip-trigger:focus > .ui-tooltip,
-.tooltip-trigger:focus-within > .ui-tooltip,
-#mobile-ready:focus-visible ~ label.mobile > .ui-tooltip{
+.tooltip-trigger:focus-visible > .ui-tooltip{
     opacity:1;
     visibility:visible;
     transform:translate(-50%, 0);
@@ -966,7 +964,7 @@ pointer-events:none!important;
 }
 
 #instruction:hover > .ui-tooltip,
-#instruction:focus > .ui-tooltip{
+#instruction:focus-visible > .ui-tooltip{
     transform:translate(0, 0);
 }
 
@@ -982,7 +980,7 @@ pointer-events:none!important;
 }
 
 #share:hover > .ui-tooltip,
-#share:focus > .ui-tooltip{
+#share:focus-visible > .ui-tooltip{
     transform:translate(0, 0);
 }
 
@@ -2378,7 +2376,7 @@ body.sd-is-loading {
   height: 17px;
 }
 #genform .sd-responsive-control .sd-toggle-label:hover .ui-tooltip,
-#genform .sd-responsive-control:focus-within .ui-tooltip {
+#genform #mobile-ready:focus-visible ~ .sd-toggle-label .ui-tooltip {
   opacity: 1;
   visibility: visible;
   transform: translate(-50%, 0);
@@ -2497,6 +2495,7 @@ body.sd-is-loading {
 @media (prefers-reduced-motion: reduce) {
   #genform .sd-direction-card, #genform .sd-switch::after { transition: none; }
 }
+
 
 
 
