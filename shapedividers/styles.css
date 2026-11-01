@@ -2205,60 +2205,36 @@ body.sd-is-loading {
 }
 #genform input[type="radio"] + .sd-direction-card {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  gap: 9px;
+  justify-content: center;
   width: 100%;
-  height: auto;
+  height: 42px;
   min-width: 0;
-  padding: 6px 6px 9px;
+  padding: 8px 4px;
   overflow: visible;
   border: 1px solid var(--sd-line);
   border-radius: 10px;
   text-indent: 0;
   text-align: center;
-  background: var(--sd-surface);
+  background: var(--sd-surface-soft);
   color: var(--sd-ink);
   font-size: 14px;
   font-weight: 400;
   cursor: pointer;
-  transition: border-color .15s, background .15s;
+  transition: border-color .15s, background .15s, color .15s;
 }
 #genform input[type="radio"] + .sd-direction-card::before { content: none; }
-#genform .sd-direction-preview {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 179 / 125;
-  overflow: hidden;
-  border-radius: 6px;
-  background: var(--sd-surface-soft);
-  fill: #5f5f6247;
-}
-#genform .sd-direction-check {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  display: none;
-  width: 25px;
-  height: 25px;
-  padding: 5px;
-  border-radius: 50%;
-  color: var(--sd-surface);
-  background: var(--sd-teal-dark);
-}
 #genform input[type="radio"]:checked + .sd-direction-card {
-  border-color: var(--sd-teal);
-  background: #1abc9c14;
-  color: var(--sd-teal-dark);
+  border-color: var(--sd-teal-dark);
+  background: var(--sd-teal-dark);
+  color: var(--sd-surface);
   font-weight: 700;
 }
-#genform input[type="radio"]:checked + .sd-direction-card .sd-direction-preview {
-  background: #1abc9c1f;
-  fill: var(--sd-teal);
+#genform .color-row > .sd-control-heading {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
 }
-#genform input[type="radio"]:checked + .sd-direction-card .sd-direction-check { display: block; }
 #genform .sd-color-section {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
@@ -2363,22 +2339,135 @@ body.sd-is-loading {
 }
 #genform input[type="checkbox"]:checked + .sd-switch { background: var(--sd-teal); }
 #genform input[type="checkbox"]:checked + .sd-switch::after { left: 27px; }
-#genform .sd-responsive-control { margin-bottom: 0; }
-#genform .sd-toggle-control:not(.sd-responsive-control):not(.gradient-toggle-container) { margin-bottom: 4px; }
-#genform .sd-toggle-label .tooltip-icon { flex: 0 0 17px; width: 17px; height: 17px; margin: 0; color: var(--sd-ink-soft); }
-#genform .sd-tooltip-anchor {
-  position: relative;
-  display: inline-flex;
-  flex: 0 0 17px;
-  align-items: center;
-  width: 17px;
-  height: 17px;
+/* The shared row shows the active device's Flip/Animate controls plus global Responsive. */
+#genform .sd-options-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 4px 2px 0;
 }
-#genform .sd-responsive-control .sd-toggle-label:hover .ui-tooltip,
-#genform #mobile-ready:focus-visible ~ .sd-toggle-label .ui-tooltip {
+#genform .sd-options-device { display: contents; }
+#genform .sd-options-device[hidden] { display: none; }
+#genform .sd-option-control {
+  position: relative;
+  min-width: 0;
+  border-radius: 10px;
+}
+#genform .sd-option-control input[type="checkbox"] + .sd-option-tile {
+  --sd-option-bg: var(--sd-surface-soft);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 110px;
+  margin: 0;
+  padding: 10px 4px;
+  overflow: visible;
+  border: 1px solid var(--sd-line);
+  border-radius: 10px;
+  background: var(--sd-option-bg);
+  color: var(--sd-ink);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.3;
+  text-indent: 0;
+  text-align: center;
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s, box-shadow .15s;
+}
+#genform .sd-option-control input + .sd-option-tile::before,
+#genform .sd-option-control input + .sd-option-tile::after { content: none; }
+#genform .sd-option-control:not(.is-disabled) input:checked + .sd-option-tile {
+  --sd-option-bg: var(--sd-teal-dark);
+  border-color: var(--sd-teal-dark);
+  color: var(--sd-surface);
+  font-weight: 700;
+  box-shadow: 0 3px 8px #109b8226;
+}
+#genform .sd-option-tile > .sd-icon {
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+}
+#genform .sd-option-name { display: block; white-space: nowrap; }
+#genform .sd-option-control.is-disabled .sd-option-tile {
+  --sd-option-bg: var(--sd-surface-soft);
+  border-color: var(--sd-line);
+  box-shadow: none;
+  color: var(--sd-ink-soft);
+  font-weight: 400;
+  cursor: not-allowed;
+}
+#genform .sd-option-control.is-disabled .sd-option-tile > .sd-icon,
+#genform .sd-option-control.is-disabled .sd-option-name { opacity: .4; }
+#genform .sd-option-control input:focus-visible + .sd-option-tile,
+#genform .sd-option-control.is-disabled:focus-visible {
+  outline: 2px solid var(--sd-teal-dark);
+  outline-offset: 3px;
+}
+#genform .sd-flip-tooltip {
+  left: 0;
+  transform: translate(0, 4px);
+}
+#genform .sd-flip-tooltip::after { content: none; }
+#genform .sd-option-flip::after {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  border: 5px solid transparent;
+  border-top: 6px solid #111;
+  border-bottom: 0;
+  transform: translateX(-50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .16s ease;
+  z-index: 120;
+}
+#genform .sd-option-flip.is-disabled:hover::after,
+#genform .sd-option-flip.is-disabled:focus-visible::after { opacity: 1; }
+#genform .sd-option-control.is-disabled:hover > .sd-flip-tooltip,
+#genform .sd-option-control.is-disabled:focus-visible > .sd-flip-tooltip {
   opacity: 1;
   visibility: visible;
-  transform: translate(-50%, 0);
+  transform: translate(0, 0);
+}
+#genform .sd-tooltip-anchor {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+}
+#genform .sd-option-tile .tooltip-icon {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  color: var(--sd-ink-soft);
+}
+#genform input:checked + .sd-option-tile .tooltip-icon { color: var(--sd-surface); }
+#genform input:checked + .sd-option-tile .tooltip-icon path { stroke: var(--sd-teal-dark); }
+#genform .sd-responsive-control .ui-tooltip {
+  left: auto;
+  right: -8px;
+  transform: translate(0, 4px);
+}
+#genform .sd-responsive-control .ui-tooltip::after {
+  left: auto;
+  right: 13px;
+  transform: none;
+}
+#genform .sd-responsive-control .sd-option-tile:hover .ui-tooltip,
+#genform #mobile-ready:focus-visible + .sd-option-tile .ui-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0, 0);
 }
 #genform .sd-axis-control {
   position: relative;
@@ -2492,8 +2581,9 @@ body.sd-is-loading {
   .sd-tool-actions .sd-icon { width: 18px; height: 18px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  #genform .sd-direction-card, #genform .sd-switch::after { transition: none; }
+  #genform .sd-direction-card, #genform .sd-switch::after, #genform .sd-option-tile { transition: none; }
 }
+
 
 
 

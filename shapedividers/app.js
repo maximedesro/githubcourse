@@ -1444,7 +1444,7 @@ function revealResponsiveTabs(panel) {
         ...Array.from(views, (view, index) => view.animate([
             { opacity: 0, transform: 'translateY(8px) scale(.97)' },
             { opacity: 1, transform: 'translateY(0) scale(1)' }
-        ], { duration: 240, delay: 50 + index * 40, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' }))];
+        ], { duration: 320, delay: 50 + index * 60, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' }))];
 
         Promise.all(responsiveTabAnimations.map(animation => animation.finished.catch(() => {})))
             .then(() => {
@@ -1557,6 +1557,7 @@ formEntries.forEach((e, i) => {
 const longAxisContainers = document.querySelectorAll('.long-axis-container');
 const positionContainers = document.querySelectorAll('.position-container');
 const flippedContainers = document.querySelectorAll('.flipped-container');
+const optionDevices = document.querySelectorAll('.sd-options-device');
 const animationLengthContainers = document.querySelectorAll('.animation-length-container');
 const animationLongAxisContainers = document.querySelectorAll('.animation-long-axis-container');
 
@@ -1625,7 +1626,17 @@ function updateViewportControlVisibility(viewIndex, state) {
 
     longAxisContainers[viewIndex].style.display = animated ? 'none' : 'block';
     positionContainers[viewIndex].style.display = animated ? 'none' : 'block';
-    flippedContainers[viewIndex].style.display = animated ? 'none' : 'flex';
+    const flipContainer = flippedContainers[viewIndex];
+    const flipInput = flipContainer.querySelector('input');
+    flipInput.disabled = animated;
+    flipContainer.classList.toggle('is-disabled', animated);
+    flipContainer.setAttribute('aria-disabled', String(animated));
+    flipContainer.tabIndex = animated ? 0 : -1;
+    if (animated) {
+        flipContainer.setAttribute('aria-describedby', `${flipInput.id}-tooltip`);
+    } else {
+        flipContainer.removeAttribute('aria-describedby');
+    }
     animationLengthContainers[viewIndex].style.display = animated ? 'block' : 'none';
     animationLongAxisContainers[viewIndex].style.display = animated ? 'block' : 'none';
 
@@ -1704,6 +1715,11 @@ function updateShape() {
         updateViewportControlVisibility(2, mobileState);
         mobilePositionValue = mobileState.position;
     }
+
+    const activeIndex = Math.max(0, getActiveViewIndex());
+    optionDevices.forEach((group, index) => {
+        group.hidden = index !== activeIndex;
+    });
 
     const activeState = getActiveCanvasState();
     colorDiv.style.backgroundColor = '#' + activeState.color;
@@ -3829,6 +3845,7 @@ async function ensureShapeDataLoaded() {
         window.clearTimeout(loadTimeout);
     }
 })();
+
 
 
 

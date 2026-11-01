@@ -43,16 +43,15 @@
 <div class="mobile_view"><button type="button" class="sd-device-tab" id="sd-mobile-tab" aria-controls="sd-mobile-settings"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M10.5 8 H28.5 Q31 8 31 10.5 V41.5 Q31 44 28.5 44 H10.5 Q8 44 8 41.5 V10.5 Q8 8 10.5 8 Z" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M21.1 38 A1.6 1.6 0 1 0 17.9 38 A1.6 1.6 0 1 0 21.1 38 Z" fill="currentColor"/></svg>Mobile<span class="sd-tab-current"> (active)</span></button></div></div>
       <div class="sd-device-scope" role="group" aria-label="Device-specific divider settings">
 <div class="desktop_settings sd-viewport-settings" id="sd-desktop-settings" role="region" aria-labelledby="sd-desktop-tab">
-<h2 class="sd-control-heading" id="desktop-direction-title">Direction</h2>
-<div class="row radio sd-direction-options" role="group" aria-labelledby="desktop-direction-title">
+<div class="row radio sd-direction-options" role="group" aria-label="Direction">
 <input type="radio" name="dividerdirection" value="top" id="divider-direction-top">
-<label class="sd-direction-card" for="divider-direction-top"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 H179 V39 C150 32 136 72 93 61 C52 50 47 12 0 53 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Top</span></label>
+<label class="sd-direction-card" for="divider-direction-top"><span>Top</span></label>
 <input type="radio" name="dividerdirection" value="right" id="divider-direction-right">
-<label class="sd-direction-card" for="divider-direction-right"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M122 0 C131 44 72 52 105 96 C115 111 121 118 122 125 H179 V0 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Right</span></label>
+<label class="sd-direction-card" for="divider-direction-right"><span>Right</span></label>
 <input type="radio" name="dividerdirection" value="bottom" id="divider-direction-bottom" checked>
-<label class="sd-direction-card" for="divider-direction-bottom"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M0 97 C25 98 31 74 67 76 C102 76 105 99 138 100 C155 100 167 93 179 84 V125 H0 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Bottom</span></label>
+<label class="sd-direction-card" for="divider-direction-bottom"><span>Bottom</span></label>
 <input type="radio" name="dividerdirection" value="left" id="divider-direction-left">
-<label class="sd-direction-card" for="divider-direction-left"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 H66 C93 48 25 65 44 104 Q48 115 54 125 H0 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Left</span></label>
+<label class="sd-direction-card" for="divider-direction-left"><span>Left</span></label>
 </div>
 <div class="sd-color-section">
 <div class="row color-row">
@@ -97,30 +96,21 @@
   <input class="range-slider__range" type="range" value="50" min="0" max="100" id="position">
   <span class="range-slider__value">50</span>
 </div>
-<div class="row sd-toggle-control flipped-container">
-  <input type="checkbox" name="flipped-checkbox" id="flipped-checkbox" role="switch">
-  <label class="sd-switch" for="flipped-checkbox" aria-hidden="true"></label>
-  <label class="sd-toggle-label " for="flipped-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M24 3 V8 M24 14 V19 M24 25 V30 M24 36 V41" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 7 L17 36 H5 Z M43 7 L31 36 H43 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Flip horizontally</label>
-</div>
 
 
-<div class="row sd-toggle-control sd-animate-control">
-  <input type="checkbox" name="animate-checkbox" id="animate-checkbox" role="switch">
-  <label class="sd-switch" for="animate-checkbox" aria-hidden="true"></label>
-  <label class="sd-toggle-label " for="animate-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M8 9 Q10 7 13 9 L40 23 Q42 24 40 26 L10 42 Q8 43 8 40 L8 21" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Animate</label>
-</div>
+
+
 </div>
 <div class="tablet_settings sd-viewport-settings" id="sd-tablet-settings" role="region" aria-labelledby="sd-tablet-tab">
-<h2 class="sd-control-heading" id="tablet-direction-title">Direction</h2>
-<div class="row radio sd-direction-options" role="group" aria-labelledby="tablet-direction-title">
+<div class="row radio sd-direction-options" role="group" aria-label="Direction">
 <input type="radio" name="tabletdividerdirection" value="top" id="tabletdivider-direction-top">
-<label class="sd-direction-card" for="tabletdivider-direction-top"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 H179 V39 C150 32 136 72 93 61 C52 50 47 12 0 53 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Top</span></label>
+<label class="sd-direction-card" for="tabletdivider-direction-top"><span>Top</span></label>
 <input type="radio" name="tabletdividerdirection" value="right" id="tabletdivider-direction-right">
-<label class="sd-direction-card" for="tabletdivider-direction-right"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M122 0 C131 44 72 52 105 96 C115 111 121 118 122 125 H179 V0 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Right</span></label>
+<label class="sd-direction-card" for="tabletdivider-direction-right"><span>Right</span></label>
 <input type="radio" name="tabletdividerdirection" value="bottom" id="tabletdivider-direction-bottom" checked>
-<label class="sd-direction-card" for="tabletdivider-direction-bottom"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M0 97 C25 98 31 74 67 76 C102 76 105 99 138 100 C155 100 167 93 179 84 V125 H0 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Bottom</span></label>
+<label class="sd-direction-card" for="tabletdivider-direction-bottom"><span>Bottom</span></label>
 <input type="radio" name="tabletdividerdirection" value="left" id="tabletdivider-direction-left">
-<label class="sd-direction-card" for="tabletdivider-direction-left"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 H66 C93 48 25 65 44 104 Q48 115 54 125 H0 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Left</span></label>
+<label class="sd-direction-card" for="tabletdivider-direction-left"><span>Left</span></label>
 </div>
 <div class="sd-color-section">
 <div class="row color-row">
@@ -165,30 +155,21 @@
   <input class="range-slider__range" type="range" value="50" min="0" max="100" id="tablet-position">
   <span class="range-slider__value">50</span>
 </div>
-<div class="row sd-toggle-control flipped-container">
-  <input type="checkbox" name="tablet-flipped-checkbox" id="tablet-flipped-checkbox" role="switch">
-  <label class="sd-switch" for="tablet-flipped-checkbox" aria-hidden="true"></label>
-  <label class="sd-toggle-label " for="tablet-flipped-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M24 3 V8 M24 14 V19 M24 25 V30 M24 36 V41" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 7 L17 36 H5 Z M43 7 L31 36 H43 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Flip horizontally</label>
-</div>
 
 
-<div class="row sd-toggle-control sd-animate-control">
-  <input type="checkbox" name="tablet-animate-checkbox" id="tablet-animate-checkbox" role="switch">
-  <label class="sd-switch" for="tablet-animate-checkbox" aria-hidden="true"></label>
-  <label class="sd-toggle-label " for="tablet-animate-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M8 9 Q10 7 13 9 L40 23 Q42 24 40 26 L10 42 Q8 43 8 40 L8 21" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Animate</label>
-</div>
+
+
 </div>
 <div class="mobile_settings sd-viewport-settings" id="sd-mobile-settings" role="region" aria-labelledby="sd-mobile-tab">
-<h2 class="sd-control-heading" id="mobile-direction-title">Direction</h2>
-<div class="row radio sd-direction-options" role="group" aria-labelledby="mobile-direction-title">
+<div class="row radio sd-direction-options" role="group" aria-label="Direction">
 <input type="radio" name="mobiledividerdirection" value="top" id="mobiledivider-direction-top">
-<label class="sd-direction-card" for="mobiledivider-direction-top"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 H179 V39 C150 32 136 72 93 61 C52 50 47 12 0 53 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Top</span></label>
+<label class="sd-direction-card" for="mobiledivider-direction-top"><span>Top</span></label>
 <input type="radio" name="mobiledividerdirection" value="right" id="mobiledivider-direction-right">
-<label class="sd-direction-card" for="mobiledivider-direction-right"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M122 0 C131 44 72 52 105 96 C115 111 121 118 122 125 H179 V0 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Right</span></label>
+<label class="sd-direction-card" for="mobiledivider-direction-right"><span>Right</span></label>
 <input type="radio" name="mobiledividerdirection" value="bottom" id="mobiledivider-direction-bottom" checked>
-<label class="sd-direction-card" for="mobiledivider-direction-bottom"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M0 97 C25 98 31 74 67 76 C102 76 105 99 138 100 C155 100 167 93 179 84 V125 H0 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Bottom</span></label>
+<label class="sd-direction-card" for="mobiledivider-direction-bottom"><span>Bottom</span></label>
 <input type="radio" name="mobiledividerdirection" value="left" id="mobiledivider-direction-left">
-<label class="sd-direction-card" for="mobiledivider-direction-left"><svg class="sd-direction-preview" viewBox="0 0 179 125" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 H66 C93 48 25 65 44 104 Q48 115 54 125 H0 Z"/></svg><svg class="sd-direction-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Left</span></label>
+<label class="sd-direction-card" for="mobiledivider-direction-left"><span>Left</span></label>
 </div>
 <div class="sd-color-section">
 <div class="row color-row">
@@ -233,23 +214,54 @@
   <input class="range-slider__range" type="range" value="50" min="0" max="100" id="mobile-position">
   <span class="range-slider__value">50</span>
 </div>
-<div class="row sd-toggle-control flipped-container">
+
+
+
+
+</div>
+
+<div class="sd-options-row" role="group" aria-label="Divider options">
+<div class="sd-options-device" data-device="desktop">
+<div class="sd-option-control sd-option-flip flipped-container">
+  <input type="checkbox" name="flipped-checkbox" id="flipped-checkbox" role="switch">
+  <label class="sd-option-tile" for="flipped-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M24 3 V8 M24 14 V19 M24 25 V30 M24 36 V41" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 7 L17 36 H5 Z M43 7 L31 36 H43 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sd-option-name">Flip</span></label>
+  <span id="flipped-checkbox-tooltip" class="ui-tooltip sd-flip-tooltip" role="tooltip">Flip can't be enabled when Animate is on</span>
+</div>
+<div class="sd-option-control sd-option-animate">
+  <input type="checkbox" name="animate-checkbox" id="animate-checkbox" role="switch">
+  <label class="sd-option-tile" for="animate-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M8 9 Q10 7 13 9 L40 23 Q42 24 40 26 L10 42 Q8 43 8 40 L8 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sd-option-name">Animate</span></label>
+  
+</div>
+</div>
+<div class="sd-options-device" data-device="tablet" hidden>
+<div class="sd-option-control sd-option-flip flipped-container">
+  <input type="checkbox" name="tablet-flipped-checkbox" id="tablet-flipped-checkbox" role="switch">
+  <label class="sd-option-tile" for="tablet-flipped-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M24 3 V8 M24 14 V19 M24 25 V30 M24 36 V41" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 7 L17 36 H5 Z M43 7 L31 36 H43 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sd-option-name">Flip</span></label>
+  <span id="tablet-flipped-checkbox-tooltip" class="ui-tooltip sd-flip-tooltip" role="tooltip">Flip can't be enabled when Animate is on</span>
+</div>
+<div class="sd-option-control sd-option-animate">
+  <input type="checkbox" name="tablet-animate-checkbox" id="tablet-animate-checkbox" role="switch">
+  <label class="sd-option-tile" for="tablet-animate-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M8 9 Q10 7 13 9 L40 23 Q42 24 40 26 L10 42 Q8 43 8 40 L8 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sd-option-name">Animate</span></label>
+  
+</div>
+</div>
+<div class="sd-options-device" data-device="mobile" hidden>
+<div class="sd-option-control sd-option-flip flipped-container">
   <input type="checkbox" name="mobile-flipped-checkbox" id="mobile-flipped-checkbox" role="switch">
-  <label class="sd-switch" for="mobile-flipped-checkbox" aria-hidden="true"></label>
-  <label class="sd-toggle-label " for="mobile-flipped-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M24 3 V8 M24 14 V19 M24 25 V30 M24 36 V41" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 7 L17 36 H5 Z M43 7 L31 36 H43 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Flip horizontally</label>
+  <label class="sd-option-tile" for="mobile-flipped-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M24 3 V8 M24 14 V19 M24 25 V30 M24 36 V41" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 7 L17 36 H5 Z M43 7 L31 36 H43 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sd-option-name">Flip</span></label>
+  <span id="mobile-flipped-checkbox-tooltip" class="ui-tooltip sd-flip-tooltip" role="tooltip">Flip can't be enabled when Animate is on</span>
 </div>
-
-
-<div class="row sd-toggle-control sd-animate-control">
+<div class="sd-option-control sd-option-animate">
   <input type="checkbox" name="mobile-animate-checkbox" id="mobile-animate-checkbox" role="switch">
-  <label class="sd-switch" for="mobile-animate-checkbox" aria-hidden="true"></label>
-  <label class="sd-toggle-label " for="mobile-animate-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M8 9 Q10 7 13 9 L40 23 Q42 24 40 26 L10 42 Q8 43 8 40 L8 21" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Animate</label>
+  <label class="sd-option-tile" for="mobile-animate-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M8 9 Q10 7 13 9 L40 23 Q42 24 40 26 L10 42 Q8 43 8 40 L8 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sd-option-name">Animate</span></label>
+  
 </div>
 </div>
-<div class="row sd-toggle-control sd-responsive-control">
+<div class="sd-option-control sd-responsive-control">
   <input type="checkbox" name="mobile-ready" id="mobile-ready" role="switch">
-  <label class="sd-switch" for="mobile-ready" aria-hidden="true"></label>
-  <label class="sd-toggle-label mobile tooltip-trigger" for="mobile-ready"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 48"><path d="M7 6 H39 Q42 6 42 9 V31 Q42 34 39 34 H7 Q4 34 4 31 V9 Q4 6 7 6 Z" fill="none" stroke="currentColor" stroke-width="3.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M23 34 V42 M15 42 H31" fill="none" stroke="currentColor" stroke-width="3.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M32.5 17 H45.5 Q48 17 48 19.5 V41.5 Q48 44 45.5 44 H32.5 Q30 44 30 41.5 V19.5 Q30 17 32.5 17 Z" fill="var(--sd-surface-soft)" stroke="currentColor" stroke-width="3.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M40.2 40 A1.2 1.2 0 1 0 37.8 40 A1.2 1.2 0 1 0 40.2 40 Z" fill="currentColor"/></svg>Responsive <span class="sd-tooltip-anchor"><svg class="tooltip-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 11v6M12 7v1" fill="none" stroke="var(--sd-surface)" stroke-width="2" stroke-linecap="round"/></svg><span id="responsive-tooltip" class="ui-tooltip" role="tooltip">Use different shapes and settings for desktop, tablet and mobile.</span></span></label>
+  <label class="sd-option-tile" for="mobile-ready"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 48"><path d="M7 6 H39 Q42 6 42 9 V31 Q42 34 39 34 H7 Q4 34 4 31 V9 Q4 6 7 6 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M23 34 V42 M15 42 H31" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M32.5 17 H45.5 Q48 17 48 19.5 V41.5 Q48 44 45.5 44 H32.5 Q30 44 30 41.5 V19.5 Q30 17 32.5 17 Z" fill="var(--sd-option-bg)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M40.2 40 A1.2 1.2 0 1 0 37.8 40 A1.2 1.2 0 1 0 40.2 40 Z" fill="currentColor"/></svg><span class="sd-option-name">Responsive</span><span class="sd-tooltip-anchor"><svg class="tooltip-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 11v6M12 7v1" fill="none" stroke="var(--sd-surface)" stroke-width="2" stroke-linecap="round"/></svg><span id="responsive-tooltip" class="ui-tooltip" role="tooltip">Use different shapes and settings for desktop, tablet and mobile.</span></span></label>
+  
+</div>
 </div>
       </div>
     </form>
@@ -568,6 +580,7 @@
   ]
 }
 </script>
+
 
 
 
