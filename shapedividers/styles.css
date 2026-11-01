@@ -2525,7 +2525,7 @@ body.sd-is-loading {
   margin: 18px 6px 0;
   font-family: var(--sd-font-body);
 }
-.sd-tool-actions .export-actions { display: flex; margin: 0; max-width: 100%; }
+.sd-tool-actions .export-actions { display: flex; flex-basis: 100%; margin: 0; max-width: 100%; }
 .sd-tool-actions #copye,
 .sd-tool-actions #premium,
 .sd-tool-actions #share,
