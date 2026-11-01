@@ -974,8 +974,9 @@ pointer-events:none!important;
 }
 
 #share .ui-tooltip{
-    left:auto;
-    right:0;
+    left:0;
+    right:auto;
+    max-width:100%;
     transform:translate(0, 4px);
 }
 
@@ -985,9 +986,9 @@ pointer-events:none!important;
 }
 
 #share .ui-tooltip::after{
-    left:auto;
-    right:22px;
-    transform:none;
+    left:50%;
+    right:auto;
+    transform:translateX(-50%);
 }
 
 .preview{
@@ -2583,6 +2584,7 @@ body.sd-is-loading {
 @media (prefers-reduced-motion: reduce) {
   #genform .sd-direction-card, #genform .sd-switch::after, #genform .sd-option-tile { transition: none; }
 }
+
 
 
 
