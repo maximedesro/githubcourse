@@ -392,7 +392,7 @@ if (!genform) {
         'One direction</label><small>Keep the shape moving in one direction.</small></div>' +
         '<div class="row animation-direction-container animation-mirror-container">' +
         '<label for="' + prefixedId(prefix, 'mirror-loop-checkbox') + '"><input type="checkbox" id="' + prefixedId(prefix, 'mirror-loop-checkbox') + '"> ' +
-        'Seamless mirror</label><small>Join original and mirrored shapes without fading.</small></div>' +
+        'Seamless mirror</label><small>Mirrors shapes without fading.</small></div>' +
         '<div class="row animation-direction-container animation-depth-container">' +
         '<label for="' + prefixedId(prefix, 'depth-layers-checkbox') + '"><input type="checkbox" id="' + prefixedId(prefix, 'depth-layers-checkbox') + '"> ' +
         'Depth layers</label><small>Three heights and speeds. Ideal for shapes that don\'t already have opacity in them. SVG and mask export only.</small></div>');
