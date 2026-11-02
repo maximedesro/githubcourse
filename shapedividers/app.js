@@ -1136,16 +1136,20 @@ function getAnimationProgress(timestamp, durationSeconds) {
 }
 
 // Keep both end edges outside the viewport, even while a copy is transparent.
-// Each pass uses the selected duration; copies are staggered by half a pass.
+// The selected duration is the interval between handoffs. A copy repeats after
+// two handoffs; its visible travel includes the fade overlap with the next copy.
 function getOneDirectionTiming(state) {
     const duration = Math.max(0.1, Number(state.animationLength) || 10);
-    return { duration, fade: Math.min(0.25, Math.max(0.08, 1 / duration)), inset: 0.02 };
+    const cycleDuration = 2 * duration;
+    const fadeSeconds = Math.min(duration * 0.25, Math.max(duration * 0.08, 1));
+    return { duration, cycleDuration, fade: fadeSeconds / cycleDuration, inset: 0.02 };
 }
 
 function getOneDirectionFrame(state, elapsedSeconds, copy = 0) {
     if (Number(state.animationLongAxis) <= 1) return { progress: 0, opacity: copy ? 0 : 1 };
-    const { duration, fade, inset } = getOneDirectionTiming(state);
-    const phase = ((elapsedSeconds / duration + 0.25 + copy * 0.5) % 1 + 1) % 1;
+    const { cycleDuration, fade, inset } = getOneDirectionTiming(state);
+    // Begin with the first copy fully visible and the other fully hidden.
+    const phase = ((elapsedSeconds / cycleDuration + fade + copy * 0.5) % 1 + 1) % 1;
     const activeEnd = 0.5 + fade;
     return {
         progress: inset + Math.min(1, phase / activeEnd) * (1 - 2 * inset),
@@ -2215,21 +2219,22 @@ function getPairedStateCss(state, namespace, copy) {
         return css;
     }
 
-    const { duration, fade, inset } = getOneDirectionTiming(state);
+    const { cycleDuration, fade, inset } = getOneDirectionTiming(state);
     const horizontal = state.direction === 'top' || state.direction === 'bottom';
     const scale = Math.max(1, Number(state.animationLongAxis) || 1);
     const scaleFunction = 'scale' + (state.ratio ? '' : horizontal ? 'X' : 'Y');
+    const percent = (fraction) => Number((fraction * 100).toFixed(6));
     const transform = (progress) => scaleFunction + '(' + scale + ') translate' +
-        (horizontal ? 'X' : 'Y') + '(' + (progress * (1 - 1 / scale) * 100) + '%)';
+        (horizontal ? 'X' : 'Y') + '(' + percent(progress * (1 - 1 / scale)) + '%)';
     const name = namespace + '-' + state.key + '-one-direction';
     css.declarations.transform = transform(inset);
-    css.declarations.animation = name + ' ' + duration + 's linear ' +
-        (-duration * (0.25 + copy * 0.5)) + 's infinite';
+    css.declarations.animation = name + ' ' + cycleDuration + 's linear ' +
+        (-cycleDuration * (fade + copy * 0.5)) + 's infinite';
     css.keyframes = '@keyframes ' + name + '{\n' +
         '  0%{transform:' + transform(inset) + ';opacity:0;}\n' +
-        '  ' + (fade * 100) + '%{opacity:1;}\n' +
+        '  ' + percent(fade) + '%{opacity:1;}\n' +
         '  50%{opacity:1;}\n' +
-        '  ' + ((0.5 + fade) * 100) + '%{transform:' + transform(1 - inset) + ';opacity:0;}\n' +
+        '  ' + percent(0.5 + fade) + '%{transform:' + transform(1 - inset) + ';opacity:0;}\n' +
         '  100%{transform:' + transform(1 - inset) + ';opacity:0;}\n}';
     return css;
 }
@@ -2271,7 +2276,7 @@ function buildPairedExportCode(format) {
             const declarations = { ...css.declarations, 'z-index': '3', 'pointer-events': 'none' };
             if (format === 'css') {
                 declarations.content = "''";
-                declarations['background-image'] = 'url("data:image/svg+xml;charset=utf8,' + encodeSvgForCss(buildShapeSvgMarkup(
+                declarations['background-image'] = 'url("data:image/svg+xml;charset=utf8,' + encodeURIComponent(buildShapeSvgMarkup(
                     svgDividers[state.shapeIndex][state.direction], state.color, state.gradient, state.gradientColor, state.direction
                 )) + '")';
                 declarations['background-repeat'] = 'no-repeat';

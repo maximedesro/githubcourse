@@ -67,10 +67,11 @@ const server = http.createServer((req, res) => {
                 const animations = document.getAnimations();
                 animations.forEach(a => a.pause());
                 const results = [];
-                for (let ms = 0; ms <= 8000; ms += 50) {
+                for (let ms = 0; ms <= 16000; ms += 50) {
                     animations.forEach(a => { a.currentTime = ms; });
                     for (let copy = 0; copy < 2; copy++) {
                         const style = getComputedStyle(host, copy ? '::after' : '::before');
+                        if (style.backgroundImage === 'none') throw new Error('Exported SVG background must be valid CSS.');
                         const matrix = new DOMMatrix(style.transform);
                         const size = parseFloat(horizontal ? style.width : style.height);
                         const origin = parseFloat(style.transformOrigin.split(' ')[horizontal ? 0 : 1]);
@@ -129,14 +130,33 @@ const server = http.createServer((req, res) => {
             for (const animationLength of [4, 10, 200]) for (const animationLongAxis of [1.1, 4, 10]) {
                 const state = { animationLength, animationLongAxis };
                 for (let i = 0; i <= 1000; i++) {
-                    const a = animationTest.getOneDirectionFrame(state, i * animationLength / 1000, 0);
-                    const b = animationTest.getOneDirectionFrame(state, i * animationLength / 1000, 1);
+                    const a = animationTest.getOneDirectionFrame(state, i * 2 * animationLength / 1000, 0);
+                    const b = animationTest.getOneDirectionFrame(state, i * 2 * animationLength / 1000, 1);
                     if (Math.abs(a.opacity + b.opacity - 1) > 1e-9 || a.progress < 0.02 || a.progress > 0.98) failures.push({ state, a, b });
                 }
             }
             return failures;
         });
         assert.deepEqual(timingChecks, [], 'Crossfades must be complementary and stay inside safe travel limits at every speed/scale.');
+        // Independently assert the user-facing duration, not just agreement
+        // between the two implementations: 10s means one handoff every 10s.
+        const cadence = await page.evaluate(() => {
+            document.getElementById('animation_length').value = 10;
+            animationTest.updateShape();
+            const state = animationTest.getSvgExportStates()[0];
+            return {
+                code: animationTest.buildPairedExportCode('css'),
+                samples: [0, 8.9, 9, 9.5, 10, 18.9, 19, 19.5, 20].map(time =>
+                    [0, 1].map(copy => animationTest.getOneDirectionFrame(state, time, copy).opacity))
+            };
+        });
+        const opacityPairs = [[1, 0], [1, 0], [1, 0], [0.5, 0.5], [0, 1], [0, 1], [0, 1], [0.5, 0.5], [1, 0]];
+        cadence.samples.forEach((pair, i) => pair.forEach((opacity, copy) =>
+            assert.ok(Math.abs(opacity - opacityPairs[i][copy]) < 1e-9, '10s handoff cadence must match the selected duration')));
+        assert.match(cadence.code, /20s linear -1s infinite/);
+        assert.match(cadence.code, /20s linear -11s infinite/);
+        assert.match(cadence.code, /5%\{opacity:1;/);
+        assert.match(cadence.code, /55(?:\.0+)?%\{transform:/);
         const stationary = await page.evaluate(() => {
             document.getElementById('animation_long_axis').value = 1;
             animationTest.updateShape();
