@@ -135,12 +135,12 @@ const server = http.createServer((req, res) => {
                 for (let i = 0; i <= 1000; i++) {
                     const a = animationTest.getOneDirectionFrame(state, i * 2 * animationLength / 1000, 0);
                     const b = animationTest.getOneDirectionFrame(state, i * 2 * animationLength / 1000, 1);
-                    if (Math.abs(a.opacity + b.opacity - 1) > 1e-9 || a.progress < 0.02 || a.progress > 0.98) failures.push({ state, a, b });
+                    if (Math.max(a.opacity, b.opacity) < 1 - 1e-9 || a.progress < 0.02 || a.progress > 0.98) failures.push({ state, a, b });
                 }
             }
             return failures;
         });
-        assert.deepEqual(timingChecks, [], 'Crossfades must be complementary and stay inside safe travel limits at every speed/scale.');
+        assert.deepEqual(timingChecks, [], 'One copy must remain fully opaque throughout each handoff, within safe travel limits.');
         // Independently assert the user-facing duration, not just agreement
         // between the two implementations: 10s means one handoff every 10s.
         const cadence = await page.evaluate(() => {
@@ -149,17 +149,20 @@ const server = http.createServer((req, res) => {
             const state = animationTest.getSvgExportStates()[0];
             return {
                 code: animationTest.buildPairedExportCode('css'),
-                samples: [0, 8.9, 9, 9.5, 10, 18.9, 19, 19.5, 20].map(time =>
+                samples: [0, 7.9, 8, 8.5, 9, 9.5, 10, 17.9, 18, 18.5, 19, 19.5, 20].map(time =>
                     [0, 1].map(copy => animationTest.getOneDirectionFrame(state, time, copy).opacity))
             };
         });
-        const opacityPairs = [[1, 0], [1, 0], [1, 0], [0.5, 0.5], [0, 1], [0, 1], [0, 1], [0.5, 0.5], [1, 0]];
+        const opacityPairs = [[1, 0], [1, 0], [1, 0], [1, 0.5], [1, 1], [0.5, 1], [0, 1], [0, 1], [0, 1], [0.5, 1], [1, 1], [1, 0.5], [1, 0]];
         cadence.samples.forEach((pair, i) => pair.forEach((opacity, copy) =>
             assert.ok(Math.abs(opacity - opacityPairs[i][copy]) < 1e-9, '10s handoff cadence must match the selected duration')));
-        assert.match(cadence.code, /20s linear -1s infinite/);
-        assert.match(cadence.code, /20s linear -11s infinite/);
+        assert.match(cadence.code, /20s linear -2s infinite/);
+        assert.match(cadence.code, /20s linear -12s infinite/);
         assert.match(cadence.code, /5%\{opacity:1;/);
-        assert.match(cadence.code, /55(?:\.0+)?%\{transform:/);
+        const reusedFadeSvg = await page.evaluate(() => animationTest.buildPairedExportCode('svg'));
+        assert.equal((reusedFadeSvg.match(/<symbol\b/g) || []).length, 1, 'Responsive copies of the same shape must share a symbol.');
+        assert.equal((reusedFadeSvg.match(/<path\b/g) || []).length, 1, 'One-direction geometry must not be duplicated.');
+        assert.match(cadence.code, /60%\{transform:/);
         // Test the mirror strategy independently of the fade strategy. Pixel
         // snapshots must repeat exactly after a pair, with alpha buildup confined
         // to the requested one-pixel seam overlap.
@@ -176,6 +179,9 @@ const server = http.createServer((req, res) => {
             assert.equal(data.canvas[0], data.canvas[1], 'Canvas must repeat exactly after 20s.');
             assert.equal(data.canvas[0], data.canvas[2], 'Canvas must repeat exactly after 40s.');
             assert.match(data.share, /mirrorLoop=true/);
+            assert.equal((data.svg.match(/<symbol\b/g) || []).length, 1, 'Mirror geometry must be defined only once.');
+            assert.equal((data.svg.match(/<path\b/g) || []).length, 1, 'Mirror instances must reuse the path markup.');
+            assert.equal((data.svg.match(/<use\b/g) || []).length, 4, 'Both mirrored pairs must reference the shared symbol.');
             assert.doesNotMatch(data.css, /opacity:0|alternate/);
             assert.match(data.css, /background-size:calc\([^;]+% - 2px\)|background-size:100% calc\([^;]+% - 2px\)/, 'Pair size must include both 1px join adjustments.');
             assert.match(data.css, /translate[XY]\(calc\(-[^)]+% \+ 2px\)\)/, 'Animation travel must match the shorter pair period.');

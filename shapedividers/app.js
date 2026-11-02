@@ -1156,8 +1156,8 @@ function getOneDirectionFrame(state, elapsedSeconds, copy = 0) {
     if (Number(state.animationLongAxis) <= 1) return { progress: 0, opacity: copy ? 0 : 1 };
     const { cycleDuration, fade, inset } = getOneDirectionTiming(state);
     // Begin with the first copy fully visible and the other fully hidden.
-    const phase = ((elapsedSeconds / cycleDuration + fade + copy * 0.5) % 1 + 1) % 1;
-    const activeEnd = 0.5 + fade;
+    const phase = ((elapsedSeconds / cycleDuration + 2 * fade + copy * 0.5) % 1 + 1) % 1;
+    const activeEnd = 0.5 + 2 * fade;
     return {
         progress: inset + Math.min(1, phase / activeEnd) * (1 - 2 * inset),
         opacity: Math.max(0, Math.min(1, phase / fade, (activeEnd - phase) / fade))
@@ -2327,12 +2327,12 @@ function getPairedStateCss(state, namespace, copy) {
     const name = namespace + '-' + state.key + '-one-direction';
     css.declarations.transform = transform(inset);
     css.declarations.animation = name + ' ' + cycleDuration + 's linear ' +
-        (-cycleDuration * (fade + copy * 0.5)) + 's infinite';
+        (-cycleDuration * (2 * fade + copy * 0.5)) + 's infinite';
     css.keyframes = '@keyframes ' + name + '{\n' +
         '  0%{transform:' + transform(inset) + ';opacity:0;}\n' +
         '  ' + percent(fade) + '%{opacity:1;}\n' +
-        '  50%{opacity:1;}\n' +
-        '  ' + percent(0.5 + fade) + '%{transform:' + transform(1 - inset) + ';opacity:0;}\n' +
+        '  ' + percent(0.5 + fade) + '%{opacity:1;}\n' +
+        '  ' + percent(0.5 + 2 * fade) + '%{transform:' + transform(1 - inset) + ';opacity:0;}\n' +
         '  100%{transform:' + transform(1 - inset) + ';opacity:0;}\n}';
     return css;
 }
@@ -2348,6 +2348,34 @@ function buildPairedExportCode(format) {
         : { position: 'absolute', inset: '0', overflow: 'hidden', 'pointer-events': 'none', 'z-index': '3' })];
     const keyframes = new Set();
     const markup = [];
+    const symbols = new Map();
+    function getSvgInstance(state, className) {
+        const key = [state.shapeIndex, state.direction, Boolean(state.gradient)].join('|');
+        if (!symbols.has(key)) {
+            const id = wrapper + '-symbol-' + symbols.size;
+            const svg = getPlainExportSvg(state.shapeIndex, state.direction, id, state.gradient, state.color, state.gradientColor);
+            const root = new DOMParser().parseFromString(svg, 'image/svg+xml').documentElement;
+            const symbol = root.ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'symbol');
+            [...root.attributes].forEach(({ name, value }) => {
+                if (!['class', 'id', 'width', 'height', 'x', 'y', 'aria-hidden', 'focusable', 'xmlns'].includes(name)) symbol.setAttribute(name, value);
+            });
+            symbol.setAttribute('id', id);
+            while (root.firstChild) symbol.appendChild(root.firstChild);
+            const viewBox = symbol.getAttribute('viewBox') || '0 0 1 1';
+            symbols.set(key, { id, viewBox, markup: new XMLSerializer().serializeToString(symbol) });
+        }
+        const { id, viewBox } = symbols.get(key);
+        const [x, y, width, height] = viewBox.trim().split(/[\s,]+/).map(Number);
+        // Keep the native viewport so mirror transforms and aspect-ratio sizing
+        // are identical to the original SVG; only the geometry is referenced.
+        return '<svg xmlns="http://www.w3.org/2000/svg" class="' + className + '" viewBox="' + viewBox +
+            '" preserveAspectRatio="' + getPreserveAspectRatioAttribute(state) + '" aria-hidden="true" focusable="false">' +
+            '<use href="#' + id + '" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '"/></svg>';
+    }
+    function getPreserveAspectRatioAttribute(state) {
+        const svg = svgDividers[state.shapeIndex][state.direction];
+        return svg.match(/preserveAspectRatio=["']([^"']+)["']/i)?.[1] || 'xMidYMid meet';
+    }
     if (format === 'mask') preparedMaskFiles = [];
 
     ordered.forEach((state, index) => {
@@ -2403,7 +2431,7 @@ function buildPairedExportCode(format) {
                 });
                 copies.push('<div class="' + className + '"></div>');
             } else {
-                const svg = getPlainExportSvg(state.shapeIndex, state.direction, className, state.gradient, state.color, state.gradientColor);
+                const svg = getSvgInstance(state, className);
                 if (mirrored) {
                     const pairs = copy ? '' : [0, 1].map((tile) => buildMirroredPairSvg(svg, state.direction, className + '-' + tile).replace(
                         '<svg ', '<svg style="position:absolute;overflow:visible;' + (horizontal
@@ -2431,7 +2459,9 @@ function buildPairedExportCode(format) {
         }) + '\n}');
     }
     const code = rules.concat([...keyframes]).join('\n\n');
-    return format === 'css' ? code : '<style>\n' + code + '\n</style>\n<div class="' + wrapper + '">\n' + markup.join('\n') + '\n</div>';
+    const definitions = symbols.size ? '<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>' +
+        [...symbols.values()].map((symbol) => symbol.markup).join('') + '</defs></svg>\n' : '';
+    return format === 'css' ? code : '<style>\n' + code + '\n</style>\n' + definitions + '<div class="' + wrapper + '">\n' + markup.join('\n') + '\n</div>';
 }
 
 function buildSvgExportCode() {
