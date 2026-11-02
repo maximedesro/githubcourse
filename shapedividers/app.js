@@ -143,6 +143,7 @@ if (!previewHost) {
         ['animate', animate],
         ['animLength', animLength],
         ['animLongAxis', animLongAxis],
+        ['oneDirection', oneDirection],
         ['shapeColor', shapeColor],
         ['gradient', gradient],
         ['gradientColor', gradientColor],
@@ -160,6 +161,7 @@ if (!previewHost) {
         ['tabletAnimate', tabletAnimate],
         ['tabletAnimLength', tabletAnimLength],
         ['tabletAnimLongAxis', tabletAnimLongAxis],
+        ['tabletOneDirection', tabletOneDirection],
         ['tabletShapeColor', tabletShapeColor],
         ['tabletGradient', tabletGradient],
         ['tabletGradientColor', tabletGradientColor],
@@ -173,6 +175,7 @@ if (!previewHost) {
         ['mobileAnimate', mobileAnimate],
         ['mobileAnimLength', mobileAnimLength],
         ['mobileAnimLongAxis', mobileAnimLongAxis],
+        ['mobileOneDirection', mobileOneDirection],
         ['mobileShapeColor', mobileShapeColor],
         ['mobileGradient', mobileGradient],
         ['mobileGradientColor', mobileGradientColor],
@@ -265,6 +268,10 @@ function restoreViewportFromURL(prefix, paramPrefix, shapeParam) {
         prefixedId(prefix, 'animate-checkbox'),
         key('animate', 'Animate')
     );
+    setCheckboxFromParam(
+        prefixedId(prefix, 'one-direction-checkbox'),
+        key('oneDirection', 'OneDirection')
+    );
     setInputValueFromParam(
         prefixedId(prefix, 'animation_length'),
         key('animLength', 'AnimLength')
@@ -348,10 +355,13 @@ function getShapeIndex(param) {
 
 /* Form styling in part from https://codepen.io/dapacreative/pen/bdzYEe */
    
+let oneDirection = false;
 let dividerDirection, longAxisValue, shortAxisValue, positionValue, flipped, animate, animLength, animLongAxis, animHorName, animVerName, shapeDiv, shapeColor, gradient, gradientColor, shapeIndex, selectedShape, shapeRatio;
 
+let tabletOneDirection = false;
 let tabletDividerDirection, tabletLongAxisValue, tabletShortAxisValue, tabletPositionValue, tabletFlipped, tabletAnimate, tabletAnimLength, tabletAnimLongAxis, tabletShapeDiv, tabletShapeColor, tabletGradient, tabletGradientColor, tabletShapeIndex, tabletSelectedShape, tabletShapeRatio;
 
+let mobileOneDirection = false;
 let mobileDividerDirection, mobileLongAxisValue, mobileShortAxisValue, mobilePositionValue, mobileFlipped, mobileAnimate, mobileAnimLength, mobileAnimLongAxis, mobileShapeDiv, mobileShapeColor, mobileGradient, mobileGradientColor, mobileShapeIndex, mobileSelectedShape, mobileShapeRatio;
 
 let mobileReady;
@@ -362,6 +372,17 @@ if (!genform) {
     throw new Error('ShapeDividers: #genform was not found.');
 }
 
+// Insert beside the existing duration controls so embedded creator markup also
+// receives the option without requiring its host page to be republished.
+['', 'tablet', 'mobile'].forEach((prefix) => {
+    const duration = document.getElementById(prefixedId(prefix, 'animation_length'));
+    const id = prefixedId(prefix, 'one-direction-checkbox');
+    if (!duration || document.getElementById(id)) return;
+    duration.closest('.animation-length-container').insertAdjacentHTML('afterend',
+        '<div class="row animation-direction-container">' +
+        '<label for="' + id + '"><input type="checkbox" id="' + id + '"> ' +
+        'One direction</label><small>Crossfade between two copies for continuous motion.</small></div>');
+});
 const formEntries = document.querySelectorAll("#genform input");
 const directionEntry = document.querySelectorAll(".row.radio input");
 
@@ -1114,6 +1135,24 @@ function getAnimationProgress(timestamp, durationSeconds) {
     return cycle <= 1 ? cycle : 2 - cycle;
 }
 
+// Keep both end edges outside the viewport, even while a copy is transparent.
+// Each pass uses the selected duration; copies are staggered by half a pass.
+function getOneDirectionTiming(state) {
+    const duration = Math.max(0.1, Number(state.animationLength) || 10);
+    return { duration, fade: Math.min(0.25, Math.max(0.08, 1 / duration)), inset: 0.02 };
+}
+
+function getOneDirectionFrame(state, elapsedSeconds, copy = 0) {
+    if (Number(state.animationLongAxis) <= 1) return { progress: 0, opacity: copy ? 0 : 1 };
+    const { duration, fade, inset } = getOneDirectionTiming(state);
+    const phase = ((elapsedSeconds / duration + 0.25 + copy * 0.5) % 1 + 1) % 1;
+    const activeEnd = 0.5 + fade;
+    return {
+        progress: inset + Math.min(1, phase / activeEnd) * (1 - 2 * inset),
+        opacity: Math.max(0, Math.min(1, phase / fade, (activeEnd - phase) / fade))
+    };
+}
+
 function drawDividerBitmap(bitmap, state, timestamp = performance.now()) {
     const bounds = resizePreviewCanvas();
     const width = bounds.width;
@@ -1176,15 +1215,20 @@ function drawDividerBitmap(bitmap, state, timestamp = performance.now()) {
     const rawSvg = svgDividers[state.shapeIndex][state.direction];
     const preserveAspectRatio = getPreserveAspectRatio(rawSvg);
 
-    drawImagePreservingSvgAspectRatio(
-        previewContext,
-        bitmap,
-        x,
-        y,
-        drawWidth,
-        drawHeight,
-        preserveAspectRatio
-    );
+    const copies = state.animate && state.oneDirection ? 2 : 1;
+    for (let copy = 0; copy < copies; copy++) {
+        let copyX = x;
+        let copyY = y;
+        if (state.animate && state.oneDirection) {
+            const frame = getOneDirectionFrame(state, (timestamp - animationStartedAt) / 1000, copy);
+            previewContext.globalAlpha = frame.opacity;
+            if (horizontal) copyX = -(drawWidth - width) * (1 - frame.progress);
+            else copyY = -(drawHeight - height) * (1 - frame.progress);
+        }
+        drawImagePreservingSvgAspectRatio(
+            previewContext, bitmap, copyX, copyY, drawWidth, drawHeight, preserveAspectRatio
+        );
+    }
 
     previewContext.restore();
 }
@@ -1269,6 +1313,7 @@ function getActiveCanvasState() {
             animate,
             animationLength: animLength,
             animationLongAxis: animLongAxis,
+            oneDirection,
             ratio: shapeRatio
         };
     }
@@ -1287,6 +1332,7 @@ function getActiveCanvasState() {
             animate: tabletAnimate,
             animationLength: tabletAnimLength,
             animationLongAxis: tabletAnimLongAxis,
+            oneDirection: tabletOneDirection,
             ratio: tabletShapeRatio
         };
     }
@@ -1304,6 +1350,7 @@ function getActiveCanvasState() {
         animate: mobileAnimate,
         animationLength: mobileAnimLength,
         animationLongAxis: mobileAnimLongAxis,
+        oneDirection: mobileOneDirection,
         ratio: mobileShapeRatio
     };
 }
@@ -1377,6 +1424,8 @@ function syncResponsiveControlsFromDesktop() {
             document.getElementById('flipped-checkbox').checked;
         document.getElementById(prefixedId(prefix, 'animate-checkbox')).checked =
             document.getElementById('animate-checkbox').checked;
+        document.getElementById(prefixedId(prefix, 'one-direction-checkbox')).checked =
+            document.getElementById('one-direction-checkbox').checked;
         document.getElementById(prefixedId(prefix, 'animation_length')).value =
             document.getElementById('animation_length').value;
         document.getElementById(prefixedId(prefix, 'animation_long_axis')).value =
@@ -1605,6 +1654,7 @@ function readViewportControls(prefix, selectedIndex) {
         position: positionInput.value,
         flipped: flippedInput.checked,
         animate: animateInput.checked,
+        oneDirection: document.getElementById(prefixedId(prefix, 'one-direction-checkbox')).checked,
         animationLength: animationLengthInput.value,
         animationLongAxis: animationLongAxisInput.value,
         selectedShape: encodeSvgForCss(
@@ -1637,6 +1687,7 @@ function updateViewportControlVisibility(viewIndex, state) {
     } else {
         flipContainer.removeAttribute('aria-describedby');
     }
+    document.querySelectorAll('.animation-direction-container')[viewIndex].style.display = animated ? 'block' : 'none';
     animationLengthContainers[viewIndex].style.display = animated ? 'block' : 'none';
     animationLongAxisContainers[viewIndex].style.display = animated ? 'block' : 'none';
 
@@ -1661,6 +1712,7 @@ function updateShape() {
     positionValue = desktopState.position;
     flipped = desktopState.flipped;
     animate = desktopState.animate;
+    oneDirection = desktopState.oneDirection;
     animLength = desktopState.animationLength;
     animLongAxis = desktopState.animationLongAxis;
     selectedShape = desktopState.selectedShape;
@@ -1687,6 +1739,7 @@ function updateShape() {
         tabletPositionValue = tabletState.position;
         tabletFlipped = tabletState.flipped;
         tabletAnimate = tabletState.animate;
+        tabletOneDirection = tabletState.oneDirection;
         tabletAnimLength = tabletState.animationLength;
         tabletAnimLongAxis = tabletState.animationLongAxis;
         tabletSelectedShape = tabletState.selectedShape;
@@ -1707,6 +1760,7 @@ function updateShape() {
         mobilePositionValue = mobileState.position;
         mobileFlipped = mobileState.flipped;
         mobileAnimate = mobileState.animate;
+        mobileOneDirection = mobileState.oneDirection;
         mobileAnimLength = mobileState.animationLength;
         mobileAnimLongAxis = mobileState.animationLongAxis;
         mobileSelectedShape = mobileState.selectedShape;
@@ -1784,6 +1838,10 @@ function generateCssExportCode({ renewClassName = true } = {}) {
         generateUniqueCSSName();
     }
 
+    if (getSvgExportStates().some((state) => state.animate && state.oneDirection)) {
+        return buildPairedExportCode('css');
+    }
+
     copyRightCode();
 
     return mobileReady
@@ -1850,6 +1908,7 @@ function getSvgExportStates() {
             animate,
             animationLength: animLength,
             animationLongAxis: animLongAxis,
+            oneDirection,
             ratio: shapeRatio
         }
     ];
@@ -1870,6 +1929,7 @@ function getSvgExportStates() {
                 animate: tabletAnimate,
                 animationLength: tabletAnimLength,
                 animationLongAxis: tabletAnimLongAxis,
+            oneDirection: tabletOneDirection,
                 ratio: tabletShapeRatio
             },
             {
@@ -1886,6 +1946,7 @@ function getSvgExportStates() {
                 animate: mobileAnimate,
                 animationLength: mobileAnimLength,
                 animationLongAxis: mobileAnimLongAxis,
+            oneDirection: mobileOneDirection,
                 ratio: mobileShapeRatio
             }
         );
@@ -2140,7 +2201,113 @@ function statesAreSameShape(a, b) {
     return true;
 }
 
+function getPairedStateCss(state, namespace, copy) {
+    const css = getSvgStateDeclarations(state, namespace);
+    css.declarations.opacity = '1';
+    if (!state.animate || !state.oneDirection) {
+        if (copy) css.declarations.display = 'none';
+        return css;
+    }
+    if (Number(state.animationLongAxis) <= 1) {
+        css.declarations.animation = 'none';
+        if (copy) css.declarations.display = 'none';
+        css.keyframes = '';
+        return css;
+    }
+
+    const { duration, fade, inset } = getOneDirectionTiming(state);
+    const horizontal = state.direction === 'top' || state.direction === 'bottom';
+    const scale = Math.max(1, Number(state.animationLongAxis) || 1);
+    const scaleFunction = 'scale' + (state.ratio ? '' : horizontal ? 'X' : 'Y');
+    const transform = (progress) => scaleFunction + '(' + scale + ') translate' +
+        (horizontal ? 'X' : 'Y') + '(' + (progress * (1 - 1 / scale) * 100) + '%)';
+    const name = namespace + '-' + state.key + '-one-direction';
+    css.declarations.transform = transform(inset);
+    css.declarations.animation = name + ' ' + duration + 's linear ' +
+        (-duration * (0.25 + copy * 0.5)) + 's infinite';
+    css.keyframes = '@keyframes ' + name + '{\n' +
+        '  0%{transform:' + transform(inset) + ';opacity:0;}\n' +
+        '  ' + (fade * 100) + '%{opacity:1;}\n' +
+        '  50%{opacity:1;}\n' +
+        '  ' + ((0.5 + fade) * 100) + '%{transform:' + transform(1 - inset) + ';opacity:0;}\n' +
+        '  100%{transform:' + transform(1 - inset) + ';opacity:0;}\n}';
+    return css;
+}
+
+// Use the same geometry and phase offsets as the canvas preview. Full viewport
+// declarations also reset the second copy when a breakpoint stops animating.
+function buildPairedExportCode(format) {
+    const states = getSvgExportStates();
+    const wrapper = shapeCSSName + (format === 'css' ? '' : '-' + format);
+    const ordered = mobileReady ? [states[2], states[1], states[0]] : states;
+    const rules = [formatDeclarationRule('.' + wrapper, format === 'css'
+        ? { position: 'relative', overflow: 'hidden' }
+        : { position: 'absolute', inset: '0', overflow: 'hidden', 'pointer-events': 'none', 'z-index': '3' })];
+    const keyframes = new Set();
+    const markup = [];
+    if (format === 'mask') preparedMaskFiles = [];
+
+    ordered.forEach((state, index) => {
+        const group = wrapper + '__' + state.key;
+        const stateRules = [];
+        const minWidth = index === 1 ? 768 : 1025;
+        if (format !== 'css') {
+            rules.push(formatDeclarationRule('.' + group, {
+                display: index ? 'none' : 'block', position: 'absolute', inset: '0'
+            }));
+            if (index) {
+                stateRules.push('.' + wrapper + ' > .' + wrapper + '__' + ordered[index - 1].key + '{display:none;}', '.' + wrapper + ' > .' + group + '{display:block;}');
+            }
+        }
+        const fileName = group + '.svg';
+        if (format === 'mask') preparedMaskFiles.push({ fileName, svg: getMaskSvg(state.shapeIndex, state.direction) });
+        const copies = [];
+        for (let copy = 0; copy < 2; copy++) {
+            const className = group + '-' + copy;
+            const selector = format === 'css'
+                ? '.' + wrapper + (copy ? '::after' : '::before')
+                : '.' + group + ' > .' + className;
+            const css = getPairedStateCss(state, wrapper, copy);
+            const declarations = { ...css.declarations, 'z-index': '3', 'pointer-events': 'none' };
+            if (format === 'css') {
+                declarations.content = "''";
+                declarations['background-image'] = 'url("data:image/svg+xml;charset=utf8,' + encodeSvgForCss(buildShapeSvgMarkup(
+                    svgDividers[state.shapeIndex][state.direction], state.color, state.gradient, state.gradientColor, state.direction
+                )) + '")';
+                declarations['background-repeat'] = 'no-repeat';
+                declarations['background-size'] = '100% 100%';
+            } else if (format === 'mask') {
+                Object.assign(declarations, {
+                    background: getMaskBackground(state),
+                    '-webkit-mask-image': 'url("' + fileName + '")', 'mask-image': 'url("' + fileName + '")',
+                    '-webkit-mask-repeat': 'no-repeat', 'mask-repeat': 'no-repeat',
+                    '-webkit-mask-size': '100% 100%', 'mask-size': '100% 100%'
+                });
+                copies.push('<div class="' + className + '"></div>');
+            } else {
+                copies.push(getPlainExportSvg(state.shapeIndex, state.direction, className, state.gradient, state.color, state.gradientColor));
+            }
+            stateRules.push(formatDeclarationRule(selector, declarations));
+            if (css.keyframes) keyframes.add(css.keyframes);
+        }
+        rules.push(index ? '@media (min-width:' + minWidth + 'px){\n' + stateRules.join('\n') + '\n}' : stateRules.join('\n'));
+        if (format !== 'css') markup.push('<div class="' + group + '">\n' + copies.join('\n') + '\n</div>');
+    });
+
+    const desktop = states[0];
+    if (desktop.direction === 'top' || desktop.direction === 'bottom') {
+        const selector = format === 'css' ? '.' + wrapper + '::before, .' + wrapper + '::after'
+            : '.' + wrapper + '__desktop > *';
+        rules.push('@media (min-width:2100px){\n' + formatDeclarationRule(selector, {
+            height: 'calc(2vw + ' + (Number(desktop.shortAxis) || 0) + 'px)'
+        }) + '\n}');
+    }
+    const code = rules.concat([...keyframes]).join('\n\n');
+    return format === 'css' ? code : '<style>\n' + code + '\n</style>\n<div class="' + wrapper + '">\n' + markup.join('\n') + '\n</div>';
+}
+
 function buildSvgExportCode() {
+    if (getSvgExportStates().some((state) => state.animate && state.oneDirection)) return buildPairedExportCode('svg');
     const wrapperClass = shapeCSSName + '-svg';
     const states = getSvgExportStates();
     const hasAnyAnimation = states.some((state) => state.animate);
@@ -2490,6 +2657,7 @@ function getMaskStateDeclarations(
 }
 
 function buildMaskExportCode() {
+    if (getSvgExportStates().some((state) => state.animate && state.oneDirection)) return buildPairedExportCode('mask');
     const wrapperClass = shapeCSSName + '-mask';
     const states = getSvgExportStates();
     const hasAnyAnimation = states.some((state) => state.animate);

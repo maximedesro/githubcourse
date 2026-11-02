@@ -2476,6 +2476,31 @@ body.sd-is-loading {
   padding: 0 0 0 40px;
   margin: 0 2px 18px;
 }
+#genform .animation-direction-container {
+  margin: 0 2px 18px 42px;
+}
+#genform .animation-direction-container label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--sd-ink);
+  font-size: 15px;
+  font-weight: 700;
+}
+#genform .animation-direction-container input[type="checkbox"] {
+  position: static;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  opacity: 1;
+  accent-color: var(--sd-teal-dark);
+}
+#genform .animation-direction-container small {
+  display: block;
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+}
 #genform .sd-axis-control label {
   width: auto;
   margin: 0 64px 10px 0;
