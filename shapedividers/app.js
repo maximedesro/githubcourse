@@ -2287,7 +2287,10 @@ function getMirroredStateCss(state, namespace, copy) {
     return {
         declarations: {
             display: copy ? 'none' : 'block', position: 'absolute', color: '#' + state.color,
-            '--shape-gradient-color-1': '#' + state.color, '--shape-gradient-color-2': '#' + state.gradientColor,
+            ...(state.gradient ? {
+                '--shape-gradient-color-1': '#' + state.color,
+                '--shape-gradient-color-2': '#' + state.gradientColor
+            } : {}),
             'max-width': 'none', opacity: '1',
             top: horizontal ? (state.direction === 'top' ? '-0.1vw' : 'auto') : '0',
             bottom: horizontal && state.direction === 'bottom' ? '-0.1vw' : 'auto',

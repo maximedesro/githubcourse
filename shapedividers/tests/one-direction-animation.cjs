@@ -41,6 +41,41 @@ const server = http.createServer((req, res) => {
         assert.equal(await page.locator('#one-direction-checkbox').isVisible(), false);
         await page.evaluate(() => { document.getElementById('animate-checkbox').checked = true; animationTest.updateShape(); });
         assert.equal(await page.locator('#one-direction-checkbox').isVisible(), true);
+        // Gradients must be emitted only when enabled, including after toggling
+        // back off in every animation mode and in responsive exports.
+        for (const responsive of [false, true]) for (const mode of ['alternate', 'one-direction', 'mirror']) {
+            for (const gradient of [false, true, false]) {
+                const exports = await page.evaluate(({ responsive, mode, gradient }) => {
+                    document.getElementById('mobile-ready').checked = responsive;
+                    ['', 'tablet-', 'mobile-'].forEach(prefix => {
+                        document.getElementById(prefix + 'animate-checkbox').checked = true;
+                        document.getElementById(prefix + 'one-direction-checkbox').checked = mode !== 'alternate';
+                        document.getElementById(prefix + 'mirror-loop-checkbox').checked = mode === 'mirror';
+                        document.getElementById(prefix + 'gradient-checkbox').checked = gradient;
+                    });
+                    animationTest.updateShape();
+                    return {
+                        css: animationTest.generateCssExportCode(),
+                        svg: animationTest.buildSvgExportCode(),
+                        mask: animationTest.buildMaskExportCode(),
+                        files: animationTest.getMaskFiles().map(file => file.svg).join('\n')
+                    };
+                }, { responsive, mode, gradient });
+                for (const format of ['css', 'svg', 'mask']) {
+                    const code = exports[format].replace(/(?:%[0-9a-f]{2})+/gi, decodeURIComponent);
+                    const context = JSON.stringify({ responsive, mode, gradient, format });
+                    if (gradient) assert.match(code, /gradient/i, context);
+                    else assert.doesNotMatch(code, /gradient|<stop\b/i, context);
+                }
+                assert.doesNotMatch(exports.files, /gradient|<stop\b/i, 'Mask geometry must not contain generated gradients.');
+            }
+        }
+        await page.evaluate(() => {
+            document.getElementById('mobile-ready').checked = false;
+            document.getElementById('one-direction-checkbox').checked = false;
+            document.getElementById('mirror-loop-checkbox').checked = false;
+            animationTest.updateShape();
+        });
         const legacy = await page.evaluate(() => animationTest.generateCssExportCode());
         assert.match(legacy, /infinite alternate/);
         assert.doesNotMatch(legacy, /::after/);
