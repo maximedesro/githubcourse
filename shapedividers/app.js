@@ -145,6 +145,7 @@ if (!previewHost) {
         ['animLongAxis', animLongAxis],
         ['oneDirection', oneDirection],
         ['mirrorLoop', document.getElementById(prefixedId('', 'mirror-loop-checkbox')).checked],
+        ['depthLayers', document.getElementById(prefixedId('', 'depth-layers-checkbox')).checked],
         ['shapeColor', shapeColor],
         ['gradient', gradient],
         ['gradientColor', gradientColor],
@@ -164,6 +165,7 @@ if (!previewHost) {
         ['tabletAnimLongAxis', tabletAnimLongAxis],
         ['tabletOneDirection', tabletOneDirection],
         ['tabletMirrorLoop', document.getElementById(prefixedId('tablet', 'mirror-loop-checkbox')).checked],
+        ['tabletDepthLayers', document.getElementById(prefixedId('tablet', 'depth-layers-checkbox')).checked],
         ['tabletShapeColor', tabletShapeColor],
         ['tabletGradient', tabletGradient],
         ['tabletGradientColor', tabletGradientColor],
@@ -179,6 +181,7 @@ if (!previewHost) {
         ['mobileAnimLongAxis', mobileAnimLongAxis],
         ['mobileOneDirection', mobileOneDirection],
         ['mobileMirrorLoop', document.getElementById(prefixedId('mobile', 'mirror-loop-checkbox')).checked],
+        ['mobileDepthLayers', document.getElementById(prefixedId('mobile', 'depth-layers-checkbox')).checked],
         ['mobileShapeColor', mobileShapeColor],
         ['mobileGradient', mobileGradient],
         ['mobileGradientColor', mobileGradientColor],
@@ -271,6 +274,7 @@ function restoreViewportFromURL(prefix, paramPrefix, shapeParam) {
         prefixedId(prefix, 'animate-checkbox'),
         key('animate', 'Animate')
     );
+    setCheckboxFromParam(prefixedId(prefix, 'depth-layers-checkbox'), key('depthLayers', 'DepthLayers'));
     setCheckboxFromParam(prefixedId(prefix, 'mirror-loop-checkbox'), key('mirrorLoop', 'MirrorLoop'));
     setCheckboxFromParam(
         prefixedId(prefix, 'one-direction-checkbox'),
@@ -388,7 +392,10 @@ if (!genform) {
         'One direction</label><small>Keep the shape moving in one direction.</small></div>' +
         '<div class="row animation-direction-container animation-mirror-container">' +
         '<label for="' + prefixedId(prefix, 'mirror-loop-checkbox') + '"><input type="checkbox" id="' + prefixedId(prefix, 'mirror-loop-checkbox') + '"> ' +
-        'Seamless mirror</label><small>Join original and mirrored shapes without fading.</small></div>');
+        'Seamless mirror</label><small>Join original and mirrored shapes without fading.</small></div>' +
+        '<div class="row animation-direction-container animation-depth-container">' +
+        '<label for="' + prefixedId(prefix, 'depth-layers-checkbox') + '"><input type="checkbox" id="' + prefixedId(prefix, 'depth-layers-checkbox') + '"> ' +
+        'Depth layers</label><small>Three heights and speeds. SVG and mask export only.</small></div>');
 });
 const formEntries = document.querySelectorAll("#genform input");
 const directionEntry = document.querySelectorAll(".row.radio input");
@@ -867,7 +874,7 @@ function getPreviewShortAxis(state) {
         getActiveViewIndex() <= 0 &&
         window.matchMedia('(min-width:2100px)').matches
     ) {
-        return shortAxis + window.innerWidth * 0.02;
+        return shortAxis + window.innerWidth * 0.02 * (state.depthScale || 1);
     }
 
     return shortAxis;
@@ -1164,12 +1171,61 @@ function getOneDirectionFrame(state, elapsedSeconds, copy = 0) {
     };
 }
 
-function drawDividerBitmap(bitmap, state, timestamp = performance.now()) {
-    const bounds = resizePreviewCanvas();
+function getDepthLayers(state) {
+    if (!state.animate || !state.depthLayers) return [{ state, opacity: 1, offset: 0, scale: 1 }];
+    return [
+        { opacity: 0.25, speed: 1.9, scale: 1, phase: 0 },
+        { opacity: 0.5, speed: 1.4, scale: 0.85, phase: 0.27 },
+        { opacity: 1, speed: 1, scale: 0.7, phase: 0.53 }
+    ].map((layer, index) => {
+        const duration = (Number(state.animationLength) || 10) * layer.speed;
+        const offset = 2 * duration * layer.phase;
+        return {
+            ...layer, offset,
+            state: {
+                ...state, depthLayers: false, depthScale: layer.scale,
+                key: state.key + '-depth-' + index,
+                shortAxis: (Number(state.shortAxis) || 0) * layer.scale,
+                animationLength: duration, animationOffset: offset
+            }
+        };
+    });
+}
+
+function usesDepthLayers() {
+    return getSvgExportStates().some((state) => state.animate && state.depthLayers);
+}
+
+let depthLayerCanvas;
+function drawDepthLayers(bitmap, state, timestamp, context, bounds) {
+    if (!depthLayerCanvas) depthLayerCanvas = document.createElement('canvas');
+    if (depthLayerCanvas.width !== previewCanvas.width) depthLayerCanvas.width = previewCanvas.width;
+    if (depthLayerCanvas.height !== previewCanvas.height) depthLayerCanvas.height = previewCanvas.height;
+    const layerContext = depthLayerCanvas.getContext('2d');
+    layerContext.setTransform(context.getTransform());
+    layerContext.imageSmoothingEnabled = true;
+    layerContext.imageSmoothingQuality = 'high';
+    getDepthLayers(state).forEach((layer) => {
+        drawDividerBitmap(bitmap, layer.state, timestamp + layer.offset * 1000, { context: layerContext, bounds });
+        context.save();
+        context.globalAlpha = layer.opacity;
+        context.drawImage(depthLayerCanvas, 0, 0, bounds.width, bounds.height);
+        context.restore();
+    });
+}
+
+function drawDividerBitmap(bitmap, state, timestamp = performance.now(), target = {}) {
+    const bounds = target.bounds || resizePreviewCanvas();
+    const context = target.context || previewContext;
     const width = bounds.width;
     const height = bounds.height;
 
-    previewContext.clearRect(0, 0, width, height);
+    context.clearRect(0, 0, width, height);
+
+    if (state.animate && state.depthLayers) {
+        drawDepthLayers(bitmap, state, timestamp, context, bounds);
+        return;
+    }
 
     const horizontal = state.direction === 'top' || state.direction === 'bottom';
     const shortAxis = getPreviewShortAxis(state);
@@ -1211,15 +1267,15 @@ function drawDividerBitmap(bitmap, state, timestamp = performance.now()) {
         x = state.direction === 'right' ? width - drawWidth : 0;
     }
 
-    previewContext.save();
+    context.save();
 
     if (state.flipped && !state.animate) {
         if (horizontal) {
-            previewContext.translate(width, 0);
-            previewContext.scale(-1, 1);
+            context.translate(width, 0);
+            context.scale(-1, 1);
         } else {
-            previewContext.translate(0, height);
-            previewContext.scale(1, -1);
+            context.translate(0, height);
+            context.scale(1, -1);
         }
     }
 
@@ -1235,16 +1291,16 @@ function drawDividerBitmap(bitmap, state, timestamp = performance.now()) {
         for (let tile = 0; tile < 4; tile++) {
             const start = offset + tile * tileStep - 0.5;
             if (start >= (horizontal ? width : height) || start + tileLength <= 0) continue;
-            previewContext.save();
-            previewContext.translate(horizontal ? start : x, horizontal ? y : start);
+            context.save();
+            context.translate(horizontal ? start : x, horizontal ? y : start);
             if (tile % 2) {
-                previewContext.translate(horizontal ? drawWidth : 0, horizontal ? 0 : drawHeight);
-                previewContext.scale(horizontal ? -1 : 1, horizontal ? 1 : -1);
+                context.translate(horizontal ? drawWidth : 0, horizontal ? 0 : drawHeight);
+                context.scale(horizontal ? -1 : 1, horizontal ? 1 : -1);
             }
-            drawImagePreservingSvgAspectRatio(previewContext, bitmap, 0, 0, drawWidth, drawHeight, preserveAspectRatio);
-            previewContext.restore();
+            drawImagePreservingSvgAspectRatio(context, bitmap, 0, 0, drawWidth, drawHeight, preserveAspectRatio);
+            context.restore();
         }
-        previewContext.restore();
+        context.restore();
         return;
     }
 
@@ -1254,16 +1310,16 @@ function drawDividerBitmap(bitmap, state, timestamp = performance.now()) {
         let copyY = y;
         if (state.animate && state.oneDirection) {
             const frame = getOneDirectionFrame(state, (timestamp - animationStartedAt) / 1000, copy);
-            previewContext.globalAlpha = frame.opacity;
+            context.globalAlpha = frame.opacity;
             if (horizontal) copyX = -(drawWidth - width) * (1 - frame.progress);
             else copyY = -(drawHeight - height) * (1 - frame.progress);
         }
         drawImagePreservingSvgAspectRatio(
-            previewContext, bitmap, copyX, copyY, drawWidth, drawHeight, preserveAspectRatio
+            context, bitmap, copyX, copyY, drawWidth, drawHeight, preserveAspectRatio
         );
     }
 
-    previewContext.restore();
+    context.restore();
 }
 
 function stopPreviewAnimation() {
@@ -1348,6 +1404,7 @@ function getActiveCanvasState() {
             animationLongAxis: animLongAxis,
             oneDirection,
             mirrorLoop: document.getElementById(prefixedId('', 'mirror-loop-checkbox')).checked,
+            depthLayers: document.getElementById(prefixedId('', 'depth-layers-checkbox')).checked,
             ratio: shapeRatio
         };
     }
@@ -1368,6 +1425,7 @@ function getActiveCanvasState() {
             animationLongAxis: tabletAnimLongAxis,
             oneDirection: tabletOneDirection,
             mirrorLoop: document.getElementById(prefixedId('tablet', 'mirror-loop-checkbox')).checked,
+            depthLayers: document.getElementById(prefixedId('tablet', 'depth-layers-checkbox')).checked,
             ratio: tabletShapeRatio
         };
     }
@@ -1387,6 +1445,7 @@ function getActiveCanvasState() {
         animationLongAxis: mobileAnimLongAxis,
         oneDirection: mobileOneDirection,
         mirrorLoop: document.getElementById(prefixedId('mobile', 'mirror-loop-checkbox')).checked,
+        depthLayers: document.getElementById(prefixedId('mobile', 'depth-layers-checkbox')).checked,
         ratio: mobileShapeRatio
     };
 }
@@ -1460,6 +1519,7 @@ function syncResponsiveControlsFromDesktop() {
             document.getElementById('flipped-checkbox').checked;
         document.getElementById(prefixedId(prefix, 'animate-checkbox')).checked =
             document.getElementById('animate-checkbox').checked;
+        document.getElementById(prefixedId(prefix, 'depth-layers-checkbox')).checked = document.getElementById('depth-layers-checkbox').checked;
         document.getElementById(prefixedId(prefix, 'mirror-loop-checkbox')).checked = document.getElementById('mirror-loop-checkbox').checked;
         document.getElementById(prefixedId(prefix, 'one-direction-checkbox')).checked =
             document.getElementById('one-direction-checkbox').checked;
@@ -1693,6 +1753,7 @@ function readViewportControls(prefix, selectedIndex) {
         animate: animateInput.checked,
         oneDirection: document.getElementById(prefixedId(prefix, 'one-direction-checkbox')).checked,
         mirrorLoop: document.getElementById(prefixedId(prefix, 'mirror-loop-checkbox')).checked,
+        depthLayers: document.getElementById(prefixedId(prefix, 'depth-layers-checkbox')).checked,
         animationLength: animationLengthInput.value,
         animationLongAxis: animationLongAxisInput.value,
         selectedShape: encodeSvgForCss(
@@ -1727,6 +1788,7 @@ function updateViewportControlVisibility(viewIndex, state) {
     }
     document.getElementById(prefixedId(['', 'tablet', 'mobile'][viewIndex], 'one-direction-checkbox')).closest('.animation-direction-container').style.display = animated ? 'block' : 'none';
     document.getElementById(prefixedId(['', 'tablet', 'mobile'][viewIndex], 'mirror-loop-checkbox')).closest('.animation-mirror-container').style.display = animated && state.oneDirection ? 'block' : 'none';
+    document.getElementById(prefixedId(['', 'tablet', 'mobile'][viewIndex], 'depth-layers-checkbox')).closest('.animation-depth-container').style.display = animated ? 'block' : 'none';
     animationLengthContainers[viewIndex].style.display = animated ? 'block' : 'none';
     animationLongAxisContainers[viewIndex].style.display = animated ? 'block' : 'none';
 
@@ -1877,6 +1939,8 @@ function generateCssExportCode({ renewClassName = true } = {}) {
         generateUniqueCSSName();
     }
 
+    if (usesDepthLayers()) return null;
+
     if (getSvgExportStates().some((state) => state.animate && state.oneDirection)) {
         return buildPairedExportCode('css');
     }
@@ -1949,6 +2013,7 @@ function getSvgExportStates() {
             animationLongAxis: animLongAxis,
             oneDirection,
             mirrorLoop: document.getElementById(prefixedId('', 'mirror-loop-checkbox')).checked,
+            depthLayers: document.getElementById(prefixedId('', 'depth-layers-checkbox')).checked,
             ratio: shapeRatio
         }
     ];
@@ -1971,6 +2036,7 @@ function getSvgExportStates() {
                 animationLongAxis: tabletAnimLongAxis,
                 oneDirection: tabletOneDirection,
                 mirrorLoop: document.getElementById(prefixedId('tablet', 'mirror-loop-checkbox')).checked,
+                depthLayers: document.getElementById(prefixedId('tablet', 'depth-layers-checkbox')).checked,
                 ratio: tabletShapeRatio
             },
             {
@@ -1989,6 +2055,7 @@ function getSvgExportStates() {
                 animationLongAxis: mobileAnimLongAxis,
                 oneDirection: mobileOneDirection,
                 mirrorLoop: document.getElementById(prefixedId('mobile', 'mirror-loop-checkbox')).checked,
+                depthLayers: document.getElementById(prefixedId('mobile', 'depth-layers-checkbox')).checked,
                 ratio: mobileShapeRatio
             }
         );
@@ -2299,7 +2366,7 @@ function getMirroredStateCss(state, namespace, copy) {
             width: horizontal ? (trackScale * 100) + '%' : shortAxis + 'px',
             height: horizontal ? shortAxis + 'px' : (trackScale * 100) + '%',
             'transform-origin': '0 0', transform,
-            animation: name + ' ' + cycleDuration + 's linear infinite'
+            animation: name + ' ' + cycleDuration + 's linear ' + (state.animationOffset ? '-' + state.animationOffset + 's ' : '') + 'infinite'
         },
         keyframes: '@keyframes ' + name + '{\n  from{transform:' + transform + ';}\n  to{transform:translate' + (horizontal ? 'X' : 'Y') + '(0);}\n}'
     };
@@ -2310,6 +2377,7 @@ function getPairedStateCss(state, namespace, copy) {
     css.declarations.opacity = '1';
     if (!state.animate || !state.oneDirection) {
         if (copy) css.declarations.display = 'none';
+        if (state.animate && state.animationOffset) css.declarations['animation-delay'] = '-' + state.animationOffset + 's';
         return css;
     }
     if (state.mirrorLoop) return getMirroredStateCss(state, namespace, copy);
@@ -2330,7 +2398,7 @@ function getPairedStateCss(state, namespace, copy) {
     const name = namespace + '-' + state.key + '-one-direction';
     css.declarations.transform = transform(inset);
     css.declarations.animation = name + ' ' + cycleDuration + 's linear ' +
-        (-cycleDuration * (2 * fade + copy * 0.5)) + 's infinite';
+        (-cycleDuration * (2 * fade + copy * 0.5) - (state.animationOffset || 0)) + 's infinite';
     css.keyframes = '@keyframes ' + name + '{\n' +
         '  0%{transform:' + transform(inset) + ';opacity:0;}\n' +
         '  ' + percent(fade) + '%{opacity:1;}\n' +
@@ -2410,56 +2478,67 @@ function buildPairedExportCode(format) {
             );
             backgroundImage = 'url("data:image/svg+xml;charset=utf8,' + encodeURIComponent(mirrored ? buildMirroredPairSvg(svg, state.direction, group) : svg) + '")';
         }
-        const copies = [];
-        for (let copy = 0; copy < 2; copy++) {
-            const className = group + '-' + copy;
-            const selector = format === 'css'
-                ? '.' + wrapper + (copy ? '::after' : '::before')
-                : '.' + group + ' > .' + className;
-            const css = getPairedStateCss(state, wrapper, copy);
-            const declarations = { ...css.declarations, 'z-index': '3', 'pointer-events': 'none' };
-            if (format === 'css') {
-                declarations.content = "''";
-                declarations['background-image'] = mirrored && copy ? 'none' : backgroundImage;
-                declarations['background-repeat'] = mirrored ? (horizontal ? 'repeat-x' : 'repeat-y') : 'no-repeat';
-                declarations['background-size'] = mirrored ? (horizontal ? pairSize + ' 100%' : '100% ' + pairSize) : '100% 100%';
-            } else if (format === 'mask') {
-                Object.assign(declarations, {
-                    background: getMaskBackground(state),
-                    '-webkit-mask-image': 'url("' + fileName + '")', 'mask-image': 'url("' + fileName + '")',
-                    '-webkit-mask-repeat': mirrored ? (horizontal ? 'repeat-x' : 'repeat-y') : 'no-repeat',
-                    'mask-repeat': mirrored ? (horizontal ? 'repeat-x' : 'repeat-y') : 'no-repeat',
-                    '-webkit-mask-size': mirrored ? (horizontal ? pairSize + ' 100%' : '100% ' + pairSize) : '100% 100%',
-                    'mask-size': mirrored ? (horizontal ? pairSize + ' 100%' : '100% ' + pairSize) : '100% 100%'
-                });
-                copies.push('<div class="' + className + '"></div>');
-            } else {
-                const svg = getSvgInstance(state, className);
-                if (mirrored) {
-                    const pairs = copy ? '' : [0, 1].map((tile) => buildMirroredPairSvg(svg, state.direction, className + '-' + tile).replace(
-                        '<svg ', '<svg style="position:absolute;overflow:visible;' + (horizontal
-                            ? 'width:' + pairSize + ';height:100%;left:' + (tile ? pairSize : '0') + ';top:0;'
-                            : 'width:100%;height:' + pairSize + ';left:0;top:' + (tile ? pairSize : '0') + ';') + '" '
-                    )).join('');
-                    copies.push('<div class="' + className + '">' + pairs + '</div>');
-                } else copies.push(svg);
+        const layerMarkup = [];
+        const layered = state.animate && state.depthLayers;
+        getDepthLayers(state).forEach((layer, layerIndex) => {
+            const layerState = layer.state;
+            const layerGroup = layered ? group + '__depth-' + layerIndex : group;
+            const copies = [];
+            for (let copy = 0; copy < 2; copy++) {
+                const className = layerGroup + '-' + copy;
+                const selector = format === 'css'
+                    ? '.' + wrapper + (copy ? '::after' : '::before')
+                    : '.' + layerGroup + ' > .' + className;
+                const css = getPairedStateCss(layerState, wrapper, copy);
+                const declarations = { ...css.declarations, 'z-index': '3', 'pointer-events': 'none' };
+                if (format === 'css') {
+                    declarations.content = "''";
+                    declarations['background-image'] = mirrored && copy ? 'none' : backgroundImage;
+                    declarations['background-repeat'] = mirrored ? (horizontal ? 'repeat-x' : 'repeat-y') : 'no-repeat';
+                    declarations['background-size'] = mirrored ? (horizontal ? pairSize + ' 100%' : '100% ' + pairSize) : '100% 100%';
+                } else if (format === 'mask') {
+                    Object.assign(declarations, {
+                        background: getMaskBackground(layerState),
+                        '-webkit-mask-image': 'url("' + fileName + '")', 'mask-image': 'url("' + fileName + '")',
+                        '-webkit-mask-repeat': mirrored ? (horizontal ? 'repeat-x' : 'repeat-y') : 'no-repeat',
+                        'mask-repeat': mirrored ? (horizontal ? 'repeat-x' : 'repeat-y') : 'no-repeat',
+                        '-webkit-mask-size': mirrored ? (horizontal ? pairSize + ' 100%' : '100% ' + pairSize) : '100% 100%',
+                        'mask-size': mirrored ? (horizontal ? pairSize + ' 100%' : '100% ' + pairSize) : '100% 100%'
+                    });
+                    copies.push('<div class="' + className + '"></div>');
+                } else {
+                    const svg = getSvgInstance(layerState, className);
+                    if (mirrored) {
+                        const pairs = copy ? '' : [0, 1].map((tile) => buildMirroredPairSvg(svg, layerState.direction, className + '-' + tile).replace(
+                            '<svg ', '<svg style="position:absolute;overflow:visible;' + (horizontal
+                                ? 'width:' + pairSize + ';height:100%;left:' + (tile ? pairSize : '0') + ';top:0;'
+                                : 'width:100%;height:' + pairSize + ';left:0;top:' + (tile ? pairSize : '0') + ';') + '" '
+                        )).join('');
+                        copies.push('<div class="' + className + '">' + pairs + '</div>');
+                    } else copies.push(svg);
+                }
+                stateRules.push(formatDeclarationRule(selector, declarations));
+                if (css.keyframes) keyframes.add(css.keyframes);
             }
-            stateRules.push(formatDeclarationRule(selector, declarations));
-            if (css.keyframes) keyframes.add(css.keyframes);
-        }
+            layerMarkup.push(layered
+                ? '<div class="' + layerGroup + '" style="position:absolute;inset:0;opacity:' + layer.opacity + '">' + copies.join('\n') + '</div>'
+                : copies.join('\n'));
+        });
         rules.push(index ? '@media (min-width:' + minWidth + 'px){\n' + stateRules.join('\n') + '\n}' : stateRules.join('\n'));
-        if (format !== 'css') markup.push('<div class="' + group + '">\n' + copies.join('\n') + '\n</div>');
+        if (format !== 'css') markup.push('<div class="' + group + '">\n' + layerMarkup.join('\n') + '\n</div>');
     });
 
     const desktop = states[0];
     if (desktop.direction === 'top' || desktop.direction === 'bottom') {
         const shortScale = desktop.animate && desktop.oneDirection && desktop.mirrorLoop && desktop.ratio
             ? Math.max(1, Number(desktop.animationLongAxis) || 1) : 1;
-        const selector = format === 'css' ? '.' + wrapper + '::before, .' + wrapper + '::after'
-            : '.' + wrapper + '__desktop > *';
-        rules.push('@media (min-width:2100px){\n' + formatDeclarationRule(selector, {
-            height: 'calc(' + (2 * shortScale) + 'vw + ' + ((Number(desktop.shortAxis) || 0) * shortScale) + 'px)'
-        }) + '\n}');
+        getDepthLayers(desktop).forEach((layer, index) => {
+            const selector = format === 'css' ? '.' + wrapper + '::before, .' + wrapper + '::after'
+                : '.' + wrapper + ' .' + wrapper + '__desktop' + (desktop.animate && desktop.depthLayers ? '__depth-' + index : '') + ' > *';
+            rules.push('@media (min-width:2100px){\n' + formatDeclarationRule(selector, {
+                height: 'calc(' + (2 * shortScale * layer.scale) + 'vw + ' + ((Number(layer.state.shortAxis) || 0) * shortScale) + 'px)'
+            }) + '\n}');
+        });
     }
     const code = rules.concat([...keyframes]).join('\n\n');
     const definitions = symbols.size ? '<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>' +
@@ -2468,7 +2547,7 @@ function buildPairedExportCode(format) {
 }
 
 function buildSvgExportCode() {
-    if (getSvgExportStates().some((state) => state.animate && state.oneDirection)) return buildPairedExportCode('svg');
+    if (getSvgExportStates().some((state) => state.animate && (state.oneDirection || state.depthLayers))) return buildPairedExportCode('svg');
     const wrapperClass = shapeCSSName + '-svg';
     const states = getSvgExportStates();
     const hasAnyAnimation = states.some((state) => state.animate);
@@ -2818,7 +2897,7 @@ function getMaskStateDeclarations(
 }
 
 function buildMaskExportCode() {
-    if (getSvgExportStates().some((state) => state.animate && state.oneDirection)) return buildPairedExportCode('mask');
+    if (getSvgExportStates().some((state) => state.animate && (state.oneDirection || state.depthLayers))) return buildPairedExportCode('mask');
     const wrapperClass = shapeCSSName + '-mask';
     const states = getSvgExportStates();
     const hasAnyAnimation = states.some((state) => state.animate);
@@ -3054,6 +3133,7 @@ function downloadPreparedMaskFiles() {
 }
 
 function setExportTab(tabName) {
+    if (tabName === 'css' && usesDepthLayers()) tabName = 'svg';
     activeExportTab = tabName;
 
     exportTabs.forEach((tab) => {
@@ -3076,6 +3156,21 @@ function setExportTab(tabName) {
 
 function prepareExportModalCode() {
     updateShape();
+    const layered = usesDepthLayers();
+    const cssTab = exportTabs.find((tab) => tab.dataset.exportTab === 'css');
+    if (cssTab) {
+        cssTab.disabled = layered;
+        cssTab.setAttribute('aria-disabled', String(layered));
+        if (layered) cssTab.setAttribute('aria-describedby', 'export-depth-note');
+        else cssTab.removeAttribute('aria-describedby');
+    }
+    let depthNote = document.getElementById('export-depth-note');
+    if (!depthNote && exportModal) {
+        exportModal.querySelector('.export-modal__tabs')?.insertAdjacentHTML('afterend',
+            '<p id="export-depth-note" class="export-modal__availability" hidden>Depth layers need extra elements. Choose SVG code or SVG mask; CSS-only export is unavailable.</p>');
+        depthNote = document.getElementById('export-depth-note');
+    }
+    if (depthNote) depthNote.hidden = !layered;
 
     if (requiresPremiumFeatures() && !hasPremiumAccess()) {
         const message = getPremiumExportMessage();
@@ -3085,7 +3180,7 @@ function prepareExportModalCode() {
         preparedMaskFiles = [];
     } else {
         generateUniqueCSSName();
-        preparedCssExport = generateCssExportCode({ renewClassName: false });
+        preparedCssExport = layered ? '' : generateCssExportCode({ renewClassName: false });
         preparedSvgExport = buildSvgExportCode();
         preparedMaskExport = buildMaskExportCode();
     }

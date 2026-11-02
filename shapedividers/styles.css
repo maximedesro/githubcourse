@@ -784,6 +784,18 @@ color:#111;
 border-bottom-color:#1abc9c;
 }
 
+.export-modal__tab:disabled{
+opacity:.45;
+cursor:not-allowed;
+}
+
+.export-modal__availability{
+margin:0 0 14px;
+color:#666;
+font-size:13px;
+line-height:1.5;
+}
+
 .export-modal__panel{
 display:none;
 min-height:0;
