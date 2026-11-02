@@ -6,7 +6,10 @@ const http = require('node:http');
 const path = require('node:path');
 const root = path.join(__dirname, '..');
 const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200"><path fill="#000" d="M0 0H800V130Q600 20 400 130T0 130Z"/></svg>';
-const fixtures = ['FALSE', 'TRUE'].map((ratio, si) => ({ si, ratio, category: 'Test', top: svg, bottom: svg, left: svg, right: svg }));
+const fixtures = ['FALSE', 'TRUE', 'FALSE', 'TRUE'].map((ratio, si) => {
+    const markup = si < 2 ? svg : svg.replace('fill="#000"', 'fill="#000" opacity="0.5"');
+    return { si, ratio, category: 'Test', top: markup, bottom: markup, left: markup, right: markup };
+});
 const server = http.createServer((req, res) => {
     const name = new URL(req.url, 'http://localhost').pathname;
     if (name === '/') {
@@ -18,7 +21,7 @@ const server = http.createServer((req, res) => {
         res.setHeader('Content-Type', 'application/javascript');
         // Expose internal state only in the test response.
         res.end(fs.readFileSync(path.join(root, 'app.js'), 'utf8').replace('    return initialPreviewReady;',
-            '    window.animationTest = { updateShape, buildShareUrl, getSvgExportStates, getOneDirectionFrame, getOneDirectionTiming, buildPairedExportCode, buildSvgExportCode, buildMaskExportCode, generateCssExportCode };\n    return initialPreviewReady;'));
+            '    window.animationTest = { updateShape, buildShareUrl, getSvgExportStates, getOneDirectionFrame, getOneDirectionTiming, buildPairedExportCode, buildSvgExportCode, buildMaskExportCode, generateCssExportCode, getMaskFiles: () => preparedMaskFiles, drawAt: (seconds) => { stopPreviewAnimation(); drawDividerBitmap(bitmapCache.get(activePreviewCacheKey), getActiveCanvasState(), animationStartedAt + seconds * 1000); return previewCanvas.toDataURL(); } };\n    return initialPreviewReady;'));
     } else if (name === '/styles.css') {
         res.setHeader('Content-Type', 'text/css');
         res.end(fs.readFileSync(path.join(root, 'styles.css')));
@@ -157,6 +160,103 @@ const server = http.createServer((req, res) => {
         assert.match(cadence.code, /20s linear -11s infinite/);
         assert.match(cadence.code, /5%\{opacity:1;/);
         assert.match(cadence.code, /55(?:\.0+)?%\{transform:/);
+        // Test the mirror strategy independently of the fade strategy. Pixel
+        // snapshots must repeat exactly after a pair and preserve intrinsic alpha.
+        await output.setViewportSize({ width: 1440, height: 800 });
+        for (const scale of [1, 1.3]) for (const shape of [0, 1, 2, 3]) for (const direction of ['top', 'bottom', 'left', 'right']) {
+            await page.goto(url + '/?dividerDirection=' + direction + '&si=' + shape + '&animate=true&oneDirection=true&mirrorLoop=true&animLength=10&animLongAxis=' + scale);
+            await page.waitForFunction(() => window.animationTest && !document.getElementById('sd-loader'));
+            const data = await page.evaluate(() => {
+                const css = animationTest.buildPairedExportCode('css');
+                const svg = animationTest.buildPairedExportCode('svg');
+                const mask = animationTest.buildPairedExportCode('mask');
+                return { css, svg, mask, files: animationTest.getMaskFiles(), share: animationTest.buildShareUrl(), canvas: [0, 20, 40].map(animationTest.drawAt) };
+            });
+            assert.equal(data.canvas[0], data.canvas[1], 'Canvas must repeat exactly after 20s.');
+            assert.equal(data.canvas[0], data.canvas[2], 'Canvas must repeat exactly after 40s.');
+            assert.match(data.share, /mirrorLoop=true/);
+            assert.doesNotMatch(data.css, /opacity:0|alternate/);
+            for (const format of ['css', 'svg', 'mask']) {
+                let code = data[format];
+                if (format === 'mask') data.files.forEach(file => { code = code.replaceAll(file.fileName, 'data:image/svg+xml,' + encodeURIComponent(file.svg)); });
+                const className = format === 'css' ? code.match(/^\.([^\s{]+)/)[1] : code.match(/<div class="([^"]+)"/)[1];
+                await output.setContent('<style>html,body{margin:0;background:transparent}#host{position:relative;width:800px;height:400px}</style>' + (format === 'css'
+                    ? '<style>' + code + '</style><div id="host" class="' + className + '"></div>'
+                    : '<div id="host">' + code + '</div>'));
+                const capture = async (ms) => {
+                    await output.evaluate(ms => document.getAnimations().forEach(a => { a.pause(); a.currentTime = ms; }), ms);
+                    return output.locator('#host').screenshot({ omitBackground: true, animations: 'allow' });
+                };
+                const start = await capture(0);
+                assert.deepEqual(await capture(20000), start, format + ' must repeat exactly at the loop reset.');
+                const middle = await capture(5000);
+                if (process.env.MIRROR_SCREENSHOT_PATH && scale === 1 && shape === 0 && direction === 'top' && format === 'css') {
+                    await output.evaluate(() => { document.body.style.background = 'white'; });
+                    fs.writeFileSync(process.env.MIRROR_SCREENSHOT_PATH, await capture(5000));
+                    await output.evaluate(() => { document.body.style.background = 'transparent'; });
+                }
+                const pixels = await output.evaluate(async encoded => {
+                    const image = new Image(); image.src = 'data:image/png;base64,' + encoded; await image.decode();
+                    const canvas = document.createElement('canvas'); canvas.width = image.width; canvas.height = image.height;
+                    const context = canvas.getContext('2d'); context.drawImage(image, 0, 0);
+                    const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+                    let maxAlpha = 0;
+                    const columns = Array(canvas.width).fill(0), rows = Array(canvas.height).fill(0);
+                    for (let y = 0; y < canvas.height; y++) for (let x = 0; x < canvas.width; x++) {
+                        const alpha = pixels[(y * canvas.width + x) * 4 + 3];
+                        maxAlpha = Math.max(maxAlpha, alpha); columns[x] = Math.max(columns[x], alpha); rows[y] = Math.max(rows[y], alpha);
+                    }
+                    return { maxAlpha, columns, rows };
+                }, middle.toString('base64'));
+                assert.ok(pixels.maxAlpha > 0, format + ' must render visible shape pixels.');
+                if (shape >= 2) assert.ok(pixels.maxAlpha <= 128, format + ' must preserve transparency without overlapping copies.');
+                const axis = ['top', 'bottom'].includes(direction) ? pixels.columns : pixels.rows;
+                const seam = Math.round(axis.length * scale / 2);
+                assert.ok(axis[seam - 1] >= (shape >= 2 ? 127 : 254) && axis[seam] >= (shape >= 2 ? 127 : 254), format + ' must have no transparent gap at the mirrored join.');
+            }
+        }
+        await page.evaluate(() => {
+            const responsive = document.getElementById('mobile-ready');
+            responsive.checked = true; responsive.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+        assert.equal(await page.locator('#tablet-mirror-loop-checkbox').isChecked(), true);
+        assert.equal(await page.locator('#mobile-mirror-loop-checkbox').isChecked(), true);
+        await page.evaluate(() => {
+            document.getElementById('tablet-mirror-loop-checkbox').checked = false;
+            document.getElementById('mobile-one-direction-checkbox').checked = false;
+            document.getElementById('gradient-checkbox').checked = true;
+            ['', 'tablet-', 'mobile-'].forEach(prefix => { document.getElementById(prefix + 'animation_long_axis').value = 2; });
+            animationTest.updateShape();
+        });
+        const mirrorShare = await page.evaluate(() => animationTest.buildShareUrl());
+        await page.goto(url + mirrorShare);
+        await page.waitForFunction(() => window.animationTest && !document.getElementById('sd-loader'));
+        assert.equal(await page.locator('#mirror-loop-checkbox').isChecked(), true);
+        assert.equal(await page.locator('#tablet-mirror-loop-checkbox').isChecked(), false);
+        for (const format of ['css', 'svg', 'mask']) {
+            const code = await page.evaluate(format => animationTest.buildPairedExportCode(format), format);
+            const className = format === 'css' ? code.match(/^\.([^\s{]+)/)[1] : code.match(/<div class="([^"]+)"/)[1];
+            await output.setContent(format === 'css' ? '<style>' + code + '</style><div class="' + className + '" style="width:800px;height:400px"></div>' : code);
+            for (const [width, mode] of [[500, 'alternate'], [800, 'one-direction'], [1440, 'mirror-loop']]) {
+                await output.setViewportSize({ width, height: 800 });
+                const actual = await output.evaluate(({ className, format }) => {
+                    const host = document.querySelector('.' + className);
+                    const element = format === 'css' ? host : [...host.children].find(e => getComputedStyle(e).display !== 'none').firstElementChild;
+                    const style = getComputedStyle(element, format === 'css' ? '::before' : null);
+                    return { name: style.animationName, direction: style.animationDirection };
+                }, { className, format });
+                if (mode === 'alternate') assert.equal(actual.direction, 'alternate');
+                else assert.ok(actual.name.endsWith(mode), JSON.stringify({ format, width, mode, actual }));
+            }
+            if (format === 'svg') {
+                const duplicateIds = await output.evaluate(() => {
+                    const ids = [...document.querySelectorAll('[id]')].map(e => e.id);
+                    return ids.length - new Set(ids).size;
+                });
+                assert.equal(duplicateIds, 0, 'Mirrored SVG gradients must have unique IDs.');
+            }
+        }
+        await page.locator('#mirror-loop-checkbox').uncheck();
         const stationary = await page.evaluate(() => {
             document.getElementById('animation_long_axis').value = 1;
             animationTest.updateShape();
@@ -166,6 +266,6 @@ const server = http.createServer((req, res) => {
         assert.deepEqual(stationary.frames.map(f => f.opacity), [1, 0]);
         assert.deepEqual(errors, []);
         if (process.env.SCREENSHOT_PATH) await page.screenshot({ path: process.env.SCREENSHOT_PATH });
-        console.log('PASS: browser/CSS/canvas phase parity across two loops, all four edges, both aspect modes; responsive inheritance, mixed modes in all exports, share URL restoration, legacy alternate, and scale=1.');
+        console.log('PASS: CSS/canvas fade parity, exact 10s cadence; mirror pixels repeat exactly across two loops for all edges, aspect modes, opaque/translucent shapes, and all exports; preserved alpha, joined edges, gradient IDs, mixed responsive modes, URL restoration, and legacy animation.');
     } finally { await browser.close(); server.close(); }
 })().catch(error => { console.error(error); server.close(); process.exitCode = 1; });

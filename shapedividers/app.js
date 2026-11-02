@@ -144,6 +144,7 @@ if (!previewHost) {
         ['animLength', animLength],
         ['animLongAxis', animLongAxis],
         ['oneDirection', oneDirection],
+        ['mirrorLoop', document.getElementById(prefixedId('', 'mirror-loop-checkbox')).checked],
         ['shapeColor', shapeColor],
         ['gradient', gradient],
         ['gradientColor', gradientColor],
@@ -162,6 +163,7 @@ if (!previewHost) {
         ['tabletAnimLength', tabletAnimLength],
         ['tabletAnimLongAxis', tabletAnimLongAxis],
         ['tabletOneDirection', tabletOneDirection],
+        ['tabletMirrorLoop', document.getElementById(prefixedId('tablet', 'mirror-loop-checkbox')).checked],
         ['tabletShapeColor', tabletShapeColor],
         ['tabletGradient', tabletGradient],
         ['tabletGradientColor', tabletGradientColor],
@@ -176,6 +178,7 @@ if (!previewHost) {
         ['mobileAnimLength', mobileAnimLength],
         ['mobileAnimLongAxis', mobileAnimLongAxis],
         ['mobileOneDirection', mobileOneDirection],
+        ['mobileMirrorLoop', document.getElementById(prefixedId('mobile', 'mirror-loop-checkbox')).checked],
         ['mobileShapeColor', mobileShapeColor],
         ['mobileGradient', mobileGradient],
         ['mobileGradientColor', mobileGradientColor],
@@ -268,6 +271,7 @@ function restoreViewportFromURL(prefix, paramPrefix, shapeParam) {
         prefixedId(prefix, 'animate-checkbox'),
         key('animate', 'Animate')
     );
+    setCheckboxFromParam(prefixedId(prefix, 'mirror-loop-checkbox'), key('mirrorLoop', 'MirrorLoop'));
     setCheckboxFromParam(
         prefixedId(prefix, 'one-direction-checkbox'),
         key('oneDirection', 'OneDirection')
@@ -381,7 +385,10 @@ if (!genform) {
     duration.closest('.animation-length-container').insertAdjacentHTML('afterend',
         '<div class="row animation-direction-container">' +
         '<label for="' + id + '"><input type="checkbox" id="' + id + '"> ' +
-        'One direction</label><small>Crossfade between two copies for continuous motion.</small></div>');
+        'One direction</label><small>Keep the shape moving in one direction.</small></div>' +
+        '<div class="row animation-direction-container animation-mirror-container">' +
+        '<label for="' + prefixedId(prefix, 'mirror-loop-checkbox') + '"><input type="checkbox" id="' + prefixedId(prefix, 'mirror-loop-checkbox') + '"> ' +
+        'Seamless mirror</label><small>Join original and mirrored shapes without fading.</small></div>');
 });
 const formEntries = document.querySelectorAll("#genform input");
 const directionEntry = document.querySelectorAll(".row.radio input");
@@ -1219,6 +1226,27 @@ function drawDividerBitmap(bitmap, state, timestamp = performance.now()) {
     const rawSvg = svgDividers[state.shapeIndex][state.direction];
     const preserveAspectRatio = getPreserveAspectRatio(rawSvg);
 
+    if (state.animate && state.oneDirection && state.mirrorLoop) {
+        const tileLength = horizontal ? drawWidth : drawHeight;
+        const { cycleDuration } = getOneDirectionTiming(state);
+        const phase = (((timestamp - animationStartedAt) / 1000 / cycleDuration) % 1 + 1) % 1;
+        const offset = -2 * tileLength + 2 * tileLength * phase;
+        for (let tile = 0; tile < 4; tile++) {
+            const start = offset + tile * tileLength;
+            if (start >= (horizontal ? width : height) || start + tileLength <= 0) continue;
+            previewContext.save();
+            previewContext.translate(horizontal ? start : x, horizontal ? y : start);
+            if (tile % 2) {
+                previewContext.translate(horizontal ? drawWidth : 0, horizontal ? 0 : drawHeight);
+                previewContext.scale(horizontal ? -1 : 1, horizontal ? 1 : -1);
+            }
+            drawImagePreservingSvgAspectRatio(previewContext, bitmap, 0, 0, drawWidth, drawHeight, preserveAspectRatio);
+            previewContext.restore();
+        }
+        previewContext.restore();
+        return;
+    }
+
     const copies = state.animate && state.oneDirection ? 2 : 1;
     for (let copy = 0; copy < copies; copy++) {
         let copyX = x;
@@ -1318,6 +1346,7 @@ function getActiveCanvasState() {
             animationLength: animLength,
             animationLongAxis: animLongAxis,
             oneDirection,
+            mirrorLoop: document.getElementById(prefixedId('', 'mirror-loop-checkbox')).checked,
             ratio: shapeRatio
         };
     }
@@ -1337,6 +1366,7 @@ function getActiveCanvasState() {
             animationLength: tabletAnimLength,
             animationLongAxis: tabletAnimLongAxis,
             oneDirection: tabletOneDirection,
+            mirrorLoop: document.getElementById(prefixedId('tablet', 'mirror-loop-checkbox')).checked,
             ratio: tabletShapeRatio
         };
     }
@@ -1355,6 +1385,7 @@ function getActiveCanvasState() {
         animationLength: mobileAnimLength,
         animationLongAxis: mobileAnimLongAxis,
         oneDirection: mobileOneDirection,
+        mirrorLoop: document.getElementById(prefixedId('mobile', 'mirror-loop-checkbox')).checked,
         ratio: mobileShapeRatio
     };
 }
@@ -1428,6 +1459,7 @@ function syncResponsiveControlsFromDesktop() {
             document.getElementById('flipped-checkbox').checked;
         document.getElementById(prefixedId(prefix, 'animate-checkbox')).checked =
             document.getElementById('animate-checkbox').checked;
+        document.getElementById(prefixedId(prefix, 'mirror-loop-checkbox')).checked = document.getElementById('mirror-loop-checkbox').checked;
         document.getElementById(prefixedId(prefix, 'one-direction-checkbox')).checked =
             document.getElementById('one-direction-checkbox').checked;
         document.getElementById(prefixedId(prefix, 'animation_length')).value =
@@ -1659,6 +1691,7 @@ function readViewportControls(prefix, selectedIndex) {
         flipped: flippedInput.checked,
         animate: animateInput.checked,
         oneDirection: document.getElementById(prefixedId(prefix, 'one-direction-checkbox')).checked,
+        mirrorLoop: document.getElementById(prefixedId(prefix, 'mirror-loop-checkbox')).checked,
         animationLength: animationLengthInput.value,
         animationLongAxis: animationLongAxisInput.value,
         selectedShape: encodeSvgForCss(
@@ -1691,7 +1724,8 @@ function updateViewportControlVisibility(viewIndex, state) {
     } else {
         flipContainer.removeAttribute('aria-describedby');
     }
-    document.querySelectorAll('.animation-direction-container')[viewIndex].style.display = animated ? 'block' : 'none';
+    document.getElementById(prefixedId(['', 'tablet', 'mobile'][viewIndex], 'one-direction-checkbox')).closest('.animation-direction-container').style.display = animated ? 'block' : 'none';
+    document.getElementById(prefixedId(['', 'tablet', 'mobile'][viewIndex], 'mirror-loop-checkbox')).closest('.animation-mirror-container').style.display = animated && state.oneDirection ? 'block' : 'none';
     animationLengthContainers[viewIndex].style.display = animated ? 'block' : 'none';
     animationLongAxisContainers[viewIndex].style.display = animated ? 'block' : 'none';
 
@@ -1913,6 +1947,7 @@ function getSvgExportStates() {
             animationLength: animLength,
             animationLongAxis: animLongAxis,
             oneDirection,
+            mirrorLoop: document.getElementById(prefixedId('', 'mirror-loop-checkbox')).checked,
             ratio: shapeRatio
         }
     ];
@@ -1933,7 +1968,8 @@ function getSvgExportStates() {
                 animate: tabletAnimate,
                 animationLength: tabletAnimLength,
                 animationLongAxis: tabletAnimLongAxis,
-            oneDirection: tabletOneDirection,
+                oneDirection: tabletOneDirection,
+                mirrorLoop: document.getElementById(prefixedId('tablet', 'mirror-loop-checkbox')).checked,
                 ratio: tabletShapeRatio
             },
             {
@@ -1950,7 +1986,8 @@ function getSvgExportStates() {
                 animate: mobileAnimate,
                 animationLength: mobileAnimLength,
                 animationLongAxis: mobileAnimLongAxis,
-            oneDirection: mobileOneDirection,
+                oneDirection: mobileOneDirection,
+                mirrorLoop: document.getElementById(prefixedId('mobile', 'mirror-loop-checkbox')).checked,
                 ratio: mobileShapeRatio
             }
         );
@@ -2205,6 +2242,61 @@ function statesAreSameShape(a, b) {
     return true;
 }
 
+function buildMirroredPairSvg(svg, direction, namespace) {
+    const horizontal = direction === 'top' || direction === 'bottom';
+    const parsed = new DOMParser().parseFromString(svg, 'image/svg+xml').documentElement;
+    const values = (parsed.getAttribute('viewBox') || '').trim().split(/[\s,]+/).map(Number);
+    const [x, y, width, height] = values.length === 4 ? values : [0, 0, Number(parsed.getAttribute('width')) || 1, Number(parsed.getAttribute('height')) || 1];
+    // Reflect in the source coordinate system, preserving its native SVG
+    // viewport and aspect-ratio alignment within each half of the pair.
+    const reflection = horizontal
+        ? 'translate(' + (2 * x + width) + ' 0) scale(-1 1)'
+        : 'translate(0 ' + (2 * y + height) + ') scale(1 -1)';
+    const tiles = [0, 1].map((mirrored) => {
+        const tile = parsed.cloneNode(true);
+        tile.setAttribute('x', horizontal && mirrored ? '50%' : '0');
+        tile.setAttribute('y', !horizontal && mirrored ? '50%' : '0');
+        tile.setAttribute('width', horizontal ? '50%' : '100%');
+        tile.setAttribute('height', horizontal ? '100%' : '50%');
+        if (mirrored) {
+            const group = parsed.ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'g');
+            group.setAttribute('transform', reflection);
+            while (tile.firstChild) group.appendChild(tile.firstChild);
+            tile.appendChild(group);
+        }
+        return namespaceInlineSvgIds(new XMLSerializer().serializeToString(tile), namespace + '-' + mirrored);
+    });
+    // No outer viewBox: nested viewports retain their physical aspect ratios.
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" aria-hidden="true" focusable="false">' + tiles.join('') + '</svg>';
+}
+
+function getMirroredStateCss(state, namespace, copy) {
+    const horizontal = state.direction === 'top' || state.direction === 'bottom';
+    const scale = Math.max(1, Number(state.animationLongAxis) || 1);
+    const trackScale = 2 * scale + 1;
+    const pairPercent = 100 * 2 * scale / trackScale;
+    const shortAxis = (Number(state.shortAxis) || 0) * (state.ratio ? scale : 1);
+    const name = namespace + '-' + state.key + '-mirror-loop';
+    const transform = 'translate' + (horizontal ? 'X' : 'Y') + '(-' + pairPercent + '%)';
+    const { cycleDuration } = getOneDirectionTiming(state);
+    return {
+        declarations: {
+            display: copy ? 'none' : 'block', position: 'absolute', color: '#' + state.color,
+            '--shape-gradient-color-1': '#' + state.color, '--shape-gradient-color-2': '#' + state.gradientColor,
+            'max-width': 'none', opacity: '1',
+            top: horizontal ? (state.direction === 'top' ? '-0.1vw' : 'auto') : '0',
+            bottom: horizontal && state.direction === 'bottom' ? '-0.1vw' : 'auto',
+            left: horizontal ? '0' : state.direction === 'left' ? '-0.1vw' : 'auto',
+            right: !horizontal && state.direction === 'right' ? '-0.1vw' : 'auto',
+            width: horizontal ? (trackScale * 100) + '%' : shortAxis + 'px',
+            height: horizontal ? shortAxis + 'px' : (trackScale * 100) + '%',
+            'transform-origin': '0 0', transform,
+            animation: name + ' ' + cycleDuration + 's linear infinite'
+        },
+        keyframes: '@keyframes ' + name + '{\n  from{transform:' + transform + ';}\n  to{transform:translate' + (horizontal ? 'X' : 'Y') + '(0);}\n}'
+    };
+}
+
 function getPairedStateCss(state, namespace, copy) {
     const css = getSvgStateDeclarations(state, namespace);
     css.declarations.opacity = '1';
@@ -2212,6 +2304,7 @@ function getPairedStateCss(state, namespace, copy) {
         if (copy) css.declarations.display = 'none';
         return css;
     }
+    if (state.mirrorLoop) return getMirroredStateCss(state, namespace, copy);
     if (Number(state.animationLongAxis) <= 1) {
         css.declarations.animation = 'none';
         if (copy) css.declarations.display = 'none';
@@ -2254,6 +2347,10 @@ function buildPairedExportCode(format) {
 
     ordered.forEach((state, index) => {
         const group = wrapper + '__' + state.key;
+        const mirrored = state.animate && state.oneDirection && state.mirrorLoop;
+        const horizontal = state.direction === 'top' || state.direction === 'bottom';
+        const scale = Math.max(1, Number(state.animationLongAxis) || 1);
+        const pairPercent = 100 * 2 * scale / (2 * scale + 1);
         const stateRules = [];
         const minWidth = index === 1 ? 768 : 1025;
         if (format !== 'css') {
@@ -2265,7 +2362,17 @@ function buildPairedExportCode(format) {
             }
         }
         const fileName = group + '.svg';
-        if (format === 'mask') preparedMaskFiles.push({ fileName, svg: getMaskSvg(state.shapeIndex, state.direction) });
+        if (format === 'mask') {
+            const svg = getMaskSvg(state.shapeIndex, state.direction);
+            preparedMaskFiles.push({ fileName, svg: mirrored ? buildMirroredPairSvg(svg, state.direction, group) : svg });
+        }
+        let backgroundImage;
+        if (format === 'css') {
+            const svg = buildShapeSvgMarkup(
+                svgDividers[state.shapeIndex][state.direction], state.color, state.gradient, state.gradientColor, state.direction
+            );
+            backgroundImage = 'url("data:image/svg+xml;charset=utf8,' + encodeURIComponent(mirrored ? buildMirroredPairSvg(svg, state.direction, group) : svg) + '")';
+        }
         const copies = [];
         for (let copy = 0; copy < 2; copy++) {
             const className = group + '-' + copy;
@@ -2276,21 +2383,29 @@ function buildPairedExportCode(format) {
             const declarations = { ...css.declarations, 'z-index': '3', 'pointer-events': 'none' };
             if (format === 'css') {
                 declarations.content = "''";
-                declarations['background-image'] = 'url("data:image/svg+xml;charset=utf8,' + encodeURIComponent(buildShapeSvgMarkup(
-                    svgDividers[state.shapeIndex][state.direction], state.color, state.gradient, state.gradientColor, state.direction
-                )) + '")';
-                declarations['background-repeat'] = 'no-repeat';
-                declarations['background-size'] = '100% 100%';
+                declarations['background-image'] = mirrored && copy ? 'none' : backgroundImage;
+                declarations['background-repeat'] = mirrored ? (horizontal ? 'repeat-x' : 'repeat-y') : 'no-repeat';
+                declarations['background-size'] = mirrored ? (horizontal ? pairPercent + '% 100%' : '100% ' + pairPercent + '%') : '100% 100%';
             } else if (format === 'mask') {
                 Object.assign(declarations, {
                     background: getMaskBackground(state),
                     '-webkit-mask-image': 'url("' + fileName + '")', 'mask-image': 'url("' + fileName + '")',
-                    '-webkit-mask-repeat': 'no-repeat', 'mask-repeat': 'no-repeat',
-                    '-webkit-mask-size': '100% 100%', 'mask-size': '100% 100%'
+                    '-webkit-mask-repeat': mirrored ? (horizontal ? 'repeat-x' : 'repeat-y') : 'no-repeat',
+                    'mask-repeat': mirrored ? (horizontal ? 'repeat-x' : 'repeat-y') : 'no-repeat',
+                    '-webkit-mask-size': mirrored ? (horizontal ? pairPercent + '% 100%' : '100% ' + pairPercent + '%') : '100% 100%',
+                    'mask-size': mirrored ? (horizontal ? pairPercent + '% 100%' : '100% ' + pairPercent + '%') : '100% 100%'
                 });
                 copies.push('<div class="' + className + '"></div>');
             } else {
-                copies.push(getPlainExportSvg(state.shapeIndex, state.direction, className, state.gradient, state.color, state.gradientColor));
+                const svg = getPlainExportSvg(state.shapeIndex, state.direction, className, state.gradient, state.color, state.gradientColor);
+                if (mirrored) {
+                    const pairs = copy ? '' : [0, 1].map((tile) => buildMirroredPairSvg(svg, state.direction, className + '-' + tile).replace(
+                        '<svg ', '<svg style="position:absolute;' + (horizontal
+                            ? 'width:' + pairPercent + '%;height:100%;left:' + (tile * pairPercent) + '%;top:0;'
+                            : 'width:100%;height:' + pairPercent + '%;left:0;top:' + (tile * pairPercent) + '%;') + '" '
+                    )).join('');
+                    copies.push('<div class="' + className + '">' + pairs + '</div>');
+                } else copies.push(svg);
             }
             stateRules.push(formatDeclarationRule(selector, declarations));
             if (css.keyframes) keyframes.add(css.keyframes);
@@ -2301,10 +2416,12 @@ function buildPairedExportCode(format) {
 
     const desktop = states[0];
     if (desktop.direction === 'top' || desktop.direction === 'bottom') {
+        const shortScale = desktop.animate && desktop.oneDirection && desktop.mirrorLoop && desktop.ratio
+            ? Math.max(1, Number(desktop.animationLongAxis) || 1) : 1;
         const selector = format === 'css' ? '.' + wrapper + '::before, .' + wrapper + '::after'
             : '.' + wrapper + '__desktop > *';
         rules.push('@media (min-width:2100px){\n' + formatDeclarationRule(selector, {
-            height: 'calc(2vw + ' + (Number(desktop.shortAxis) || 0) + 'px)'
+            height: 'calc(' + (2 * shortScale) + 'vw + ' + ((Number(desktop.shortAxis) || 0) * shortScale) + 'px)'
         }) + '\n}');
     }
     const code = rules.concat([...keyframes]).join('\n\n');
