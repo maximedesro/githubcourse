@@ -161,7 +161,8 @@ const server = http.createServer((req, res) => {
         assert.match(cadence.code, /5%\{opacity:1;/);
         assert.match(cadence.code, /55(?:\.0+)?%\{transform:/);
         // Test the mirror strategy independently of the fade strategy. Pixel
-        // snapshots must repeat exactly after a pair and preserve intrinsic alpha.
+        // snapshots must repeat exactly after a pair, with alpha buildup confined
+        // to the requested one-pixel seam overlap.
         await output.setViewportSize({ width: 1440, height: 800 });
         for (const scale of [1, 1.3]) for (const shape of [0, 1, 2, 3]) for (const direction of ['top', 'bottom', 'left', 'right']) {
             await page.goto(url + '/?dividerDirection=' + direction + '&si=' + shape + '&animate=true&oneDirection=true&mirrorLoop=true&animLength=10&animLongAxis=' + scale);
@@ -176,6 +177,8 @@ const server = http.createServer((req, res) => {
             assert.equal(data.canvas[0], data.canvas[2], 'Canvas must repeat exactly after 40s.');
             assert.match(data.share, /mirrorLoop=true/);
             assert.doesNotMatch(data.css, /opacity:0|alternate/);
+            assert.match(data.css, /background-size:calc\([^;]+% - 2px\)|background-size:100% calc\([^;]+% - 2px\)/, 'Pair size must include both 1px join adjustments.');
+            assert.match(data.css, /translate[XY]\(calc\(-[^)]+% \+ 2px\)\)/, 'Animation travel must match the shorter pair period.');
             for (const format of ['css', 'svg', 'mask']) {
                 let code = data[format];
                 if (format === 'mask') data.files.forEach(file => { code = code.replaceAll(file.fileName, 'data:image/svg+xml,' + encodeURIComponent(file.svg)); });
@@ -209,10 +212,11 @@ const server = http.createServer((req, res) => {
                     return { maxAlpha, columns, rows };
                 }, middle.toString('base64'));
                 assert.ok(pixels.maxAlpha > 0, format + ' must render visible shape pixels.');
-                if (shape >= 2) assert.ok(pixels.maxAlpha <= 128, format + ' must preserve transparency without overlapping copies.');
+                if (shape >= 2) assert.ok(pixels.maxAlpha <= 192, format + ' must limit alpha buildup to the requested 1px overlap.');
                 const axis = ['top', 'bottom'].includes(direction) ? pixels.columns : pixels.rows;
-                const seam = Math.round(axis.length * scale / 2);
-                assert.ok(axis[seam - 1] >= (shape >= 2 ? 127 : 254) && axis[seam] >= (shape >= 2 ? 127 : 254), format + ' must have no transparent gap at the mirrored join.');
+                if (shape >= 2) assert.ok(axis.filter(alpha => alpha > 128).length <= 3, format + ' must confine alpha buildup to the 1px overlap and its antialiased edges.');
+                const seam = Math.round(axis.length * scale / 2 - 1);
+                assert.ok(axis[seam - 1] >= (shape >= 2 ? 127 : 254) && axis[seam] >= (shape >= 2 ? 127 : 254), JSON.stringify({ format, shape, scale, direction, seam, alpha: axis.slice(seam - 3, seam + 4) }));
             }
         }
         await page.evaluate(() => {

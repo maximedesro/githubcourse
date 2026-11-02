@@ -1228,11 +1228,12 @@ function drawDividerBitmap(bitmap, state, timestamp = performance.now()) {
 
     if (state.animate && state.oneDirection && state.mirrorLoop) {
         const tileLength = horizontal ? drawWidth : drawHeight;
+        const tileStep = Math.max(1, tileLength - 1);
         const { cycleDuration } = getOneDirectionTiming(state);
         const phase = (((timestamp - animationStartedAt) / 1000 / cycleDuration) % 1 + 1) % 1;
-        const offset = -2 * tileLength + 2 * tileLength * phase;
+        const offset = -2 * tileStep + 2 * tileStep * phase;
         for (let tile = 0; tile < 4; tile++) {
-            const start = offset + tile * tileLength;
+            const start = offset + tile * tileStep - 0.5;
             if (start >= (horizontal ? width : height) || start + tileLength <= 0) continue;
             previewContext.save();
             previewContext.translate(horizontal ? start : x, horizontal ? y : start);
@@ -2258,6 +2259,10 @@ function buildMirroredPairSvg(svg, direction, namespace) {
         tile.setAttribute('y', !horizontal && mirrored ? '50%' : '0');
         tile.setAttribute('width', horizontal ? '50%' : '100%');
         tile.setAttribute('height', horizontal ? '100%' : '50%');
+        // Bleed half a pixel into each neighbor to close rasterization seams.
+        // Each half is 1px wider than its cell, so adjacent mirrors overlap 1px.
+        tile.setAttribute(horizontal ? 'x' : 'y', mirrored ? 'calc(50% - 0.5px)' : '-0.5');
+        tile.setAttribute(horizontal ? 'width' : 'height', 'calc(50% + 1px)');
         if (mirrored) {
             const group = parsed.ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'g');
             group.setAttribute('transform', reflection);
@@ -2267,7 +2272,7 @@ function buildMirroredPairSvg(svg, direction, namespace) {
         return namespaceInlineSvgIds(new XMLSerializer().serializeToString(tile), namespace + '-' + mirrored);
     });
     // No outer viewBox: nested viewports retain their physical aspect ratios.
-    return '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" aria-hidden="true" focusable="false">' + tiles.join('') + '</svg>';
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" overflow="visible" aria-hidden="true" focusable="false">' + tiles.join('') + '</svg>';
 }
 
 function getMirroredStateCss(state, namespace, copy) {
@@ -2277,7 +2282,7 @@ function getMirroredStateCss(state, namespace, copy) {
     const pairPercent = 100 * 2 * scale / trackScale;
     const shortAxis = (Number(state.shortAxis) || 0) * (state.ratio ? scale : 1);
     const name = namespace + '-' + state.key + '-mirror-loop';
-    const transform = 'translate' + (horizontal ? 'X' : 'Y') + '(-' + pairPercent + '%)';
+    const transform = 'translate' + (horizontal ? 'X' : 'Y') + '(calc(-' + pairPercent + '% + 2px))';
     const { cycleDuration } = getOneDirectionTiming(state);
     return {
         declarations: {
@@ -2351,6 +2356,7 @@ function buildPairedExportCode(format) {
         const horizontal = state.direction === 'top' || state.direction === 'bottom';
         const scale = Math.max(1, Number(state.animationLongAxis) || 1);
         const pairPercent = 100 * 2 * scale / (2 * scale + 1);
+        const pairSize = 'calc(' + pairPercent + '% - 2px)';
         const stateRules = [];
         const minWidth = index === 1 ? 768 : 1025;
         if (format !== 'css') {
@@ -2385,24 +2391,24 @@ function buildPairedExportCode(format) {
                 declarations.content = "''";
                 declarations['background-image'] = mirrored && copy ? 'none' : backgroundImage;
                 declarations['background-repeat'] = mirrored ? (horizontal ? 'repeat-x' : 'repeat-y') : 'no-repeat';
-                declarations['background-size'] = mirrored ? (horizontal ? pairPercent + '% 100%' : '100% ' + pairPercent + '%') : '100% 100%';
+                declarations['background-size'] = mirrored ? (horizontal ? pairSize + ' 100%' : '100% ' + pairSize) : '100% 100%';
             } else if (format === 'mask') {
                 Object.assign(declarations, {
                     background: getMaskBackground(state),
                     '-webkit-mask-image': 'url("' + fileName + '")', 'mask-image': 'url("' + fileName + '")',
                     '-webkit-mask-repeat': mirrored ? (horizontal ? 'repeat-x' : 'repeat-y') : 'no-repeat',
                     'mask-repeat': mirrored ? (horizontal ? 'repeat-x' : 'repeat-y') : 'no-repeat',
-                    '-webkit-mask-size': mirrored ? (horizontal ? pairPercent + '% 100%' : '100% ' + pairPercent + '%') : '100% 100%',
-                    'mask-size': mirrored ? (horizontal ? pairPercent + '% 100%' : '100% ' + pairPercent + '%') : '100% 100%'
+                    '-webkit-mask-size': mirrored ? (horizontal ? pairSize + ' 100%' : '100% ' + pairSize) : '100% 100%',
+                    'mask-size': mirrored ? (horizontal ? pairSize + ' 100%' : '100% ' + pairSize) : '100% 100%'
                 });
                 copies.push('<div class="' + className + '"></div>');
             } else {
                 const svg = getPlainExportSvg(state.shapeIndex, state.direction, className, state.gradient, state.color, state.gradientColor);
                 if (mirrored) {
                     const pairs = copy ? '' : [0, 1].map((tile) => buildMirroredPairSvg(svg, state.direction, className + '-' + tile).replace(
-                        '<svg ', '<svg style="position:absolute;' + (horizontal
-                            ? 'width:' + pairPercent + '%;height:100%;left:' + (tile * pairPercent) + '%;top:0;'
-                            : 'width:100%;height:' + pairPercent + '%;left:0;top:' + (tile * pairPercent) + '%;') + '" '
+                        '<svg ', '<svg style="position:absolute;overflow:visible;' + (horizontal
+                            ? 'width:' + pairSize + ';height:100%;left:' + (tile ? pairSize : '0') + ';top:0;'
+                            : 'width:100%;height:' + pairSize + ';left:0;top:' + (tile ? pairSize : '0') + ';') + '" '
                     )).join('');
                     copies.push('<div class="' + className + '">' + pairs + '</div>');
                 } else copies.push(svg);
