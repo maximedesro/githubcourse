@@ -2655,3 +2655,28 @@ body.sd-is-loading {
 #genform .sd-motion-stack .sd-motion-color{font-size:12px;margin:0;gap:8px}
 #genform .sd-motion-stack .sd-motion-hex{width:82px;height:30px;padding:5px;font-size:11px}
 #genform .sd-motion-stack .sd-motion-field,#genform .sd-motion-stack .sd-motion-check{font-size:13px}
+
+
+/* Tippy.js 6.3.7 base styles (MIT; see vendor/tooltip-licenses.txt). */
+.tippy-box[data-animation=fade][data-state=hidden]{opacity:0}[data-tippy-root]{max-width:calc(100vw - 10px)}.tippy-box{position:relative;background-color:#333;color:#fff;border-radius:4px;font-size:14px;line-height:1.4;white-space:normal;outline:0;transition-property:transform,visibility,opacity}.tippy-box[data-placement^=top]>.tippy-arrow{bottom:0}.tippy-box[data-placement^=top]>.tippy-arrow:before{bottom:-7px;left:0;border-width:8px 8px 0;border-top-color:initial;transform-origin:center top}.tippy-box[data-placement^=bottom]>.tippy-arrow{top:0}.tippy-box[data-placement^=bottom]>.tippy-arrow:before{top:-7px;left:0;border-width:0 8px 8px;border-bottom-color:initial;transform-origin:center bottom}.tippy-box[data-placement^=left]>.tippy-arrow{right:0}.tippy-box[data-placement^=left]>.tippy-arrow:before{border-width:8px 0 8px 8px;border-left-color:initial;right:-7px;transform-origin:center left}.tippy-box[data-placement^=right]>.tippy-arrow{left:0}.tippy-box[data-placement^=right]>.tippy-arrow:before{left:-7px;border-width:8px 8px 8px 0;border-right-color:initial;transform-origin:center right}.tippy-box[data-inertia][data-state=visible]{transition-timing-function:cubic-bezier(.54,1.5,.38,1.11)}.tippy-arrow{width:16px;height:16px;color:#333}.tippy-arrow:before{content:"";position:absolute;border-color:transparent;border-style:solid}.tippy-content{position:relative;padding:5px 9px;z-index:1}
+/* Body-mounted tooltips stay outside the scrolling settings panel. */
+.tippy-box[data-theme~="shapedividers"] {
+  background: var(--sd-ink, #153b36);
+  color: #fff;
+  border-radius: 9px;
+  box-shadow: 0 8px 28px rgb(0 0 0 / .18);
+  font: 500 12px/1.5 var(--sd-font-body, sans-serif);
+  text-align: left;
+}
+.tippy-box[data-theme~="shapedividers"] .tippy-content { padding: 10px 12px; }
+.tippy-box[data-theme~="shapedividers"] .tippy-arrow { color: var(--sd-ink, #153b36); }
+.sd-tooltip-target { cursor: help; }
+.sd-tooltip-target:focus-visible { outline: 2px solid var(--sd-teal, #1abc9c); outline-offset: 4px; }
+.sd-tooltip-target input:disabled,
+.sd-tooltip-target select:disabled,
+.sd-export-tooltip.sd-tooltip-target > button:disabled { pointer-events: none; }
+.sd-export-tooltip { display: inline-flex; min-width: 0; }
+.sd-export-tooltip > .export-modal__tab { width: 100%; }
+@media (prefers-reduced-motion: reduce) {
+  .tippy-box[data-theme~="shapedividers"], .tippy-box[data-theme~="shapedividers"] .tippy-content { transition-duration: 0s !important; }
+}

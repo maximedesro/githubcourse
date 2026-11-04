@@ -1,3 +1,24 @@
+// Capture the asset location while app.js is executing: the creator is also
+// embedded on WordPress pages whose URL is unrelated to this script's directory.
+const SD_APP_SCRIPT_URL = document.currentScript?.src ||
+    'https://cdn.jsdelivr.net/gh/maximedesro/githubcourse@core/shapedividers/app.js';
+let sdTooltipLibraryPromise;
+function loadShapeTooltipLibrary() {
+    if (typeof window.tippy === 'function') return Promise.resolve(window.tippy);
+    if (!sdTooltipLibraryPromise) {
+        sdTooltipLibraryPromise = new Promise(resolve => {
+            const script = document.createElement('script');
+            script.src = new URL('vendor/tippy-bundle.min.js', SD_APP_SCRIPT_URL).href;
+            script.dataset.sdTooltips = 'true';
+            script.onload = () => resolve(typeof window.tippy === 'function' ? window.tippy : null);
+            // The inline explanations remain available if an embed blocks assets.
+            script.onerror = () => resolve(null);
+            document.head.appendChild(script);
+        });
+    }
+    return sdTooltipLibraryPromise;
+}
+
 const SHAPE_DIVIDERS_LOADER_MARKUP = "<div id=\"sd-loader\" class=\"sd-loader\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\">\n  <div class=\"sd-loader__card\">\n    <div class=\"sd-loader__brand\"><span class=\"sd-loader__spark\" aria-hidden=\"true\">✳</span> ShapeDividers</div>\n    <div class=\"sd-loader__art\" aria-hidden=\"true\">\n      <svg viewBox=\"0 0 600 180\" preserveAspectRatio=\"none\"><path class=\"sd-loader__wave sd-loader__wave--back\" d=\"M-100 70Q50 0 200 70T500 70T800 70V220H-100Z\"/><path class=\"sd-loader__wave sd-loader__wave--mid\" d=\"M-100 95Q50 25 200 95T500 95T800 95V220H-100Z\"/><path class=\"sd-loader__wave sd-loader__wave--front\" d=\"M-100 120Q50 50 200 120T500 120T800 120V220H-100Z\"/></svg>\n      <span class=\"sd-loader__art-label\">GOOD THINGS TAKE SHAPE</span>\n    </div>\n    <span class=\"sd-loader__eyebrow\">YOUR NEXT GREAT DESIGN</span>\n    <h2 class=\"sd-loader__title\">Just taking shape.</h2>\n    <p class=\"sd-loader__message\" data-loader-message>Loading your shape library…</p>\n    <div class=\"sd-loader__track\" aria-hidden=\"true\"><span></span></div>\n    <ol class=\"sd-loader__steps\" aria-hidden=\"true\"><li class=\"is-active\">Library</li><li>Canvas</li><li>Ready</li></ol>\n    <button class=\"sd-loader__retry\" type=\"button\" hidden>Try again</button>\n  </div>\n</div>";
 
 function getShapeDividersLoader() {
@@ -772,6 +793,81 @@ function mountMotionControls(prefix) {
     // Inputs join the existing form input handlers; select elements need one too.
     stack.querySelectorAll('select').forEach(input => input.addEventListener('input',updateShape));
 }
+const controlTooltips = new WeakMap();
+const visibleControlTooltips = new Set();
+document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') visibleControlTooltips.forEach(instance => instance.hide());
+});
+function setControlTooltip(target, message) {
+    if (!target) return;
+    target.removeAttribute('title');
+    let record = controlTooltips.get(target);
+    if (!record && !message) return;
+    if (!record) {
+        record = {message:'', instance:null, previousTabIndex:target.getAttribute('tabindex'), pending:false};
+        controlTooltips.set(target, record);
+    }
+    record.message = message;
+    target.classList.toggle('sd-tooltip-target', Boolean(message));
+    if (!message) {
+        record.instance?.destroy();
+        record.instance = null;
+        if (record.previousTabIndex === null) target.removeAttribute('tabindex');
+        else target.setAttribute('tabindex',record.previousTabIndex);
+        return;
+    }
+    // Disabled inputs/buttons cannot receive pointer or focus events. Their
+    // wrappers receive both, while the actual controls stay disabled.
+    target.tabIndex = 0;
+    if (record.instance) {
+        record.instance.setContent(message);
+        return;
+    }
+    if (record.pending) return;
+    record.pending = true;
+    loadShapeTooltipLibrary().then(tippy => {
+        record.pending = false;
+        if (!tippy || !record.message || !target.isConnected) return;
+        record.instance = tippy(target, {
+            content:record.message,
+            allowHTML:false,
+            ignoreAttributes:true,
+            theme:'shapedividers',
+            placement:'right',
+            appendTo:() => document.body,
+            trigger:'mouseenter focus',
+            delay:[150,0],
+            duration:[120,90],
+            maxWidth:300,
+            offset:[0,10],
+            zIndex:2147483647,
+            aria:{content:'describedby',expanded:false},
+            popperOptions:{modifiers:[{name:'preventOverflow',options:{padding:12}}]},
+            onShow(instance) { visibleControlTooltips.add(instance); },
+            onHide(instance) { visibleControlTooltips.delete(instance); },
+            onDestroy(instance) { visibleControlTooltips.delete(instance); }
+        });
+        // Hover/focus may have started while the local bundle was loading.
+        if (target.matches(':hover') || target === document.activeElement) record.instance.show();
+    });
+}
+function setExportTooltip(tab, message) {
+    if (!tab) return;
+    let wrapper = tab.parentElement;
+    if (!wrapper.classList.contains('sd-export-tooltip')) {
+        wrapper = document.createElement('span');
+        wrapper.className = 'sd-export-tooltip';
+        wrapper.setAttribute('role','presentation');
+        tab.before(wrapper);
+        wrapper.appendChild(tab);
+    }
+    tab.removeAttribute('title');
+    wrapper.setAttribute('aria-label',tab.textContent.trim()+' unavailable');
+    if (message) wrapper.setAttribute('aria-describedby','export-depth-note');
+    else { wrapper.removeAttribute('aria-describedby'); wrapper.removeAttribute('aria-label'); }
+    setControlTooltip(wrapper,message);
+}
+
 function syncMotionControls(prefix, state) {
     const stack = document.getElementById(prefixedId(prefix,'motion-stack'));
     if (!stack) return;
@@ -781,20 +877,22 @@ function syncMotionControls(prefix, state) {
     const reason = legacy ? 'Turn off One direction and Depth layers to combine animation layers.' : '';
     stack.querySelectorAll('select,input').forEach(input => {
         input.disabled = legacy;
-        input.title = reason;
+        input.removeAttribute('title');
         input.setAttribute('aria-describedby',stack.id+'-help');
     });
     ['one-direction-checkbox','depth-layers-checkbox'].forEach(field => {
         const input = document.getElementById(prefixedId(prefix,field));
         input.disabled = selected && !legacy;
-        input.closest('.row').title = selected && !legacy ? 'Choose Scrolling with no edge or surface layers to use this loop mode.' : '';
+        const row = input.closest('.row');
+        row.setAttribute('aria-describedby',stack.id+'-help');
+        setControlTooltip(row, selected && !legacy ? 'Choose Scrolling with no edge or surface layers to use this loop mode.' : '');
     });
     stack.querySelector('.sd-motion-light-colors').hidden = state.effects.light === 'none';
     stack.querySelector('.sd-motion-ribbon-colors').hidden = !state.effects.ribbon;
     stack.querySelector('.sd-motion-spark-colors').hidden = !state.effects.sparks;
     const descriptions = [state.effects.motion,state.effects.edge,state.effects.light].filter(k => SD_MOTION_RECIPES[k]).map(k=>SD_MOTION_RECIPES[k].description);
     stack.querySelector('.sd-motion-help').textContent = reason || (selected ? descriptions.join(' ')+' One direction and Depth layers are available with Scrolling alone. SVG code export'+(state.effects.light !== 'none' || state.effects.ribbon || state.effects.sparks ? ' preserves all colors and lighting.' : ' and SVG mask export available.') : 'Choose a motion or add an edge or surface layer. Contour and molten treatments work best on opaque shapes.');
-    stack.title = reason;
+    setControlTooltip(stack,reason);
 }
 
 function motionAnimate(attribute, values, seconds, smooth = true) {
@@ -3727,7 +3825,7 @@ function prepareExportModalCode() {
     if (maskTab) {
         maskTab.disabled = colored;
         maskTab.setAttribute('aria-disabled',String(colored));
-        maskTab.title = colored ? 'Lighting, ribbon colors and sparks need SVG code to preserve their colors.' : '';
+        setExportTooltip(maskTab, colored ? 'Lighting, ribbon colors and sparks need SVG code to preserve their colors.' : '');
     }
     if (exportMaskDownloadButton) exportMaskDownloadButton.hidden = usesMotionEffects();
     const cssTab = exportTabs.find((tab) => tab.dataset.exportTab === 'css');
@@ -3751,7 +3849,7 @@ function prepareExportModalCode() {
                 ? 'Animation layers need SVG elements. Choose SVG code or SVG mask. The animated mask is included inline; no extra files are needed.'
                 : 'Depth layers need extra elements. Choose SVG code or SVG mask; CSS-only export is unavailable.';
     }
-    if (cssTab) cssTab.title = layered ? 'Animation layers and depth layers need SVG elements. Choose SVG code.' : '';
+    setExportTooltip(cssTab, layered ? 'Animation layers and depth layers need SVG elements. Choose SVG code.' : '');
 
     if (requiresPremiumFeatures() && !hasPremiumAccess()) {
         const message = getPremiumExportMessage();
@@ -3784,6 +3882,7 @@ function openExportModal() {
 function closeExportModal() {
     if (!exportModal) return;
 
+    visibleControlTooltips.forEach(instance => instance.hide());
     exportModal.hidden = true;
     document.body.classList.remove('export-modal-open');
     copyCodeButton?.focus();
