@@ -11,12 +11,28 @@ function loadShapeTooltipLibrary() {
             script.src = new URL('vendor/tippy-bundle.min.js', SD_APP_SCRIPT_URL).href;
             script.dataset.sdTooltips = 'true';
             script.onload = () => resolve(typeof window.tippy === 'function' ? window.tippy : null);
-            // The inline explanations remain available if an embed blocks assets.
+            // Tooltip loading must never block the creator or its exports.
             script.onerror = () => resolve(null);
             document.head.appendChild(script);
         });
     }
     return sdTooltipLibraryPromise;
+}
+
+let sdChoicesLibraryPromise;
+function loadShapeChoicesLibrary() {
+    if (typeof window.Choices === 'function') return Promise.resolve(window.Choices);
+    if (!sdChoicesLibraryPromise) {
+        sdChoicesLibraryPromise = new Promise(resolve => {
+            const script = document.createElement('script');
+            script.src = new URL('vendor/choices.min.js',SD_APP_SCRIPT_URL).href;
+            script.dataset.sdChoices = 'true';
+            script.onload = () => resolve(typeof window.Choices === 'function' ? window.Choices : null);
+            script.onerror = () => resolve(null);
+            document.head.appendChild(script);
+        });
+    }
+    return sdChoicesLibraryPromise;
 }
 
 const SHAPE_DIVIDERS_LOADER_MARKUP = "<div id=\"sd-loader\" class=\"sd-loader\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\">\n  <div class=\"sd-loader__card\">\n    <div class=\"sd-loader__brand\"><span class=\"sd-loader__spark\" aria-hidden=\"true\">✳</span> ShapeDividers</div>\n    <div class=\"sd-loader__art\" aria-hidden=\"true\">\n      <svg viewBox=\"0 0 600 180\" preserveAspectRatio=\"none\"><path class=\"sd-loader__wave sd-loader__wave--back\" d=\"M-100 70Q50 0 200 70T500 70T800 70V220H-100Z\"/><path class=\"sd-loader__wave sd-loader__wave--mid\" d=\"M-100 95Q50 25 200 95T500 95T800 95V220H-100Z\"/><path class=\"sd-loader__wave sd-loader__wave--front\" d=\"M-100 120Q50 50 200 120T500 120T800 120V220H-100Z\"/></svg>\n      <span class=\"sd-loader__art-label\">GOOD THINGS TAKE SHAPE</span>\n    </div>\n    <span class=\"sd-loader__eyebrow\">YOUR NEXT GREAT DESIGN</span>\n    <h2 class=\"sd-loader__title\">Just taking shape.</h2>\n    <p class=\"sd-loader__message\" data-loader-message>Loading your shape library…</p>\n    <div class=\"sd-loader__track\" aria-hidden=\"true\"><span></span></div>\n    <ol class=\"sd-loader__steps\" aria-hidden=\"true\"><li class=\"is-active\">Library</li><li>Canvas</li><li>Ready</li></ol>\n    <button class=\"sd-loader__retry\" type=\"button\" hidden>Try again</button>\n  </div>\n</div>";
@@ -709,13 +725,13 @@ if (!genform) {
     duration.closest('.animation-length-container').insertAdjacentHTML('afterend',
         '<div class="row animation-direction-container">' +
         '<label for="' + id + '"><input type="checkbox" id="' + id + '"> ' +
-        'One direction</label><small>Keep the shape moving in one direction.</small></div>' +
+        'One direction</label></div>' +
         '<div class="row animation-direction-container animation-mirror-container">' +
         '<label for="' + prefixedId(prefix, 'mirror-loop-checkbox') + '"><input type="checkbox" id="' + prefixedId(prefix, 'mirror-loop-checkbox') + '"> ' +
-        'Seamless mirror</label><small>Mirrors shapes without fading.</small></div>' +
+        'Seamless mirror</label></div>' +
         '<div class="row animation-direction-container animation-depth-container">' +
         '<label for="' + prefixedId(prefix, 'depth-layers-checkbox') + '"><input type="checkbox" id="' + prefixedId(prefix, 'depth-layers-checkbox') + '"> ' +
-        'Depth layers</label><small>Three heights and speeds. Ideal for shapes that don\'t already have opacity in them.</small></div>');
+        'Depth layers</label></div>');
 });
 // One deformation, one edge treatment, and independent surface layers. Keeping
 // the original artwork in a symbol lets every pass reference the previous pass.
@@ -729,6 +745,119 @@ const motionChoices = {
     edge: ['none', 'contour-pulse', 'variation-contour-double', 'molten-edge', 'creative-echo'],
     light: ['none', 'moving-light', 'variation-light-moon']
 };
+const motionChoiceWidgets = new Map();
+function describeMotionChoice(field, value) {
+    if (field === 'intensity') return {
+        '0':'Gentle movement and softer surface effects.',
+        '1':'Balanced movement and surface effects.',
+        '2':'Larger movement and stronger surface effects.'
+    }[value] || '';
+    return SD_MOTION_RECIPES[value]?.description || (value === 'scroll'
+        ? 'Move the shape along its long axis. One direction, Seamless mirror and Depth layers are available with this motion alone.'
+        : {motion:'Keep the artwork still while adding optional edge or surface effects.',edge:'Keep the original contour without an edge treatment.',light:'Keep the shape colors without an animated light.'}[field] || '');
+}
+function syncMotionChoice(select) {
+    const widget = motionChoiceWidgets.get(select.id);
+    if (!widget) return;
+    const value = select.value;
+    const disabled = select.disabled;
+    if (widget.choices.getValue(true) !== value) {
+        widget.tooltip?.hide();
+        widget.choices.setChoiceByValue(value);
+    }
+    if (disabled !== widget.disabled) {
+        widget.tooltip?.hide();
+        if (disabled) widget.choices.disable();
+        else widget.choices.enable();
+        widget.disabled = disabled;
+    }
+}
+function enhanceMotionChoices(stack) {
+    Promise.all([loadShapeChoicesLibrary(),loadShapeTooltipLibrary()]).then(([Choices,tippy]) => {
+        if (!Choices || !stack.isConnected) return;
+        stack.querySelectorAll('select').forEach(select => {
+            if (motionChoiceWidgets.has(select.id)) return;
+            const field = select.dataset.motionField;
+            const choices = new Choices(select, {
+                searchEnabled:false,
+                shouldSort:false,
+                allowHTML:false,
+                itemSelectText:'',
+                labelId:select.id+'-label',
+                position:'auto',
+                callbackOnCreateTemplates:function() {
+                    return {
+                        choice:function(...args) {
+                            const node = Choices.defaults.templates.choice.call(this,...args);
+                            const description = describeMotionChoice(field,args[1].value);
+                            node.dataset.sdChoiceHelp = description;
+                            node.setAttribute('aria-description',description);
+                            return node;
+                        }
+                    };
+                }
+            });
+            const host = choices.containerOuter.element;
+            const widget = {choices,tooltip:null,option:null,disabled:select.disabled};
+            motionChoiceWidgets.set(select.id,widget);
+            if (tippy) widget.tooltip = tippy(host, {
+                content:'',allowHTML:false,ignoreAttributes:true,
+                trigger:'manual',theme:'shapedividers',placement:'right',
+                appendTo:()=>document.body,delay:0,duration:[120,90],
+                maxWidth:300,offset:[0,10],zIndex:2147483647,
+                aria:{content:'describedby',expanded:false},
+                getReferenceClientRect:()=> (widget.option || host).getBoundingClientRect(),
+                popperOptions:{modifiers:[{name:'preventOverflow',options:{padding:12}}]},
+                onShow(instance) { visibleControlTooltips.add(instance); },
+                onHide(instance) { visibleControlTooltips.delete(instance); },
+                onDestroy(instance) { visibleControlTooltips.delete(instance); }
+            });
+            const show = option => {
+                if (select.disabled || stack.hidden) return;
+                widget.option = option || null;
+                const description = option?.dataset.sdChoiceHelp || describeMotionChoice(field,select.value);
+                widget.tooltip?.setContent(description);
+                widget.tooltip?.show();
+                widget.tooltip?.popperInstance?.update();
+            };
+            const hide = () => { widget.tooltip?.hide(); widget.option = null; };
+            host.addEventListener('mouseenter',()=> { if (!choices.dropdown.isActive) show(null); });
+            host.addEventListener('mouseleave',hide);
+            host.addEventListener('focusin',()=> { if (!choices.dropdown.isActive) show(null); });
+            host.addEventListener('focusout',event=> { if (!host.contains(event.relatedTarget)) hide(); });
+            select.addEventListener('highlightChoice',event=> {
+                if (choices.dropdown.isActive) show(event.detail.el);
+            });
+            select.addEventListener('showDropdown',()=> {
+                // Respect the settings panel's viewport as well as the window:
+                // Choices' default flip calculation only considers the window.
+                const panel = stack.closest('.settings-panel');
+                if (panel) {
+                    const rect = host.getBoundingClientRect();
+                    const bounds = panel.getBoundingClientRect();
+                    const below = Math.min(bounds.bottom,window.innerHeight)-rect.bottom-12;
+                    const above = rect.top-Math.max(bounds.top,0)-12;
+                    const flip = below < 180 && above > below;
+                    host.classList.toggle('is-flipped',flip);
+                    choices.choiceList.element.style.maxHeight = Math.max(60,Math.min(250,flip ? above : below))+'px';
+                }
+                show(choices.dropdown.element.querySelector('.is-highlighted[data-choice]'));
+            });
+            select.addEventListener('hideDropdown',hide);
+            select.addEventListener('change',hide);
+            // Restore labels to the replacement combobox instead of focusing
+            // the now-hidden native select when the label is clicked.
+            const label = document.getElementById(select.id+'-label');
+            label?.addEventListener('click',event=> {
+                if (select.disabled) return;
+                event.preventDefault();
+                host.focus();
+            });
+            syncMotionChoice(select);
+        });
+    });
+}
+
 function motionControlId(prefix, field) { return prefixedId(prefix, 'motion-' + field); }
 function readMotionEffects(prefix) {
     const result = {};
@@ -755,8 +884,8 @@ function hasColoredMotionEffects() {
 }
 function motionSelect(prefix, field, label) {
     const id = motionControlId(prefix, field);
-    return '<label class="sd-motion-field" for="'+id+'"><span>'+label+'</span><select id="'+id+'">' +
-        motionChoices[field].map(key => '<option value="'+key+'"'+(motionFields[field] === key ? ' selected' : '')+'>'+({none:'None',scroll:'Scrolling (existing)'}[key] || SD_MOTION_RECIPES[key].title)+'</option>').join('')+'</select></label>';
+    return '<div class="sd-motion-field"><label id="'+id+'-label" for="'+id+'">'+label+'</label><select id="'+id+'" data-motion-field="'+field+'">' +
+        motionChoices[field].map(key => '<option value="'+key+'"'+(motionFields[field] === key ? ' selected' : '')+'>'+({none:'None',scroll:'Scrolling (existing)'}[key] || SD_MOTION_RECIPES[key].title)+'</option>').join('')+'</select></div>';
 }
 function motionColor(prefix, field, label) {
     const id = motionControlId(prefix, field);
@@ -767,16 +896,14 @@ function mountMotionControls(prefix) {
     if (!duration || document.getElementById(prefixedId(prefix, 'motion-stack'))) return;
     const id = prefixedId(prefix, 'motion-stack');
     const label = prefix || 'desktop';
-    const html = '<fieldset class="sd-motion-stack" id="'+id+'" aria-label="'+label+' animation layers" hidden><legend>Animation layers</legend>'+
-        '<p>Combine motion, an edge treatment and surface effects. The section join stays fixed.</p>'+
+    const html = '<fieldset class="sd-motion-stack" id="'+id+'" aria-label="'+label+' animation layers" hidden><legend>Animation layers <button type="button" class="sd-motion-info" aria-label="About animation layers">i</button></legend>'+
         motionSelect(prefix,'motion','Motion')+motionSelect(prefix,'edge','Edge')+motionSelect(prefix,'light','Lighting')+
         '<div class="sd-motion-light-colors">'+motionColor(prefix,'lightColor','Light color')+'</div>'+
         '<label class="sd-motion-check"><input type="checkbox" id="'+motionControlId(prefix,'ribbon')+'"> Iridescent ribbon</label>'+
         '<div class="sd-motion-ribbon-colors">'+motionColor(prefix,'ribbonA','Ribbon start')+motionColor(prefix,'ribbonB','Ribbon middle')+motionColor(prefix,'ribbonC','Ribbon end')+'</div>'+
         '<label class="sd-motion-check"><input type="checkbox" id="'+motionControlId(prefix,'sparks')+'"> Lifted sparks</label>'+
         '<div class="sd-motion-spark-colors">'+motionColor(prefix,'sparkColor','Spark color')+'</div>'+
-        '<label class="sd-motion-field" for="'+motionControlId(prefix,'intensity')+'"><span>Intensity</span><select id="'+motionControlId(prefix,'intensity')+'"><option value="0">light</option><option value="1" selected>Natural</option><option value="2">Strong</option></select></label>'+
-        '<p class="sd-motion-help" id="'+id+'-help" aria-live="polite"></p></fieldset>';
+        '<div class="sd-motion-field"><label id="'+motionControlId(prefix,'intensity')+'-label" for="'+motionControlId(prefix,'intensity')+'">Intensity</label><select id="'+motionControlId(prefix,'intensity')+'" data-motion-field="intensity"><option value="0">Light</option><option value="1" selected>Natural</option><option value="2">Strong</option></select></div></fieldset>';
     const mount = genform.querySelector('[data-motion-prefix="'+prefix+'"]');
     if (mount) mount.innerHTML = html;
     else duration.closest('.animation-length-container').insertAdjacentHTML('afterend',html);
@@ -790,15 +917,17 @@ function mountMotionControls(prefix) {
             if (valid) input.value = hex.value;
         });
     });
-    // Inputs join the existing form input handlers; select elements need one too.
-    stack.querySelectorAll('select').forEach(input => input.addEventListener('input',updateShape));
+    // Choices dispatches change on the backing select; inputs use the form handlers.
+    stack.querySelectorAll('select').forEach(input => input.addEventListener('change',updateShape));
+    setControlTooltip(stack.querySelector('.sd-motion-info'),'Combine one motion, one edge treatment and optional surface effects.');
+    enhanceMotionChoices(stack);
 }
 const controlTooltips = new WeakMap();
 const visibleControlTooltips = new Set();
 document.addEventListener('keydown', event => {
     if (event.key === 'Escape') visibleControlTooltips.forEach(instance => instance.hide());
 });
-function setControlTooltip(target, message) {
+function setControlTooltip(target, message, {focusable = true} = {}) {
     if (!target) return;
     target.removeAttribute('title');
     let record = controlTooltips.get(target);
@@ -818,7 +947,9 @@ function setControlTooltip(target, message) {
     }
     // Disabled inputs/buttons cannot receive pointer or focus events. Their
     // wrappers receive both, while the actual controls stay disabled.
-    target.tabIndex = 0;
+    if (focusable) target.tabIndex = 0;
+    else if (record.previousTabIndex === null) target.removeAttribute('tabindex');
+    else target.setAttribute('tabindex',record.previousTabIndex);
     if (record.instance) {
         record.instance.setContent(message);
         return;
@@ -835,7 +966,7 @@ function setControlTooltip(target, message) {
             theme:'shapedividers',
             placement:'right',
             appendTo:() => document.body,
-            trigger:'mouseenter focus',
+            trigger:'mouseenter focusin',
             delay:[150,0],
             duration:[120,90],
             maxWidth:300,
@@ -875,24 +1006,36 @@ function syncMotionControls(prefix, state) {
     const selected = hasMotionEffects(state);
     const legacy = state.oneDirection || state.depthLayers;
     const reason = legacy ? 'Turn off One direction and Depth layers to combine animation layers.' : '';
-    stack.querySelectorAll('select,input').forEach(input => {
+    stack.querySelectorAll('select,input:not(.choices__input)').forEach(input => {
         input.disabled = legacy;
         input.removeAttribute('title');
-        input.setAttribute('aria-describedby',stack.id+'-help');
+        input.removeAttribute('aria-describedby');
+        if (input.tagName === 'SELECT') syncMotionChoice(input);
     });
-    ['one-direction-checkbox','depth-layers-checkbox'].forEach(field => {
+    const descriptions = {
+        'one-direction-checkbox':'Keep the shape moving in one direction.',
+        'mirror-loop-checkbox':'Mirrors shapes without fading.',
+        'depth-layers-checkbox':"Three heights and speeds. Ideal for shapes that don't already have opacity in them."
+    };
+    Object.entries(descriptions).forEach(([field,description]) => {
         const input = document.getElementById(prefixedId(prefix,field));
-        input.disabled = selected && !legacy;
+        const incompatible = field !== 'mirror-loop-checkbox' && selected && !legacy;
+        input.disabled = incompatible;
         const row = input.closest('.row');
-        row.setAttribute('aria-describedby',stack.id+'-help');
-        setControlTooltip(row, selected && !legacy ? 'Choose Scrolling with no edge or surface layers to use this loop mode.' : '');
+        row.removeAttribute('aria-describedby');
+        row.querySelector('small')?.remove();
+        setControlTooltip(row, incompatible ? 'Choose Scrolling with no edge or surface layers to use this loop mode.' : description, {focusable:incompatible});
     });
     stack.querySelector('.sd-motion-light-colors').hidden = state.effects.light === 'none';
     stack.querySelector('.sd-motion-ribbon-colors').hidden = !state.effects.ribbon;
     stack.querySelector('.sd-motion-spark-colors').hidden = !state.effects.sparks;
-    const descriptions = [state.effects.motion,state.effects.edge,state.effects.light].filter(k => SD_MOTION_RECIPES[k]).map(k=>SD_MOTION_RECIPES[k].description);
-    stack.querySelector('.sd-motion-help').textContent = reason || (selected ? descriptions.join(' ')+' One direction and Depth layers are available with Scrolling alone. SVG code export'+(state.effects.light !== 'none' || state.effects.ribbon || state.effects.sparks ? ' preserves all colors and lighting.' : ' and SVG mask export available.') : 'Choose a motion or add an edge or surface layer. Contour and molten treatments work best on opaque shapes.');
+    ['ribbon','sparks'].forEach(field => {
+        const input = document.getElementById(motionControlId(prefix,field));
+        const recipe = SD_MOTION_RECIPES[field === 'ribbon' ? 'creative-iridescent' : 'creative-sparks'];
+        setControlTooltip(input.closest('label'),recipe.description,{focusable:false});
+    });
     setControlTooltip(stack,reason);
+
 }
 
 function motionAnimate(attribute, values, seconds, smooth = true) {
@@ -3844,7 +3987,7 @@ function prepareExportModalCode() {
     if (depthNote) {
         depthNote.hidden = !layered;
         depthNote.textContent = colored
-            ? 'Lighting, ribbon colors and sparks need SVG code. CSS and SVG mask exports cannot preserve these colored layers.'
+            ? 'SVG code export preserves all colors and lighting. CSS and SVG mask exports cannot preserve these colored layers.'
             : usesMotionEffects()
                 ? 'Animation layers need SVG elements. Choose SVG code or SVG mask. The animated mask is included inline; no extra files are needed.'
                 : 'Depth layers need extra elements. Choose SVG code or SVG mask; CSS-only export is unavailable.';
