@@ -2627,3 +2627,31 @@ body.sd-is-loading {
 
 
 
+
+
+/* Composable native SVG animation layers. */
+.sd-motion-stack{min-width:0;border:1px solid var(--sd-border,#ded5d2);border-radius:12px;margin:18px 0;padding:16px;background:var(--sd-surface,#fffaf7)}
+.sd-motion-stack[hidden],.sd-motion-stack [hidden],.sd-motion-preview[hidden]{display:none!important}
+.sd-motion-stack legend{font-weight:650;font-size:14px;padding:0 6px}
+.sd-motion-stack p{font-size:12px;line-height:1.5;margin:0 0 14px;color:var(--sd-muted,#69605b)}
+.sd-motion-field{display:grid;grid-template-columns:75px minmax(0,1fr);align-items:center;gap:10px;margin:10px 0;font-size:13px}
+.sd-motion-field select{min-width:0;width:100%;font:inherit;color:inherit;background:white;border:1px solid #d7ceca;border-radius:7px;padding:9px 24px 9px 9px}
+.sd-motion-check{display:flex;align-items:center;gap:8px;font-size:13px;margin:14px 0 8px}
+.sd-motion-check input{accent-color:#d46548}
+.sd-motion-color{display:inline-flex;align-items:center;gap:6px;font-size:11px;margin:4px 12px 6px 0}
+.sd-motion-color input{width:30px;height:28px;margin:0;flex:none;padding:2px;border:1px solid #d7ceca;border-radius:5px;background:white;cursor:pointer}
+.sd-motion-stack .sd-motion-help{margin:14px 0 0;font-size:11px}
+.sd-motion-stack :disabled{opacity:.48;cursor:not-allowed}
+.sd-motion-preview{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:4}
+.sd-motion-preview>svg{overflow:hidden}
+.animation-direction-container:has(input:disabled){opacity:.55;cursor:help}
+.export-modal__tab:disabled{opacity:.45;cursor:help}
+
+.sd-motion-stack .sd-motion-hex{width:78px;max-width:100%;font:11px ui-monospace,monospace;border:1px solid #d7ceca;border-radius:5px;padding:6px;background:white;color:inherit}
+.sd-motion-stack .sd-motion-hex[aria-invalid="true"]{border-color:#b73e28}
+
+#genform .sd-motion-stack .sd-motion-check input[type="checkbox"]{position:static;clip:auto;overflow:visible;width:16px;height:16px;margin:0;padding:0;opacity:1;flex:none;accent-color:var(--sd-teal-dark)}
+#genform .sd-motion-stack .sd-motion-color-pair{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:7px 0}
+#genform .sd-motion-stack .sd-motion-color{font-size:12px;margin:0;gap:8px}
+#genform .sd-motion-stack .sd-motion-hex{width:82px;height:30px;padding:5px;font-size:11px}
+#genform .sd-motion-stack .sd-motion-field,#genform .sd-motion-stack .sd-motion-check{font-size:13px}
