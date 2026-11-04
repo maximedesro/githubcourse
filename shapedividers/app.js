@@ -504,7 +504,6 @@ function buildShareUrl() {
 }
 
 async function updateURL(copyToClipboard = false) {
-    window.clearTimeout(shareUrlUpdateTimer);
     const shareUrl = buildShareUrl();
     window.history.replaceState(window.history.state, 'shape', shareUrl);
 
@@ -519,11 +518,6 @@ const queryString = window.location.search;
 
 const urlParams = new URLSearchParams(queryString);
 let urlStylesLoaded = false;
-let shareUrlUpdateTimer;
-function scheduleShareUrlUpdate() {
-    window.clearTimeout(shareUrlUpdateTimer);
-    shareUrlUpdateTimer = window.setTimeout(()=>updateURL(false),150);
-}
 
 function checkRadioByValue(group, value) {
     const radio = [...group].find((item) => item.value === value);
@@ -894,7 +888,10 @@ function motionColor(prefix, field, label) {
 }
 function mountMotionControls(prefix) {
     const duration = document.getElementById(prefixedId(prefix, 'animation_length'));
-    if (!duration || document.getElementById(prefixedId(prefix, 'motion-stack'))) return;
+    if (!duration) return;
+    setControlTooltip(duration.closest('.animation-length-container'),
+        'Speed of the animation. Lower is faster.',{focusable:false});
+    if (document.getElementById(prefixedId(prefix, 'motion-stack'))) return;
     const id = prefixedId(prefix, 'motion-stack');
     const label = prefix || 'desktop';
     const html = '<fieldset class="sd-motion-stack" id="'+id+'" aria-label="'+label+' animation layers" hidden><legend>Animation layers <button type="button" class="sd-motion-info" aria-label="About animation layers">i</button></legend>'+
@@ -2715,7 +2712,6 @@ function updateShape() {
 
     renderCanvasPreview(activeState);
     premiumCheck();
-    scheduleShareUrlUpdate();
 }
 
 const copyCodeButton = document.getElementById("copye");
@@ -4089,8 +4085,6 @@ exportMaskDownloadButton?.addEventListener(
 );
 
 exportCopyButton?.addEventListener('click', async () => {
-    await updateURL(false);
-
     const code =
         activeExportTab === 'svg'
             ? preparedSvgExport
@@ -4305,7 +4299,7 @@ let shareFeedbackTimeout;
 
 shareLink.addEventListener("click", async () => {
     const copied = await updateURL(true);
-    formUpdate();
+    formUpdate(false);
 
     if (!copied) {
         console.error('ShapeDividers: share link copy failed.');
@@ -5018,7 +5012,10 @@ let formHasPremium = document.getElementById('form-field-haspremium');
 let formShapeIsPremium = document.getElementById('form-field-shapeispremium');
 
 
-function formUpdate() {
+function formUpdate(refreshUrl = true) {
+    // These handlers run only for Copy Code, Premium and Share. Updating the
+    // history is synchronous, so the form captures the freshly serialized URL.
+    if (refreshUrl) updateURL(false);
     if (
         !formElement ||
         !formCreatedShape ||
@@ -5034,9 +5031,6 @@ function formUpdate() {
         return;
     }
 
-    // Always serialize the current generator settings before capturing the URL.
-    // replaceState runs synchronously; the Elementor submission then uses the fresh URL.
-    updateURL(false);
     formCreatedShape.value = window.location.href;
     formSi.value = svgDividers[shapeIndex].si;
     formTsi.value = svgDividers[tabletShapeIndex].si;

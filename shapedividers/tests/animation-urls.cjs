@@ -10,7 +10,7 @@ function fn(name) {
     return app.slice(start,app.indexOf('\n}',start)+2);
 }
 const fields = app.slice(app.indexOf('const motionFields'),app.indexOf('function motionControlId'));
-let elements,groups,timers = new Map(),timerId = 0,historyUrl;
+let elements,groups,historyUrl,historyUpdates = 0;
 const prefixedId = (prefix,id)=>prefix ? prefix+'-'+id : id;
 function resetControls() {
     elements = new Map();groups = {};
@@ -29,16 +29,15 @@ function resetControls() {
     sandbox.genform=groups;
 }
 const sandbox = {URLSearchParams,prefixedId,console,document:{getElementById:id=>{const element=elements.get(id);if(element)element.id=id;return element;}},
-    window:{location:{pathname:'/creator/',hash:'#shape-divider-animations'},history:{state:{host:'preserved'},replaceState(state,title,url){assert.equal(state.host,'preserved');historyUrl=url;}},
-        setTimeout(callback){const id=++timerId;timers.set(id,callback);return id;},clearTimeout(id){timers.delete(id);}},
-    urlParams:new URLSearchParams(),urlStylesLoaded:false,shareUrlUpdateTimer:undefined,
+    window:{location:{pathname:'/creator/',hash:'#shape-divider-animations'},history:{state:{host:'preserved'},replaceState(state,title,url){assert.equal(state.host,'preserved');historyUrl=url;historyUpdates++;sandbox.window.location.href='https://example.test'+url;}}},
+    urlParams:new URLSearchParams(),urlStylesLoaded:false,
     shapeIndex:0,tabletShapeIndex:1,mobileShapeIndex:2,alreadyChangedView:true,
     svgDividers:[{si:267,ratio:'FALSE'},{si:301,ratio:'TRUE'},{si:302,ratio:'FALSE'}],
     getActiveViewIndex:()=>2,syncGradientControl:()=>{},syncMotionChoice:()=>{},refreshRangeSliders:()=>{},
     viewsSelect:{style:{}},previewerFrame:{},previewClasses:['desktop-frame','tablet-frame','mobile-frame'],
     views:[0,1,2].map(()=>({classList:{toggle(name,value){this[name]=value;}}})),viewsSettings:[0,1,2].map(()=>({style:{}}))};
 vm.createContext(sandbox);
-vm.runInContext(fields+'\n'+['motionControlId','readMotionEffects','normalizeMotionEffects','getCheckedDirection','checkRadioByValue','getShapeIndex','setInputValueFromParam','setCheckboxFromParam','restoreViewportFromURL','updateSettingsfromURL','buildShareUrl','updateURL','scheduleShareUrlUpdate'].map(fn).join('\n')+'\nthis.defaults=motionFields;',sandbox);
+vm.runInContext(fields+'\n'+['motionControlId','readMotionEffects','normalizeMotionEffects','getCheckedDirection','checkRadioByValue','getShapeIndex','setInputValueFromParam','setCheckboxFromParam','restoreViewportFromURL','updateSettingsfromURL','buildShareUrl','updateURL','formUpdate'].map(fn).join('\n')+'\nthis.defaults=motionFields;',sandbox);
 resetControls();
 const stacks = [
     {motion:'css-rock',edge:'creative-echo',light:'moving-light',ribbon:true,sparks:false,intensity:'0',lightColor:'#123456',ribbonA:'#223344',ribbonB:'#334455',ribbonC:'#445566',sparkColor:'#556677'},
@@ -79,8 +78,44 @@ assert.equal(JSON.parse(new URLSearchParams(sandbox.buildShareUrl().split('?')[1
 const safe=sandbox.normalizeMotionEffects({motion:'unknown',intensity:'999',lightColor:'javascript:alert(1)',ribbon:'true',sparks:true,extra:'ignored'});
 assert.equal(safe.motion,'scroll');assert.equal(safe.intensity,'1');assert.equal(safe.lightColor,sandbox.defaults.lightColor);assert.equal(safe.ribbon,false);assert.equal(safe.sparks,true);assert.ok(!Object.hasOwn(safe,'extra'));
 sandbox.urlParams=new URLSearchParams('effects=%7Bbad');assert.doesNotThrow(()=>sandbox.restoreViewportFromURL('','divider','si'));
-// Debounce automatic address-bar updates and serialize the latest control values.
-sandbox.scheduleShareUrlUpdate();sandbox.scheduleShareUrlUpdate();assert.equal(timers.size,1);
-elements.get('animation_length').value='65';[...timers.values()][0]();
+// Settings edits leave browser history alone. The action handlers serialize
+// first and only then populate and submit the optional Elementor form.
+assert.equal(historyUpdates,0);
+elements.get('animation_length').value='65';
+assert.equal(historyUpdates,0);
+sandbox.formElement=null;
+sandbox.formUpdate();
+assert.equal(historyUpdates,1,'Copy Code/Premium still refresh the URL without an embedded form');
 assert.equal(new URLSearchParams(historyUrl.split('?')[1].split('#')[0]).get('animLength'),'65');
-console.log('Passed desktop/tablet/mobile animation URL round trips, all effect colors and flags, inactive viewport persistence, editor view restoration, malformed input, and automatic URL updates.');
+let submissions=0;
+for(const key of ['formCreatedShape','formSi','formTsi','formMsi','formMobileReady','formAnimated','formGradient','formHasPremium','formShapeIsPremium']) sandbox[key]={value:''};
+sandbox.formElement={querySelector:()=>({click(){assert.equal(sandbox.formCreatedShape.value,sandbox.window.location.href);submissions++;}})};
+Object.assign(sandbox,{mobileReady:false,animate:true,tabletAnimate:false,mobileAnimate:false,gradient:false,tabletGradient:false,mobileGradient:false,hasPremiumAccess:()=>true});
+const handlers={};
+sandbox.copyCodeButton={addEventListener(type,handler){handlers.copy=handler;}};
+sandbox.premiumButton={addEventListener(type,handler){handlers.premium=handler;}};
+sandbox.openExportModal=()=>{};
+const actions=app.slice(app.indexOf("copyCodeButton?.addEventListener('click'"),app.indexOf('exportTabs.forEach((tab) => {',app.indexOf("copyCodeButton?.addEventListener('click'")));
+vm.runInContext(actions,sandbox);
+elements.get('animation_length').value='70';handlers.copy();
+assert.equal(new URLSearchParams(sandbox.formCreatedShape.value.split('?')[1].split('#')[0]).get('animLength'),'70');
+elements.get('animation_length').value='80';handlers.premium();
+assert.equal(new URLSearchParams(sandbox.formCreatedShape.value.split('?')[1].split('#')[0]).get('animLength'),'80');
+assert.equal(submissions,2);
+let copiedUrl;
+sandbox.writeClipboard=async text=>{copiedUrl=text;return true;};
+sandbox.window.location.origin='https://example.test';
+sandbox.shareLink={addEventListener(type,handler){handlers.share=handler;}};
+sandbox.shareLabel=null;
+const shareStart=app.indexOf('shareLink.addEventListener("click"');
+vm.runInContext(app.slice(shareStart,app.indexOf('\n});',shareStart)+4),sandbox);
+(async()=>{
+    elements.get('animation_length').value='90';
+    const before=historyUpdates;
+    await handlers.share();
+    assert.equal(historyUpdates,before+1,'Share refreshes history once');
+    assert.equal(copiedUrl,sandbox.formCreatedShape.value);
+    assert.equal(new URLSearchParams(copiedUrl.split('?')[1].split('#')[0]).get('animLength'),'90');
+    assert.equal(submissions,3);
+    console.log('Passed responsive URL round trips and action-only URL updates before Copy Code, Premium and Share form submissions.');
+})().catch(error=>{console.error(error);process.exitCode=1;});
