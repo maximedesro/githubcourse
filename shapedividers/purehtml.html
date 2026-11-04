@@ -225,10 +225,9 @@
 
 <div class="sd-options-row" role="group" aria-label="Divider options">
 <div class="sd-options-device" data-device="desktop">
-<div class="sd-option-control sd-option-flip flipped-container">
+<div class="sd-option-control sd-option-flip flipped-container" data-sd-disabled-tooltip="Flip can't be enabled when Animate is on">
   <input type="checkbox" name="flipped-checkbox" id="flipped-checkbox" role="switch">
   <label class="sd-option-tile" for="flipped-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M24 3 V8 M24 14 V19 M24 25 V30 M24 36 V41" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 7 L17 36 H5 Z M43 7 L31 36 H43 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sd-option-name">Flip</span></label>
-  <span id="flipped-checkbox-tooltip" class="ui-tooltip sd-flip-tooltip" role="tooltip">Flip can't be enabled when Animate is on</span>
 </div>
 <div class="sd-option-control sd-option-animate">
   <input type="checkbox" name="animate-checkbox" id="animate-checkbox" role="switch">
@@ -237,10 +236,9 @@
 </div>
 </div>
 <div class="sd-options-device" data-device="tablet" hidden>
-<div class="sd-option-control sd-option-flip flipped-container">
+<div class="sd-option-control sd-option-flip flipped-container" data-sd-disabled-tooltip="Flip can't be enabled when Animate is on">
   <input type="checkbox" name="tablet-flipped-checkbox" id="tablet-flipped-checkbox" role="switch">
   <label class="sd-option-tile" for="tablet-flipped-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M24 3 V8 M24 14 V19 M24 25 V30 M24 36 V41" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 7 L17 36 H5 Z M43 7 L31 36 H43 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sd-option-name">Flip</span></label>
-  <span id="tablet-flipped-checkbox-tooltip" class="ui-tooltip sd-flip-tooltip" role="tooltip">Flip can't be enabled when Animate is on</span>
 </div>
 <div class="sd-option-control sd-option-animate">
   <input type="checkbox" name="tablet-animate-checkbox" id="tablet-animate-checkbox" role="switch">
@@ -249,10 +247,9 @@
 </div>
 </div>
 <div class="sd-options-device" data-device="mobile" hidden>
-<div class="sd-option-control sd-option-flip flipped-container">
+<div class="sd-option-control sd-option-flip flipped-container" data-sd-disabled-tooltip="Flip can't be enabled when Animate is on">
   <input type="checkbox" name="mobile-flipped-checkbox" id="mobile-flipped-checkbox" role="switch">
   <label class="sd-option-tile" for="mobile-flipped-checkbox"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M24 3 V8 M24 14 V19 M24 25 V30 M24 36 V41" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 7 L17 36 H5 Z M43 7 L31 36 H43 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sd-option-name">Flip</span></label>
-  <span id="mobile-flipped-checkbox-tooltip" class="ui-tooltip sd-flip-tooltip" role="tooltip">Flip can't be enabled when Animate is on</span>
 </div>
 <div class="sd-option-control sd-option-animate">
   <input type="checkbox" name="mobile-animate-checkbox" id="mobile-animate-checkbox" role="switch">
@@ -260,9 +257,9 @@
   
 </div>
 </div>
-<div class="sd-option-control sd-responsive-control">
+<div class="sd-option-control sd-responsive-control" data-sd-tooltip="Use different shapes and settings for desktop, tablet and mobile.">
   <input type="checkbox" name="mobile-ready" id="mobile-ready" role="switch">
-  <label class="sd-option-tile" for="mobile-ready"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 48"><path d="M7 6 H39 Q42 6 42 9 V31 Q42 34 39 34 H7 Q4 34 4 31 V9 Q4 6 7 6 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M23 34 V42 M15 42 H31" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M32.5 17 H45.5 Q48 17 48 19.5 V41.5 Q48 44 45.5 44 H32.5 Q30 44 30 41.5 V19.5 Q30 17 32.5 17 Z" fill="var(--sd-option-bg)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M40.2 40 A1.2 1.2 0 1 0 37.8 40 A1.2 1.2 0 1 0 40.2 40 Z" fill="currentColor"/></svg><span class="sd-option-name">Responsive</span><span class="sd-tooltip-anchor"><svg class="tooltip-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 11v6M12 7v1" fill="none" stroke="var(--sd-surface)" stroke-width="2" stroke-linecap="round"/></svg><span id="responsive-tooltip" class="ui-tooltip" role="tooltip">Use different shapes and settings for desktop, tablet and mobile.</span></span></label>
+  <label class="sd-option-tile" for="mobile-ready"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 48"><path d="M7 6 H39 Q42 6 42 9 V31 Q42 34 39 34 H7 Q4 34 4 31 V9 Q4 6 7 6 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M23 34 V42 M15 42 H31" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M32.5 17 H45.5 Q48 17 48 19.5 V41.5 Q48 44 45.5 44 H32.5 Q30 44 30 41.5 V19.5 Q30 17 32.5 17 Z" fill="var(--sd-option-bg)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M40.2 40 A1.2 1.2 0 1 0 37.8 40 A1.2 1.2 0 1 0 40.2 40 Z" fill="currentColor"/></svg><span class="sd-option-name">Responsive</span><span class="sd-tooltip-anchor"><svg class="tooltip-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 11v6M12 7v1" fill="none" stroke="var(--sd-surface)" stroke-width="2" stroke-linecap="round"/></svg></span></label>
   
 </div>
 </div>
@@ -270,7 +267,7 @@
     </form>
     <div class="sd-tool-actions">
       <div class="export-actions"><button id="copye" type="button"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M29 5 H7 Q3 5 3 9 V31" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 14 H34.5 Q37 14 37 16.5 V40.5 Q37 43 34.5 43 H14.5 Q12 43 12 40.5 V16.5 Q12 14 14.5 14 Z" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Copy Code</button><a id="premium" href="#premium-cta">Premium Feature: Get Pro Now!</a></div>
-      <button id="share" class="links tooltip-trigger" type="button" aria-describedby="share-tooltip"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M14 22 L30 12 M14 27 L30 37" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24.5 A6 6 0 1 0 2 24.5 A6 6 0 1 0 14 24.5 Z" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M40 9 A6 6 0 1 0 28 9 A6 6 0 1 0 40 9 Z" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M40 40 A6 6 0 1 0 28 40 A6 6 0 1 0 40 40 Z" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-share-label aria-live="polite">Share Your Design</span><span id="share-tooltip" class="ui-tooltip" role="tooltip">Copy a direct link to this design to your clipboard.</span></button>
+      <button id="share" class="links" type="button" data-sd-tooltip="Copy a direct link to this design to your clipboard."><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M14 22 L30 12 M14 27 L30 37" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 24.5 A6 6 0 1 0 2 24.5 A6 6 0 1 0 14 24.5 Z" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M40 9 A6 6 0 1 0 28 9 A6 6 0 1 0 40 9 Z" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M40 40 A6 6 0 1 0 28 40 A6 6 0 1 0 40 40 Z" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-share-label aria-live="polite">Share Your Design</span></button>
       <a class="links logged-out-only sd-login-link" href="https://shapedividers.com/wp-login.php"><svg class="sd-icon " aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M30 16 A8 8 0 1 0 14 16 A8 8 0 1 0 30 16 Z" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 42 V38 C7 28 37 28 37 38 V42 Z" fill="none" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Log in</a>
     </div>
   </div>

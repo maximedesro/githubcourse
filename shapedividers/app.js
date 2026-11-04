@@ -1,36 +1,50 @@
-// Capture the asset location while app.js is executing: the creator is also
-// embedded on WordPress pages whose URL is unrelated to this script's directory.
-const SD_APP_SCRIPT_URL = document.currentScript?.src ||
-    'https://cdn.jsdelivr.net/gh/maximedesro/githubcourse@core/shapedividers/app.js';
+// Pin library releases so CDN updates cannot silently change the creator.
+const sdCdnAssets = new Map();
+function loadShapeCdnAsset(type, url, marker) {
+    if (!sdCdnAssets.has(url)) {
+        sdCdnAssets.set(url, new Promise(resolve => {
+            const asset = document.createElement(type === 'style' ? 'link' : 'script');
+            if (type === 'style') {
+                asset.rel = 'stylesheet';
+                asset.href = url;
+            } else {
+                asset.src = url;
+                asset.async = true;
+            }
+            asset.dataset[marker] = 'true';
+            asset.onload = () => resolve(true);
+            // A failed UI dependency must not prevent previewing or exporting.
+            asset.onerror = () => resolve(false);
+            document.head.appendChild(asset);
+        }));
+    }
+    return sdCdnAssets.get(url);
+}
 let sdTooltipLibraryPromise;
 function loadShapeTooltipLibrary() {
-    if (typeof window.tippy === 'function') return Promise.resolve(window.tippy);
     if (!sdTooltipLibraryPromise) {
-        sdTooltipLibraryPromise = new Promise(resolve => {
-            const script = document.createElement('script');
-            script.src = new URL('vendor/tippy-bundle.min.js', SD_APP_SCRIPT_URL).href;
-            script.dataset.sdTooltips = 'true';
-            script.onload = () => resolve(typeof window.tippy === 'function' ? window.tippy : null);
-            // Tooltip loading must never block the creator or its exports.
-            script.onerror = () => resolve(null);
-            document.head.appendChild(script);
-        });
+        const styles = loadShapeCdnAsset('style',
+            'https://cdn.jsdelivr.net/npm/tippy.js@6.3.7/dist/tippy.css','sdTooltipStyles');
+        const scripts = typeof window.tippy === 'function' ? Promise.resolve(true)
+            : (window.Popper?.createPopper ? Promise.resolve(true) : loadShapeCdnAsset('script',
+                'https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js','sdPopper'))
+                .then(loaded => loaded && loadShapeCdnAsset('script',
+                    'https://cdn.jsdelivr.net/npm/tippy.js@6.3.7/dist/tippy.umd.min.js','sdTooltips'));
+        sdTooltipLibraryPromise = Promise.all([styles,scripts])
+            .then(() => typeof window.tippy === 'function' ? window.tippy : null);
     }
     return sdTooltipLibraryPromise;
 }
-
 let sdChoicesLibraryPromise;
 function loadShapeChoicesLibrary() {
-    if (typeof window.Choices === 'function') return Promise.resolve(window.Choices);
     if (!sdChoicesLibraryPromise) {
-        sdChoicesLibraryPromise = new Promise(resolve => {
-            const script = document.createElement('script');
-            script.src = new URL('vendor/choices.min.js',SD_APP_SCRIPT_URL).href;
-            script.dataset.sdChoices = 'true';
-            script.onload = () => resolve(typeof window.Choices === 'function' ? window.Choices : null);
-            script.onerror = () => resolve(null);
-            document.head.appendChild(script);
-        });
+        const styles = loadShapeCdnAsset('style',
+            'https://cdn.jsdelivr.net/npm/choices.js@11.1.0/public/assets/styles/choices.min.css','sdChoicesStyles');
+        const script = typeof window.Choices === 'function' ? Promise.resolve(true) : loadShapeCdnAsset('script',
+            'https://cdn.jsdelivr.net/npm/choices.js@11.1.0/public/assets/scripts/choices.min.js','sdChoices');
+        // Wait for the base CSS as well as the script before replacing selects.
+        sdChoicesLibraryPromise = Promise.all([styles,script])
+            .then(() => typeof window.Choices === 'function' ? window.Choices : null);
     }
     return sdChoicesLibraryPromise;
 }
@@ -984,6 +998,39 @@ function setExportTooltip(tab, message) {
     if (message) wrapper.setAttribute('aria-describedby','export-depth-note');
     else { wrapper.removeAttribute('aria-describedby'); wrapper.removeAttribute('aria-label'); }
     setControlTooltip(wrapper,message);
+}
+
+// Also migrate older embedded creator HTML, so every tooltip uses Tippy
+// even when the WordPress host has not yet picked up the latest fragment.
+function initializeSharedTooltips() {
+    const scopes = [document.getElementById('shape-divider-tool'),
+        document.getElementById('export-modal'),document.getElementById('instruction')].filter(Boolean);
+    scopes.forEach(scope => {
+        scope.querySelectorAll('.ui-tooltip').forEach(source => {
+            const target = source.closest('.sd-option-control, .tooltip-trigger, #instruction') || source.parentElement;
+            const message = source.textContent.trim();
+            if (target.classList.contains('sd-option-flip')) target.dataset.sdDisabledTooltip = message;
+            else target.dataset.sdTooltip = message;
+            if (source.id) {
+                document.querySelectorAll('[aria-describedby]').forEach(element => {
+                    const ids = element.getAttribute('aria-describedby').split(/\s+/).filter(id=>id !== source.id);
+                    if (ids.length) element.setAttribute('aria-describedby',ids.join(' '));
+                    else element.removeAttribute('aria-describedby');
+                });
+            }
+            source.remove();
+        });
+        [scope,...scope.querySelectorAll('[title]')].forEach(element => {
+            if (!element.hasAttribute('title') || !element.getAttribute('title').trim()) return;
+            element.dataset.sdTooltip = element.getAttribute('title');
+            element.removeAttribute('title');
+        });
+        [scope,...scope.querySelectorAll('[data-sd-tooltip]')].forEach(target => {
+            const message = target.dataset.sdTooltip;
+            if (!message) return;
+            setControlTooltip(target,message,{focusable:false});
+        });
+    });
 }
 
 function syncMotionControls(prefix, state) {
@@ -2569,12 +2616,9 @@ function updateViewportControlVisibility(viewIndex, state) {
     flipInput.disabled = animated;
     flipContainer.classList.toggle('is-disabled', animated);
     flipContainer.setAttribute('aria-disabled', String(animated));
-    flipContainer.tabIndex = animated ? 0 : -1;
-    if (animated) {
-        flipContainer.setAttribute('aria-describedby', `${flipInput.id}-tooltip`);
-    } else {
-        flipContainer.removeAttribute('aria-describedby');
-    }
+    setControlTooltip(flipContainer, animated
+        ? flipContainer.dataset.sdDisabledTooltip || "Flip can't be enabled when Animate is on"
+        : '');
     document.getElementById(prefixedId(['', 'tablet', 'mobile'][viewIndex], 'one-direction-checkbox')).closest('.animation-direction-container').style.display = animated ? 'block' : 'none';
     document.getElementById(prefixedId(['', 'tablet', 'mobile'][viewIndex], 'mirror-loop-checkbox')).closest('.animation-mirror-container').style.display = animated && state.oneDirection ? 'block' : 'none';
     document.getElementById(prefixedId(['', 'tablet', 'mobile'][viewIndex], 'depth-layers-checkbox')).closest('.animation-depth-container').style.display = animated ? 'block' : 'none';
@@ -4313,6 +4357,7 @@ function refreshRangeSliders() {
     });
 }
 
+initializeSharedTooltips();
 updateSettingsfromURL();
 updateShape();
 
