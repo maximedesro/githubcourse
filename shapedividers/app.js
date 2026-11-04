@@ -1017,6 +1017,7 @@ function initializeSharedTooltips() {
             }
             source.remove();
         });
+        scope.querySelectorAll('.sd-responsive-control .sd-tooltip-anchor').forEach(icon=>icon.remove());
         [scope,...scope.querySelectorAll('[title]')].forEach(element => {
             if (!element.hasAttribute('title') || !element.getAttribute('title').trim()) return;
             element.dataset.sdTooltip = element.getAttribute('title');
