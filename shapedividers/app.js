@@ -155,7 +155,7 @@ const SD_MOTION_IMAGES = ["data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fw
 const SD_MOTION_RECIPES = {
   "rising": {
     "title": "Upward currents",
-    "description": "The noise field rises through the artwork while the base stays planted.",
+    "description": "The noise field rises through the shape while the base stays planted.",
     "levels": [
       [
         "<filter id=\"@ID@\" filterUnits=\"userSpaceOnUse\" primitiveUnits=\"userSpaceOnUse\" x=\"-80\" y=\"-48\" width=\"1360\" height=\"416\" color-interpolation-filters=\"sRGB\"><feTurbulence type=\"fractalNoise\" baseFrequency=\"0.009 0.0375\" numOctaves=\"2\" seed=\"7\" stitchTiles=\"stitch\" x=\"0\" y=\"0\" width=\"1200\" height=\"320\" result=\"noise\"/><feTile in=\"noise\" x=\"-120\" y=\"-640\" width=\"1440\" height=\"1600\" result=\"tiles\"/><feOffset in=\"tiles\" dx=\"0\" dy=\"0\" x=\"-120\" y=\"-320\" width=\"1440\" height=\"960\" result=\"flow\"><animate attributeName=\"dy\" values=\"0;-320\" dur=\"6.4s\" repeatCount=\"indefinite\"/></feOffset><feImage href=\"@IMAGE0@\" x=\"0\" y=\"0\" width=\"1200\" height=\"320\" preserveAspectRatio=\"none\" result=\"weight-map\"/><feComposite in=\"flow\" in2=\"weight-map\" operator=\"in\" result=\"weighted-map\"/><feFlood flood-color=\"rgb(50%,50%,50%)\" flood-opacity=\"1\" result=\"neutral-map\"/><feComposite in=\"weighted-map\" in2=\"neutral-map\" operator=\"over\" result=\"map\"/><feDisplacementMap in=\"SourceGraphic\" in2=\"map\" scale=\"18\" xChannelSelector=\"R\" yChannelSelector=\"G\"/></filter>",
@@ -191,7 +191,7 @@ const SD_MOTION_RECIPES = {
   },
   "swell-map": {
     "title": "Travelling swell",
-    "description": "A smooth repeating displacement wave travels sideways through your original outline. No mirrored artwork and no fading.",
+    "description": "A smooth repeating displacement wave travels sideways through the shape. No mirroring or fading.",
     "levels": [
       [
         "<filter id=\"@ID@\" filterUnits=\"userSpaceOnUse\" primitiveUnits=\"userSpaceOnUse\" x=\"-80\" y=\"-48\" width=\"1360\" height=\"416\" color-interpolation-filters=\"sRGB\"><feImage href=\"@IMAGE1@\" x=\"0\" y=\"0\" width=\"1200\" height=\"320\" preserveAspectRatio=\"none\" result=\"noise\"/><feTile in=\"noise\" x=\"-1280\" y=\"-320\" width=\"3760\" height=\"960\" result=\"tiles\"/><feOffset in=\"tiles\" dx=\"0\" dy=\"0\" result=\"flow\"><animate attributeName=\"dx\" values=\"0;-1200\" dur=\"15s\" repeatCount=\"indefinite\"/></feOffset><feImage href=\"@IMAGE0@\" x=\"0\" y=\"0\" width=\"1200\" height=\"320\" preserveAspectRatio=\"none\" result=\"weight-map\"/><feComposite in=\"flow\" in2=\"weight-map\" operator=\"in\" result=\"weighted-map\"/><feFlood flood-color=\"rgb(50%,50%,50%)\" flood-opacity=\"1\" result=\"neutral-map\"/><feComposite in=\"weighted-map\" in2=\"neutral-map\" operator=\"over\" result=\"map\"/><feDisplacementMap in=\"SourceGraphic\" in2=\"map\" scale=\"14\" xChannelSelector=\"R\" yChannelSelector=\"G\" result=\"first\"/></filter>",
@@ -281,7 +281,7 @@ const SD_MOTION_RECIPES = {
   },
   "contour-pulse": {
     "title": "Contour pulse",
-    "description": "The outline gently thickens and relaxes with rounded expansion, keeping the tips smooth.",
+    "description": "The contour gently thickens and relaxes with rounded expansion, keeping the tips smooth.",
     "levels": [
       [
         "<filter id=\"@ID@\" filterUnits=\"userSpaceOnUse\" primitiveUnits=\"userSpaceOnUse\" x=\"-80\" y=\"-48\" width=\"1360\" height=\"416\" color-interpolation-filters=\"sRGB\"><feColorMatrix in=\"SourceAlpha\" type=\"matrix\" values=\"0 0 0 1 0  0 0 0 1 0  0 0 0 1 0  0 0 0 0 1\" result=\"alpha-map\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-0\"><animate attributeName=\"dx\" values=\"0;0.750000;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;0.000000;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"alpha-map\" in2=\"rounded-offset-0\" mode=\"lighten\" result=\"rounded-max-0\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-1\"><animate attributeName=\"dx\" values=\"0;0.692910;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;0.172208;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-0\" in2=\"rounded-offset-1\" mode=\"lighten\" result=\"rounded-max-1\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-2\"><animate attributeName=\"dx\" values=\"0;0.530330;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;0.318198;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-1\" in2=\"rounded-offset-2\" mode=\"lighten\" result=\"rounded-max-2\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-3\"><animate attributeName=\"dx\" values=\"0;0.287013;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;0.415746;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-2\" in2=\"rounded-offset-3\" mode=\"lighten\" result=\"rounded-max-3\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-4\"><animate attributeName=\"dx\" values=\"0;0.000000;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;0.450000;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-3\" in2=\"rounded-offset-4\" mode=\"lighten\" result=\"rounded-max-4\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-5\"><animate attributeName=\"dx\" values=\"0;-0.287013;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;0.415746;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-4\" in2=\"rounded-offset-5\" mode=\"lighten\" result=\"rounded-max-5\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-6\"><animate attributeName=\"dx\" values=\"0;-0.530330;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;0.318198;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-5\" in2=\"rounded-offset-6\" mode=\"lighten\" result=\"rounded-max-6\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-7\"><animate attributeName=\"dx\" values=\"0;-0.692910;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;0.172208;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-6\" in2=\"rounded-offset-7\" mode=\"lighten\" result=\"rounded-max-7\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-8\"><animate attributeName=\"dx\" values=\"0;-0.750000;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;0.000000;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-7\" in2=\"rounded-offset-8\" mode=\"lighten\" result=\"rounded-max-8\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-9\"><animate attributeName=\"dx\" values=\"0;-0.692910;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;-0.172208;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-8\" in2=\"rounded-offset-9\" mode=\"lighten\" result=\"rounded-max-9\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-10\"><animate attributeName=\"dx\" values=\"0;-0.530330;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;-0.318198;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-9\" in2=\"rounded-offset-10\" mode=\"lighten\" result=\"rounded-max-10\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-11\"><animate attributeName=\"dx\" values=\"0;-0.287013;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;-0.415746;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-10\" in2=\"rounded-offset-11\" mode=\"lighten\" result=\"rounded-max-11\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-12\"><animate attributeName=\"dx\" values=\"0;-0.000000;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;-0.450000;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-11\" in2=\"rounded-offset-12\" mode=\"lighten\" result=\"rounded-max-12\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-13\"><animate attributeName=\"dx\" values=\"0;0.287013;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;-0.415746;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-12\" in2=\"rounded-offset-13\" mode=\"lighten\" result=\"rounded-max-13\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-14\"><animate attributeName=\"dx\" values=\"0;0.530330;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;-0.318198;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-13\" in2=\"rounded-offset-14\" mode=\"lighten\" result=\"rounded-max-14\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-15\"><animate attributeName=\"dx\" values=\"0;0.692910;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;-0.172208;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-14\" in2=\"rounded-offset-15\" mode=\"lighten\" result=\"rounded-max-15\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-16\"><animate attributeName=\"dx\" values=\"0;0.375000;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;0.000000;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-15\" in2=\"rounded-offset-16\" mode=\"lighten\" result=\"rounded-max-16\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-17\"><animate attributeName=\"dx\" values=\"0;0.265165;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;0.159099;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-16\" in2=\"rounded-offset-17\" mode=\"lighten\" result=\"rounded-max-17\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-18\"><animate attributeName=\"dx\" values=\"0;0.000000;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;0.225000;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-17\" in2=\"rounded-offset-18\" mode=\"lighten\" result=\"rounded-max-18\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-19\"><animate attributeName=\"dx\" values=\"0;-0.265165;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;0.159099;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-18\" in2=\"rounded-offset-19\" mode=\"lighten\" result=\"rounded-max-19\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-20\"><animate attributeName=\"dx\" values=\"0;-0.375000;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;0.000000;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-19\" in2=\"rounded-offset-20\" mode=\"lighten\" result=\"rounded-max-20\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-21\"><animate attributeName=\"dx\" values=\"0;-0.265165;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;-0.159099;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-20\" in2=\"rounded-offset-21\" mode=\"lighten\" result=\"rounded-max-21\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-22\"><animate attributeName=\"dx\" values=\"0;-0.000000;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;-0.225000;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-21\" in2=\"rounded-offset-22\" mode=\"lighten\" result=\"rounded-max-22\"/><feOffset in=\"alpha-map\" dx=\"0\" dy=\"0\" result=\"rounded-offset-23\"><animate attributeName=\"dx\" values=\"0;0.265165;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/><animate attributeName=\"dy\" values=\"0;-0.159099;0\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feOffset><feBlend in=\"rounded-max-22\" in2=\"rounded-offset-23\" mode=\"lighten\" result=\"rounded-max-23\"/><feGaussianBlur in=\"rounded-max-23\" stdDeviation=\"0.01\" result=\"smooth-expansion\"><animate attributeName=\"stdDeviation\" values=\"0.01;0.85;0.01\" dur=\"12.7s\" repeatCount=\"indefinite\" calcMode=\"spline\" keyTimes=\"0;0.5;1\" keySplines=\"0.45 0 0.55 1;0.45 0 0.55 1\"/></feGaussianBlur><feBlend in=\"alpha-map\" in2=\"smooth-expansion\" mode=\"lighten\" result=\"tip-safe-map\"/><feColorMatrix in=\"tip-safe-map\" type=\"matrix\" values=\"0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1 0 0 0 0\" result=\"rounded-alpha\"/><feFlood flood-color=\"currentColor\" result=\"contour-paint\"/><feComposite in=\"contour-paint\" in2=\"rounded-alpha\" operator=\"in\" result=\"thick\"/><feImage href=\"@IMAGE0@\" x=\"0\" y=\"0\" width=\"1200\" height=\"320\" preserveAspectRatio=\"none\" result=\"pin-weight\"/><feComposite in=\"thick\" in2=\"pin-weight\" operator=\"in\" result=\"upper\"/><feComposite in=\"SourceGraphic\" in2=\"pin-weight\" operator=\"out\" result=\"lower\"/><feComposite in=\"upper\" in2=\"lower\" operator=\"arithmetic\" k2=\"1\" k3=\"1\"/></filter>",
@@ -448,79 +448,51 @@ if (!previewHost) {
 }
 
 
-    function buildShareUrl() {
-    const desktopParams = [
-        ['dividerDirection', dividerDirection],
-        ['longAxisValue', longAxisValue],
-        ['shortAxisValue', shortAxisValue],
-        ['positionValue', positionValue],
-        ['flipped', flipped],
-        ['animate', animate],
-        ['animLength', animLength],
-        ['animLongAxis', animLongAxis],
-        ['oneDirection', oneDirection],
-        ['mirrorLoop', document.getElementById(prefixedId('', 'mirror-loop-checkbox')).checked],
-        ['depthLayers', document.getElementById(prefixedId('', 'depth-layers-checkbox')).checked],
-        ['shapeColor', shapeColor],
-        ['gradient', gradient],
-        ['gradientColor', gradientColor],
-        ['si', svgDividers[shapeIndex].si],
-        ['shapeRatio', shapeRatio],
-        ['mobileReady', mobileReady]
-    ];
-
-    const responsiveParams = [
-        ['tabletDividerDirection', tabletDividerDirection],
-        ['tabletLongAxisValue', tabletLongAxisValue],
-        ['tabletShortAxisValue', tabletShortAxisValue],
-        ['tabletPositionValue', tabletPositionValue],
-        ['tabletFlipped', tabletFlipped],
-        ['tabletAnimate', tabletAnimate],
-        ['tabletAnimLength', tabletAnimLength],
-        ['tabletAnimLongAxis', tabletAnimLongAxis],
-        ['tabletOneDirection', tabletOneDirection],
-        ['tabletMirrorLoop', document.getElementById(prefixedId('tablet', 'mirror-loop-checkbox')).checked],
-        ['tabletDepthLayers', document.getElementById(prefixedId('tablet', 'depth-layers-checkbox')).checked],
-        ['tabletShapeColor', tabletShapeColor],
-        ['tabletGradient', tabletGradient],
-        ['tabletGradientColor', tabletGradientColor],
-        ['tsi', svgDividers[tabletShapeIndex].si],
-        ['tabletShapeRatio', tabletShapeRatio],
-        ['mobileDividerDirection', mobileDividerDirection],
-        ['mobileLongAxisValue', mobileLongAxisValue],
-        ['mobileShortAxisValue', mobileShortAxisValue],
-        ['mobilePositionValue', mobilePositionValue],
-        ['mobileFlipped', mobileFlipped],
-        ['mobileAnimate', mobileAnimate],
-        ['mobileAnimLength', mobileAnimLength],
-        ['mobileAnimLongAxis', mobileAnimLongAxis],
-        ['mobileOneDirection', mobileOneDirection],
-        ['mobileMirrorLoop', document.getElementById(prefixedId('mobile', 'mirror-loop-checkbox')).checked],
-        ['mobileDepthLayers', document.getElementById(prefixedId('mobile', 'depth-layers-checkbox')).checked],
-        ['mobileShapeColor', mobileShapeColor],
-        ['mobileGradient', mobileGradient],
-        ['mobileGradientColor', mobileGradientColor],
-        ['msi', svgDividers[mobileShapeIndex].si],
-        ['mobileShapeRatio', mobileShapeRatio]
-    ];
-
-    const params = new URLSearchParams(desktopParams);
-    if (mobileReady) {
-        responsiveParams.forEach(([key, value]) => params.append(key, value));
-    }
-
-    ['', ...(mobileReady ? ['tablet','mobile'] : [])].forEach(prefix => {
-        const effects = readMotionEffects(prefix);
+function buildShareUrl() {
+    const params = new URLSearchParams();
+    const keys = {
+        long_axis:['longAxisValue','LongAxisValue'],
+        short_axis:['shortAxisValue','ShortAxisValue'],
+        position:['positionValue','PositionValue'],
+        'flipped-checkbox':['flipped','Flipped'],
+        'animate-checkbox':['animate','Animate'],
+        animation_length:['animLength','AnimLength'],
+        animation_long_axis:['animLongAxis','AnimLongAxis'],
+        'one-direction-checkbox':['oneDirection','OneDirection'],
+        'mirror-loop-checkbox':['mirrorLoop','MirrorLoop'],
+        'depth-layers-checkbox':['depthLayers','DepthLayers'],
+        'shape-color':['shapeColor','ShapeColor'],
+        'gradient-checkbox':['gradient','Gradient'],
+        'gradient-color':['gradientColor','GradientColor']
+    };
+    // Read controls directly: inactive viewport globals can be stale after
+    // Responsive is switched off. Keep every viewport's settings in the link.
+    ['', 'tablet', 'mobile'].forEach((prefix,index) => {
+        params.set(prefix ? prefix+'DividerDirection' : 'dividerDirection',getCheckedDirection(prefix));
+        Object.entries(keys).forEach(([field,names]) => {
+            const input = document.getElementById(prefixedId(prefix,field));
+            const value = input.type === 'checkbox' ? input.checked
+                : input.type === 'color' ? input.value.slice(1) : input.value;
+            params.set(prefix ? prefix+names[1] : names[0],value);
+        });
+        const shape = svgDividers[[shapeIndex,tabletShapeIndex,mobileShapeIndex][index]];
+        params.set(['si','tsi','msi'][index],shape.si);
+        params.set(prefix ? prefix+'ShapeRatio' : 'shapeRatio',String(shape.ratio).toUpperCase() === 'TRUE');
+        const effects = readMotionEffects(prefix,{effective:false});
         const changed = Object.fromEntries(Object.entries(effects).filter(([field,value])=>value !== motionFields[field]));
-        if (Object.keys(changed).length) params.set(prefix ? prefix+'Effects' : 'effects', JSON.stringify(changed));
+        if (Object.keys(changed).length) params.set(prefix ? prefix+'Effects' : 'effects',JSON.stringify(changed));
     });
-    const currentPath = window.location.pathname || '/';
-    return currentPath + '?' + params.toString();
+    const responsive = document.getElementById('mobile-ready').checked;
+    params.set('mobileReady',responsive);
+    params.set('responsiveConfigured',alreadyChangedView);
+    params.set('view',responsive ? ['desktop','tablet','mobile'][Math.max(0,getActiveViewIndex())] : 'desktop');
+    return (window.location.pathname || '/')+'?'+params.toString()+window.location.hash;
 }
 
 async function updateURL(copyToClipboard = false) {
+    window.clearTimeout(shareUrlUpdateTimer);
     const shareUrl = buildShareUrl();
-    window.history.replaceState({}, 'shape', shareUrl);
+    window.history.replaceState(window.history.state, 'shape', shareUrl);
 
     if (!copyToClipboard) {
         return true;
@@ -533,6 +505,11 @@ const queryString = window.location.search;
 
 const urlParams = new URLSearchParams(queryString);
 let urlStylesLoaded = false;
+let shareUrlUpdateTimer;
+function scheduleShareUrlUpdate() {
+    window.clearTimeout(shareUrlUpdateTimer);
+    shareUrlUpdateTimer = window.setTimeout(()=>updateURL(false),150);
+}
 
 function checkRadioByValue(group, value) {
     const radio = [...group].find((item) => item.value === value);
@@ -648,16 +625,17 @@ function restoreViewportFromURL(prefix, paramPrefix, shapeParam) {
     const effectParam = urlParams.get(prefix ? prefix+'Effects' : 'effects');
     if (effectParam) {
         try {
-            const effects = JSON.parse(effectParam);
-            Object.keys(motionFields).forEach(field => {
+            const effects = normalizeMotionEffects(JSON.parse(effectParam));
+            Object.entries(effects).forEach(([field,value]) => {
                 const input = document.getElementById(motionControlId(prefix,field));
-                if (!input || !Object.hasOwn(effects,field)) return;
-                if (typeof motionFields[field] === 'boolean') input.checked = effects[field] === true;
-                else if (typeof effects[field] === 'string') {
-                    input.value = effects[field];
+                if (!input) return;
+                if (typeof motionFields[field] === 'boolean') input.checked = value;
+                else {
+                    input.value = value;
                     const hex = document.getElementById(input.id+'-hex');
                     if (hex) hex.value = input.value;
                 }
+                if (input.tagName === 'SELECT') syncMotionChoice(input);
             });
         } catch (_) { /* Malformed share data leaves safe defaults in place. */ }
     }
@@ -667,18 +645,10 @@ function restoreViewportFromURL(prefix, paramPrefix, shapeParam) {
 function updateSettingsfromURL() {
     if (urlStylesLoaded) return;
 
-    if (urlParams.has('dividerDirection')) {
-        restoreViewportFromURL('', 'divider', 'si');
-        setCheckboxFromParam('mobile-ready', 'mobileReady');
-    }
-
-    if (urlParams.has('tabletDividerDirection')) {
-        restoreViewportFromURL('tablet', 'tablet', 'tsi');
-    }
-
-    if (urlParams.has('mobileDividerDirection')) {
-        restoreViewportFromURL('mobile', 'mobile', 'msi');
-    }
+    restoreViewportFromURL('', 'divider', 'si');
+    restoreViewportFromURL('tablet', 'tablet', 'tsi');
+    restoreViewportFromURL('mobile', 'mobile', 'msi');
+    setCheckboxFromParam('mobile-ready','mobileReady');
 
     urlStylesLoaded = true;
 
@@ -686,6 +656,12 @@ function updateSettingsfromURL() {
         document.getElementById('mobile-ready').checked;
 
     viewsSelect.style.display = responsiveEnabled ? 'flex' : 'none';
+    const selectedView = ['desktop','tablet','mobile'].indexOf(urlParams.get('view'));
+    if (responsiveEnabled && selectedView >= 0) {
+        views.forEach((view,index)=>view.classList.toggle('active',index === selectedView));
+        viewsSettings.forEach((settings,index)=>{ settings.style.display = index === selectedView ? 'block' : 'none'; });
+        previewerFrame.className = previewClasses[selectedView];
+    }
     refreshRangeSliders();
 }
 
@@ -754,7 +730,7 @@ function describeMotionChoice(field, value) {
     }[value] || '';
     return SD_MOTION_RECIPES[value]?.description || (value === 'scroll'
         ? 'Move the shape along its long axis. One direction, Seamless mirror and Depth layers are available with this motion alone.'
-        : {motion:'Keep the artwork still while adding optional edge or surface effects.',edge:'Keep the original contour without an edge treatment.',light:'Keep the shape colors without an animated light.'}[field] || '');
+        : {motion:'Keep the shape still while adding optional edge or surface effects.',edge:'Keep the original contour without an edge treatment.',light:'Keep the shape colors without an animated light.'}[field] || '');
 }
 function syncMotionChoice(select) {
     const widget = motionChoiceWidgets.get(select.id);
@@ -859,7 +835,18 @@ function enhanceMotionChoices(stack) {
 }
 
 function motionControlId(prefix, field) { return prefixedId(prefix, 'motion-' + field); }
-function readMotionEffects(prefix) {
+function normalizeMotionEffects(values) {
+    const source = values && typeof values === 'object' && !Array.isArray(values) ? values : {};
+    return Object.fromEntries(Object.entries(motionFields).map(([field,fallback])=> {
+        const value = Object.hasOwn(source,field) ? source[field] : fallback;
+        const valid = typeof fallback === 'boolean' ? typeof value === 'boolean'
+            : motionChoices[field] ? motionChoices[field].includes(value)
+            : field === 'intensity' ? ['0','1','2'].includes(value)
+            : typeof value === 'string' && /^#[a-f\d]{6}$/i.test(value);
+        return [field,valid ? value : fallback];
+    }));
+}
+function readMotionEffects(prefix, {effective = true} = {}) {
     const result = {};
     Object.entries(motionFields).forEach(([field, fallback]) => {
         const input = document.getElementById(motionControlId(prefix, field));
@@ -872,7 +859,7 @@ function readMotionEffects(prefix) {
         result[field] = value;
     });
     const legacy = ['one-direction-checkbox','depth-layers-checkbox'].some(field => document.getElementById(prefixedId(prefix,field))?.checked);
-    return legacy ? {...motionFields} : result;
+    return effective && legacy ? {...motionFields} : result;
 }
 function hasMotionEffects(state) {
     const e = state.effects;
@@ -885,7 +872,7 @@ function hasColoredMotionEffects() {
 function motionSelect(prefix, field, label) {
     const id = motionControlId(prefix, field);
     return '<div class="sd-motion-field"><label id="'+id+'-label" for="'+id+'">'+label+'</label><select id="'+id+'" data-motion-field="'+field+'">' +
-        motionChoices[field].map(key => '<option value="'+key+'"'+(motionFields[field] === key ? ' selected' : '')+'>'+({none:'None',scroll:'Scrolling (existing)'}[key] || SD_MOTION_RECIPES[key].title)+'</option>').join('')+'</select></div>';
+        motionChoices[field].map(key => '<option value="'+key+'"'+(motionFields[field] === key ? ' selected' : '')+'>'+({none:'None',scroll:'Scrolling'}[key] || SD_MOTION_RECIPES[key].title)+'</option>').join('')+'</select></div>';
 }
 function motionColor(prefix, field, label) {
     const id = motionControlId(prefix, field);
@@ -2250,7 +2237,9 @@ if (typeof ResizeObserver === 'function') {
 }
 
 
-let alreadyChangedView = false;
+let alreadyChangedView = urlParams.has('responsiveConfigured')
+    ? urlParams.get('responsiveConfigured') === 'true'
+    : urlParams.has('tabletDividerDirection') || urlParams.has('mobileDividerDirection') || urlParams.has('tabletEffects') || urlParams.has('mobileEffects');
 
 const previewClasses = ['auto', 'tablet-portrait', 'mobile-portrait'];
 
@@ -2426,8 +2415,7 @@ document.getElementById('mobile-ready').addEventListener('change', function() {
     cancelResponsiveReveal();
     if (this.checked) {
         if (
-            !alreadyChangedView &&
-            !urlParams.has('tabletDividerDirection')
+            !alreadyChangedView
         ) {
             syncResponsiveControlsFromDesktop();
         }
@@ -2683,6 +2671,7 @@ function updateShape() {
 
     renderCanvasPreview(activeState);
     premiumCheck();
+    scheduleShareUrlUpdate();
 }
 
 const copyCodeButton = document.getElementById("copye");

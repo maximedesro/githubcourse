@@ -343,6 +343,10 @@
       color: var(--sd-ink-soft);
     }
 
+    .animation-benchmark { margin-top: var(--sd-space-4); padding: var(--sd-space-3); border: 1px solid var(--sd-line); border-radius: var(--sd-radius-md); background: var(--sd-surface-soft); }
+    .animation-benchmark strong { display: block; font-size: var(--sd-text-lg); }
+    .animation-benchmark p { margin-top: var(--sd-space-2); color: var(--sd-ink-soft); }
+
     .comparison-section {
       color: #fff;
       background:
@@ -739,7 +743,8 @@
             <p>Full Premium access for one designer.</p>
             <ul>
               <li>Entire shape library</li>
-              <li>Gradient and animation features</li>
+              <li>15 animation effects with compatible stacking</li>
+              <li>Editable gradients, light, ribbon and spark colors</li>
               <li>Unlimited personal and client projects</li>
               <li>Lifetime tool access</li>
             </ul>
@@ -753,7 +758,8 @@
             <p>Premium access for a team of up to 30 designers.</p>
             <ul>
               <li>Entire shape library</li>
-              <li>Gradient and animation features</li>
+              <li>15 animation effects with compatible stacking</li>
+              <li>Editable gradients, light, ribbon and spark colors</li>
               <li>Lifetime tool access</li>
             </ul>
             <a class="button button--dark" href="mailto:maxime@shapedividers.com">Email about Team Lifetime</a>
@@ -807,7 +813,7 @@
           <article class="benefit-card">
             <span class="benefit-card__mark">02</span>
             <h3>Create gradients and animated dividers</h3>
-            <p>Use two-color gradients that follow the divider direction, or animate shapes across the long axis. Responsive controls let desktop, tablet and mobile use different shapes or settings when needed.</p>
+            <p>Create two-color gradients, travelling swells, breathing contours and moving light. Stack compatible animation layers, edit effect colors, and set a different duration and intensity for desktop, tablet and mobile. Exported animations run entirely with CSS and native SVG animation, without JavaScript.</p>
           </article>
 
           <article class="benefit-card">
@@ -816,6 +822,38 @@
             <p>Export compact CSS, inline SVG or an SVG mask. Most shapes are under 10 KB gzipped, and the output stays editable with CSS for sizing, positioning, colors, gradients, flips and animation.</p>
           </article>
         </div>
+      </div>
+    </section>
+
+    <section class="section premium-animations" id="premium-animations" aria-labelledby="premium-animation-heading">
+      <div class="shell">
+        <div class="section-heading">
+          <p class="kicker">Animations included with Premium</p>
+          <h2 id="premium-animation-heading">What can I animate with ShapeDividers Premium?</h2>
+          <p>Premium includes 15 motion, contour and surface effects alongside Scrolling, One direction, Seamless mirror and Depth layers. Create animated waves, living flames, breathing contours and moving highlights. The exported animations use CSS and native SVG animation, with no JavaScript or animation library to install on your website.</p>
+        </div>
+        <div class="benefit-grid">
+          <article class="benefit-card">
+            <span class="benefit-card__mark">01</span>
+            <h3>Choose the movement</h3>
+            <p>Use Upward currents, Sideways current, Travelling swell, Surface ripples, Crossing swells, Uneven swells or Soft rocking. Shape the contour with Contour pulse, Double breath, Molten edge or Directional echo. For Scrolling alone, add One direction, Seamless mirror or three Depth layers.</p>
+          </article>
+          <article class="benefit-card">
+            <span class="benefit-card__mark">02</span>
+            <h3>Stack light and color</h3>
+            <p>Combine Distant light with Travelling swell, or Moving light with Soft rocking. Add a three-color Iridescent ribbon or Lifted sparks, then choose their colors. Set the duration and Light, Natural or Strong intensity. Tooltips explain each choice and incompatible controls stay disabled.</p>
+          </article>
+          <article class="benefit-card">
+            <span class="benefit-card__mark">03</span>
+            <h3>Adapt the animation to each viewport</h3>
+            <p>Give desktop, tablet and mobile their own motion, contour, lighting, colors and timing. Save the complete design in one URL. SVG code supports the full set of animation layers; the export dialog disables formats that cannot preserve your effects. SVG animation layers respect reduced-motion preferences.</p>
+          </article>
+        </div>
+        <aside class="animation-benchmark" aria-label="Animation CPU comparison">
+          <strong>Approximately one-sixth the CPU usage in our comparison</strong>
+          <p>In our comparison measured with <a href="https://developer.chrome.com/docs/devtools/performance-monitor">Chrome DevTools Performance Monitor</a>, the exported CSS/SVG animation used approximately one-sixth the CPU of the equivalent JavaScript animation. CPU usage varies with the effect, shape, browser and device.</p>
+        </aside>
+        <div class="hero__actions"><a class="button button--dark" href="https://shapedividers.com/#shape-divider-tool">Explore the animation controls</a></div>
       </div>
     </section>
 
@@ -873,9 +911,44 @@
                 <td class="yes">Included</td>
               </tr>
               <tr>
-                <td>Animated dividers</td>
+                <td>Animated dividers without JavaScript</td>
                 <td class="limited">Premium feature</td>
                 <td class="yes">Included</td>
+              </tr>
+              <tr>
+                <td>Currents, swells and Soft rocking</td>
+                <td class="limited">Premium feature</td>
+                <td class="yes">7 motion effects</td>
+              </tr>
+              <tr>
+                <td>Contour pulse, Double breath, Molten edge and Directional echo</td>
+                <td class="limited">Premium feature</td>
+                <td class="yes">4 edge treatments</td>
+              </tr>
+              <tr>
+                <td>Moving light, Distant light, Iridescent ribbon and Lifted sparks</td>
+                <td class="limited">Premium feature</td>
+                <td class="yes">4 surface effects</td>
+              </tr>
+              <tr>
+                <td>Compatible animation stacking</td>
+                <td class="limited">Premium feature</td>
+                <td class="yes">Combine motion, edge and surface layers</td>
+              </tr>
+              <tr>
+                <td>Duration, intensity and editable effect colors</td>
+                <td class="limited">Premium feature</td>
+                <td class="yes">Included</td>
+              </tr>
+              <tr>
+                <td>One direction, Seamless mirror and Depth layers</td>
+                <td class="limited">Premium feature</td>
+                <td class="yes">Included</td>
+              </tr>
+              <tr>
+                <td>Independent animation settings per viewport</td>
+                <td class="limited">Premium feature</td>
+                <td class="yes">Desktop, tablet and mobile</td>
               </tr>
               <tr>
                 <td>No attribution required</td>
@@ -938,6 +1011,11 @@
           </details>
 
           <details>
+            <summary>Do Premium animations need JavaScript?</summary>
+            <div class="faq-answer"><p>No. The exported animations run entirely with CSS keyframes and native SVG animation. Premium includes 15 motion, contour and surface effects, compatible stacking, editable effect colors, duration and intensity settings, and independent desktop, tablet and mobile controls. No animation library is required on your website.</p></div>
+          </details>
+
+          <details>
             <summary>Can I use Premium shape dividers on client websites?</summary>
             <div class="faq-answer">
               <p>Yes. Premium includes unlimited personal and client projects. The $49 license is for one designer using the tool.</p>
@@ -976,7 +1054,7 @@
           <details>
             <summary>What export formats can I use with Premium?</summary>
             <div class="faq-answer">
-              <p>You can export a divider as CSS with embedded SVG, inline SVG markup or a reusable SVG mask. Gradient and animated designs can be generated from the same visual tool, and responsive settings can vary between desktop, tablet and mobile.</p>
+              <p>Choose CSS with embedded SVG, inline SVG code or an SVG mask when compatible with your design. Animation layers need SVG elements, and colored lighting, ribbons and sparks use SVG code. The export dialog disables incompatible formats and explains why. Desktop, tablet and mobile settings can differ.</p>
             </div>
           </details>
 
@@ -1030,6 +1108,14 @@
             "priceCurrency": "USD",
             "description": "Lifetime Premium access for a team of up to 30 designers."
           }
+        ],
+        "featureList": [
+          "CSS and native SVG animations without JavaScript",
+          "15 motion, contour and surface effects",
+          "Compatible animation layers",
+          "Editable light, ribbon and spark colors",
+          "Independent desktop, tablet and mobile animation settings",
+          "One direction, Seamless mirror and Depth layers"
         ]
       },
       {
@@ -1096,7 +1182,7 @@
             "name": "What export formats can I use with Premium?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "ShapeDividers can export CSS with embedded SVG, inline SVG markup or a reusable SVG mask, with responsive settings available for desktop, tablet and mobile."
+              "text": "ShapeDividers offers CSS, inline SVG and SVG mask exports when compatible with the selected effects. Animation layers need SVG elements; colored lighting, ribbons and sparks use SVG code. The export dialog disables incompatible formats and explains why."
             }
           },
           {
@@ -1105,6 +1191,14 @@
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "Yes. Inline SVG exports can use CSS currentColor for solid colors, gradient SVG exports expose CSS variables for both colors, and SVG mask exports keep the visible color or gradient in CSS."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do Premium animations need JavaScript?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. The exported animations run entirely with CSS keyframes and native SVG animation. Premium includes 15 motion, contour and surface effects, compatible stacking, editable effect colors, duration and intensity settings, and independent desktop, tablet and mobile controls. No animation library is required on your website."
             }
           }
         ]

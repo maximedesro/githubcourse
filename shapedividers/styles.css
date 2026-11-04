@@ -2638,8 +2638,8 @@ body.sd-is-loading {
 .sd-motion-stack :disabled{opacity:.48;cursor:not-allowed}
 .sd-motion-preview{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:4}
 .sd-motion-preview>svg{overflow:hidden}
-.animation-direction-container:has(input:disabled){opacity:.55;cursor:help}
-.export-modal__tab:disabled{opacity:.45;cursor:help}
+.animation-direction-container:has(input:disabled){opacity:.55}
+.export-modal__tab:disabled{opacity:.45}
 
 .sd-motion-stack .sd-motion-hex{width:78px;max-width:100%;font:11px ui-monospace,monospace;border:1px solid #d7ceca;border-radius:5px;padding:6px;background:white;color:inherit}
 .sd-motion-stack .sd-motion-hex[aria-invalid="true"]{border-color:#b73e28}
@@ -2664,7 +2664,6 @@ body.sd-is-loading {
 }
 .tippy-box[data-theme~="shapedividers"] .tippy-content { padding: 10px 12px; }
 .tippy-box[data-theme~="shapedividers"] .tippy-arrow { color: var(--sd-ink, #153b36); }
-.sd-tooltip-target { cursor: help; }
 .sd-tooltip-target:focus-visible { outline: 2px solid var(--sd-teal, #1abc9c); outline-offset: 4px; }
 .sd-tooltip-target input:disabled,
 .sd-tooltip-target select:disabled,
@@ -2701,3 +2700,13 @@ body.sd-is-loading {
   font: 600 11px/1 sans-serif; vertical-align: middle;
 }
 .sd-motion-stack.sd-tooltip-target .choices { pointer-events: none; }
+
+
+/* Animation overview: useful in the static HTML, including on small screens. */
+.landing-animations .landing-card { min-height: 0; }
+.landing-animation-settings { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: var(--sd-space-3); margin-top: var(--sd-space-4); }
+.landing-animation-settings p { margin-top: var(--sd-space-2); color: var(--sd-ink-soft); }
+.landing-animation-benchmark { margin-top: var(--sd-space-4); padding: var(--sd-space-3); border: 1px solid var(--sd-line); border-radius: var(--sd-radius-md); background: var(--sd-surface-soft); }
+.landing-animation-benchmark strong { display: block; font-size: var(--sd-text-lg); }
+.landing-animation-benchmark p { max-width: 900px; margin-top: var(--sd-space-2); color: var(--sd-ink-soft); }
+@media (max-width:900px) { .landing-animation-settings { grid-template-columns: 1fr; } }
