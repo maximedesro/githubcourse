@@ -1004,12 +1004,12 @@ pointer-events:none!important;
 }
 
 .preview{
-        position: absolute;
-        bottom:18px;
-        left: 18px;
-        width: 4vw;
-        height: 4vw;
-        z-index: 99;
+	    position: absolute;
+  	    bottom: 8px;
+  	    left: 24px;
+  	    width: 60px;
+     	height: 60px;
+   	    z-index: 99;
         opacity: 0.7;
         background-color: black;
         border-radius: 4px;
@@ -1284,10 +1284,6 @@ margin-bottom:8px;
   top: 21px;
   bottom: auto;
   height: calc(100vh - 42px);
-}
-
-.preview {
-  bottom: 18px;
 }
 
 .mobile-tool-alert {
@@ -2603,8 +2599,8 @@ body.sd-is-loading {
   outline-offset: 3px;
 }
 @media (max-width: 1100px) and (min-width: 768px) {
-  #shape-divider-tool .settings_window { top: 16px; left: 16px; max-height: calc(100vh - 32px); }
-  #shape-divider-tool .settings-panel { padding: 20px 12px 14px; max-height: calc(100vh - 32px); }
+  #shape-divider-tool .settings_window { top: 16px; left: 16px;}
+  #shape-divider-tool .settings-panel { padding: 20px 12px 14px;}
   #genform .sd-tool-header { gap: 10px; }
   #genform .sd-brandmark { flex-basis: 40px; width: 40px; }
   #genform .view_select > div { gap: 6px; font-size: 12px; }
