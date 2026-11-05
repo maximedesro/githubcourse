@@ -102,8 +102,9 @@ sandbox.formUpdate();
 assert.equal(historyUpdates,1,'Copy Code/Premium still refresh the URL without an embedded form');
 assert.equal(new URLSearchParams(historyUrl.split('?')[1].split('#')[0]).get('animLength'),'65');
 let submissions=0;
-for(const key of ['formCreatedShape','formSi','formTsi','formMsi','formMobileReady','formAnimated','formGradient','formHasPremium','formShapeIsPremium']) sandbox[key]={value:''};
-sandbox.formElement={querySelector:()=>({click(){assert.equal(sandbox.formCreatedShape.value,sandbox.window.location.href);submissions++;}})};
+const submittedActions=[];
+for(const key of ['formClicked','formCreatedShape','formSi','formTsi','formMsi','formMobileReady','formAnimated','formGradient','formHasPremium','formShapeIsPremium']) sandbox[key]={value:''};
+sandbox.formElement={querySelector:()=>({click(){assert.equal(sandbox.formCreatedShape.value,sandbox.window.location.href);submittedActions.push(sandbox.formClicked.value);submissions++;}})};
 Object.assign(sandbox,{mobileReady:false,animate:true,tabletAnimate:false,mobileAnimate:false,gradient:false,tabletGradient:false,mobileGradient:false,hasPremiumAccess:()=>true});
 const handlers={};
 sandbox.copyCodeButton={addEventListener(type,handler){handlers.copy=handler;}};
@@ -131,5 +132,6 @@ vm.runInContext(app.slice(shareStart,app.indexOf('\n});',shareStart)+4),sandbox)
     assert.equal(copiedUrl,sandbox.formCreatedShape.value);
     assert.equal(new URLSearchParams(copiedUrl.split('?')[1].split('#')[0]).get('animLength'),'90');
     assert.equal(submissions,3);
+    assert.deepEqual(submittedActions,['copy','premium','share'],'The clicked field must be populated before each submission');
     console.log('Passed responsive URL round trips and action-only URL updates before Copy Code, Premium and Share form submissions.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

@@ -4086,12 +4086,12 @@ function closeExportModal() {
 }
 
 copyCodeButton?.addEventListener('click', () => {
-    formUpdate();
+    formUpdate('copy');
     openExportModal();
 });
 
 premiumButton?.addEventListener('click', () => {
-    formUpdate();
+    formUpdate('premium');
 });
 
 exportTabs.forEach((tab) => {
@@ -4324,7 +4324,7 @@ let shareFeedbackTimeout;
 
 shareLink.addEventListener("click", async () => {
     const copied = await updateURL(true);
-    formUpdate(false);
+    formUpdate('share',false);
 
     if (!copied) {
         console.error('ShapeDividers: share link copy failed.');
@@ -5156,6 +5156,7 @@ initializePreviewBackground();
 
 let formElement = document.querySelector('.elementor-form');
 let formCreatedShape = document.getElementById('form-field-createdshape');
+let formClicked = document.getElementById('form-field-clicked') || document.getElementById('clicked');
 let formSi = document.getElementById('form-field-si');
 let formTsi = document.getElementById('form-field-tsi');
 let formMsi = document.getElementById('form-field-msi');
@@ -5166,7 +5167,7 @@ let formHasPremium = document.getElementById('form-field-haspremium');
 let formShapeIsPremium = document.getElementById('form-field-shapeispremium');
 
 
-function formUpdate(refreshUrl = true) {
+function formUpdate(clicked = '', refreshUrl = true) {
     // These handlers run only for Copy Code, Premium and Share. Updating the
     // history is synchronous, so the form captures the freshly serialized URL.
     if (refreshUrl) updateURL(false);
@@ -5185,6 +5186,7 @@ function formUpdate(refreshUrl = true) {
         return;
     }
 
+    if (formClicked) formClicked.value = clicked;
     formCreatedShape.value = window.location.href;
     formSi.value = svgDividers[shapeIndex].si;
     formTsi.value = svgDividers[tabletShapeIndex].si;
