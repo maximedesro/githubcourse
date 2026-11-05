@@ -4760,16 +4760,17 @@ const PICKER_CATEGORY_LIMIT = 10;
 const expandedPickerCategories = new Set();
 
 function getPickerCategoryEntries(entries, expanded) {
-    const featured = [];
-    const remaining = [];
-
+    // Keep the original order within each group and preserve source indexes.
+    const groups = [[], [], [], []];
     entries.forEach((entry) => {
         const isFeatured =
             String(entry.shape.featured).trim().toUpperCase() === 'TRUE';
-        (isFeatured ? featured : remaining).push(entry);
+        const isPaid = Boolean(entry.shape.pro);
+        const priority = (isFeatured ? 0 : 2) + (isPaid ? 1 : 0);
+        groups[priority].push(entry);
     });
 
-    const ordered = featured.concat(remaining);
+    const ordered = groups.flat();
     return expanded ? ordered : ordered.slice(0, PICKER_CATEGORY_LIMIT);
 }
 
