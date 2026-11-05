@@ -743,7 +743,7 @@ function describeMotionChoice(field, value) {
         '2':'Larger movement and stronger surface effects.'
     }[value] || '';
     return SD_MOTION_RECIPES[value]?.description || (value === 'scroll'
-        ? 'Move the shape along its long axis. One direction, Seamless mirror and Depth layers are available with this motion alone.'
+        ? 'Move the shape along its long axis. One direction, Seamless mirror and Depth layers can also use lighting, ribbons and sparks.'
         : {motion:'Keep the shape still while adding optional edge or surface effects.',edge:'Keep the original contour without an edge treatment.',light:'Keep the shape colors without an animated light.'}[field] || '');
 }
 function syncMotionChoice(select) {
@@ -873,7 +873,7 @@ function readMotionEffects(prefix, {effective = true} = {}) {
         result[field] = value;
     });
     const legacy = ['one-direction-checkbox','depth-layers-checkbox'].some(field => document.getElementById(prefixedId(prefix,field))?.checked);
-    return effective && legacy ? {...motionFields} : result;
+    return effective && legacy ? {...result,motion:'scroll',edge:'none'} : result;
 }
 function hasMotionEffects(state) {
     const e = state.effects;
@@ -1043,12 +1043,16 @@ function syncMotionControls(prefix, state) {
     stack.hidden = !state.animate;
     const selected = hasMotionEffects(state);
     const legacy = state.oneDirection || state.depthLayers;
-    const reason = legacy ? 'Turn off One direction and Depth layers to combine animation layers.' : '';
+    const reason = 'Loop and depth modes use Scrolling. Lighting, ribbons and sparks remain available. Turn off One direction and Depth layers to use a different motion or an edge treatment.';
     stack.querySelectorAll('select,input:not(.choices__input)').forEach(input => {
-        input.disabled = legacy;
+        const field = input.dataset.motionField;
+        input.disabled = legacy && (field === 'motion' || field === 'edge');
         input.removeAttribute('title');
         input.removeAttribute('aria-describedby');
-        if (input.tagName === 'SELECT') syncMotionChoice(input);
+        if (input.tagName === 'SELECT') {
+            syncMotionChoice(input);
+            setControlTooltip(input.closest('.sd-motion-field'),input.disabled ? reason : '');
+        }
     });
     const descriptions = {
         'one-direction-checkbox':'Keep the shape moving in one direction.',
@@ -1057,12 +1061,12 @@ function syncMotionControls(prefix, state) {
     };
     Object.entries(descriptions).forEach(([field,description]) => {
         const input = document.getElementById(prefixedId(prefix,field));
-        const incompatible = field !== 'mirror-loop-checkbox' && selected && !legacy;
+        const incompatible = field !== 'mirror-loop-checkbox' && selected && !legacy && (state.effects.motion !== 'scroll' || state.effects.edge !== 'none');
         input.disabled = incompatible;
         const row = input.closest('.row');
         row.removeAttribute('aria-describedby');
         row.querySelector('small')?.remove();
-        setControlTooltip(row, incompatible ? 'Choose Scrolling with no edge or surface layers to use this loop mode.' : description, {focusable:incompatible});
+        setControlTooltip(row, incompatible ? 'Choose Scrolling and no edge treatment to use this mode. Lighting, ribbons and sparks can stay on.' : description, {focusable:incompatible});
     });
     stack.querySelector('.sd-motion-light-colors').hidden = state.effects.light === 'none';
     stack.querySelector('.sd-motion-ribbon-colors').hidden = !state.effects.ribbon;
@@ -1072,7 +1076,7 @@ function syncMotionControls(prefix, state) {
         const recipe = SD_MOTION_RECIPES[field === 'ribbon' ? 'creative-iridescent' : 'creative-sparks'];
         setControlTooltip(input.closest('label'),recipe.description,{focusable:false});
     });
-    setControlTooltip(stack,reason);
+    setControlTooltip(stack,'');
 
 }
 
@@ -1133,8 +1137,8 @@ function buildMotionSvg(state, namespace, maskOnly = false) {
     }
     current = '<rect width="1200" height="320" fill="'+(maskOnly ? 'white' : paint)+'" mask="url(#'+alphaId+')"/>';
     if (state.animate && !maskOnly) {
-        stage(e.light);
         if (e.ribbon) stage('creative-iridescent');
+        stage(e.light);
     }
     let css = SD_MOTION_CSS.replace(/([\d.]+)s/g,(_,s)=>(Number(s)*pace)+'s');
     // Keep CSS recipes isolated across breakpoints and across multiple dividers.
@@ -1157,7 +1161,9 @@ function buildMotionSvg(state, namespace, maskOnly = false) {
 // Sparks have their own viewport-sized layer. Shape scaling and scrolling never
 // stretch their dots, thin out their density or carry them out of the viewport.
 function getMotionSparksLayout(state, namespace) {
-    return getSvgStateDeclarations({...state,animate:false,flipped:false,longAxis:100},namespace);
+    const layout = getSvgStateDeclarations({...state,animate:false,flipped:false,longAxis:100},namespace);
+    layout.declarations['z-index'] = '4';
+    return layout;
 }
 function buildMotionSparksSvg(state, namespace) {
     const e = state.effects || motionFields;
@@ -1190,6 +1196,7 @@ function getMotionLayout(state, namespace) {
 }
 function buildMotionExportCode(format) {
     const states = getSvgExportStates();
+    if (format === 'svg' && states.some(state=>hasMotionEffects(state) && (state.oneDirection || state.depthLayers))) return buildPairedExportCode('svg');
     const wrapper = shapeCSSName+'-'+format;
     const ordered = mobileReady ? [states[2],states[1],states[0]] : states;
     const rules = ['.'+wrapper+'{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:3}'];
@@ -2187,6 +2194,11 @@ async function renderCanvasPreview(state) {
             dividerPreviewHost.appendChild(motionPreviewHost);
         }
         motionPreviewHost.hidden = false;
+        if (state.oneDirection || state.depthLayers) {
+            motionPreviewHost.innerHTML = buildPairedExportCode('svg',[{...state,key:state.key || 'preview'}],'sd-live-paired');
+            resolveInitialPreview();
+            return;
+        }
         const namespace = 'sd-live-motion';
         const layout = getMotionLayout(state,namespace);
         const style = Object.entries(layout.declarations).map(([k,v])=>k+':'+v).join(';');
@@ -3252,6 +3264,11 @@ function getMirroredStateCss(state, namespace, copy) {
 }
 
 function getPairedStateCss(state, namespace, copy) {
+    if (hasMotionEffects(state) && !state.oneDirection && !state.depthScale && !state.depthLayers) {
+        const css = getMotionLayout(state,namespace);
+        if (copy) css.declarations.display = 'none';
+        return css;
+    }
     const css = getSvgStateDeclarations(state, namespace);
     css.declarations.opacity = '1';
     if (!state.animate || !state.oneDirection) {
@@ -3300,10 +3317,13 @@ function buildPairedExportCode(format, suppliedStates = null, suppliedWrapper = 
     const markup = [];
     const symbols = new Map();
     function getSvgInstance(state, className) {
-        const key = [state.shapeIndex, state.direction, Boolean(state.gradient)].join('|');
+        const advanced = hasMotionEffects(state);
+        const key = [state.shapeIndex, state.direction, Boolean(state.gradient),advanced ? JSON.stringify([state.effects,state.color,state.gradientColor,state.animationLength]) : ''].join('|');
         if (!symbols.has(key)) {
             const id = wrapper + '-symbol-' + symbols.size;
-            const svg = getPlainExportSvg(state.shapeIndex, state.direction, id, state.gradient, state.color, state.gradientColor);
+            const svg = advanced
+                ? buildMotionSvg({...state,oneDirection:false,depthLayers:false,effects:{...state.effects,sparks:false}},id+'-motion')
+                : getPlainExportSvg(state.shapeIndex, state.direction, id, state.gradient, state.color, state.gradientColor);
             const root = new DOMParser().parseFromString(svg, 'image/svg+xml').documentElement;
             const symbol = root.ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'symbol');
             [...root.attributes].forEach(({ name, value }) => {
@@ -3319,7 +3339,7 @@ function buildPairedExportCode(format, suppliedStates = null, suppliedWrapper = 
         // Keep the native viewport so mirror transforms and aspect-ratio sizing
         // are identical to the original SVG; only the geometry is referenced.
         return '<svg xmlns="http://www.w3.org/2000/svg" class="' + className + '" viewBox="' + viewBox +
-            '" preserveAspectRatio="' + getPreserveAspectRatioAttribute(state) + '" aria-hidden="true" focusable="false">' +
+            '" preserveAspectRatio="' + (advanced ? 'none' : getPreserveAspectRatioAttribute(state)) + '" aria-hidden="true" focusable="false">' +
             '<use href="#' + id + '" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '"/></svg>';
     }
     function getPreserveAspectRatioAttribute(state) {
@@ -3386,7 +3406,7 @@ function buildPairedExportCode(format, suppliedStates = null, suppliedWrapper = 
                     });
                     copies.push('<div class="' + className + '"></div>');
                 } else {
-                    const svg = getSvgInstance(layerState, className);
+                    const svg = getSvgInstance({...layerState,animationLength:state.animationLength}, className);
                     if (mirrored) {
                         const pairs = copy ? '' : [0, 1].map((tile) => buildMirroredPairSvg(svg, layerState.direction, className + '-' + tile).replace(
                             '<svg ', '<svg style="position:absolute;overflow:visible;' + (horizontal
@@ -3397,12 +3417,20 @@ function buildPairedExportCode(format, suppliedStates = null, suppliedWrapper = 
                     } else copies.push(svg);
                 }
                 stateRules.push(formatDeclarationRule(selector, declarations));
+                if (format === 'svg' && hasMotionEffects(state)) stateRules.push('@media(prefers-reduced-motion:reduce){'+selector+'{animation:none!important}}');
                 if (css.keyframes) keyframes.add(css.keyframes);
             }
             layerMarkup.push(layered
                 ? '<div class="' + layerGroup + '" style="position:absolute;inset:0;opacity:' + layer.opacity + '">' + copies.join('\n') + '</div>'
                 : copies.join('\n'));
         });
+        if (format === 'svg') {
+            const sparks = buildMotionSparksSvg(state,group+'-sparks');
+            if (sparks) {
+                layerMarkup.push(sparks);
+                stateRules.push(formatDeclarationRule('.'+group+'-sparks',getMotionSparksLayout(state,group+'-sparks').declarations));
+            }
+        }
         rules.push(index ? '@media (min-width:' + minWidth + 'px){\n' + stateRules.join('\n') + '\n}' : stateRules.join('\n'));
         if (format !== 'css') markup.push('<div class="' + group + '">\n' + layerMarkup.join('\n') + '\n</div>');
     });

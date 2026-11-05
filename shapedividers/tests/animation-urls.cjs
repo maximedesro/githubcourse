@@ -37,7 +37,7 @@ const sandbox = {URLSearchParams,prefixedId,console,document:{getElementById:id=
     viewsSelect:{style:{}},previewerFrame:{},previewClasses:['desktop-frame','tablet-frame','mobile-frame'],
     views:[0,1,2].map(()=>({classList:{toggle(name,value){this[name]=value;}}})),viewsSettings:[0,1,2].map(()=>({style:{}}))};
 vm.createContext(sandbox);
-vm.runInContext(fields+'\n'+['motionControlId','readMotionEffects','normalizeMotionEffects','getCheckedDirection','checkRadioByValue','getShapeIndex','setInputValueFromParam','setCheckboxFromParam','restoreViewportFromURL','updateSettingsfromURL','normalizePreviewBackground','readPreviewBackground','buildShareUrl','updateURL','formUpdate'].map(fn).join('\n')+'\nthis.defaults=motionFields;',sandbox);
+vm.runInContext(fields+'\n'+['motionControlId','hasMotionEffects','syncMotionControls','readMotionEffects','normalizeMotionEffects','getCheckedDirection','checkRadioByValue','getShapeIndex','setInputValueFromParam','setCheckboxFromParam','restoreViewportFromURL','updateSettingsfromURL','normalizePreviewBackground','readPreviewBackground','buildShareUrl','updateURL','formUpdate'].map(fn).join('\n')+'\nthis.defaults=motionFields;',sandbox);
 // Shared backgrounds take priority over local storage, including the default tree.
 const localBackground={mode:'color',image:4,color:'#aabbcc'};
 for (const background of [{mode:'image',image:0,color:'#151a21'},{mode:'image',image:5,color:'#112233'},{mode:'color',image:2,color:'#123abc'}]) {
@@ -87,6 +87,12 @@ assert.equal(hidden.get('tabletEffects'),params.get('tabletEffects'));assert.equ
 // Store inactive layers even while an existing loop is selected.
 elements.get('one-direction-checkbox').checked=true;
 assert.equal(sandbox.readMotionEffects('').motion,'scroll');
+assert.equal(sandbox.readMotionEffects('').edge,'none');
+for(const field of ['light','ribbon','sparks','intensity','lightColor','ribbonA','ribbonB','ribbonC','sparkColor']) assert.equal(sandbox.readMotionEffects('')[field],stacks[0][field],'Loop modes must retain surface settings: '+field);
+elements.get('one-direction-checkbox').checked=false;elements.get('depth-layers-checkbox').checked=true;
+assert.equal(sandbox.readMotionEffects('').light,stacks[0].light,'Depth mode must retain lighting too');
+assert.equal(sandbox.readMotionEffects('').ribbon,true);
+elements.get('depth-layers-checkbox').checked=false;elements.get('one-direction-checkbox').checked=true;
 assert.equal(JSON.parse(new URLSearchParams(sandbox.buildShareUrl().split('?')[1].split('#')[0]).get('effects')).motion,'css-rock');
 // Unknown and malformed settings fall back to known values before restoration.
 const safe=sandbox.normalizeMotionEffects({motion:'unknown',intensity:'999',lightColor:'javascript:alert(1)',ribbon:'true',sparks:true,extra:'ignored'});
@@ -133,5 +139,28 @@ vm.runInContext(app.slice(shareStart,app.indexOf('\n});',shareStart)+4),sandbox)
     assert.equal(new URLSearchParams(copiedUrl.split('?')[1].split('#')[0]).get('animLength'),'90');
     assert.equal(submissions,3);
     assert.deepEqual(submittedActions,['copy','premium','share'],'The clicked field must be populated before each submission');
+    // The UI disables only geometry choices for loops/depths. Surface settings
+    // and loop toggles stay usable, in either selection order and viewport.
+    sandbox.setControlTooltip=()=>{};
+    sandbox.SD_MOTION_RECIPES={'creative-iridescent':{description:'Ribbon'},'creative-sparks':{description:'Sparks'}};
+    for(const prefix of ['','tablet','mobile']) {
+        const controls=['motion','edge','light','intensity','ribbon','sparks','lightColor','ribbonA','ribbonB','ribbonC','sparkColor'].map(field=>{
+            const input=elements.get(prefixedId(prefix,'motion-'+field));
+            input.dataset={motionField:field};input.removeAttribute=()=>{};input.closest=()=>({});return input;
+        });
+        const row={removeAttribute(){},querySelector(){return null;}};
+        for(const field of ['one-direction-checkbox','mirror-loop-checkbox','depth-layers-checkbox']) elements.get(prefixedId(prefix,field)).closest=()=>row;
+        const stack={querySelectorAll:()=>controls,querySelector:()=>({hidden:false})};
+        elements.set(prefixedId(prefix,'motion-stack'),stack);
+        for(const mode of ['oneDirection','depthLayers']) {
+            sandbox.syncMotionControls(prefix,{animate:true,[mode]:true,effects:stacks[0]});
+            for(const input of controls) assert.equal(input.disabled,['motion','edge'].includes(input.dataset.motionField));
+        }
+        sandbox.syncMotionControls(prefix,{animate:true,effects:{...sandbox.defaults,light:'moving-light',sparks:true}});
+        assert.equal(elements.get(prefixedId(prefix,'one-direction-checkbox')).disabled,false,'Surface effects must not disable loop selection');
+        assert.equal(elements.get(prefixedId(prefix,'depth-layers-checkbox')).disabled,false);
+        sandbox.syncMotionControls(prefix,{animate:true,effects:{...sandbox.defaults,motion:'css-rock'}});
+        assert.equal(elements.get(prefixedId(prefix,'one-direction-checkbox')).disabled,true,'An alternate motion still conflicts with Scrolling');
+    }
     console.log('Passed responsive URL round trips and action-only URL updates before Copy Code, Premium and Share form submissions.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

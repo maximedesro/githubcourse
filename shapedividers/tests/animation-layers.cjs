@@ -30,7 +30,7 @@ vm.runInContext(app.slice(recipeStart,recipeEnd)+'\n'+fields+'\n'+[
     'normalizeSvgForCanvas','replaceSvgColorsWithPaint','replaceInlineSvgColorsWithCurrentColor',
     'namespaceInlineSvgIds','buildMotionSparksSvg','getMotionSparksLayout','buildMotionSvg','hasMotionEffects','getMotionLayout',
     'getSvgStateDeclarations','formatDeclarationRule','addClassToInlineSvg',
-    'buildMotionExportCode','getOneDirectionTiming','getOneDirectionFrame','getDepthLayers'
+    'buildMotionExportCode','getPairedStateCss','getMirroredStateCss','getOneDirectionTiming','getOneDirectionFrame','getDepthLayers'
 ].map(fn).join('\n')+'\nthis.recipes=SD_MOTION_RECIPES;this.defaults=motionFields;',sandbox);
 const defaults = sandbox.defaults;
 assert.equal(Object.keys(sandbox.recipes).length,15);
@@ -109,6 +109,25 @@ for(const [direction,vector] of Object.entries({bottom:'x1="0" y1="1" x2="0" y2=
     sandbox.getSvgExportStates=()=>[{...state,direction,gradient:true,effects:{...defaults,motion:'css-rock'}}];
     assert.ok(sandbox.buildMotionExportCode('mask').includes('-mask-paint" '+vector+'>'));
 }
+// Surface effects must keep the paired animation geometry and depth timings.
+const litLoop={...state,oneDirection:true,mirrorLoop:false,effects:{...defaults,light:'variation-light-moon',ribbon:true,sparks:true}};
+assert.match(sandbox.getPairedStateCss(litLoop,'lit',0).keyframes,/one-direction/);
+assert.match(sandbox.getPairedStateCss({...litLoop,mirrorLoop:true},'lit',0).keyframes,/mirror/);
+for(const layer of sandbox.getDepthLayers({...litLoop,oneDirection:false,depthLayers:true})) {
+    const css=sandbox.getPairedStateCss(layer.state,'lit',0);
+    assert.ok(css.declarations.animation.startsWith(layer.state.animationLength+'s infinite alternate'));
+}
+const local=sandbox.getPairedStateCss({...state,effects:{...defaults,motion:'css-rock'}},'local',0);
+assert.equal(local.declarations.animation,'none','A responsive local-motion viewport must not acquire Scrolling');
+// Full loop/depth exports delegate to the common paired renderer without
+// dropping effects, instead of silently using an ordinary alternating loop.
+let pairedCalls=0;
+sandbox.buildPairedExportCode=format=>{assert.equal(format,'svg');pairedCalls++;return 'paired-with-effects';};
+sandbox.getSvgExportStates=()=>[litLoop];
+assert.equal(sandbox.buildMotionExportCode('svg'),'paired-with-effects');
+sandbox.getSvgExportStates=()=>[{...litLoop,oneDirection:false,depthLayers:true}];
+assert.equal(sandbox.buildMotionExportCode('svg'),'paired-with-effects');
+assert.equal(pairedCalls,2);
 // Legacy handoffs keep at least one fully visible shape during every fade.
 for(let t=0;t<40;t+=.1) {
     const frames = [0,1].map(copy=>sandbox.getOneDirectionFrame(state,t,copy));
