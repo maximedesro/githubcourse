@@ -422,23 +422,11 @@ const SD_MOTION_RECIPES = {
   "creative-sparks": {
     "title": "Lifted sparks",
     "description": "Small glowing sparks rise through and above the shape. Most suited to flames.",
-    "levels": [
-      [
-        "<linearGradient id=\"@ID@-fade\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"white\"/><stop offset=\"0.38\" stop-color=\"white\"/><stop offset=\"0.925\" stop-color=\"white\" stop-opacity=\"0\"/></linearGradient><mask id=\"@ID@-surface\" maskUnits=\"userSpaceOnUse\" x=\"0\" y=\"0\" width=\"1200\" height=\"320\" style=\"mask-type:alpha\">@USE@</mask><mask id=\"@ID@-upper\" maskUnits=\"userSpaceOnUse\" x=\"0\" y=\"0\" width=\"1200\" height=\"320\" style=\"mask-type:alpha\"><rect width=\"1200\" height=\"320\" fill=\"url(#@ID@-fade)\"/></mask>",
-        "@USE@<g transform=\"translate(65 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"0.9799999999999999\" fill=\"#ffdba0\" style=\"--flight:4.7s;--delay:0.0s;--drift:-22px\"/></g><g transform=\"translate(172 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"1.19\" fill=\"#fff3c4\" style=\"--flight:5.4s;--delay:-0.79s;--drift:0px\"/></g><g transform=\"translate(279 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"1.4\" fill=\"#ffb479\" style=\"--flight:6.1s;--delay:-1.58s;--drift:22px\"/></g><g transform=\"translate(386 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"0.9799999999999999\" fill=\"#ffdba0\" style=\"--flight:6.8s;--delay:-2.37s;--drift:-22px\"/></g><g transform=\"translate(493 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"1.19\" fill=\"#fff3c4\" style=\"--flight:7.5s;--delay:-3.16s;--drift:0px\"/></g><g transform=\"translate(600 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"1.4\" fill=\"#ffb479\" style=\"--flight:4.7s;--delay:-3.95s;--drift:22px\"/></g><g transform=\"translate(707 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"0.9799999999999999\" fill=\"#ffdba0\" style=\"--flight:5.4s;--delay:-4.74s;--drift:-22px\"/></g><g transform=\"translate(814 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"1.19\" fill=\"#fff3c4\" style=\"--flight:6.1s;--delay:-5.53s;--drift:0px\"/></g><g transform=\"translate(921 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"1.4\" fill=\"#ffb479\" style=\"--flight:6.8s;--delay:-6.32s;--drift:22px\"/></g><g transform=\"translate(1028 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"0.9799999999999999\" fill=\"#ffdba0\" style=\"--flight:7.5s;--delay:-7.11s;--drift:-22px\"/></g><g transform=\"translate(1135 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"1.19\" fill=\"#fff3c4\" style=\"--flight:4.7s;--delay:-7.9s;--drift:0px\"/></g>"
-      ],
-      [
-        "<linearGradient id=\"@ID@-fade\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"white\"/><stop offset=\"0.38\" stop-color=\"white\"/><stop offset=\"0.925\" stop-color=\"white\" stop-opacity=\"0\"/></linearGradient><mask id=\"@ID@-surface\" maskUnits=\"userSpaceOnUse\" x=\"0\" y=\"0\" width=\"1200\" height=\"320\" style=\"mask-type:alpha\">@USE@</mask><mask id=\"@ID@-upper\" maskUnits=\"userSpaceOnUse\" x=\"0\" y=\"0\" width=\"1200\" height=\"320\" style=\"mask-type:alpha\"><rect width=\"1200\" height=\"320\" fill=\"url(#@ID@-fade)\"/></mask>",
-        "@USE@<g transform=\"translate(65 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"1.47\" fill=\"#ffdba0\" style=\"--flight:4.7s;--delay:0.0s;--drift:-22px\"/></g><g transform=\"translate(172 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"1.785\" fill=\"#fff3c4\" style=\"--flight:5.4s;--delay:-0.79s;--drift:0px\"/></g><g transform=\"translate(279 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"2.1\" fill=\"#ffb479\" style=\"--flight:6.1s;--delay:-1.58s;--drift:22px\"/></g><g transform=\"translate(386 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"1.47\" fill=\"#ffdba0\" style=\"--flight:6.8s;--delay:-2.37s;--drift:-22px\"/></g><g transform=\"translate(493 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"1.785\" fill=\"#fff3c4\" style=\"--flight:7.5s;--delay:-3.16s;--drift:0px\"/></g><g transform=\"translate(600 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"2.1\" fill=\"#ffb479\" style=\"--flight:4.7s;--delay:-3.95s;--drift:22px\"/></g><g transform=\"translate(707 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"1.47\" fill=\"#ffdba0\" style=\"--flight:5.4s;--delay:-4.74s;--drift:-22px\"/></g><g transform=\"translate(814 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"1.785\" fill=\"#fff3c4\" style=\"--flight:6.1s;--delay:-5.53s;--drift:0px\"/></g><g transform=\"translate(921 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"2.1\" fill=\"#ffb479\" style=\"--flight:6.8s;--delay:-6.32s;--drift:22px\"/></g><g transform=\"translate(1028 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"1.47\" fill=\"#ffdba0\" style=\"--flight:7.5s;--delay:-7.11s;--drift:-22px\"/></g><g transform=\"translate(1135 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"1.785\" fill=\"#fff3c4\" style=\"--flight:4.7s;--delay:-7.9s;--drift:0px\"/></g>"
-      ],
-      [
-        "<linearGradient id=\"@ID@-fade\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"white\"/><stop offset=\"0.38\" stop-color=\"white\"/><stop offset=\"0.925\" stop-color=\"white\" stop-opacity=\"0\"/></linearGradient><mask id=\"@ID@-surface\" maskUnits=\"userSpaceOnUse\" x=\"0\" y=\"0\" width=\"1200\" height=\"320\" style=\"mask-type:alpha\">@USE@</mask><mask id=\"@ID@-upper\" maskUnits=\"userSpaceOnUse\" x=\"0\" y=\"0\" width=\"1200\" height=\"320\" style=\"mask-type:alpha\"><rect width=\"1200\" height=\"320\" fill=\"url(#@ID@-fade)\"/></mask>",
-        "@USE@<g transform=\"translate(65 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"2.0999999999999996\" fill=\"#ffdba0\" style=\"--flight:4.7s;--delay:0.0s;--drift:-22px\"/></g><g transform=\"translate(172 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"2.55\" fill=\"#fff3c4\" style=\"--flight:5.4s;--delay:-0.79s;--drift:0px\"/></g><g transform=\"translate(279 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"3.0\" fill=\"#ffb479\" style=\"--flight:6.1s;--delay:-1.58s;--drift:22px\"/></g><g transform=\"translate(386 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"2.0999999999999996\" fill=\"#ffdba0\" style=\"--flight:6.8s;--delay:-2.37s;--drift:-22px\"/></g><g transform=\"translate(493 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"2.55\" fill=\"#fff3c4\" style=\"--flight:7.5s;--delay:-3.16s;--drift:0px\"/></g><g transform=\"translate(600 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"3.0\" fill=\"#ffb479\" style=\"--flight:4.7s;--delay:-3.95s;--drift:22px\"/></g><g transform=\"translate(707 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"2.0999999999999996\" fill=\"#ffdba0\" style=\"--flight:5.4s;--delay:-4.74s;--drift:-22px\"/></g><g transform=\"translate(814 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"2.55\" fill=\"#fff3c4\" style=\"--flight:6.1s;--delay:-5.53s;--drift:0px\"/></g><g transform=\"translate(921 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"3.0\" fill=\"#ffb479\" style=\"--flight:6.8s;--delay:-6.32s;--drift:22px\"/></g><g transform=\"translate(1028 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"2.0999999999999996\" fill=\"#ffdba0\" style=\"--flight:7.5s;--delay:-7.11s;--drift:-22px\"/></g><g transform=\"translate(1135 0)\"><circle class=\"cp-spark\" cx=\"0\" cy=\"0\" r=\"2.55\" fill=\"#fff3c4\" style=\"--flight:4.7s;--delay:-7.9s;--drift:0px\"/></g>"
-      ]
-    ]
+    "counts": [36,52,72],
+    "sizes": [2.4,3.2,4]
   }
 };
-const SD_MOTION_CSS = "\n.new-motion{transform-origin:0 0;--amplitude:.045;--lean:1deg;--period:8s;--tempo:1}\n.motion-light{--amplitude:.022;--lean:.5deg;--period:11s}\n.motion-strong{--amplitude:.075;--lean:1.6deg;--period:5.5s}\n.rock-motion{animation:water-rock calc(var(--period)*var(--tempo)) ease-in-out infinite}\n.pulse-motion{animation:water-pulse calc(var(--period)*.63*var(--tempo)) ease-in-out infinite}\n@keyframes water-rock{0%,100%{transform:skewX(calc(-1*var(--lean)))}50%{transform:skewX(var(--lean))}}\n@keyframes water-pulse{0%,100%{transform:scaleY(1)}50%{transform:scaleY(calc(1 + var(--amplitude)*.5))}}\n\n\n.cp-echo-x{animation:cp-echo-x calc(11.9s * var(--cp-tempo,1)) cubic-bezier(.42,0,.58,1) infinite}\n.cp-echo-y{animation:cp-echo-y calc(7.1s * var(--cp-tempo,1)) cubic-bezier(.42,0,.58,1) infinite}\n@keyframes cp-echo-x{0%,100%{transform:translateX(calc(-1 * var(--echo-x)))}50%{transform:translateX(var(--echo-x))}}\n@keyframes cp-echo-y{0%,100%{transform:translateY(0)}50%{transform:translateY(var(--echo-y))}}\n\n.cp-spark{animation:cp-spark calc(var(--flight) * var(--cp-tempo,1)) linear infinite;animation-delay:var(--delay)}@keyframes cp-spark{0%{transform:translate(0,260px);opacity:0}15%{opacity:.8}55%{opacity:.6}75%,100%{opacity:0}100%{transform:translate(var(--drift),-25px)}}\n";
+const SD_MOTION_CSS = "\n.new-motion{transform-origin:0 0;--amplitude:.045;--lean:1deg;--period:8s;--tempo:1}\n.motion-light{--amplitude:.022;--lean:.5deg;--period:11s}\n.motion-strong{--amplitude:.075;--lean:1.6deg;--period:5.5s}\n.rock-motion{animation:water-rock calc(var(--period)*var(--tempo)) ease-in-out infinite}\n.pulse-motion{animation:water-pulse calc(var(--period)*.63*var(--tempo)) ease-in-out infinite}\n@keyframes water-rock{0%,100%{transform:skewX(calc(-1*var(--lean)))}50%{transform:skewX(var(--lean))}}\n@keyframes water-pulse{0%,100%{transform:scaleY(1)}50%{transform:scaleY(calc(1 + var(--amplitude)*.5))}}\n\n\n.cp-echo-x{animation:cp-echo-x calc(11.9s * var(--cp-tempo,1)) cubic-bezier(.42,0,.58,1) infinite}\n.cp-echo-y{animation:cp-echo-y calc(7.1s * var(--cp-tempo,1)) cubic-bezier(.42,0,.58,1) infinite}\n@keyframes cp-echo-x{0%,100%{transform:translateX(calc(-1 * var(--echo-x)))}50%{transform:translateX(var(--echo-x))}}\n@keyframes cp-echo-y{0%,100%{transform:translateY(0)}50%{transform:translateY(var(--echo-y))}}\n\n";
 
 function initShapeDividersApp() {
     if (window.__shapeDividersAppInitialized) {
@@ -1140,14 +1128,13 @@ function buildMotionSvg(state, namespace, maskOnly = false) {
     defs += '<mask id="'+alphaId+'" maskUnits="userSpaceOnUse" x="-80" y="-48" width="1360" height="416" style="mask-type:alpha"><g color="white">'+current+'</g></mask>';
     let paint = '#'+state.color;
     if (state.gradient && !maskOnly) {
-        defs += '<linearGradient id="'+namespace+'-paint" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#'+state.color+'"/><stop offset="1" stop-color="#'+state.gradientColor+'"/></linearGradient>';
+        defs += '<linearGradient id="'+namespace+'-paint" x1="0" y1="1" x2="0" y2="0"><stop stop-color="#'+state.color+'"/><stop offset="1" stop-color="#'+state.gradientColor+'"/></linearGradient>';
         paint = 'url(#'+namespace+'-paint)';
     }
     current = '<rect width="1200" height="320" fill="'+(maskOnly ? 'white' : paint)+'" mask="url(#'+alphaId+')"/>';
     if (state.animate && !maskOnly) {
         stage(e.light);
         if (e.ribbon) stage('creative-iridescent');
-        if (e.sparks) stage('creative-sparks');
     }
     let css = SD_MOTION_CSS.replace(/([\d.]+)s/g,(_,s)=>(Number(s)*pace)+'s');
     // Keep CSS recipes isolated across breakpoints and across multiple dividers.
@@ -1165,6 +1152,34 @@ function buildMotionSvg(state, namespace, maskOnly = false) {
     return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+(vertical ? '0 0 320 1200' : '0 0 1200 320')+'" preserveAspectRatio="none" aria-hidden="true" focusable="false">'+
         '<style>'+css+'.'+namespace+'-still{display:none}@media(prefers-reduced-motion:reduce){.'+namespace+'-live{display:none}.'+namespace+'-still{display:inline}}</style>'+
         '<g class="'+namespace+'-live" color="#'+state.color+'">'+oriented+'</g><g class="'+namespace+'-still">'+stillOriented+'</g></svg>';
+}
+
+// Sparks have their own viewport-sized layer. Shape scaling and scrolling never
+// stretch their dots, thin out their density or carry them out of the viewport.
+function getMotionSparksLayout(state, namespace) {
+    return getSvgStateDeclarations({...state,animate:false,flipped:false,longAxis:100},namespace);
+}
+function buildMotionSparksSvg(state, namespace) {
+    const e = state.effects || motionFields;
+    if (!state.animate || !e.sparks) return '';
+    const level = Number(e.intensity);
+    const count = SD_MOTION_RECIPES['creative-sparks'].counts[level];
+    const size = SD_MOTION_RECIPES['creative-sparks'].sizes[level];
+    const pace = Math.max(.1,Number(state.animationLength)||10)/10;
+    const name = namespace+'-spark';
+    const particles = Array.from({length:count},(_,i) => {
+        const x = ((i+.5)*1200/count).toFixed(2);
+        const flight = (4.7+(i%7)*.47)*pace;
+        const delay = -flight*((i*.61803398875)%1);
+        const drift = ((i*17)%49)-24;
+        // A tiny round-capped stroke stays circular in screen pixels, including
+        // vertical dividers and very short or wide SVG viewports.
+        return '<g transform="translate('+x+' 0)"><path class="'+name+'" d="M0 0h.001" fill="none" stroke="'+e.sparkColor+'" stroke-width="'+(size*(.7+(i%4)*.1)).toFixed(2)+'" stroke-linecap="round" vector-effect="non-scaling-stroke" style="--flight:'+flight+'s;--delay:'+delay+'s;--drift:'+drift+'px"/></g>';
+    }).join('');
+    const transforms = {bottom:'',top:'translate(0 320) scale(1 -1)',left:'translate(320 0) rotate(90)',right:'translate(0 1200) rotate(-90)'};
+    const vertical = state.direction === 'left' || state.direction === 'right';
+    const css = '.'+name+'{animation:'+name+' var(--flight) linear infinite;animation-delay:var(--delay)}@keyframes '+name+'{0%{transform:translate(0,260px);opacity:0}15%{opacity:.8}55%{opacity:.6}75%,100%{opacity:0}100%{transform:translate(var(--drift),-25px)}}@media(prefers-reduced-motion:reduce){.'+namespace+'{display:none!important}}';
+    return '<svg xmlns="http://www.w3.org/2000/svg" class="'+namespace+'" viewBox="'+(vertical ? '0 0 320 1200' : '0 0 1200 320')+'" preserveAspectRatio="none" aria-hidden="true" focusable="false"><style>'+css+'</style><g transform="'+transforms[state.direction]+'">'+particles+'</g></svg>';
 }
 
 function getMotionLayout(state, namespace) {
@@ -1208,13 +1223,18 @@ function buildMotionExportCode(format) {
             // Inline masks retain declarative animation; external CSS mask images
             // cannot reliably run SVG filter timelines.
             const paint = state.gradient ? 'url(#'+id+'-mask-paint)' : '#'+state.color;
-            const vector = {bottom:'x1="0" y1="0" x2="0" y2="1"',top:'x1="0" y1="1" x2="0" y2="0"',left:'x1="1" y1="0" x2="0" y2="0"',right:'x1="0" y1="0" x2="1" y2="0"'}[state.direction];
+            const vector = {bottom:'x1="0" y1="1" x2="0" y2="0"',top:'x1="0" y1="0" x2="0" y2="1"',left:'x1="0" y1="0" x2="1" y2="0"',right:'x1="1" y1="0" x2="0" y2="0"'}[state.direction];
             const gradient = state.gradient ? '<linearGradient id="'+id+'-mask-paint" '+vector+'><stop stop-color="#'+state.color+'"/><stop offset="1" stop-color="#'+state.gradientColor+'"/></linearGradient>' : '';
             const vertical = state.direction === 'left' || state.direction === 'right';
             const w = vertical ? 320 : 1200, h = vertical ? 1200 : 320;
             svg = '<svg xmlns="http://www.w3.org/2000/svg" class="'+id+'-art" viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="none"><defs>'+gradient+'<mask id="'+id+'-mask" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="'+w+'" height="'+h+'">'+svg.replace(/class="[^"]*-art" /,'').replace('<svg ','<svg width="'+w+'" height="'+h+'" ')+'</mask></defs><rect width="'+w+'" height="'+h+'" fill="'+paint+'" mask="url(#'+id+'-mask)"/></svg>';
         }
-        markup.push('<div class="'+id+'">'+svg+'</div>');
+        let sparks = '';
+        if (motion && format === 'svg') {
+            sparks = buildMotionSparksSvg(state,id+'-sparks');
+            if (sparks) rules.push(formatDeclarationRule('.'+id+'-sparks',getMotionSparksLayout(state,id+'-sparks').declarations));
+        }
+        markup.push('<div class="'+id+'">'+svg+sparks+'</div>');
     });
     rules.push('@media(prefers-reduced-motion:reduce){.'+wrapper+' svg{animation:none!important;transform:none!important}}');
     return '<style>\n'+rules.join('\n')+'\n</style>\n<div class="'+wrapper+'">'+markup.join('\n')+'</div>';
@@ -2170,7 +2190,8 @@ async function renderCanvasPreview(state) {
         const namespace = 'sd-live-motion';
         const layout = getMotionLayout(state,namespace);
         const style = Object.entries(layout.declarations).map(([k,v])=>k+':'+v).join(';');
-        motionPreviewHost.innerHTML = '<style>'+(layout.keyframes || '')+'</style>'+buildMotionSvg(state,namespace).replace('<svg ','<svg style="'+style+'" ');
+        const sparksStyle = Object.entries(getMotionSparksLayout(state,namespace+'-sparks').declarations).map(([k,v])=>k+':'+v).join(';');
+        motionPreviewHost.innerHTML = '<style>'+(layout.keyframes || '')+'</style>'+buildMotionSvg(state,namespace).replace('<svg ','<svg style="'+style+'" ')+buildMotionSparksSvg(state,namespace+'-sparks').replace('<svg ','<svg style="'+sparksStyle+'" ');
         resolveInitialPreview();
         return;
     }

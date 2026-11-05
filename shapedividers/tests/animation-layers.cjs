@@ -28,7 +28,7 @@ const sandbox = {DOMParser:SourceParser,svgDividers:[{bottom:fixture}],console};
 vm.createContext(sandbox);
 vm.runInContext(app.slice(recipeStart,recipeEnd)+'\n'+fields+'\n'+[
     'normalizeSvgForCanvas','replaceSvgColorsWithPaint','replaceInlineSvgColorsWithCurrentColor',
-    'namespaceInlineSvgIds','buildMotionSvg','hasMotionEffects','getMotionLayout',
+    'namespaceInlineSvgIds','buildMotionSparksSvg','getMotionSparksLayout','buildMotionSvg','hasMotionEffects','getMotionLayout',
     'getSvgStateDeclarations','formatDeclarationRule','addClassToInlineSvg',
     'buildMotionExportCode','getOneDirectionTiming','getOneDirectionFrame','getDepthLayers'
 ].map(fn).join('\n')+'\nthis.recipes=SD_MOTION_RECIPES;this.defaults=motionFields;',sandbox);
@@ -54,7 +54,14 @@ for (const key of Object.keys(sandbox.recipes)) for(const intensity of ['0','1',
     assert.match(svg,/fill="#ffffff"|fill="url\(#[^)]+-paint\)"/,'A base color matching a preset must not be recolored');
     if(e.light !== 'none') assert.match(svg,/lighting-color="#12ab34"/);
     if(e.ribbon) for(const color of [e.ribbonA,e.ribbonB,e.ribbonC]) assert.ok(svg.includes(color));
-    if(e.sparks) { assert.ok(svg.includes(e.sparkColor));assert.match(svg,/75%,100%\{opacity:0\}/); }
+    if(e.sparks) {
+        const sparks = sandbox.buildMotionSparksSvg(s,'sparks-'+cases);
+        assert.ok(sparks.includes(e.sparkColor));
+        assert.match(sparks,/75%,100%\{opacity:0\}/);
+        assert.equal((sparks.match(/vector-effect="non-scaling-stroke"/g)||[]).length,[36,52,72][Number(intensity)]);
+        outputs.push(sparks);
+    }
+    if(gradient) assert.match(svg,/-paint" x1="0" y1="1" x2="0" y2="0"/,'Canonical bottom gradient starts at the section join, matching the static gradient');
     assert.equal(/id="[^"]+-paint"/.test(svg),gradient,'Only emit a paint gradient when enabled');
     const ids = [...svg.matchAll(/\bid="([^"]+)"/g)].map(x=>x[1]);
     assert.equal(new Set(ids).size,ids.length,'IDs must be unique');
@@ -72,9 +79,21 @@ assert.match(stacked,/@media\(prefers-reduced-motion:reduce\)/);
 outputs.push(stacked);
 const slow = sandbox.buildMotionSvg({...combined,animationLength:20},'slow');
 assert.match(slow,/dur="20s"/);
-assert.match(slow,/--flight:9.4s/,'Spark speed follows duration');
+assert.match(sandbox.buildMotionSparksSvg({...combined,animationLength:20},'slow-sparks'),/--flight:9.4s/,'Spark speed follows duration');
 assert.match(slow,/23.8s/,'Echo speed follows duration');
 assert.equal(sandbox.hasMotionEffects({...state,animate:false,effects:combined.effects}),false);
+// Particle geometry and viewport coverage must be independent of both long-axis
+// controls, position, scrolling transforms and the source shape's aspect ratio.
+for(const direction of ['bottom','top','left','right']) {
+    const base={...combined,direction};
+    const large={...base,longAxis:400,animationLongAxis:10,position:12,ratio:true};
+    assert.equal(sandbox.buildMotionSparksSvg(base,'same-sparks'),sandbox.buildMotionSparksSvg(large,'same-sparks'));
+    assert.equal(JSON.stringify(sandbox.getMotionSparksLayout(base,'sparks')),JSON.stringify(sandbox.getMotionSparksLayout(large,'sparks')));
+    const layout=sandbox.getMotionSparksLayout(large,'sparks');
+    assert.equal(layout.declarations[direction==='bottom'||direction==='top'?'width':'height'],'100%');
+    assert.equal(layout.declarations.transform,'none');assert.equal(layout.declarations.animation,'none');
+}
+assert.equal(sandbox.buildMotionSparksSvg({...combined,animate:false},'disabled'),'');
 // Exercise full responsive SVG and inline-mask packaging with a mixed static state.
 sandbox.getSvgExportStates=()=>[combined,{...state,key:'tablet',animate:false,effects:defaults},{...state,key:'mobile',effects:{...defaults,motion:'css-rock'}}];
 sandbox.mobileReady=true;sandbox.shapeCSSName='shape-test';
@@ -84,6 +103,12 @@ assert.match(svgCode,/@media\(min-width:768px\)/);assert.match(svgCode,/@media\(
 assert.doesNotMatch(svgCode,/<script\b|@ID@/);
 const maskCode = sandbox.buildMotionExportCode('mask');
 assert.match(maskCode,/maskUnits="userSpaceOnUse"/);assert.doesNotMatch(maskCode,/mask-image/);
+// The mask's outer paint follows exactly the same color order as static SVGs.
+sandbox.mobileReady=false;
+for(const [direction,vector] of Object.entries({bottom:'x1="0" y1="1" x2="0" y2="0"',top:'x1="0" y1="0" x2="0" y2="1"',left:'x1="0" y1="0" x2="1" y2="0"',right:'x1="1" y1="0" x2="0" y2="0"'})) {
+    sandbox.getSvgExportStates=()=>[{...state,direction,gradient:true,effects:{...defaults,motion:'css-rock'}}];
+    assert.ok(sandbox.buildMotionExportCode('mask').includes('-mask-paint" '+vector+'>'));
+}
 // Legacy handoffs keep at least one fully visible shape during every fade.
 for(let t=0;t<40;t+=.1) {
     const frames = [0,1].map(copy=>sandbox.getOneDirectionFrame(state,t,copy));
