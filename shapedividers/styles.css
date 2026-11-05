@@ -2545,3 +2545,48 @@ body.sd-is-loading {
 .landing-animation-benchmark strong { display: block; font-size: var(--sd-text-lg); }
 .landing-animation-benchmark p { max-width: 900px; margin-top: var(--sd-space-2); color: var(--sd-ink-soft); }
 @media (max-width:900px) { .landing-animation-settings { grid-template-columns: 1fr; } }
+
+
+/* Preview-only background controls beside the existing eye button. */
+.preview-background-button {
+  position: absolute; bottom: 8px; left: 92px; width: 60px; height: 60px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 11px; border: 0; border-radius: 4px; z-index: 99;
+  background: #000; color: #fff; opacity: .7; cursor: pointer;
+}
+.preview-background-button svg { display: block; width: 100%; height: 100%; }
+.preview-background-button:hover, .preview-background-button[aria-expanded="true"] { opacity: 1; }
+.preview-background-button:focus-visible { outline: 3px solid var(--sd-teal); outline-offset: 3px; }
+.preview-background-button[hidden], .sd-background-panel[hidden], .sd-background-panel [hidden] { display: none !important; }
+.sd-background-panel {
+  position: fixed; left: 92px; bottom: 80px; z-index: 1200;
+  width: min(380px,calc(100vw - 24px)); max-height: calc(100vh - 110px);
+  overflow: auto; box-sizing: border-box; padding: 18px;
+  border: 1px solid var(--sd-line); border-radius: 16px;
+  background: var(--sd-surface,#fff); color: var(--sd-ink,#171717);
+  box-shadow: var(--sd-shadow-lg); font: 13px/1.4 var(--sd-font-body,sans-serif);
+}
+.sd-background-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.sd-background-header h2 { margin: 0; font: 700 15px/1.3 var(--sd-font-body,sans-serif); letter-spacing: -.02em; }
+.sd-background-close { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; padding: 0; border: 0; border-radius: 50%; color: var(--sd-ink); background: var(--sd-surface-soft); font: 22px/1 sans-serif; cursor: pointer; }
+.sd-background-panel fieldset { min-width: 0; padding: 0; border: 0; margin: 0; }
+.sd-background-panel .sd-background-modes { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; margin-bottom: 16px; border-radius: 9px; background: var(--sd-surface-soft); }
+.sd-background-modes label { position: relative; margin: 0; cursor: pointer; }
+.sd-background-modes label > span { display: block; padding: 8px; border: 1px solid transparent; border-radius: 7px; text-align: center; font-weight: 600; }
+.sd-background-modes input:checked + span { border-color: var(--sd-line); color: var(--sd-teal-dark); background: #fff; box-shadow: 0 2px 5px rgb(0 0 0 / .04); }
+.sd-background-sr, .sd-background-modes input, .sd-background-photo > input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); clip-path: inset(50%); white-space: nowrap; }
+.sd-background-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; }
+.sd-background-photo { display: block; position: relative; min-width: 0; margin: 0; cursor: pointer; }
+.sd-background-thumbnail { display: block; position: relative; height: 76px; overflow: hidden; border: 2px solid transparent; border-radius: 8px; background: var(--sd-surface-soft); }
+.sd-background-thumbnail img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.sd-background-photo-name { position: absolute; bottom: 0; left: 0; right: 0; padding: 12px 5px 5px; color: #fff; background: linear-gradient(transparent, rgb(0 0 0 / .7)); font-size: 10px; line-height: 1.2; }
+.sd-background-selected { display: none; position: absolute; top: 4px; right: 4px; width: 18px; height: 18px; border-radius: 50%; text-align: center; line-height: 18px; font-size: 12px; color: white; background: var(--sd-teal-dark); }
+.sd-background-photo input:checked + .sd-background-thumbnail { border-color: var(--sd-teal-dark); box-shadow: 0 0 0 1px var(--sd-teal-dark); }
+.sd-background-photo input:checked + .sd-background-thumbnail .sd-background-selected { display: block; }
+.sd-background-photo input:focus-visible + .sd-background-thumbnail, .sd-background-modes input:focus-visible + span { outline: 2px solid var(--sd-teal-dark); outline-offset: 2px; }
+.sd-background-solid > label { display: block; font-weight: 600; margin-bottom: 10px; }
+.sd-background-color-fields { display: flex; align-items: center; gap: 10px; }
+.sd-background-panel input[type="color"] { position: static; flex: none; width: 46px; height: 42px; margin: 0; padding: 3px; border: 1px solid var(--sd-line); border-radius: 8px; background: white; cursor: pointer; }
+.sd-background-panel input[type="text"] { min-width: 0; flex: 1; height: 42px; padding: 8px 12px; box-sizing: border-box; border: 1px solid var(--sd-line); border-radius: 8px; font: 13px ui-monospace,monospace; text-transform: uppercase; color: var(--sd-ink); background: white; }
+.sd-background-panel input[aria-invalid="true"] { border-color: #b73e28; }
+.sd-background-status { margin: 14px 0 0; color: var(--sd-ink-soft); font-size: 11px; }

@@ -5002,6 +5002,136 @@ if (preview) {
     });
 }
 
+function initializePreviewBackground() {
+    if (!preview || !dividerPreviewHost) return;
+    const images = [
+        ['Tree','https://shapedividers.com/wp-content/uploads/2021/05/tree.jpg'],
+        ['Milky Way','https://shapedividers.com/wp-content/uploads/2026/11/milky-way-1023340_1920.jpg'],
+        ['Fashion','https://shapedividers.com/wp-content/uploads/2026/11/fashion-821506_1920.jpg'],
+        ['Heart','https://shapedividers.com/wp-content/uploads/2026/11/heart-1077724_1920.jpg'],
+        ['Light bulb','https://shapedividers.com/wp-content/uploads/2026/11/light-bulb-1246043_1920.jpg'],
+        ['Running child','https://shapedividers.com/wp-content/uploads/2026/11/little-girl-running-795505_1920.jpg']
+    ];
+    const state = {mode:'image',image:0,color:'#151a21'};
+    try {
+        const saved = JSON.parse(localStorage.getItem('shapedividers.previewBackground'));
+        if (saved?.mode === 'color' || saved?.mode === 'image') state.mode = saved.mode;
+        if (Number.isInteger(saved?.image) && saved.image >= 0 && saved.image < images.length) state.image = saved.image;
+        if (/^#[a-f\d]{6}$/i.test(saved?.color || '')) state.color = saved.color;
+    } catch (_) { /* Preview preferences also work without browser storage. */ }
+
+    let button = document.getElementById('preview-background-toggle');
+    if (!button) {
+        preview.insertAdjacentHTML('afterend', '<button id="preview-background-toggle" class="preview-background-button" type="button" aria-label="Customize preview background" aria-expanded="false" aria-controls="preview-background-panel" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9.5 3-.6 2.1-1.8 1L5 5.6 2.5 9.9 4 11.5v2L2.5 15l2.5 4.3 2.1-.5 1.8 1 .6 2.1h5l.6-2.1 1.8-1 2.1.5 2.5-4.3-1.5-1.5v-2l1.5-1.6L19 5.6l-2.1.5-1.8-1L14.5 3Z"/><circle cx="12" cy="12.5" r="3.2"/></svg></button>');
+        button = document.getElementById('preview-background-toggle');
+    }
+    const panel = document.createElement('section');
+    panel.id = 'preview-background-panel';
+    panel.className = 'sd-background-panel';
+    panel.hidden = true;
+    panel.setAttribute('role','dialog');
+    panel.setAttribute('aria-labelledby','preview-background-heading');
+    panel.innerHTML = '<div class="sd-background-header"><h2 id="preview-background-heading">Preview background</h2><button type="button" class="sd-background-close" aria-label="Close background settings">×</button></div>'+
+        '<fieldset class="sd-background-modes"><legend class="sd-background-sr">Background type</legend><label><input type="radio" name="preview-background-mode" value="image"><span>Image</span></label><label><input type="radio" name="preview-background-mode" value="color"><span>Solid color</span></label></fieldset>'+
+        '<fieldset class="sd-background-photos"><legend class="sd-background-sr">Choose a background image</legend><div class="sd-background-grid">'+images.map(([name,url],index)=>'<label class="sd-background-photo"><input type="radio" name="preview-background-image" value="'+index+'" aria-label="'+name+' background"><span class="sd-background-thumbnail"><img src="'+url+'" alt="" loading="lazy" decoding="async"><span class="sd-background-photo-name">'+name+'</span><span class="sd-background-selected" aria-hidden="true">✓</span></span></label>').join('')+'</div></fieldset>'+
+        '<div class="sd-background-solid" hidden><label for="preview-background-color">Background color</label><div class="sd-background-color-fields"><input type="color" id="preview-background-color" aria-label="Preview background color"><input type="text" id="preview-background-hex" aria-label="Preview background hex code" maxlength="7" spellcheck="false"></div></div>'+
+        '<p class="sd-background-status" aria-live="polite"></p>';
+    document.body.appendChild(panel);
+    const modeInputs = [...panel.querySelectorAll('[name="preview-background-mode"]')];
+    const photoInputs = [...panel.querySelectorAll('[name="preview-background-image"]')];
+    const photos = panel.querySelector('.sd-background-photos');
+    const solid = panel.querySelector('.sd-background-solid');
+    const color = panel.querySelector('#preview-background-color');
+    const hex = panel.querySelector('#preview-background-hex');
+    const status = panel.querySelector('.sd-background-status');
+
+    function applyBackground() {
+        // Inline 'none' also overrides the original tree image in styles.css.
+        dividerPreviewHost.style.backgroundImage = state.mode === 'image' ? 'url("'+images[state.image][1]+'")' : 'none';
+        dividerPreviewHost.style.backgroundColor = state.color;
+        modeInputs.forEach(input=>{input.checked = input.value === state.mode;});
+        photoInputs.forEach((input,index)=>{input.checked = index === state.image;});
+        photos.hidden = state.mode !== 'image';
+        solid.hidden = state.mode !== 'color';
+        color.value = state.color;
+        hex.value = state.color;
+        hex.removeAttribute('aria-invalid');
+        status.textContent = state.mode === 'image' ? 'Image · '+images[state.image][0] : 'Solid color · '+state.color.toUpperCase();
+        try { localStorage.setItem('shapedividers.previewBackground',JSON.stringify(state)); } catch (_) {}
+    }
+    function positionPanel() {
+        if (panel.hidden) return;
+        const bounds = button.getBoundingClientRect();
+        panel.style.left = Math.max(12,Math.min(bounds.left,window.innerWidth-panel.offsetWidth-12))+'px';
+        const maxBottom = Math.max(12,window.innerHeight-panel.offsetHeight-12);
+        panel.style.bottom = Math.min(maxBottom,Math.max(12,window.innerHeight-bounds.top+12))+'px';
+    }
+    function closePanel(restoreFocus = false) {
+        panel.hidden = true;
+        button.setAttribute('aria-expanded','false');
+        if (restoreFocus) button.focus({preventScroll:true});
+    }
+    function positionButton() {
+        button.hidden = preview.offsetWidth === 0 || preview.offsetHeight === 0;
+        if (button.hidden) { closePanel(); return; }
+        button.style.left = (preview.offsetLeft+preview.offsetWidth+8)+'px';
+        button.style.top = preview.offsetTop+'px';
+        button.style.width = preview.offsetWidth+'px';
+        button.style.height = preview.offsetHeight+'px';
+        positionPanel();
+    }
+    button.addEventListener('click',()=> {
+        if (!panel.hidden) { closePanel(); return; }
+        visibleControlTooltips.forEach(instance=>instance.hide());
+        panel.hidden = false;
+        button.setAttribute('aria-expanded','true');
+        positionPanel();
+        modeInputs.find(input=>input.checked)?.focus({preventScroll:true});
+    });
+    panel.querySelector('.sd-background-close').addEventListener('click',()=>closePanel(true));
+    document.addEventListener('pointerdown',event=> {
+        if (!panel.hidden && !panel.contains(event.target) && !button.contains(event.target)) closePanel();
+    });
+    document.addEventListener('keydown',event=> {
+        if (event.key === 'Escape' && !panel.hidden) {
+            event.preventDefault();
+            closePanel(true);
+        }
+    });
+    modeInputs.forEach(input=>input.addEventListener('change',()=> {
+        state.mode = input.value;
+        applyBackground();
+        positionPanel();
+    }));
+    photoInputs.forEach(input=>input.addEventListener('change',()=> {
+        state.image = Number(input.value);
+        state.mode = 'image';
+        applyBackground();
+    }));
+    color.addEventListener('input',()=> {
+        state.mode = 'color'; state.color = color.value;
+        applyBackground();
+    });
+    hex.addEventListener('input',()=> {
+        const valid = /^#[a-f\d]{6}$/i.test(hex.value);
+        hex.setAttribute('aria-invalid',String(!valid));
+        if (!valid) return;
+        state.mode = 'color'; state.color = hex.value.toLowerCase();
+        applyBackground();
+    });
+    setControlTooltip(button,'Customize preview background',{focusable:false});
+    window.addEventListener('resize',positionButton);
+    window.addEventListener('scroll',positionPanel,{passive:true});
+    if (typeof ResizeObserver === 'function') {
+        const observer = new ResizeObserver(positionButton);
+        observer.observe(preview);
+        if (preview.offsetParent) observer.observe(preview.offsetParent);
+    }
+    applyBackground();
+    positionButton();
+}
+initializePreviewBackground();
+
 let formElement = document.querySelector('.elementor-form');
 let formCreatedShape = document.getElementById('form-field-createdshape');
 let formSi = document.getElementById('form-field-si');
