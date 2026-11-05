@@ -462,6 +462,23 @@ if (!previewHost) {
 }
 
 
+// Shared links override local preview preferences; older links keep the local choice.
+function normalizePreviewBackground(value) {
+    return {
+        mode:value?.mode === 'color' ? 'color' : 'image',
+        image:Number.isInteger(value?.image) && value.image >= 0 && value.image < 6 ? value.image : 0,
+        color:/^#[a-f\d]{6}$/i.test(value?.color || '') ? value.color.toLowerCase() : '#151a21'
+    };
+}
+function readPreviewBackground(params, saved) {
+    if (params.has('background')) {
+        try { return normalizePreviewBackground(JSON.parse(params.get('background'))); }
+        catch (_) { return normalizePreviewBackground(null); }
+    }
+    return normalizePreviewBackground(saved);
+}
+let previewBackgroundState = normalizePreviewBackground(null);
+
 function buildShareUrl() {
     const params = new URLSearchParams();
     const keys = {
@@ -497,6 +514,7 @@ function buildShareUrl() {
         if (Object.keys(changed).length) params.set(prefix ? prefix+'Effects' : 'effects',JSON.stringify(changed));
     });
     const responsive = document.getElementById('mobile-ready').checked;
+    params.set('background',JSON.stringify(previewBackgroundState));
     params.set('mobileReady',responsive);
     params.set('responsiveConfigured',alreadyChangedView);
     params.set('view',responsive ? ['desktop','tablet','mobile'][Math.max(0,getActiveViewIndex())] : 'desktop');
@@ -1107,9 +1125,15 @@ function buildMotionSvg(state, namespace, maskOnly = false) {
         stage(e.motion);
         stage(e.edge);
     }
+    // Complementary masks share a short transition above the fixed 7.5% foot.
+    // Add their alpha instead of source-over blending: even translucent shapes
+    // keep their original opacity, without two antialiased clip edges meeting.
     const topId = namespace+'-upper', footId = namespace+'-foot';
-    defs += '<clipPath id="'+topId+'"><rect width="1200" height="296"/></clipPath><clipPath id="'+footId+'"><rect y="296" width="1200" height="24"/></clipPath>';
-    current = '<g clip-path="url(#'+topId+')">'+current+'</g><g clip-path="url(#'+footId+')">'+original+'</g>';
+    for (const [id,inverse] of [[topId,false],[footId,true]]) {
+        defs += '<linearGradient id="'+id+'-weight" gradientUnits="userSpaceOnUse" x1="0" y1="288" x2="0" y2="296"><stop stop-color="white" stop-opacity="'+(inverse ? 0 : 1)+'"/><stop offset="1" stop-color="white" stop-opacity="'+(inverse ? 1 : 0)+'"/></linearGradient>'+
+            '<mask id="'+id+'" maskUnits="userSpaceOnUse" x="-80" y="-48" width="1360" height="416" style="mask-type:alpha"><rect x="-80" y="-48" width="1360" height="416" fill="url(#'+id+'-weight)"/></mask>';
+    }
+    current = '<g style="isolation:isolate"><g mask="url(#'+topId+')">'+current+'</g><g mask="url(#'+footId+')" style="mix-blend-mode:plus-lighter">'+original+'</g></g>';
     // Paint after geometry: gradients and original partial opacity survive edge
     // filters too. Masks use the same animated silhouette in the same document.
     const alphaId = namespace+'-alpha';
@@ -5012,13 +5036,11 @@ function initializePreviewBackground() {
         ['Light bulb','https://shapedividers.com/wp-content/uploads/2026/11/light-bulb-1246043_1920.jpg'],
         ['Running child','https://shapedividers.com/wp-content/uploads/2026/11/little-girl-running-795505_1920.jpg']
     ];
-    const state = {mode:'image',image:0,color:'#151a21'};
-    try {
-        const saved = JSON.parse(localStorage.getItem('shapedividers.previewBackground'));
-        if (saved?.mode === 'color' || saved?.mode === 'image') state.mode = saved.mode;
-        if (Number.isInteger(saved?.image) && saved.image >= 0 && saved.image < images.length) state.image = saved.image;
-        if (/^#[a-f\d]{6}$/i.test(saved?.color || '')) state.color = saved.color;
-    } catch (_) { /* Preview preferences also work without browser storage. */ }
+    let saved;
+    try { saved = JSON.parse(localStorage.getItem('shapedividers.previewBackground')); }
+    catch (_) { /* Preview preferences also work without browser storage. */ }
+    const state = readPreviewBackground(urlParams,saved);
+    previewBackgroundState = state;
 
     let button = document.getElementById('preview-background-toggle');
     if (!button) {

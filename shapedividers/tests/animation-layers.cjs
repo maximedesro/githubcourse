@@ -48,7 +48,9 @@ for (const key of Object.keys(sandbox.recipes)) for(const intensity of ['0','1',
     const svg = sandbox.buildMotionSvg(s,'test-'+cases++);
     assert.doesNotMatch(svg,/@(?:ID|USE|IMAGE\d+)@|<script\b|onload=/);
     assert.match(svg,/opacity=".5"/,'Source opacity must survive');
-    assert.match(svg,/height="24"/,'Pinned band must stay present');
+    assert.match(svg,/y1="288" x2="0" y2="296"/,'Blend must finish before the fixed 7.5% foot');
+    assert.doesNotMatch(svg,/<clipPath id="[^"]+-(?:upper|foot)"/,'No touching antialiased clip edges');
+    assert.match(svg,/mix-blend-mode:plus-lighter/,'Complementary alpha must add without darkening translucent shapes');
     assert.match(svg,/fill="#ffffff"|fill="url\(#[^)]+-paint\)"/,'A base color matching a preset must not be recolored');
     if(e.light !== 'none') assert.match(svg,/lighting-color="#12ab34"/);
     if(e.ribbon) for(const color of [e.ribbonA,e.ribbonB,e.ribbonC]) assert.ok(svg.includes(color));

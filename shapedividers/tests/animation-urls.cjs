@@ -30,14 +30,27 @@ function resetControls() {
 }
 const sandbox = {URLSearchParams,prefixedId,console,document:{getElementById:id=>{const element=elements.get(id);if(element)element.id=id;return element;}},
     window:{location:{pathname:'/creator/',hash:'#shape-divider-animations'},history:{state:{host:'preserved'},replaceState(state,title,url){assert.equal(state.host,'preserved');historyUrl=url;historyUpdates++;sandbox.window.location.href='https://example.test'+url;}}},
-    urlParams:new URLSearchParams(),urlStylesLoaded:false,
+    urlParams:new URLSearchParams(),urlStylesLoaded:false,previewBackgroundState:{mode:'image',image:0,color:'#151a21'},
     shapeIndex:0,tabletShapeIndex:1,mobileShapeIndex:2,alreadyChangedView:true,
     svgDividers:[{si:267,ratio:'FALSE'},{si:301,ratio:'TRUE'},{si:302,ratio:'FALSE'}],
     getActiveViewIndex:()=>2,syncGradientControl:()=>{},syncMotionChoice:()=>{},refreshRangeSliders:()=>{},
     viewsSelect:{style:{}},previewerFrame:{},previewClasses:['desktop-frame','tablet-frame','mobile-frame'],
     views:[0,1,2].map(()=>({classList:{toggle(name,value){this[name]=value;}}})),viewsSettings:[0,1,2].map(()=>({style:{}}))};
 vm.createContext(sandbox);
-vm.runInContext(fields+'\n'+['motionControlId','readMotionEffects','normalizeMotionEffects','getCheckedDirection','checkRadioByValue','getShapeIndex','setInputValueFromParam','setCheckboxFromParam','restoreViewportFromURL','updateSettingsfromURL','buildShareUrl','updateURL','formUpdate'].map(fn).join('\n')+'\nthis.defaults=motionFields;',sandbox);
+vm.runInContext(fields+'\n'+['motionControlId','readMotionEffects','normalizeMotionEffects','getCheckedDirection','checkRadioByValue','getShapeIndex','setInputValueFromParam','setCheckboxFromParam','restoreViewportFromURL','updateSettingsfromURL','normalizePreviewBackground','readPreviewBackground','buildShareUrl','updateURL','formUpdate'].map(fn).join('\n')+'\nthis.defaults=motionFields;',sandbox);
+// Shared backgrounds take priority over local storage, including the default tree.
+const localBackground={mode:'color',image:4,color:'#aabbcc'};
+for (const background of [{mode:'image',image:0,color:'#151a21'},{mode:'image',image:5,color:'#112233'},{mode:'color',image:2,color:'#123abc'}]) {
+    sandbox.previewBackgroundState=background;
+    const linked=new URLSearchParams();
+    linked.set('background',JSON.stringify(background));
+    assert.equal(JSON.stringify(sandbox.readPreviewBackground(linked,localBackground)),JSON.stringify(background));
+}
+assert.equal(JSON.stringify(sandbox.readPreviewBackground(new URLSearchParams(),localBackground)),JSON.stringify(localBackground));
+for(const value of ['{bad','null',JSON.stringify({mode:'invalid',image:6,color:'url(bad)'})]) {
+    assert.equal(JSON.stringify(sandbox.readPreviewBackground(new URLSearchParams({background:value}),localBackground)),JSON.stringify({mode:'image',image:0,color:'#151a21'}));
+}
+sandbox.previewBackgroundState={mode:'color',image:3,color:'#123abc'};
 resetControls();
 const stacks = [
     {motion:'css-rock',edge:'creative-echo',light:'moving-light',ribbon:true,sparks:false,intensity:'0',lightColor:'#123456',ribbonA:'#223344',ribbonB:'#334455',ribbonC:'#445566',sparkColor:'#556677'},
@@ -54,6 +67,7 @@ const full = sandbox.buildShareUrl();
 assert.match(full,/#shape-divider-animations$/);
 const params = new URLSearchParams(full.split('?')[1].split('#')[0]);
 assert.equal(params.get('view'),'mobile');
+assert.deepEqual(JSON.parse(params.get('background')),sandbox.previewBackgroundState);
 for(const [index,prefix] of ['','tablet','mobile'].entries()) assert.equal(JSON.stringify(JSON.parse(params.get(prefix ? prefix+'Effects':'effects'))),JSON.stringify(Object.fromEntries(Object.entries(stacks[index]).filter(([key,value])=>value!==sandbox.defaults[key]))));
 // Restore independent controls, colors, checkboxes and the selected editor view.
 resetControls();sandbox.shapeIndex=2;sandbox.tabletShapeIndex=0;sandbox.mobileShapeIndex=0;
