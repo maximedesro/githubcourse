@@ -359,9 +359,9 @@
 .landing-page--showcase .landing-divider{position:absolute;inset:auto 0 -1px;height:140px;overflow:hidden;pointer-events:none;z-index:0}
 .landing-page--showcase .landing-divider svg{display:block}
 
-/* A Top wave opens the night sky; its lower edge flows into the black chapter. */
-.landing-page--showcase .landing-divider--stars-top{inset:-1px 0 auto;height:140px}
-.landing-page--showcase .landing-hero{position:relative;overflow:hidden;padding:220px 0 110px;color:#fff;background:linear-gradient(180deg,transparent 65%,#000 100%),linear-gradient(90deg,rgb(4 10 18 / .65),rgb(4 10 18 / .35)),url('https://shapedividers.com/wp-content/uploads/2026/11/milky-way-1023340_1920.jpg') center 56%/cover no-repeat}
+/* The black wave joins the night sky to the export chapter, clear of the CTAs. */
+.landing-page--showcase .landing-divider--stars-bottom{inset:auto 0 -1px;height:140px}
+.landing-page--showcase .landing-hero{position:relative;overflow:hidden;padding:112px 0 230px;color:#fff;background:linear-gradient(90deg,rgb(4 10 18 / .65),rgb(4 10 18 / .35)),url('https://shapedividers.com/wp-content/uploads/2026/11/milky-way-1023340_1920.jpg') center 56%/cover no-repeat}
 .landing-page--showcase .landing-hero__grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(250px,.85fr);align-items:center;gap:100px}
 .landing-page--showcase .landing-hero .landing-kicker{color:#c3f5dc}
 .landing-page--showcase .landing-lede{max-width:630px;margin-top:32px;color:#e6edf1;font-size:18px;line-height:1.75}
@@ -433,9 +433,9 @@
 .landing-page--showcase .faq-item h3{font-size:21px}
 .landing-page--showcase .faq-item p{font-size:15px;margin-top:16px;color:#51645b}
 
-.landing-page--showcase .landing-premium{background:#102b25;color:var(--home-mint);border-radius:0}
-.landing-page--showcase .landing-premium__inner::before{content:none}
-.landing-page--showcase .landing-premium__inner{padding:0;background:none;border-radius:0;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(250px,.6fr);align-items:center;gap:90px}
+.landing-page--showcase .landing-premium{background:#fff;color:var(--home-mint);border-radius:0}
+.landing-page--showcase .landing-premium__inner::before{content:'';position:absolute;inset:-14px;border:6px dashed #102b25;border-radius:44px;pointer-events:none}
+.landing-page--showcase .landing-premium__inner{padding:clamp(28px,4.4vw,64px);background:#102b25;border-radius:32px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(250px,.6fr);align-items:center;gap:90px}
 .landing-page--showcase .landing-premium h2{max-width:22ch}
 .landing-page--showcase .landing-premium p:not(.landing-kicker){max-width:740px;margin-top:28px;color:#bcd6cb;font-size:16px}
 .landing-page--showcase .landing-premium .landing-premium__price{margin-top:40px;font-size:14px}
@@ -474,7 +474,7 @@
   .landing-page.landing-page--showcase{--home-fire-height:124px;--home-cloud-height:101px;font-size:16px}
   .landing-page--showcase .landing-shell{width:calc(100% - 40px)}
   .landing-page--showcase .landing-section{padding-top:76px;padding-bottom:76px}
-  .landing-page--showcase .landing-hero{padding-top:190px;padding-bottom:76px}
+  .landing-page--showcase .landing-hero{padding-top:76px;padding-bottom:220px}
   .landing-page.landing-page--showcase h1{font-size:clamp(48px,10vw,64px)}
   .landing-page.landing-page--showcase h2{font-size:clamp(34px,7vw,46px)}
   .landing-page.landing-page--showcase h3{font-size:23px}
@@ -491,7 +491,8 @@
   .landing-page--showcase .landing-animation-benchmark strong{font-size:26px}
   .landing-page--showcase .landing-callout{padding:30px;border-radius:12px}
   .landing-page--showcase .landing-callout p{font-size:23px}
-  .landing-page--showcase .landing-premium__price strong{font-size:48px}
+  .landing-page--showcase .landing-premium>.landing-shell{width:calc(100% - 56px)}
+  .landing-page--showcase .landing-premium__price strong{font-size:clamp(34px,8.5vw,48px)}
   .landing-page--showcase .desktop-landing-cta{display:none}
 }
 @media(max-width:560px){
@@ -510,7 +511,32 @@
 
 <main class="landing-page landing-page--showcase">
   <section class="landing-hero" id="homepage-intro">
-    <div class="landing-divider landing-divider--stars-top" data-home-shape="1" id="homepage-wave" aria-hidden="true">
+    <div class="landing-shell landing-hero__grid">
+      <div>
+        <p class="landing-kicker">ShapeDividers.com</p>
+        <h1>SVG Shape Dividers Generator</h1>
+        <p class="landing-lede"><strong>ShapeDividers.com is a browser-based SVG shape divider generator for websites.</strong> Choose a shape, adjust its direction, size, color, gradient, animation and responsive settings, then export production-ready CSS, inline SVG or an SVG mask.</p>
+        <div class="landing-actions">
+          <a class="landing-button landing-button--primary desktop-landing-cta" href="#shape-divider-tool">Create a shape divider</a>
+          <a class="landing-button landing-button--secondary" href="#premium-cta">Explore Premium</a>
+        </div>
+      </div>
+      <div class="landing-hero__facts" aria-label="ShapeDividers highlights">
+        <div class="landing-fact">
+          <strong>CSS, SVG or mask</strong>
+          <span>Export the same divider in the format that best fits your site.</span>
+        </div>
+        <div class="landing-fact">
+          <strong>Responsive controls</strong>
+          <span>Use different shapes, directions and settings for desktop, tablet and mobile.</span>
+        </div>
+        <div class="landing-fact">
+          <strong>Compact output</strong>
+          <span>Most shapes are under 10 KB gzipped.</span>
+        </div>
+      </div>
+    </div>
+    <div class="landing-divider landing-divider--stars-bottom" data-home-shape="1" id="homepage-wave" aria-hidden="true">
 <style>
 .home-stars-svg{
   position:absolute;
@@ -531,14 +557,14 @@
   position:absolute;
   color:#000000;
   max-width:none;
-  top:-0.1vw;
+  top:auto;
   right:auto;
-  bottom:auto;
+  bottom:-0.1vw;
   left:0;
   width:100%;
   height:140px;
   transform:scaleX(4) translateX(1.5%);
-  transform-origin:100% 0;
+  transform-origin:100% 100%;
   animation:home-stars-svg-desktop-one-direction 20s linear -2s infinite;
   opacity:1;
   z-index:3;
@@ -550,14 +576,14 @@
   position:absolute;
   color:#000000;
   max-width:none;
-  top:-0.1vw;
+  top:auto;
   right:auto;
-  bottom:auto;
+  bottom:-0.1vw;
   left:0;
   width:100%;
   height:140px;
   transform:scaleX(4) translateX(1.5%);
-  transform-origin:100% 0;
+  transform-origin:100% 100%;
   animation:home-stars-svg-desktop-one-direction 20s linear -12s infinite;
   opacity:1;
   z-index:3;
@@ -594,38 +620,13 @@
 @keyframes home-stars-svg-symbol-0-motion-cp-echo-x{0%,100%{transform:translateX(calc(-1 * var(--echo-x)))}50%{transform:translateX(var(--echo-x))}}
 @keyframes home-stars-svg-symbol-0-motion-cp-echo-y{0%,100%{transform:translateY(0)}50%{transform:translateY(var(--echo-y))}}
 
-.home-stars-svg-symbol-0-motion-still{display:none}@media(prefers-reduced-motion:reduce){.home-stars-svg-symbol-0-motion-live{display:none}.home-stars-svg-symbol-0-motion-still{display:inline}}</style><g class="home-stars-svg-symbol-0-motion-live" color="#000000"><g transform="translate(0 0) scale(0.029400000000000003 0.00678125)"><g transform="translate(0 320) scale(1 -1)"><defs><symbol id="home-stars-svg-symbol-0-motion-art" viewBox="0 0 35.28 2.17" preserveAspectRatio="none" fill="currentColor"><path d="M0 .5c3.07.55 9.27-.42 16.14 0 6.88.4 13.75.57 19.14-.11V0H0z" fill="currentColor" xmlns="http://www.w3.org/2000/svg"/><path d="M0 1c3.17.8 7.29-.38 10.04-.55 2.75-.17 9.25 1.47 12.67 1.3 3.43-.17 4.65-.84 7.05-.87 2.4-.02 5.52.88 5.52.88V0H0z" opacity=".5" fill="currentColor" xmlns="http://www.w3.org/2000/svg"/><path d="M0 1.85c2.56-.83 7.68-.3 11.79-.42 4.1-.12 6.86-.61 9.58-.28 2.73.33 5.61 1.17 8.61 1 3-.19 4.73-.82 5.3-.84V.1H0z" opacity=".5" fill="currentColor" xmlns="http://www.w3.org/2000/svg"/></symbol><mask id="home-stars-svg-symbol-0-motion-alpha" maskUnits="userSpaceOnUse" x="-80" y="-48" width="1360" height="416" style="mask-type:alpha"><g color="white"><g transform="translate(0 320) scale(1 -1)"><use href="#home-stars-svg-symbol-0-motion-art" x="0" y="0" width="1200" height="320"/></g></g></mask><g id="home-stars-svg-symbol-0-motion-pass-0-input"><rect width="1200" height="320" fill="#000000" mask="url(#home-stars-svg-symbol-0-motion-alpha)"/></g><filter id="home-stars-svg-symbol-0-motion-pass-0" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" x="-80" y="-48" width="1360" height="416" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation="3" result="bump"/><feSpecularLighting in="bump" surfaceScale="18" specularConstant="1.8" specularExponent="4" lighting-color="#ffffff" result="light"><feDistantLight azimuth="40" elevation="35"><animate attributeName="azimuth" values="40;320;40" dur="20.3s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/><animate attributeName="elevation" values="20;48;20" dur="13.7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></feDistantLight></feSpecularLighting><feComponentTransfer in="light" result="scaled-light"><feFuncR type="linear" slope="0.65"/><feFuncG type="linear" slope="0.65"/><feFuncB type="linear" slope="0.65"/></feComponentTransfer><feImage href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22320%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22w%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%20gradientUnits%3D%22objectBoundingBox%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22white%22%2F%3E%3Cstop%20offset%3D%2238%25%22%20stop-color%3D%22white%22%2F%3E%3Cstop%20offset%3D%2292.5%25%22%20stop-color%3D%22white%22%20stop-opacity%3D%220%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22white%22%20stop-opacity%3D%220%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%221200%22%20height%3D%22320%22%20fill%3D%22url%28%23w%29%22%2F%3E%3C%2Fsvg%3E" x="0" y="0" width="1200" height="320" preserveAspectRatio="none" result="light-weight"/><feComposite in="scaled-light" in2="light-weight" operator="in" result="upper-light"/><feBlend in="SourceGraphic" in2="upper-light" mode="screen" result="lit"/><feColorMatrix in="lit" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0 1" result="opaque-paint"/><feComposite in="opaque-paint" in2="SourceAlpha" operator="in"/></filter><mask id="home-stars-svg-symbol-0-motion-rest" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="320"><g color="white"><g transform="translate(0 320) scale(1 -1)"><use href="#home-stars-svg-symbol-0-motion-art" x="0" y="0" width="1200" height="320"/></g></g></mask></defs><g filter="url(#home-stars-svg-symbol-0-motion-pass-0)"><use href="#home-stars-svg-symbol-0-motion-pass-0-input"/></g></g></g></g><g class="home-stars-svg-symbol-0-motion-still"><g transform="translate(0 0) scale(0.029400000000000003 0.00678125)"><g transform="translate(0 320) scale(1 -1)"><rect width="1200" height="320" fill="#000000" mask="url(#home-stars-svg-symbol-0-motion-rest)"/></g></g></g></symbol></defs></svg>
+.home-stars-svg-symbol-0-motion-still{display:none}@media(prefers-reduced-motion:reduce){.home-stars-svg-symbol-0-motion-live{display:none}.home-stars-svg-symbol-0-motion-still{display:inline}}</style><g class="home-stars-svg-symbol-0-motion-live" color="#000000"><g transform="translate(0 0) scale(0.029400000000000003 0.00678125)"><defs><symbol id="home-stars-svg-symbol-0-motion-art" viewBox="0 0 35.28 2.17" preserveAspectRatio="none" fill="currentColor"><path d="M35.28 1.67c-3.07-.55-9.27.41-16.15 0-6.87-.4-13.74-.58-19.13.1v.4h35.28z" fill="currentColor" xmlns="http://www.w3.org/2000/svg"/><path d="M35.28 1.16c-3.17-.8-7.3.4-10.04.56-2.76.17-9.25-1.47-12.68-1.3-3.42.16-4.64.84-7.04.86C3.12 1.31 0 .4 0 .4v1.77h35.28z" opacity=".5" fill="currentColor" xmlns="http://www.w3.org/2000/svg"/><path d="M35.28.31c-2.57.84-7.68.3-11.8.43-4.1.12-6.85.61-9.57.28C11.18.69 8.3-.16 5.3.02 2.3.22.57.85 0 .87v1.2h35.28z" opacity=".5" fill="currentColor" xmlns="http://www.w3.org/2000/svg"/></symbol><mask id="home-stars-svg-symbol-0-motion-alpha" maskUnits="userSpaceOnUse" x="-80" y="-48" width="1360" height="416" style="mask-type:alpha"><g color="white"><use href="#home-stars-svg-symbol-0-motion-art" x="0" y="0" width="1200" height="320"/></g></mask><g id="home-stars-svg-symbol-0-motion-pass-0-input"><rect width="1200" height="320" fill="#000000" mask="url(#home-stars-svg-symbol-0-motion-alpha)"/></g><filter id="home-stars-svg-symbol-0-motion-pass-0" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" x="-80" y="-48" width="1360" height="416" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation="3" result="bump"/><feSpecularLighting in="bump" surfaceScale="18" specularConstant="1.8" specularExponent="4" lighting-color="#ffffff" result="light"><feDistantLight azimuth="40" elevation="35"><animate attributeName="azimuth" values="40;320;40" dur="20.3s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/><animate attributeName="elevation" values="20;48;20" dur="13.7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></feDistantLight></feSpecularLighting><feComponentTransfer in="light" result="scaled-light"><feFuncR type="linear" slope="0.65"/><feFuncG type="linear" slope="0.65"/><feFuncB type="linear" slope="0.65"/></feComponentTransfer><feImage href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22320%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22w%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%20gradientUnits%3D%22objectBoundingBox%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22white%22%2F%3E%3Cstop%20offset%3D%2238%25%22%20stop-color%3D%22white%22%2F%3E%3Cstop%20offset%3D%2292.5%25%22%20stop-color%3D%22white%22%20stop-opacity%3D%220%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22white%22%20stop-opacity%3D%220%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%221200%22%20height%3D%22320%22%20fill%3D%22url%28%23w%29%22%2F%3E%3C%2Fsvg%3E" x="0" y="0" width="1200" height="320" preserveAspectRatio="none" result="light-weight"/><feComposite in="scaled-light" in2="light-weight" operator="in" result="upper-light"/><feBlend in="SourceGraphic" in2="upper-light" mode="screen" result="lit"/><feColorMatrix in="lit" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0 1" result="opaque-paint"/><feComposite in="opaque-paint" in2="SourceAlpha" operator="in"/></filter><mask id="home-stars-svg-symbol-0-motion-rest" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="320"><g color="white"><use href="#home-stars-svg-symbol-0-motion-art" x="0" y="0" width="1200" height="320"/></g></mask></defs><g filter="url(#home-stars-svg-symbol-0-motion-pass-0)"><use href="#home-stars-svg-symbol-0-motion-pass-0-input"/></g></g></g><g class="home-stars-svg-symbol-0-motion-still"><g transform="translate(0 0) scale(0.029400000000000003 0.00678125)"><rect width="1200" height="320" fill="#000000" mask="url(#home-stars-svg-symbol-0-motion-rest)"/></g></g></symbol></defs></svg>
 <div class="home-stars-svg">
 <div class="home-stars-svg__desktop">
 <svg xmlns="http://www.w3.org/2000/svg" class="home-stars-svg__desktop-0" viewBox="0 0 35.28 2.17" preserveAspectRatio="none" aria-hidden="true" focusable="false"><use href="#home-stars-svg-symbol-0" x="0" y="0" width="35.28" height="2.17"/></svg>
 <svg xmlns="http://www.w3.org/2000/svg" class="home-stars-svg__desktop-1" viewBox="0 0 35.28 2.17" preserveAspectRatio="none" aria-hidden="true" focusable="false"><use href="#home-stars-svg-symbol-0" x="0" y="0" width="35.28" height="2.17"/></svg>
 </div>
 </div>
-    </div>
-    <div class="landing-shell landing-hero__grid">
-      <div>
-        <p class="landing-kicker">ShapeDividers.com</p>
-        <h1>SVG Shape Dividers Generator</h1>
-        <p class="landing-lede"><strong>ShapeDividers.com is a browser-based SVG shape divider generator for websites.</strong> Choose a shape, adjust its direction, size, color, gradient, animation and responsive settings, then export production-ready CSS, inline SVG or an SVG mask.</p>
-        <div class="landing-actions">
-          <a class="landing-button landing-button--primary desktop-landing-cta" href="#shape-divider-tool">Create a shape divider</a>
-          <a class="landing-button landing-button--secondary" href="#premium-cta">Explore Premium</a>
-        </div>
-      </div>
-      <div class="landing-hero__facts" aria-label="ShapeDividers highlights">
-        <div class="landing-fact">
-          <strong>CSS, SVG or mask</strong>
-          <span>Export the same divider in the format that best fits your site.</span>
-        </div>
-        <div class="landing-fact">
-          <strong>Responsive controls</strong>
-          <span>Use different shapes, directions and settings for desktop, tablet and mobile.</span>
-        </div>
-        <div class="landing-fact">
-          <strong>Compact output</strong>
-          <span>Most shapes are under 10 KB gzipped.</span>
-        </div>
-      </div>
     </div>
   </section>
 
