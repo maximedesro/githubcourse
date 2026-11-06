@@ -1237,7 +1237,7 @@ function buildMotionExportCode(format) {
             if (layout.keyframes) rules.push(layout.keyframes);
         }
         rules.push('.'+id+'{display:'+(index ? 'none' : 'block')+';position:absolute;inset:0}');
-        if (index) rules.push('@media(min-width:'+(index === 1 ? 768 : 1025)+'px){.'+wrapper+' > div{display:none}.'+wrapper+' > .'+id+'{display:block}}');
+        if (index) rules.push('@media(min-width:'+(index === 1 ? 768 : 1025)+'px){.'+wrapper+' > :not(.'+id+'){display:none}.'+wrapper+' > .'+id+'{display:block}}');
         if (format === 'mask' && motion) {
             // Inline masks retain declarative animation; external CSS mask images
             // cannot reliably run SVG filter timelines.

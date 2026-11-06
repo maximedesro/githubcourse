@@ -120,6 +120,7 @@ sandbox.getSvgExportStates=()=>[combined,{...state,key:'tablet',animate:false,ef
 sandbox.mobileReady=true;sandbox.shapeCSSName='shape-test';
 sandbox.getPlainExportSvg=()=>fixture;
 const svgCode = sandbox.buildMotionExportCode('svg');
+assert.match(svgCode,/> :not\(\.shape-test-svg-desktop\)\{display:none\}/,'Desktop must hide the tablet selection with equal CSS specificity');
 assert.match(svgCode,/@media\(min-width:768px\)/);assert.match(svgCode,/@media\(min-width:1025px\)/);
 assert.doesNotMatch(svgCode,/<script\b|@ID@/);
 const maskCode = sandbox.buildMotionExportCode('mask');
