@@ -1088,15 +1088,24 @@ function buildMotionSvg(state, namespace, maskOnly = false) {
     const e = state.effects || {...motionFields, motion:'none'};
     const level = Number(e.intensity);
     const pace = Math.max(.1,Number(state.animationLength)||10)/10;
+    const surfaceOnly = ['none','scroll'].includes(e.motion) && e.edge === 'none';
+    const vertical = state.direction === 'left' || state.direction === 'right';
+    const transforms = {bottom:'',top:'translate(0 320) scale(1 -1)',left:'translate(320 0) rotate(90)',right:'translate(0 1200) rotate(-90)'};
+    const inverse = {bottom:'',top:transforms.top,left:'rotate(-90) translate(-320 0)',right:'rotate(90) translate(0 -1200)'};
     let defs = '', serial = 0;
-    const raw = normalizeSvgForCanvas(svgDividers[state.shapeIndex].bottom, 'ffffff');
+    const raw = normalizeSvgForCanvas(svgDividers[state.shapeIndex][surfaceOnly ? state.direction : 'bottom'], 'ffffff');
     const root = new DOMParser().parseFromString(namespaceInlineSvgIds(replaceInlineSvgColorsWithCurrentColor(raw), namespace+'-source'), 'image/svg+xml').documentElement;
     const viewBox = root.getAttribute('viewBox') || '0 0 1200 320';
-    const preserve = root.getAttribute('preserveAspectRatio') || 'none';
-    const symbol = '<symbol id="'+namespace+'-art" viewBox="'+viewBox+'" preserveAspectRatio="'+preserve+'" fill="currentColor">'+root.innerHTML+'</symbol>';
+    const preserve = root.getAttribute('preserveAspectRatio') || 'xMidYMid meet';
+    const symbol = '<symbol id="'+namespace+'-art" viewBox="'+viewBox+'" preserveAspectRatio="'+(surfaceOnly ? 'none' : preserve)+'" fill="currentColor">'+root.innerHTML+'</symbol>';
     defs += symbol;
-    // Headroom for all effects; the original section join is at y=320.
-    const original = '<use href="#'+namespace+'-art" x="0" y="32" width="1200" height="288"/>';
+    // Surface effects must not refit or shrink the source shape. Normalize its
+    // coordinates for filters, then map back into the untouched native viewport.
+    // Geometry effects retain their existing headroom and fixed boundary.
+    const source = '<use href="#'+namespace+'-art" x="0" y="0" width="'+(vertical ? 320 : 1200)+'" height="'+(vertical ? 1200 : 320)+'"/>';
+    const original = surfaceOnly
+        ? (inverse[state.direction] ? '<g transform="'+inverse[state.direction]+'">'+source+'</g>' : source)
+        : '<use href="#'+namespace+'-art" x="0" y="32" width="1200" height="288"/>';
     let current = original;
     function stage(key) {
         if (!SD_MOTION_RECIPES[key]) return;
@@ -1120,12 +1129,14 @@ function buildMotionSvg(state, namespace, maskOnly = false) {
     // Complementary masks share a short transition above the fixed 7.5% foot.
     // Add their alpha instead of source-over blending: even translucent shapes
     // keep their original opacity, without two antialiased clip edges meeting.
-    const topId = namespace+'-upper', footId = namespace+'-foot';
-    for (const [id,inverse] of [[topId,false],[footId,true]]) {
-        defs += '<linearGradient id="'+id+'-weight" gradientUnits="userSpaceOnUse" x1="0" y1="288" x2="0" y2="296"><stop stop-color="white" stop-opacity="'+(inverse ? 0 : 1)+'"/><stop offset="1" stop-color="white" stop-opacity="'+(inverse ? 1 : 0)+'"/></linearGradient>'+
-            '<mask id="'+id+'" maskUnits="userSpaceOnUse" x="-80" y="-48" width="1360" height="416" style="mask-type:alpha"><rect x="-80" y="-48" width="1360" height="416" fill="url(#'+id+'-weight)"/></mask>';
+    if (!surfaceOnly) {
+        const topId = namespace+'-upper', footId = namespace+'-foot';
+        for (const [id,inverse] of [[topId,false],[footId,true]]) {
+            defs += '<linearGradient id="'+id+'-weight" gradientUnits="userSpaceOnUse" x1="0" y1="288" x2="0" y2="296"><stop stop-color="white" stop-opacity="'+(inverse ? 0 : 1)+'"/><stop offset="1" stop-color="white" stop-opacity="'+(inverse ? 1 : 0)+'"/></linearGradient>'+
+                '<mask id="'+id+'" maskUnits="userSpaceOnUse" x="-80" y="-48" width="1360" height="416" style="mask-type:alpha"><rect x="-80" y="-48" width="1360" height="416" fill="url(#'+id+'-weight)"/></mask>';
+        }
+        current = '<g style="isolation:isolate"><g mask="url(#'+topId+')">'+current+'</g><g mask="url(#'+footId+')" style="mix-blend-mode:plus-lighter">'+original+'</g></g>';
     }
-    current = '<g style="isolation:isolate"><g mask="url(#'+topId+')">'+current+'</g><g mask="url(#'+footId+')" style="mix-blend-mode:plus-lighter">'+original+'</g></g>';
     // Paint after geometry: gradients and original partial opacity survive edge
     // filters too. Masks use the same animated silhouette in the same document.
     const alphaId = namespace+'-alpha';
@@ -1146,16 +1157,17 @@ function buildMotionSvg(state, namespace, maskOnly = false) {
     current = prefixCss(current); defs = prefixCss(defs); css = prefixCss(css);
     defs += '<mask id="'+namespace+'-rest" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="320"><g color="white">'+original+'</g></mask>';
     const content = '<defs>'+defs+'</defs>'+current;
-    const transforms = { bottom:'',top:'translate(0 320) scale(1 -1)',left:'translate(320 0) rotate(90)',right:'translate(0 1200) rotate(-90)' };
-    const vertical = state.direction === 'left' || state.direction === 'right';
     const oriented = transforms[state.direction] ? '<g transform="'+transforms[state.direction]+'">'+content+'</g>' : content;
     // A still sibling also stops SMIL for reduced-motion users, since CSS cannot
     // pause SVG timelines. No script is included in any generated output.
     const still = '<rect width="1200" height="320" fill="'+(maskOnly ? 'white' : paint)+'" mask="url(#'+namespace+'-rest)"/>';
     const stillOriented = transforms[state.direction] ? '<g transform="'+transforms[state.direction]+'">'+still+'</g>' : still;
-    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+(vertical ? '0 0 320 1200' : '0 0 1200 320')+'" preserveAspectRatio="none" aria-hidden="true" focusable="false">'+
+    const metrics = getSvgViewBoxMetrics('<svg viewBox="'+viewBox+'">');
+    const nativeTransform = 'translate('+metrics.minX+' '+metrics.minY+') scale('+(metrics.width/(vertical ? 320 : 1200))+' '+(metrics.height/(vertical ? 1200 : 320))+')';
+    const frame = value => surfaceOnly ? '<g transform="'+nativeTransform+'">'+value+'</g>' : value;
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+(surfaceOnly ? viewBox : vertical ? '0 0 320 1200' : '0 0 1200 320')+'" preserveAspectRatio="'+(surfaceOnly ? preserve : 'none')+'" aria-hidden="true" focusable="false">'+
         '<style>'+css+'.'+namespace+'-still{display:none}@media(prefers-reduced-motion:reduce){.'+namespace+'-live{display:none}.'+namespace+'-still{display:inline}}</style>'+
-        '<g class="'+namespace+'-live" color="#'+state.color+'">'+oriented+'</g><g class="'+namespace+'-still">'+stillOriented+'</g></svg>';
+        '<g class="'+namespace+'-live" color="#'+state.color+'">'+frame(oriented)+'</g><g class="'+namespace+'-still">'+frame(stillOriented)+'</g></svg>';
 }
 
 // Sparks have their own viewport-sized layer. Shape scaling and scrolling never
@@ -1232,9 +1244,10 @@ function buildMotionExportCode(format) {
             const paint = state.gradient ? 'url(#'+id+'-mask-paint)' : '#'+state.color;
             const vector = {bottom:'x1="0" y1="1" x2="0" y2="0"',top:'x1="0" y1="0" x2="0" y2="1"',left:'x1="0" y1="0" x2="1" y2="0"',right:'x1="1" y1="0" x2="0" y2="0"'}[state.direction];
             const gradient = state.gradient ? '<linearGradient id="'+id+'-mask-paint" '+vector+'><stop stop-color="#'+state.color+'"/><stop offset="1" stop-color="#'+state.gradientColor+'"/></linearGradient>' : '';
-            const vertical = state.direction === 'left' || state.direction === 'right';
-            const w = vertical ? 320 : 1200, h = vertical ? 1200 : 320;
-            svg = '<svg xmlns="http://www.w3.org/2000/svg" class="'+id+'-art" viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="none"><defs>'+gradient+'<mask id="'+id+'-mask" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="'+w+'" height="'+h+'">'+svg.replace(/class="[^"]*-art" /,'').replace('<svg ','<svg width="'+w+'" height="'+h+'" ')+'</mask></defs><rect width="'+w+'" height="'+h+'" fill="'+paint+'" mask="url(#'+id+'-mask)"/></svg>';
+            const {minX:x,minY:y,width:w,height:h} = getSvgViewBoxMetrics(svg);
+            const preserve = svg.match(/preserveAspectRatio="([^"]+)"/)?.[1] || 'xMidYMid meet';
+            const bounds = 'x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'"';
+            svg = '<svg xmlns="http://www.w3.org/2000/svg" class="'+id+'-art" viewBox="'+x+' '+y+' '+w+' '+h+'" preserveAspectRatio="'+preserve+'"><defs>'+gradient+'<mask id="'+id+'-mask" style="mask-type:alpha" maskUnits="userSpaceOnUse" '+bounds+'>'+svg.replace(/class="[^"]*-art" /,'').replace('<svg ','<svg '+bounds+' ')+'</mask></defs><rect '+bounds+' fill="'+paint+'" mask="url(#'+id+'-mask)"/></svg>';
         }
         let sparks = '';
         if (motion && format === 'svg') {
@@ -3332,19 +3345,15 @@ function buildPairedExportCode(format, suppliedStates = null, suppliedWrapper = 
             symbol.setAttribute('id', id);
             while (root.firstChild) symbol.appendChild(root.firstChild);
             const viewBox = symbol.getAttribute('viewBox') || '0 0 1 1';
-            symbols.set(key, { id, viewBox, markup: new XMLSerializer().serializeToString(symbol) });
+            symbols.set(key, { id, viewBox, preserve:root.getAttribute('preserveAspectRatio') || 'xMidYMid meet', markup: new XMLSerializer().serializeToString(symbol) });
         }
-        const { id, viewBox } = symbols.get(key);
+        const { id, viewBox, preserve } = symbols.get(key);
         const [x, y, width, height] = viewBox.trim().split(/[\s,]+/).map(Number);
         // Keep the native viewport so mirror transforms and aspect-ratio sizing
         // are identical to the original SVG; only the geometry is referenced.
         return '<svg xmlns="http://www.w3.org/2000/svg" class="' + className + '" viewBox="' + viewBox +
-            '" preserveAspectRatio="' + (advanced ? 'none' : getPreserveAspectRatioAttribute(state)) + '" aria-hidden="true" focusable="false">' +
+            '" preserveAspectRatio="' + preserve + '" aria-hidden="true" focusable="false">' +
             '<use href="#' + id + '" x="' + x + '" y="' + y + '" width="' + width + '" height="' + height + '"/></svg>';
-    }
-    function getPreserveAspectRatioAttribute(state) {
-        const svg = svgDividers[state.shapeIndex][state.direction];
-        return svg.match(/preserveAspectRatio=["']([^"']+)["']/i)?.[1] || 'xMidYMid meet';
     }
     if (format === 'mask') preparedMaskFiles = [];
 

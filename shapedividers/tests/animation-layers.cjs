@@ -24,10 +24,10 @@ class SourceParser {
         return {documentElement:{getAttribute(name){return attrs.match(new RegExp(name+'="([^"]+)"'))?.[1] || null;},innerHTML:text.replace(/^<svg[^>]*>/,'').replace(/<\/svg>\s*$/,'')}};
     }
 }
-const sandbox = {DOMParser:SourceParser,svgDividers:[{bottom:fixture}],console};
+const sandbox = {DOMParser:SourceParser,svgDividers:[{bottom:fixture,top:fixture,left:fixture,right:fixture}],console};
 vm.createContext(sandbox);
 vm.runInContext(app.slice(recipeStart,recipeEnd)+'\n'+fields+'\n'+[
-    'normalizeSvgForCanvas','replaceSvgColorsWithPaint','replaceInlineSvgColorsWithCurrentColor',
+    'getSvgViewBoxMetrics','normalizeSvgForCanvas','replaceSvgColorsWithPaint','replaceInlineSvgColorsWithCurrentColor',
     'namespaceInlineSvgIds','buildMotionSparksSvg','getMotionSparksLayout','buildMotionSvg','hasMotionEffects','getMotionLayout',
     'getSvgStateDeclarations','formatDeclarationRule','addClassToInlineSvg',
     'buildMotionExportCode','getPairedStateCss','getMirroredStateCss','getOneDirectionTiming','getOneDirectionFrame','getDepthLayers'
@@ -48,9 +48,15 @@ for (const key of Object.keys(sandbox.recipes)) for(const intensity of ['0','1',
     const svg = sandbox.buildMotionSvg(s,'test-'+cases++);
     assert.doesNotMatch(svg,/@(?:ID|USE|IMAGE\d+)@|<script\b|onload=/);
     assert.match(svg,/opacity=".5"/,'Source opacity must survive');
-    assert.match(svg,/y1="288" x2="0" y2="296"/,'Blend must finish before the fixed 7.5% foot');
+    const geometry = !['none','scroll'].includes(e.motion) || e.edge !== 'none';
+    if(geometry) {
+        assert.match(svg,/y1="288" x2="0" y2="296"/,'Blend must finish before the fixed 7.5% foot');
+        assert.match(svg,/mix-blend-mode:plus-lighter/,'Complementary alpha must add without darkening translucent shapes');
+    } else {
+        assert.match(svg,/^<svg[^>]+viewBox="0 0 1000 200" preserveAspectRatio="none"/,'Surface effects retain the native viewport');
+        assert.doesNotMatch(svg,/y="32" width="1200" height="288"/,'Surface effects must not add headroom');
+    }
     assert.doesNotMatch(svg,/<clipPath id="[^"]+-(?:upper|foot)"/,'No touching antialiased clip edges');
-    assert.match(svg,/mix-blend-mode:plus-lighter/,'Complementary alpha must add without darkening translucent shapes');
     assert.match(svg,/fill="#ffffff"|fill="url\(#[^)]+-paint\)"/,'A base color matching a preset must not be recolored');
     if(e.light !== 'none') assert.match(svg,/lighting-color="#12ab34"/);
     if(e.ribbon) for(const color of [e.ribbonA,e.ribbonB,e.ribbonC]) assert.ok(svg.includes(color));
@@ -67,6 +73,21 @@ for (const key of Object.keys(sandbox.recipes)) for(const intensity of ['0','1',
     assert.equal(new Set(ids).size,ids.length,'IDs must be unique');
     for(const ref of svg.matchAll(/(?:href="#|url\(#)([^"\)]+)["\)]/g)) assert.ok(ids.includes(ref[1]),'Unresolved reference '+ref[1]);
     outputs.push(svg);
+}
+// Each native orientation and aspect-ratio policy must survive surface effects,
+// including wide slice artwork, nonzero viewBox origins and original alpha.
+for(const direction of ['bottom','top','left','right']) for(const preserve of ['none','xMidYMin slice','xMaxYMid slice','xMidYMid meet']) {
+    const native=fixture.replace('0 0 1000 200','-40 -70 7000 420').replace('preserveAspectRatio="none"','preserveAspectRatio="'+preserve+'"');
+    sandbox.svgDividers[0][direction]=native;
+    for(const surface of [{light:'moving-light'},{light:'variation-light-moon'},{ribbon:true},{sparks:true}]) {
+        const svg=sandbox.buildMotionSvg({...state,direction,oneDirection:true,depthLayers:true,effects:{...defaults,...surface}},'native');
+        assert.ok(svg.startsWith('<svg xmlns="http://www.w3.org/2000/svg" viewBox="-40 -70 7000 420" preserveAspectRatio="'+preserve+'"'));
+        assert.match(svg,/opacity=".5"/);
+        assert.doesNotMatch(svg,/y="32"|height="288"/);
+        assert.ok(svg.includes('translate(-40 -70) scale('));
+        outputs.push(svg);
+    }
+    sandbox.svgDividers[0][direction]=fixture;
 }
 // Combined passes reference prior passes, retaining one copy of path geometry.
 const combined = {...state,gradient:true,effects:{...defaults,motion:'swell-map',edge:'creative-echo',light:'variation-light-moon',ribbon:true,sparks:true}};
