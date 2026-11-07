@@ -2591,8 +2591,7 @@ body.sd-is-loading {
 .sd-background-panel input[aria-invalid="true"] { border-color: #b73e28; }
 .sd-background-status { margin: 14px 0 0; color: var(--sd-ink-soft); font-size: 11px; }
 
-/* Homepage layout and presentation. The four SVG exports keep their CSS inline. */
-/* Homepage showcase. Divider CSS and SVG below are creator exports. */
+/* Homepage showcase and canvas divider layout. */
 .landing-page.landing-page--showcase{
   --home-ink:#102b25;--home-mint:#e0ffef;--home-sky:#69baec;
   --home-yellow:#fbff00;--home-fire-height:193px;--home-cloud-height:201px;
@@ -2660,8 +2659,9 @@ body.sd-is-loading {
 .landing-page--showcase .landing-animations .landing-button--primary{background:#182300;color:var(--home-yellow)!important;border-color:#182300}
 .landing-page--showcase .landing-animations .landing-button--secondary{background:none;color:#182300;border-color:rgb(24 35 0 / .4)}
 
-/* Mint behind the three translucent blue surf depths. */
-.landing-page--showcase .landing-library{padding-bottom:260px;background:var(--home-mint);color:var(--home-ink)}
+/* Yellow foliage opens the library, with blue surf at its lower edge. */
+.landing-page--showcase .landing-library{--home-foliage-height:163.2px;padding-top:calc(112px + var(--home-foliage-height));padding-bottom:260px;background:var(--home-mint);color:var(--home-ink)}
+.landing-page--showcase .landing-divider--foliage{inset:-1px 0 auto;height:var(--home-foliage-height)}
 .landing-page--showcase .landing-library .landing-kicker{color:#286950}
 .landing-page--showcase .landing-library .landing-heading--light>p:not(.landing-kicker){color:#345b4f;opacity:1}
 .landing-page--showcase .shape-category-list{display:flex;flex-wrap:wrap;gap:9px;padding:0;margin:44px 0 0;list-style:none}
@@ -2703,6 +2703,7 @@ body.sd-is-loading {
 .landing-page--showcase .landing-premium .landing-text-link{color:#bcd6cb!important;font-size:13px;text-decoration:underline;text-underline-offset:5px}
 
 @media(min-width:1800px){.landing-page--showcase .landing-library{padding-bottom:340px}}
+@media(min-width:2100px){.landing-page--showcase .landing-library{--home-foliage-height:calc(163.2px + 2.4vw)}}
 @media(max-width:1024px){
   .landing-page.landing-page--showcase{--home-cloud-height:147px}
   .landing-page--showcase .landing-shell{width:calc(100% - 64px)}
@@ -2740,7 +2741,7 @@ body.sd-is-loading {
   .landing-page--showcase .landing-kicker{font-size:11px;margin-bottom:22px}
   .landing-page--showcase .landing-card-grid,.landing-page--showcase .landing-animation-settings,.landing-page--showcase .shape-story-grid{margin-top:44px}
   .landing-page--showcase .landing-export{padding-bottom:calc(70px + var(--home-fire-height))}
-  .landing-page--showcase .landing-library{padding-bottom:210px}
+  .landing-page--showcase .landing-library{padding-top:calc(76px + var(--home-foliage-height));padding-bottom:210px}
   .landing-page--showcase .landing-performance{padding-bottom:calc(70px + var(--home-cloud-height) + 2vw)}
   .landing-page--showcase .shape-story-grid{grid-template-columns:1fr;gap:36px}
   .landing-page--showcase .shape-category-list{gap:8px;margin-top:32px}
@@ -2765,13 +2766,15 @@ body.sd-is-loading {
   .landing-page--showcase .landing-button{transition:none}
 }
 
-/* Small, keyboard-accessible links sit in the clear space above each divider. */
+/* Small, keyboard-accessible links sit in the clear space beside each divider. */
 .landing-page--showcase .landing-shape-edit{position:absolute;right:max(48px,calc((100% - 1180px)/2));z-index:2;display:flex;flex-direction:column;align-items:flex-end;gap:4px;width:max-content;max-width:160px;color:inherit;font:500 12px/1.4 var(--sd-font-body,sans-serif);text-decoration:none;opacity:.85}
 .landing-page--showcase .landing-shape-edit span{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
 .landing-page--showcase .landing-shape-edit svg{display:block;width:62px;height:42px;overflow:visible}
 .landing-page--showcase .landing-shape-edit:hover,.landing-page--showcase .landing-shape-edit:focus-visible{opacity:1}
 .landing-page--showcase .landing-shape-edit--stars{bottom:96px}
 .landing-page--showcase .landing-shape-edit--fire{bottom:calc(var(--home-fire-height) - 2px)}
+.landing-page--showcase .landing-shape-edit--foliage{top:calc(var(--home-foliage-height) + 6px);flex-direction:column-reverse}
+.landing-page--showcase .landing-shape-edit--foliage svg{transform:scaleY(-1)}
 .landing-page--showcase .landing-shape-edit--surf{bottom:calc(clamp(145px,11vw,300px) - 12px)}
 .landing-page--showcase .landing-shape-edit--clouds{bottom:calc(var(--home-cloud-height) + 2vw - 12px)}
 @media(max-width:1024px){.landing-page--showcase .landing-shape-edit{right:32px}}

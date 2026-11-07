@@ -5324,8 +5324,13 @@ function initializeHomepageDividers() {
     const desktop = window.matchMedia('(min-width: 1025px)');
     const artwork = {
         'homepage-wave': {
-            file: 'wave-light', shortAxis: 140,
+            file: 'wave-light', shortAxis: 140, lightPeriod: 20,
             state: { animate: true, oneDirection: true, animationLength: 10, animationLongAxis: 4 }
+        },
+        'homepage-foliage': {
+            file: 'foliage-light', shortAxis: 136, lightPeriod: 52.78, keepFullHeight: true,
+            state: { direction: 'top', animate: true, oneDirection: true, ratio: true, animationLength: 26, animationLongAxis: 1.2 },
+            preserveAspectRatio: { none: false, alignX: 'Mid', alignY: 'Max', mode: 'slice' }
         },
         'homepage-surf': {
             file: 'surf-v2', shortAxis: 51,
@@ -5346,10 +5351,11 @@ function initializeHomepageDividers() {
         const art = artwork[canvas.id];
         if (!isFire && !art) return;
 
-        const isWave = canvas.id === 'homepage-wave';
-        const lightFrame = isWave ? document.createElement('canvas').getContext('2d') : null;
+        const lightFrame = art?.lightPeriod ? document.createElement('canvas').getContext('2d') : null;
         const state = { key: canvas.id, direction: 'bottom', longAxis: 100, ...art?.state };
-        const target = { context, preserveAspectRatio: art?.preserveAspectRatio || { none: true } };
+        const fullBitmap = { none: true };
+        const aspectRatio = art?.preserveAspectRatio || fullBitmap;
+        const target = { context, preserveAspectRatio: aspectRatio };
 
         let visible = false;
         let mediaFile;
@@ -5367,7 +5373,7 @@ function initializeHomepageDividers() {
             const time = reducedMotion.matches ? 0 : elapsed;
             if (lightFrame) {
                 // The light cycle contains 32 samples arranged in a 4 by 8 atlas.
-                const sample = Math.floor(time * 32 / 20) % 32;
+                const sample = Math.floor(time * 32 / art.lightPeriod) % 32;
                 if (sample !== lightSample) {
                     const width = bitmap.width / 4;
                     const height = bitmap.height / 8;
@@ -5378,6 +5384,12 @@ function initializeHomepageDividers() {
                     lightSample = sample;
                 }
                 bitmap = lightFrame.canvas;
+            }
+            if (art?.keepFullHeight) {
+                // Keep both the solid join and the tips visible on wide screens.
+                const shortAxis = getDividerShortAxis(state, target.extraShortAxis);
+                target.preserveAspectRatio = target.bounds.width / shortAxis > bitmap.width / bitmap.height
+                    ? fullBitmap : aspectRatio;
             }
             drawRasterDivider(bitmap, state, time, target);
         }
