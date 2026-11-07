@@ -428,6 +428,323 @@ const SD_MOTION_RECIPES = {
 };
 const SD_MOTION_CSS = "\n.new-motion{transform-origin:0 0;--amplitude:.045;--lean:1deg;--period:8s;--tempo:1}\n.motion-light{--amplitude:.022;--lean:.5deg;--period:11s}\n.motion-strong{--amplitude:.075;--lean:1.6deg;--period:5.5s}\n.rock-motion{animation:water-rock calc(var(--period)*var(--tempo)) ease-in-out infinite}\n.pulse-motion{animation:water-pulse calc(var(--period)*.63*var(--tempo)) ease-in-out infinite}\n@keyframes water-rock{0%,100%{transform:skewX(calc(-1*var(--lean)))}50%{transform:skewX(var(--lean))}}\n@keyframes water-pulse{0%,100%{transform:scaleY(1)}50%{transform:scaleY(calc(1 + var(--amplitude)*.5))}}\n\n\n.cp-echo-x{animation:cp-echo-x calc(11.9s * var(--cp-tempo,1)) cubic-bezier(.42,0,.58,1) infinite}\n.cp-echo-y{animation:cp-echo-y calc(7.1s * var(--cp-tempo,1)) cubic-bezier(.42,0,.58,1) infinite}\n@keyframes cp-echo-x{0%,100%{transform:translateX(calc(-1 * var(--echo-x)))}50%{transform:translateX(var(--echo-x))}}\n@keyframes cp-echo-y{0%,100%{transform:translateY(0)}50%{transform:translateY(var(--echo-y))}}\n\n";
 
+const BITMAP_MAX_LONG_SIDE = 16384;
+
+function getDividerShortAxis(state, extraShortAxis) {
+    return Math.max(0, Number(state.shortAxis) || 0) + extraShortAxis * (state.depthScale || 1);
+}
+
+function resizeDividerCanvas(context, bounds, maxDpr = 3) {
+    const { canvas } = context;
+    const dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
+
+    const pixelWidth = Math.max(1, Math.min(BITMAP_MAX_LONG_SIDE, Math.round(bounds.width * dpr)));
+    const pixelHeight = Math.max(1, Math.min(BITMAP_MAX_LONG_SIDE, Math.round(bounds.height * dpr)));
+
+    if (canvas.width !== pixelWidth || canvas.height !== pixelHeight) {
+        canvas.width = pixelWidth;
+        canvas.height = pixelHeight;
+    }
+
+    context.setTransform(
+        canvas.width / Math.max(bounds.width, 1),
+        0,
+        0,
+        canvas.height / Math.max(bounds.height, 1),
+        0,
+        0
+    );
+
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = 'high';
+}
+
+function alignmentOffset(extraSpace, alignment) {
+    if (alignment === 'Min') return 0;
+    if (alignment === 'Max') return extraSpace;
+    return extraSpace / 2;
+}
+
+function drawImagePreservingSvgAspectRatio(
+    context,
+    bitmap,
+    destinationX,
+    destinationY,
+    destinationWidth,
+    destinationHeight,
+    preserveAspectRatio
+) {
+    if (
+        preserveAspectRatio.none ||
+        destinationWidth <= 0 ||
+        destinationHeight <= 0 ||
+        bitmap.width <= 0 ||
+        bitmap.height <= 0
+    ) {
+        context.drawImage(
+            bitmap,
+            destinationX,
+            destinationY,
+            destinationWidth,
+            destinationHeight
+        );
+        return;
+    }
+
+    const sourceRatio = bitmap.width / bitmap.height;
+    const destinationRatio = destinationWidth / destinationHeight;
+    const useWidthAsConstraint =
+        preserveAspectRatio.mode === 'meet'
+            ? sourceRatio > destinationRatio
+            : sourceRatio < destinationRatio;
+
+    if (preserveAspectRatio.mode === 'meet') {
+        let renderedWidth;
+        let renderedHeight;
+
+        if (useWidthAsConstraint) {
+            renderedWidth = destinationWidth;
+            renderedHeight = destinationWidth / sourceRatio;
+        } else {
+            renderedHeight = destinationHeight;
+            renderedWidth = destinationHeight * sourceRatio;
+        }
+
+        const extraX = destinationWidth - renderedWidth;
+        const extraY = destinationHeight - renderedHeight;
+
+        const drawX =
+            destinationX +
+            alignmentOffset(extraX, preserveAspectRatio.alignX);
+        const drawY =
+            destinationY +
+            alignmentOffset(extraY, preserveAspectRatio.alignY);
+
+        context.drawImage(
+            bitmap,
+            drawX,
+            drawY,
+            renderedWidth,
+            renderedHeight
+        );
+
+        return;
+    }
+
+    let sourceX = 0;
+    let sourceY = 0;
+    let sourceWidth = bitmap.width;
+    let sourceHeight = bitmap.height;
+
+    if (useWidthAsConstraint) {
+        sourceHeight = bitmap.width / destinationRatio;
+
+        const extraSourceY = bitmap.height - sourceHeight;
+        sourceY = alignmentOffset(
+            extraSourceY,
+            preserveAspectRatio.alignY
+        );
+    } else {
+        sourceWidth = bitmap.height * destinationRatio;
+
+        const extraSourceX = bitmap.width - sourceWidth;
+        sourceX = alignmentOffset(
+            extraSourceX,
+            preserveAspectRatio.alignX
+        );
+    }
+
+    context.drawImage(
+        bitmap,
+        sourceX,
+        sourceY,
+        sourceWidth,
+        sourceHeight,
+        destinationX,
+        destinationY,
+        destinationWidth,
+        destinationHeight
+    );
+}
+
+function getAnimationProgress(elapsedSeconds, durationSeconds) {
+    const duration = Math.max(0.1, Number(durationSeconds || 10));
+    const elapsed = elapsedSeconds / duration;
+    const cycle = elapsed % 2;
+    return cycle <= 1 ? cycle : 2 - cycle;
+}
+
+// Keep both end edges outside the viewport, even while a copy is transparent.
+// The selected duration is the interval between handoffs. A copy repeats after
+// two handoffs; its visible travel includes the fade overlap with the next copy.
+function getOneDirectionTiming(state) {
+    const duration = Math.max(0.1, Number(state.animationLength) || 10);
+    const cycleDuration = 2 * duration;
+    const fadeSeconds = Math.min(duration * 0.25, Math.max(duration * 0.08, 1));
+    return { duration, cycleDuration, fade: fadeSeconds / cycleDuration, inset: 0.02 };
+}
+
+function getOneDirectionFrame(state, elapsedSeconds, copy = 0) {
+    if (Number(state.animationLongAxis) <= 1) return { progress: 0, opacity: copy ? 0 : 1 };
+    const { cycleDuration, fade, inset } = getOneDirectionTiming(state);
+    // Begin with the first copy fully visible and the other fully hidden.
+    const phase = ((elapsedSeconds / cycleDuration + 2 * fade + copy * 0.5) % 1 + 1) % 1;
+    const activeEnd = 0.5 + 2 * fade;
+    return {
+        progress: inset + Math.min(1, phase / activeEnd) * (1 - 2 * inset),
+        opacity: Math.max(0, Math.min(1, phase / fade, (activeEnd - phase) / fade))
+    };
+}
+
+function getDepthLayers(state) {
+    if (!state.animate || !state.depthLayers) return [{ state, opacity: 1, offset: 0, scale: 1 }];
+    return [
+        { opacity: 0.25, speed: 1.9, scale: 1, phase: 0 },
+        { opacity: 0.5, speed: 1.4, scale: 0.85, phase: 0.27 },
+        { opacity: 1, speed: 1, scale: 0.7, phase: 0.53 }
+    ].map((layer, index) => {
+        const duration = (Number(state.animationLength) || 10) * layer.speed;
+        const offset = 2 * duration * layer.phase;
+        return {
+            ...layer, offset,
+            state: {
+                ...state, depthLayers: false, depthScale: layer.scale,
+                key: state.key + '-depth-' + index,
+                shortAxis: (Number(state.shortAxis) || 0) * layer.scale,
+                animationLength: duration, animationOffset: offset
+            }
+        };
+    });
+}
+
+const dividerDepthCanvases = new WeakMap();
+
+function drawDepthLayers(bitmap, state, elapsedSeconds, target) {
+    const { context, bounds } = target;
+    let depthLayerCanvas = dividerDepthCanvases.get(context.canvas);
+    if (!depthLayerCanvas) {
+        depthLayerCanvas = document.createElement('canvas');
+        dividerDepthCanvases.set(context.canvas, depthLayerCanvas);
+    }
+    if (depthLayerCanvas.width !== context.canvas.width) depthLayerCanvas.width = context.canvas.width;
+    if (depthLayerCanvas.height !== context.canvas.height) depthLayerCanvas.height = context.canvas.height;
+    const layerContext = depthLayerCanvas.getContext('2d');
+    layerContext.setTransform(context.getTransform());
+    layerContext.imageSmoothingEnabled = true;
+    layerContext.imageSmoothingQuality = 'high';
+    getDepthLayers(state).forEach((layer) => {
+        drawRasterDivider(bitmap, layer.state, elapsedSeconds + layer.offset, { ...target, context: layerContext });
+        context.save();
+        context.globalAlpha = layer.opacity;
+        context.drawImage(depthLayerCanvas, 0, 0, bounds.width, bounds.height);
+        context.restore();
+    });
+}
+
+function drawRasterDivider(bitmap, state, elapsedSeconds, target) {
+    const { context, bounds, preserveAspectRatio, extraShortAxis = 0 } = target;
+    const width = bounds.width;
+    const height = bounds.height;
+
+    context.clearRect(0, 0, width, height);
+
+    if (state.animate && state.depthLayers) {
+        drawDepthLayers(bitmap, state, elapsedSeconds, target);
+        return;
+    }
+
+    const horizontal = state.direction === 'top' || state.direction === 'bottom';
+    const shortAxis = getDividerShortAxis(state, extraShortAxis);
+    const longAxisScale = Math.max(0, Number(state.longAxis) / 100 || 0);
+    const animationScale = Math.max(1, Number(state.animationLongAxis) || 1);
+    const position = Math.max(0, Math.min(100, Number(state.position) || 0)) / 100;
+    const animationProgress = state.animate
+        ? getAnimationProgress(elapsedSeconds, state.animationLength)
+        : 0;
+
+    let drawWidth;
+    let drawHeight;
+    let x;
+    let y;
+
+    if (horizontal) {
+        if (state.animate) {
+            drawWidth = width * animationScale;
+            drawHeight = shortAxis * (state.ratio ? animationScale : 1);
+            x = -(drawWidth - width) * (1 - animationProgress);
+        } else {
+            drawWidth = width * longAxisScale;
+            drawHeight = shortAxis;
+            x = (width - drawWidth) * position;
+        }
+
+        y = state.direction === 'bottom' ? height - drawHeight : 0;
+    } else {
+        if (state.animate) {
+            drawHeight = height * animationScale;
+            drawWidth = shortAxis * (state.ratio ? animationScale : 1);
+            y = -(drawHeight - height) * (1 - animationProgress);
+        } else {
+            drawWidth = shortAxis;
+            drawHeight = height * longAxisScale;
+            y = (height - drawHeight) * position;
+        }
+
+        x = state.direction === 'right' ? width - drawWidth : 0;
+    }
+
+    context.save();
+
+    if (state.flipped && !state.animate) {
+        if (horizontal) {
+            context.translate(width, 0);
+            context.scale(-1, 1);
+        } else {
+            context.translate(0, height);
+            context.scale(1, -1);
+        }
+    }
+
+    if (state.animate && state.oneDirection && state.mirrorLoop) {
+        const tileLength = horizontal ? drawWidth : drawHeight;
+        const tileStep = Math.max(1, tileLength - 1);
+        const { cycleDuration } = getOneDirectionTiming(state);
+        const phase = ((elapsedSeconds / cycleDuration) % 1 + 1) % 1;
+        const offset = -2 * tileStep + 2 * tileStep * phase;
+        for (let tile = 0; tile < 4; tile++) {
+            const start = offset + tile * tileStep - 0.5;
+            if (start >= (horizontal ? width : height) || start + tileLength <= 0) continue;
+            context.save();
+            context.translate(horizontal ? start : x, horizontal ? y : start);
+            if (tile % 2) {
+                context.translate(horizontal ? drawWidth : 0, horizontal ? 0 : drawHeight);
+                context.scale(horizontal ? -1 : 1, horizontal ? 1 : -1);
+            }
+            drawImagePreservingSvgAspectRatio(context, bitmap, 0, 0, drawWidth, drawHeight, preserveAspectRatio);
+            context.restore();
+        }
+        context.restore();
+        return;
+    }
+
+    const copies = state.animate && state.oneDirection ? 2 : 1;
+    for (let copy = 0; copy < copies; copy++) {
+        let copyX = x;
+        let copyY = y;
+        if (state.animate && state.oneDirection) {
+            const frame = getOneDirectionFrame(state, elapsedSeconds, copy);
+            context.globalAlpha = frame.opacity;
+            if (horizontal) copyX = -(drawWidth - width) * (1 - frame.progress);
+            else copyY = -(drawHeight - height) * (1 - frame.progress);
+        }
+        drawImagePreservingSvgAspectRatio(
+            context, bitmap, copyX, copyY, drawWidth, drawHeight, preserveAspectRatio
+        );
+    }
+
+    context.restore();
+}
+
 function initShapeDividersApp() {
     if (window.__shapeDividersAppInitialized) {
         return;
@@ -1380,7 +1697,6 @@ const previewContext = previewCanvas.getContext('2d', {
 });
 
 const BITMAP_BASE_LONG_SIDE = 8192;
-const BITMAP_MAX_LONG_SIDE = 16384;
 
 const BITMAP_CACHE_LIMIT = 2;
 const bitmapCache = new Map();
@@ -1619,116 +1935,7 @@ function getPreserveAspectRatio(svgMarkup) {
     };
 }
 
-function alignmentOffset(extraSpace, alignment) {
-    if (alignment === 'Min') return 0;
-    if (alignment === 'Max') return extraSpace;
-    return extraSpace / 2;
-}
-
-function drawImagePreservingSvgAspectRatio(
-    context,
-    bitmap,
-    destinationX,
-    destinationY,
-    destinationWidth,
-    destinationHeight,
-    preserveAspectRatio
-) {
-    if (
-        preserveAspectRatio.none ||
-        destinationWidth <= 0 ||
-        destinationHeight <= 0 ||
-        bitmap.width <= 0 ||
-        bitmap.height <= 0
-    ) {
-        context.drawImage(
-            bitmap,
-            destinationX,
-            destinationY,
-            destinationWidth,
-            destinationHeight
-        );
-        return;
-    }
-
-    const sourceRatio = bitmap.width / bitmap.height;
-    const destinationRatio = destinationWidth / destinationHeight;
-    const useWidthAsConstraint =
-        preserveAspectRatio.mode === 'meet'
-            ? sourceRatio > destinationRatio
-            : sourceRatio < destinationRatio;
-
-    if (preserveAspectRatio.mode === 'meet') {
-        let renderedWidth;
-        let renderedHeight;
-
-        if (useWidthAsConstraint) {
-            renderedWidth = destinationWidth;
-            renderedHeight = destinationWidth / sourceRatio;
-        } else {
-            renderedHeight = destinationHeight;
-            renderedWidth = destinationHeight * sourceRatio;
-        }
-
-        const extraX = destinationWidth - renderedWidth;
-        const extraY = destinationHeight - renderedHeight;
-
-        const drawX =
-            destinationX +
-            alignmentOffset(extraX, preserveAspectRatio.alignX);
-        const drawY =
-            destinationY +
-            alignmentOffset(extraY, preserveAspectRatio.alignY);
-
-        context.drawImage(
-            bitmap,
-            drawX,
-            drawY,
-            renderedWidth,
-            renderedHeight
-        );
-
-        return;
-    }
-
-    let sourceX = 0;
-    let sourceY = 0;
-    let sourceWidth = bitmap.width;
-    let sourceHeight = bitmap.height;
-
-    if (useWidthAsConstraint) {
-        sourceHeight = bitmap.width / destinationRatio;
-
-        const extraSourceY = bitmap.height - sourceHeight;
-        sourceY = alignmentOffset(
-            extraSourceY,
-            preserveAspectRatio.alignY
-        );
-    } else {
-        sourceWidth = bitmap.height * destinationRatio;
-
-        const extraSourceX = bitmap.width - sourceWidth;
-        sourceX = alignmentOffset(
-            extraSourceX,
-            preserveAspectRatio.alignX
-        );
-    }
-
-    context.drawImage(
-        bitmap,
-        sourceX,
-        sourceY,
-        sourceWidth,
-        sourceHeight,
-        destinationX,
-        destinationY,
-        destinationWidth,
-        destinationHeight
-    );
-}
-
-function getPreviewShortAxis(state) {
-    const shortAxis = Math.max(0, Number(state.shortAxis) || 0);
+function getPreviewExtraShortAxis(state) {
     const horizontal = state.direction === 'top' || state.direction === 'bottom';
 
     // Match the exported desktop @media rule; responsive device previews
@@ -1738,10 +1945,10 @@ function getPreviewShortAxis(state) {
         getActiveViewIndex() <= 0 &&
         window.matchMedia('(min-width:2100px)').matches
     ) {
-        return shortAxis + window.innerWidth * 0.02 * (state.depthScale || 1);
+        return window.innerWidth * 0.02;
     }
 
-    return shortAxis;
+    return 0;
 }
 
 function getBitmapLongSide(state, bounds) {
@@ -1755,7 +1962,7 @@ function getBitmapLongSide(state, bounds) {
 
     const rawSvg = svgDividers[state.shapeIndex][state.direction];
     const aspectRatio = Math.max(getSvgAspectRatio(rawSvg), 0.0001);
-    const shortAxis = Math.max(1, getPreviewShortAxis(state));
+    const shortAxis = Math.max(1, getDividerShortAxis(state, getPreviewExtraShortAxis(state)));
 
     const longSideForDisplay =
         displayLongSide * dpr * requestedScale * 1.75;
@@ -1979,211 +2186,19 @@ async function getCachedDividerBitmap(state, bounds, revision) {
     };
 }
 
-function resizePreviewCanvas() {
-    const bounds = dividerPreviewHost.getBoundingClientRect();
-    const dpr = Math.min(window.devicePixelRatio || 1, 3);
-
-    const pixelWidth = Math.max(1, Math.min(BITMAP_MAX_LONG_SIDE, Math.round(bounds.width * dpr)));
-    const pixelHeight = Math.max(1, Math.min(BITMAP_MAX_LONG_SIDE, Math.round(bounds.height * dpr)));
-
-    if (previewCanvas.width !== pixelWidth || previewCanvas.height !== pixelHeight) {
-        previewCanvas.width = pixelWidth;
-        previewCanvas.height = pixelHeight;
-    }
-
-    previewContext.setTransform(
-        previewCanvas.width / Math.max(bounds.width, 1),
-        0,
-        0,
-        previewCanvas.height / Math.max(bounds.height, 1),
-        0,
-        0
-    );
-
-    previewContext.imageSmoothingEnabled = true;
-    previewContext.imageSmoothingQuality = 'high';
-
-    return bounds;
-}
-
-function getAnimationProgress(timestamp, durationSeconds) {
-    const durationMs = Math.max(100, Number(durationSeconds || 10) * 1000);
-    const elapsed = (timestamp - animationStartedAt) / durationMs;
-    const cycle = elapsed % 2;
-    return cycle <= 1 ? cycle : 2 - cycle;
-}
-
-// Keep both end edges outside the viewport, even while a copy is transparent.
-// The selected duration is the interval between handoffs. A copy repeats after
-// two handoffs; its visible travel includes the fade overlap with the next copy.
-function getOneDirectionTiming(state) {
-    const duration = Math.max(0.1, Number(state.animationLength) || 10);
-    const cycleDuration = 2 * duration;
-    const fadeSeconds = Math.min(duration * 0.25, Math.max(duration * 0.08, 1));
-    return { duration, cycleDuration, fade: fadeSeconds / cycleDuration, inset: 0.02 };
-}
-
-function getOneDirectionFrame(state, elapsedSeconds, copy = 0) {
-    if (Number(state.animationLongAxis) <= 1) return { progress: 0, opacity: copy ? 0 : 1 };
-    const { cycleDuration, fade, inset } = getOneDirectionTiming(state);
-    // Begin with the first copy fully visible and the other fully hidden.
-    const phase = ((elapsedSeconds / cycleDuration + 2 * fade + copy * 0.5) % 1 + 1) % 1;
-    const activeEnd = 0.5 + 2 * fade;
-    return {
-        progress: inset + Math.min(1, phase / activeEnd) * (1 - 2 * inset),
-        opacity: Math.max(0, Math.min(1, phase / fade, (activeEnd - phase) / fade))
-    };
-}
-
-function getDepthLayers(state) {
-    if (!state.animate || !state.depthLayers) return [{ state, opacity: 1, offset: 0, scale: 1 }];
-    return [
-        { opacity: 0.25, speed: 1.9, scale: 1, phase: 0 },
-        { opacity: 0.5, speed: 1.4, scale: 0.85, phase: 0.27 },
-        { opacity: 1, speed: 1, scale: 0.7, phase: 0.53 }
-    ].map((layer, index) => {
-        const duration = (Number(state.animationLength) || 10) * layer.speed;
-        const offset = 2 * duration * layer.phase;
-        return {
-            ...layer, offset,
-            state: {
-                ...state, depthLayers: false, depthScale: layer.scale,
-                key: state.key + '-depth-' + index,
-                shortAxis: (Number(state.shortAxis) || 0) * layer.scale,
-                animationLength: duration, animationOffset: offset
-            }
-        };
-    });
-}
-
 function usesDepthLayers() {
     return getSvgExportStates().some((state) => state.animate && state.depthLayers);
 }
 
-let depthLayerCanvas;
-function drawDepthLayers(bitmap, state, timestamp, context, bounds) {
-    if (!depthLayerCanvas) depthLayerCanvas = document.createElement('canvas');
-    if (depthLayerCanvas.width !== previewCanvas.width) depthLayerCanvas.width = previewCanvas.width;
-    if (depthLayerCanvas.height !== previewCanvas.height) depthLayerCanvas.height = previewCanvas.height;
-    const layerContext = depthLayerCanvas.getContext('2d');
-    layerContext.setTransform(context.getTransform());
-    layerContext.imageSmoothingEnabled = true;
-    layerContext.imageSmoothingQuality = 'high';
-    getDepthLayers(state).forEach((layer) => {
-        drawDividerBitmap(bitmap, layer.state, timestamp + layer.offset * 1000, { context: layerContext, bounds });
-        context.save();
-        context.globalAlpha = layer.opacity;
-        context.drawImage(depthLayerCanvas, 0, 0, bounds.width, bounds.height);
-        context.restore();
+function drawDividerBitmap(bitmap, state, timestamp = performance.now()) {
+    const bounds = dividerPreviewHost.getBoundingClientRect();
+    resizeDividerCanvas(previewContext, bounds);
+    drawRasterDivider(bitmap, state, (timestamp - animationStartedAt) / 1000, {
+        context: previewContext,
+        bounds,
+        preserveAspectRatio: getPreserveAspectRatio(svgDividers[state.shapeIndex][state.direction]),
+        extraShortAxis: getPreviewExtraShortAxis(state)
     });
-}
-
-function drawDividerBitmap(bitmap, state, timestamp = performance.now(), target = {}) {
-    const bounds = target.bounds || resizePreviewCanvas();
-    const context = target.context || previewContext;
-    const width = bounds.width;
-    const height = bounds.height;
-
-    context.clearRect(0, 0, width, height);
-
-    if (state.animate && state.depthLayers) {
-        drawDepthLayers(bitmap, state, timestamp, context, bounds);
-        return;
-    }
-
-    const horizontal = state.direction === 'top' || state.direction === 'bottom';
-    const shortAxis = getPreviewShortAxis(state);
-    const longAxisScale = Math.max(0, Number(state.longAxis) / 100 || 0);
-    const animationScale = Math.max(1, Number(state.animationLongAxis) || 1);
-    const position = Math.max(0, Math.min(100, Number(state.position) || 0)) / 100;
-    const animationProgress = state.animate
-        ? getAnimationProgress(timestamp, state.animationLength)
-        : 0;
-
-    let drawWidth;
-    let drawHeight;
-    let x;
-    let y;
-
-    if (horizontal) {
-        if (state.animate) {
-            drawWidth = width * animationScale;
-            drawHeight = shortAxis * (state.ratio ? animationScale : 1);
-            x = -(drawWidth - width) * (1 - animationProgress);
-        } else {
-            drawWidth = width * longAxisScale;
-            drawHeight = shortAxis;
-            x = (width - drawWidth) * position;
-        }
-
-        y = state.direction === 'bottom' ? height - drawHeight : 0;
-    } else {
-        if (state.animate) {
-            drawHeight = height * animationScale;
-            drawWidth = shortAxis * (state.ratio ? animationScale : 1);
-            y = -(drawHeight - height) * (1 - animationProgress);
-        } else {
-            drawWidth = shortAxis;
-            drawHeight = height * longAxisScale;
-            y = (height - drawHeight) * position;
-        }
-
-        x = state.direction === 'right' ? width - drawWidth : 0;
-    }
-
-    context.save();
-
-    if (state.flipped && !state.animate) {
-        if (horizontal) {
-            context.translate(width, 0);
-            context.scale(-1, 1);
-        } else {
-            context.translate(0, height);
-            context.scale(1, -1);
-        }
-    }
-
-    const rawSvg = svgDividers[state.shapeIndex][state.direction];
-    const preserveAspectRatio = getPreserveAspectRatio(rawSvg);
-
-    if (state.animate && state.oneDirection && state.mirrorLoop) {
-        const tileLength = horizontal ? drawWidth : drawHeight;
-        const tileStep = Math.max(1, tileLength - 1);
-        const { cycleDuration } = getOneDirectionTiming(state);
-        const phase = (((timestamp - animationStartedAt) / 1000 / cycleDuration) % 1 + 1) % 1;
-        const offset = -2 * tileStep + 2 * tileStep * phase;
-        for (let tile = 0; tile < 4; tile++) {
-            const start = offset + tile * tileStep - 0.5;
-            if (start >= (horizontal ? width : height) || start + tileLength <= 0) continue;
-            context.save();
-            context.translate(horizontal ? start : x, horizontal ? y : start);
-            if (tile % 2) {
-                context.translate(horizontal ? drawWidth : 0, horizontal ? 0 : drawHeight);
-                context.scale(horizontal ? -1 : 1, horizontal ? 1 : -1);
-            }
-            drawImagePreservingSvgAspectRatio(context, bitmap, 0, 0, drawWidth, drawHeight, preserveAspectRatio);
-            context.restore();
-        }
-        context.restore();
-        return;
-    }
-
-    const copies = state.animate && state.oneDirection ? 2 : 1;
-    for (let copy = 0; copy < copies; copy++) {
-        let copyX = x;
-        let copyY = y;
-        if (state.animate && state.oneDirection) {
-            const frame = getOneDirectionFrame(state, (timestamp - animationStartedAt) / 1000, copy);
-            context.globalAlpha = frame.opacity;
-            if (horizontal) copyX = -(drawWidth - width) * (1 - frame.progress);
-            else copyY = -(drawHeight - height) * (1 - frame.progress);
-        }
-        drawImagePreservingSvgAspectRatio(
-            context, bitmap, copyX, copyY, drawWidth, drawHeight, preserveAspectRatio
-        );
-    }
-
-    context.restore();
 }
 
 function stopPreviewAnimation() {
@@ -4377,7 +4392,7 @@ ${mobileAnimate?`
  
 const shareLink = document.getElementById('share');
 const shareLabel = shareLink.querySelector('[data-share-label]');
-const shareDefaultLabel = shareLabel?.textContent || 'Share Your Design';
+const shareDefaultLabel = shareLabel?.textContent || 'Share Your Design / Save Progress';
 let shareFeedbackTimeout;
 
 shareLink.addEventListener("click", async () => {
@@ -5301,113 +5316,70 @@ async function ensureShapeDataLoaded() {
     });
 }
 
-// The homepage ships raster artwork. These canvases are independent of the
-// creator's shape library, viewport controls, and exported animation code.
-function drawHomepageScroll(context, width, height, time, {
-    duration, offset, fade, scale, start, end, opacity = 1
-}, draw) {
-    const travelEnd = 0.5 + 2 * fade;
-    for (const copy of [0, 0.5]) {
-        const phase = (time / duration + offset + copy) % 1;
-        const alpha = Math.max(0, Math.min(1, phase / fade, (travelEnd - phase) / fade));
-        if (!alpha) continue;
-        const translate = start + (end - start) * phase / travelEnd;
-        const x = width * (1 - scale + scale * translate);
-        context.globalAlpha = opacity * alpha;
-        draw(x, width * scale, height);
-    }
-    context.globalAlpha = 1;
-}
-
-function drawHomepageWave(context, image, width, height, time) {
-    // The atlas has 32 samples of the light cycle in eight rows.
-    const frame = Math.floor(time * 32 / 20) % 32;
-    const frameWidth = image.width / 4;
-    const frameHeight = image.height / 8;
-    const drawHeight = 140 + (window.innerWidth >= 2100 ? window.innerWidth * 0.02 : 0);
-    drawHomepageScroll(context, width, drawHeight, time, {
-        duration: 20, offset: 0.1, fade: 0.05, scale: 4, start: 0.015, end: 0.735
-    }, (x, drawWidth, drawHeight) => {
-        context.drawImage(image, (frame % 4) * frameWidth, Math.floor(frame / 4) * frameHeight,
-            frameWidth, frameHeight, x, height - drawHeight, drawWidth, drawHeight);
-    });
-}
-
-function drawHomepageSurf(context, image, width, height, time) {
-    const shortAxis = 51 + (window.innerWidth >= 2100 ? window.innerWidth * 0.02 : 0);
-    const layers = [
-        { duration: 98.8, offset: 0.08, heightScale: 1, opacity: 0.25 },
-        { duration: 72.8, offset: 0.35, heightScale: 0.85, opacity: 0.5 },
-        { duration: 52, offset: 0.61, heightScale: 0.7, opacity: 1 }
-    ];
-    for (const layer of layers) {
-        drawHomepageScroll(context, width, shortAxis * layer.heightScale * 2.4, time, {
-            ...layer, fade: 0.04, scale: 2.4, start: 0.01166667, end: 0.57166667
-        }, (x, drawWidth, drawHeight) => {
-            // Match the source's xMidYMin slice alignment.
-            const fit = Math.max(drawWidth / image.width, drawHeight / image.height);
-            const sourceWidth = drawWidth / fit;
-            const sourceHeight = drawHeight / fit;
-            context.drawImage(image, (image.width - sourceWidth) / 2, 0, sourceWidth, sourceHeight,
-                x, height - drawHeight, drawWidth, drawHeight);
-        });
-    }
-}
-
-function drawHomepageClouds(context, image, width, height, time) {
-    const drawHeight = height - (window.innerWidth < 2100 ? window.innerWidth * 0.02 : 0);
-    const step = Math.max(1, 1.4 * width - 1);
-    const offset = 2 * step * ((time / 72) % 1 - 1);
-    for (let tile = 0; tile < 4; tile++) {
-        const x = offset + tile * step;
-        if (x + step + 1 <= 0 || x >= width) continue;
-        context.save();
-        const mirrored = tile % 2 === 1;
-        context.translate(mirrored ? x + step + 1 : x, height - drawHeight);
-        if (mirrored) context.scale(-1, 1);
-        context.drawImage(image, 0, 0, step + 1, drawHeight);
-        context.restore();
-    }
-}
-
+// Preload the raster artwork independently of the creator's shape library.
 function initializeHomepageDividers() {
     const assetRoot = 'https://cdn.jsdelivr.net/gh/maximedesro/githubcourse@core/shapedividers/homepage-media/';
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const tablet = window.matchMedia('(min-width: 768px)');
     const desktop = window.matchMedia('(min-width: 1025px)');
     const artwork = {
-        'homepage-wave': { file: 'wave-light', draw: drawHomepageWave },
-        'homepage-surf': { file: 'surf', draw: drawHomepageSurf },
-        'homepage-clouds': { file: 'clouds', draw: drawHomepageClouds }
+        'homepage-wave': {
+            file: 'wave-light', shortAxis: 140,
+            state: { animate: true, oneDirection: true, animationLength: 10, animationLongAxis: 4 }
+        },
+        'homepage-surf': {
+            file: 'surf-v2', shortAxis: 51,
+            state: { animate: true, oneDirection: true, depthLayers: true, ratio: true, animationLength: 26, animationLongAxis: 2.4 },
+            // Keep the solid base at the section join when the source is cropped.
+            preserveAspectRatio: { none: false, alignX: 'Mid', alignY: 'Max', mode: 'slice' }
+        },
+        'homepage-clouds': {
+            file: 'clouds',
+            state: { animate: true, oneDirection: true, mirrorLoop: true, animationLength: 36, animationLongAxis: 1.4 }
+        }
     };
 
     document.querySelectorAll('canvas.landing-divider[data-home-shape]').forEach(canvas => {
-        const context = canvas.getContext('2d');
+        const context = canvas.getContext('2d', { alpha: true, desynchronized: true });
         if (!context) return;
         const isFire = canvas.id === 'homepage-fire';
         const art = artwork[canvas.id];
         if (!isFire && !art) return;
 
+        const isWave = canvas.id === 'homepage-wave';
+        const lightFrame = isWave ? document.createElement('canvas').getContext('2d') : null;
+        const state = { key: canvas.id, direction: 'bottom', longAxis: 100, ...art?.state };
+        const target = { context, preserveAspectRatio: art?.preserveAspectRatio || { none: true } };
+
         let visible = false;
         let mediaFile;
         let image;
         let video;
-        let width = 0;
-        let height = 0;
+        let lightSample = -1;
         let frameId = 0;
         let previousFrame = 0;
         let elapsed = 0;
 
         function paint() {
-            if (!width || !height) return;
-            const frame = isFire && !reducedMotion.matches && video?.readyState >= 2 ? video : image;
-            if (!frame) return;
-            context.clearRect(0, 0, width, height);
-            if (isFire) {
-                context.drawImage(frame, 0, 0, width, height);
-            } else {
-                art.draw(context, frame, width, height, reducedMotion.matches ? 0 : elapsed);
+            if (!target.bounds.width || !target.bounds.height) return;
+            let bitmap = isFire && !reducedMotion.matches && video?.readyState >= 2 ? video : image;
+            if (!bitmap) return;
+            const time = reducedMotion.matches ? 0 : elapsed;
+            if (lightFrame) {
+                // The light cycle contains 32 samples arranged in a 4 by 8 atlas.
+                const sample = Math.floor(time * 32 / 20) % 32;
+                if (sample !== lightSample) {
+                    const width = bitmap.width / 4;
+                    const height = bitmap.height / 8;
+                    lightFrame.canvas.width = width;
+                    lightFrame.canvas.height = height;
+                    lightFrame.drawImage(bitmap, (sample % 4) * width, Math.floor(sample / 4) * height,
+                        width, height, 0, 0, width, height);
+                    lightSample = sample;
+                }
+                bitmap = lightFrame.canvas;
             }
+            drawRasterDivider(bitmap, state, time, target);
         }
 
         function tick(timestamp) {
@@ -5421,22 +5393,12 @@ function initializeHomepageDividers() {
             frameId = requestAnimationFrame(tick);
         }
 
-        function sync() {
-            const active = visible && !document.hidden;
-            if (!active || reducedMotion.matches) {
-                cancelAnimationFrame(frameId);
-                frameId = 0;
-                previousFrame = 0;
-                video?.pause();
-            }
-            if (!active) return;
-
+        function loadArtwork() {
             const nextFile = isFire
                 ? 'fire-' + (desktop.matches ? 'desktop' : tablet.matches ? 'tablet' : 'mobile')
                 : art.file;
             if (nextFile !== mediaFile) {
                 mediaFile = nextFile;
-                image = undefined;
                 if (video) {
                     video.pause();
                     video.removeAttribute('src');
@@ -5444,6 +5406,7 @@ function initializeHomepageDividers() {
                     video = undefined;
                 }
                 const poster = new Image();
+                poster.decoding = 'async';
                 poster.onload = () => {
                     if (nextFile !== mediaFile) return;
                     image = poster;
@@ -5451,35 +5414,43 @@ function initializeHomepageDividers() {
                 };
                 poster.src = assetRoot + nextFile + '.webp';
             }
-
-            if (isFire && !reducedMotion.matches) {
-                if (!video) {
-                    video = document.createElement('video');
-                    video.muted = true;
-                    video.loop = true;
-                    video.playsInline = true;
-                    video.src = assetRoot + nextFile + '.mp4';
-                }
-                if (video.paused) video.play().catch(() => {
-                    // The poster remains visible if autoplay is unavailable.
-                });
+            if (isFire && !video && !reducedMotion.matches) {
+                video = document.createElement('video');
+                video.muted = true;
+                video.loop = true;
+                video.playsInline = true;
+                video.preload = 'auto';
+                video.src = assetRoot + nextFile + '.mp4';
             }
+        }
+
+        function sync() {
+            loadArtwork();
             paint();
-            if (!reducedMotion.matches && !frameId) frameId = requestAnimationFrame(tick);
+
+            if (!visible || document.hidden || reducedMotion.matches) {
+                cancelAnimationFrame(frameId);
+                frameId = 0;
+                previousFrame = 0;
+                video?.pause();
+                return;
+            }
+            if (video?.paused) video.play().catch(() => {
+                // The poster remains visible if playback is unavailable.
+            });
+            if (!frameId) frameId = requestAnimationFrame(tick);
         }
 
         function resize() {
             const bounds = canvas.getBoundingClientRect();
-            width = bounds.width;
-            height = bounds.height;
-            const dpr = Math.min(window.devicePixelRatio || 1, 2);
-            canvas.width = Math.max(1, Math.round(width * dpr));
-            canvas.height = Math.max(1, Math.round(height * dpr));
-            context.setTransform(canvas.width / Math.max(width, 1), 0, 0,
-                canvas.height / Math.max(height, 1), 0, 0);
+            target.bounds = bounds;
+            target.extraShortAxis = !isFire && window.innerWidth >= 2100 ? window.innerWidth * 0.02 : 0;
+            state.shortAxis = isFire ? bounds.height : art.shortAxis ?? bounds.height - window.innerWidth * 0.02;
+            resizeDividerCanvas(context, bounds, 2);
             sync();
         }
 
+        resize();
         new ResizeObserver(resize).observe(canvas);
         new IntersectionObserver(([entry]) => {
             visible = entry.isIntersecting;
