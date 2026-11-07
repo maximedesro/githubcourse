@@ -5301,6 +5301,197 @@ async function ensureShapeDataLoaded() {
     });
 }
 
+// The homepage ships raster artwork. These canvases are independent of the
+// creator's shape library, viewport controls, and exported animation code.
+function drawHomepageScroll(context, width, height, time, {
+    duration, offset, fade, scale, start, end, opacity = 1
+}, draw) {
+    const travelEnd = 0.5 + 2 * fade;
+    for (const copy of [0, 0.5]) {
+        const phase = (time / duration + offset + copy) % 1;
+        const alpha = Math.max(0, Math.min(1, phase / fade, (travelEnd - phase) / fade));
+        if (!alpha) continue;
+        const translate = start + (end - start) * phase / travelEnd;
+        const x = width * (1 - scale + scale * translate);
+        context.globalAlpha = opacity * alpha;
+        draw(x, width * scale, height);
+    }
+    context.globalAlpha = 1;
+}
+
+function drawHomepageWave(context, image, width, height, time) {
+    // The atlas has 32 samples of the light cycle in eight rows.
+    const frame = Math.floor(time * 32 / 20) % 32;
+    const frameWidth = image.width / 4;
+    const frameHeight = image.height / 8;
+    const drawHeight = 140 + (window.innerWidth >= 2100 ? window.innerWidth * 0.02 : 0);
+    drawHomepageScroll(context, width, drawHeight, time, {
+        duration: 20, offset: 0.1, fade: 0.05, scale: 4, start: 0.015, end: 0.735
+    }, (x, drawWidth, drawHeight) => {
+        context.drawImage(image, (frame % 4) * frameWidth, Math.floor(frame / 4) * frameHeight,
+            frameWidth, frameHeight, x, height - drawHeight, drawWidth, drawHeight);
+    });
+}
+
+function drawHomepageSurf(context, image, width, height, time) {
+    const shortAxis = 51 + (window.innerWidth >= 2100 ? window.innerWidth * 0.02 : 0);
+    const layers = [
+        { duration: 98.8, offset: 0.08, heightScale: 1, opacity: 0.25 },
+        { duration: 72.8, offset: 0.35, heightScale: 0.85, opacity: 0.5 },
+        { duration: 52, offset: 0.61, heightScale: 0.7, opacity: 1 }
+    ];
+    for (const layer of layers) {
+        drawHomepageScroll(context, width, shortAxis * layer.heightScale * 2.4, time, {
+            ...layer, fade: 0.04, scale: 2.4, start: 0.01166667, end: 0.57166667
+        }, (x, drawWidth, drawHeight) => {
+            // Match the source's xMidYMin slice alignment.
+            const fit = Math.max(drawWidth / image.width, drawHeight / image.height);
+            const sourceWidth = drawWidth / fit;
+            const sourceHeight = drawHeight / fit;
+            context.drawImage(image, (image.width - sourceWidth) / 2, 0, sourceWidth, sourceHeight,
+                x, height - drawHeight, drawWidth, drawHeight);
+        });
+    }
+}
+
+function drawHomepageClouds(context, image, width, height, time) {
+    const drawHeight = height - (window.innerWidth < 2100 ? window.innerWidth * 0.02 : 0);
+    const step = Math.max(1, 1.4 * width - 1);
+    const offset = 2 * step * ((time / 72) % 1 - 1);
+    for (let tile = 0; tile < 4; tile++) {
+        const x = offset + tile * step;
+        if (x + step + 1 <= 0 || x >= width) continue;
+        context.save();
+        const mirrored = tile % 2 === 1;
+        context.translate(mirrored ? x + step + 1 : x, height - drawHeight);
+        if (mirrored) context.scale(-1, 1);
+        context.drawImage(image, 0, 0, step + 1, drawHeight);
+        context.restore();
+    }
+}
+
+function initializeHomepageDividers() {
+    const assetRoot = 'https://cdn.jsdelivr.net/gh/maximedesro/githubcourse@core/shapedividers/homepage-media/';
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const tablet = window.matchMedia('(min-width: 768px)');
+    const desktop = window.matchMedia('(min-width: 1025px)');
+    const artwork = {
+        'homepage-wave': { file: 'wave-light', draw: drawHomepageWave },
+        'homepage-surf': { file: 'surf', draw: drawHomepageSurf },
+        'homepage-clouds': { file: 'clouds', draw: drawHomepageClouds }
+    };
+
+    document.querySelectorAll('canvas.landing-divider[data-home-shape]').forEach(canvas => {
+        const context = canvas.getContext('2d');
+        if (!context) return;
+        const isFire = canvas.id === 'homepage-fire';
+        const art = artwork[canvas.id];
+        if (!isFire && !art) return;
+
+        let visible = false;
+        let mediaFile;
+        let image;
+        let video;
+        let width = 0;
+        let height = 0;
+        let frameId = 0;
+        let previousFrame = 0;
+        let elapsed = 0;
+
+        function paint() {
+            if (!width || !height) return;
+            const frame = isFire && !reducedMotion.matches && video?.readyState >= 2 ? video : image;
+            if (!frame) return;
+            context.clearRect(0, 0, width, height);
+            if (isFire) {
+                context.drawImage(frame, 0, 0, width, height);
+            } else {
+                art.draw(context, frame, width, height, reducedMotion.matches ? 0 : elapsed);
+            }
+        }
+
+        function tick(timestamp) {
+            if (!previousFrame) previousFrame = timestamp;
+            const delta = timestamp - previousFrame;
+            if (delta >= 1000 / 32) {
+                elapsed += delta / 1000;
+                previousFrame = timestamp;
+                paint();
+            }
+            frameId = requestAnimationFrame(tick);
+        }
+
+        function sync() {
+            const active = visible && !document.hidden;
+            if (!active || reducedMotion.matches) {
+                cancelAnimationFrame(frameId);
+                frameId = 0;
+                previousFrame = 0;
+                video?.pause();
+            }
+            if (!active) return;
+
+            const nextFile = isFire
+                ? 'fire-' + (desktop.matches ? 'desktop' : tablet.matches ? 'tablet' : 'mobile')
+                : art.file;
+            if (nextFile !== mediaFile) {
+                mediaFile = nextFile;
+                image = undefined;
+                if (video) {
+                    video.pause();
+                    video.removeAttribute('src');
+                    video.load();
+                    video = undefined;
+                }
+                const poster = new Image();
+                poster.onload = () => {
+                    if (nextFile !== mediaFile) return;
+                    image = poster;
+                    paint();
+                };
+                poster.src = assetRoot + nextFile + '.webp';
+            }
+
+            if (isFire && !reducedMotion.matches) {
+                if (!video) {
+                    video = document.createElement('video');
+                    video.muted = true;
+                    video.loop = true;
+                    video.playsInline = true;
+                    video.src = assetRoot + nextFile + '.mp4';
+                }
+                if (video.paused) video.play().catch(() => {
+                    // The poster remains visible if autoplay is unavailable.
+                });
+            }
+            paint();
+            if (!reducedMotion.matches && !frameId) frameId = requestAnimationFrame(tick);
+        }
+
+        function resize() {
+            const bounds = canvas.getBoundingClientRect();
+            width = bounds.width;
+            height = bounds.height;
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            canvas.width = Math.max(1, Math.round(width * dpr));
+            canvas.height = Math.max(1, Math.round(height * dpr));
+            context.setTransform(canvas.width / Math.max(width, 1), 0, 0,
+                canvas.height / Math.max(height, 1), 0, 0);
+            sync();
+        }
+
+        new ResizeObserver(resize).observe(canvas);
+        new IntersectionObserver(([entry]) => {
+            visible = entry.isIntersecting;
+            sync();
+        }).observe(canvas);
+        reducedMotion.addEventListener('change', sync);
+        document.addEventListener('visibilitychange', sync);
+    });
+}
+
+initializeHomepageDividers();
+
 (async function bootShapeDividersApp() {
     let loadTimeout;
     try {
