@@ -1494,22 +1494,31 @@ function getMotionSparksLayout(state, namespace) {
     layout.declarations['z-index'] = '4';
     return layout;
 }
-function buildMotionSparksSvg(state, namespace) {
-    const e = state.effects || motionFields;
-    if (!state.animate || !e.sparks) return '';
-    const level = Number(e.intensity);
+function getMotionSparkParticles(state) {
+    const level = Number(state.effects.intensity);
     const count = SD_MOTION_RECIPES['creative-sparks'].counts[level];
     const size = SD_MOTION_RECIPES['creative-sparks'].sizes[level];
     const pace = Math.max(.1,Number(state.animationLength)||10)/10;
+    return Array.from({length:count}, (_, i) => {
+        const flight = (4.7 + (i % 7) * .47) * pace;
+        return {
+            x: ((i + .5) * 1200 / count).toFixed(2),
+            flight,
+            delay: -flight * ((i * .61803398875) % 1),
+            drift: (i * 17) % 49 - 24,
+            stroke: (size * (.7 + (i % 4) * .1)).toFixed(2)
+        };
+    });
+}
+
+function buildMotionSparksSvg(state, namespace) {
+    const e = state.effects || motionFields;
+    if (!state.animate || !e.sparks) return '';
     const name = namespace+'-spark';
-    const particles = Array.from({length:count},(_,i) => {
-        const x = ((i+.5)*1200/count).toFixed(2);
-        const flight = (4.7+(i%7)*.47)*pace;
-        const delay = -flight*((i*.61803398875)%1);
-        const drift = ((i*17)%49)-24;
+    const particles = getMotionSparkParticles(state).map(({x, flight, delay, drift, stroke}) => {
         // A tiny round-capped stroke stays circular in screen pixels, including
         // vertical dividers and very short or wide SVG viewports.
-        return '<g transform="translate('+x+' 0)"><path class="'+name+'" d="M0 0h.001" fill="none" stroke="'+e.sparkColor+'" stroke-width="'+(size*(.7+(i%4)*.1)).toFixed(2)+'" stroke-linecap="round" vector-effect="non-scaling-stroke" style="--flight:'+flight+'s;--delay:'+delay+'s;--drift:'+drift+'px"/></g>';
+        return '<g transform="translate('+x+' 0)"><path class="'+name+'" d="M0 0h.001" fill="none" stroke="'+e.sparkColor+'" stroke-width="'+stroke+'" stroke-linecap="round" vector-effect="non-scaling-stroke" style="--flight:'+flight+'s;--delay:'+delay+'s;--drift:'+drift+'px"/></g>';
     }).join('');
     const transforms = {bottom:'',top:'translate(0 320) scale(1 -1)',left:'translate(320 0) rotate(90)',right:'translate(0 1200) rotate(-90)'};
     const vertical = state.direction === 'left' || state.direction === 'right';
@@ -5325,14 +5334,96 @@ function getHomepageDividerState(params, key) {
     };
 }
 
-async function initializeHomepageCanvas(canvas, state, reducedMotion) {
+// Sample the numeric SMIL tracks in the homepage's filter recipes before
+// rasterizing. These SVG documents never become part of the page.
+function getHomepageMotionFrames(state, namespace) {
+    const root = new DOMParser().parseFromString(buildMotionSvg(state, namespace), 'image/svg+xml').documentElement;
+    const still = root.querySelector('.' + namespace + '-still');
+    root.querySelector('style').remove();
+    still.remove();
+
+    const tracks = [...root.querySelectorAll('animate')].map(animation => {
+        const element = animation.parentElement;
+        const attribute = animation.getAttribute('attributeName');
+        const duration = parseFloat(animation.getAttribute('dur'));
+        const values = animation.getAttribute('values').split(';').map(Number);
+        const times = animation.getAttribute('keyTimes')?.split(';').map(Number) ??
+            values.map((_, i) => i / (values.length - 1));
+        const splines = animation.getAttribute('keySplines')?.split(';').map(value => value.trim().split(/\s+/).map(Number));
+        animation.remove();
+        return { element, attribute, duration, values, times, splines };
+    });
+
+    const serializer = new XMLSerializer();
+    const stillRoot = root.cloneNode(false);
+    stillRoot.append(root.querySelector('defs').cloneNode(true), still);
+    const stillMarkup = serializer.serializeToString(stillRoot);
+
+    return elapsed => {
+        if (elapsed === null) return stillMarkup;
+        tracks.forEach(({ element, attribute, duration, values, times, splines }) => {
+            const phase = (elapsed % duration) / duration;
+            const index = times.findIndex(time => time > phase) - 1;
+            let progress = (phase - times[index]) / (times[index + 1] - times[index]);
+            if (splines) progress = sampleHomepageSpline(progress, splines[index]);
+            const value = values[index] + (values[index + 1] - values[index]) * progress;
+            element.setAttribute(attribute, value.toFixed(4));
+        });
+        return serializer.serializeToString(root);
+    };
+}
+
+function sampleHomepageSpline(progress, [x1, y1, x2, y2]) {
+    const cubic = (t, a, b) => 3 * (1 - t) ** 2 * t * a + 3 * (1 - t) * t ** 2 * b + t ** 3;
+    let low = 0;
+    let high = 1;
+    for (let i = 0; i < 14; i++) {
+        const t = (low + high) / 2;
+        if (cubic(t, x1, x2) < progress) low = t;
+        else high = t;
+    }
+    return cubic((low + high) / 2, y1, y2);
+}
+
+function drawHomepageSparks(context, bounds, state, particles, elapsed) {
+    context.save();
+    context.fillStyle = state.effects.sparkColor;
+    for (const {x, flight, delay, drift, stroke} of particles) {
+        const progress = ((elapsed - delay) % flight) / flight;
+        const opacity = progress < .15 ? .8 * progress / .15
+            : progress < .55 ? .8 - .2 * (progress - .15) / .4
+            : .6 * (1 - (progress - .55) / .2);
+        if (opacity <= 0) continue;
+        context.globalAlpha = opacity;
+        context.beginPath();
+        context.arc((Number(x) + drift * progress) * bounds.width / 1200,
+            bounds.height - state.shortAxis * (60 + 285 * progress) / 320, Number(stroke) / 2, 0, 2 * Math.PI);
+        context.fill();
+    }
+    context.restore();
+}
+
+async function initializeHomepageCanvas(canvas, getState, reducedMotion) {
     const context = canvas.getContext('2d', { alpha: true, desynchronized: true });
     if (!context) return;
-    const rawSvg = svgDividers[state.shapeIndex][state.direction];
-    const preserveAspectRatio = getPreserveAspectRatio(rawSvg);
+    const preset = getState();
+    const rawSvg = svgDividers[preset.shapeIndex][preset.direction];
+    const advanced = hasMotionEffects(preset);
+    const localMotion = advanced && preset.effects.motion !== 'scroll';
+    const sampleRate = localMotion ? 20 : 8;
+    const sourceAspectRatio = getSvgAspectRatio(rawSvg);
+    const preserveAspectRatio = localMotion ? { none: true } : getPreserveAspectRatio(rawSvg);
     // The bottom surf is cropped from its solid base at the section join.
     if (canvas.id === 'homepage-surf') preserveAspectRatio.alignY = 'Max';
+    const particles = preset.effects.sparks ? getMotionSparkParticles(preset) : [];
+    const getMarkup = advanced
+        ? getHomepageMotionFrames(preset, canvas.id + '-frame')
+        : () => buildShapeSvgMarkup(rawSvg, preset.color, preset.gradient, preset.gradientColor, preset.direction);
+
     const target = { context, preserveAspectRatio };
+    let bitmap;
+    let loading = false;
+    let sampledTime;
     let visible = false;
     let frameId = 0;
     let previousFrame = null;
@@ -5340,28 +5431,56 @@ async function initializeHomepageCanvas(canvas, state, reducedMotion) {
 
     function resize() {
         target.bounds = canvas.getBoundingClientRect();
-        target.extraShortAxis = window.innerWidth >= 2100 ? window.innerWidth * 0.02 : 0;
+        target.extraShortAxis = !localMotion && window.innerWidth >= 2100 ? window.innerWidth * 0.02 : 0;
         resizeDividerCanvas(context, target.bounds);
+        paint();
     }
 
-    resize();
-    const markup = buildShapeSvgMarkup(rawSvg, state.color, state.gradient, state.gradientColor, state.direction);
-    const bitmap = await rasterizeSvg(markup, getBitmapLongSide(state, target.bounds, target.extraShortAxis), true);
-
     function paint() {
-        drawRasterDivider(bitmap, state, reducedMotion.matches ? 0 : elapsed, target);
+        if (!bitmap) return;
+        const state = getState();
+        if (canvas.id === 'homepage-foliage') {
+            const aspect = target.bounds.width / getDividerShortAxis(state, target.extraShortAxis);
+            preserveAspectRatio.none = aspect > sourceAspectRatio;
+        }
+        const time = reducedMotion.matches ? 0 : elapsed;
+        drawRasterDivider(bitmap, localMotion ? {...state, animate: false, flipped: false} : state, time, target);
+        if (particles.length && !reducedMotion.matches) drawHomepageSparks(context, target.bounds, state, particles, time);
+    }
+
+    // Keep the SVG filter rasterization separate from the smooth canvas scroll.
+    // Quantize the filter updates and keep only the latest bitmap in memory.
+    function updateBitmap() {
+        const time = reducedMotion.matches ? null : Math.floor(elapsed * sampleRate) / sampleRate;
+        if (loading || (bitmap && (!advanced || sampledTime === time))) return;
+        loading = true;
+        const longSide = advanced ? (localMotion ? 1280 : 2560) :
+            getBitmapLongSide(preset, target.bounds, target.extraShortAxis);
+        rasterizeSvg(getMarkup(time), longSide, true).then(next => {
+            bitmap?.close?.();
+            bitmap = next;
+            sampledTime = time;
+            paint();
+        }).catch(error => {
+            console.error('ShapeDividers: homepage canvas rendering failed.', error);
+        }).finally(() => {
+            loading = false;
+            if (advanced && (time === null) !== reducedMotion.matches) updateBitmap();
+        });
     }
 
     function tick(timestamp) {
         if (previousFrame !== null) elapsed += (timestamp - previousFrame) / 1000;
         previousFrame = timestamp;
+        updateBitmap();
         paint();
         frameId = requestAnimationFrame(tick);
     }
 
     function sync() {
+        updateBitmap();
         paint();
-        if (visible && !document.hidden && state.animate && !reducedMotion.matches) {
+        if (visible && !document.hidden && preset.animate && !reducedMotion.matches) {
             if (!frameId) frameId = requestAnimationFrame(tick);
         } else {
             cancelAnimationFrame(frameId);
@@ -5372,11 +5491,8 @@ async function initializeHomepageCanvas(canvas, state, reducedMotion) {
 
     // Paint the first frame even when the divider is below the fold.
     resize();
-    paint();
-    new ResizeObserver(() => {
-        resize();
-        paint();
-    }).observe(canvas);
+    updateBitmap();
+    new ResizeObserver(resize).observe(canvas);
     new IntersectionObserver(([entry]) => {
         visible = entry.isIntersecting;
         sync();
@@ -5394,54 +5510,19 @@ function initializeHomepageDividers() {
     const desktop = window.matchMedia('(min-width: 1025px)');
 
     links.forEach(link => {
-        const host = document.getElementById(link.dataset.homeDivider);
-        if (!host) return;
+        const canvas = document.getElementById(link.dataset.homeDivider);
+        if (!(canvas instanceof HTMLCanvasElement)) return;
         const params = new URL(link.href).searchParams;
         const state = getHomepageDividerState(params, 'desktop');
         if (!state) return;
         const responsive = params.get('mobileReady') === 'true';
-
-        if (host instanceof HTMLCanvasElement) {
-            // Only clouds have responsive short axes among the canvas demos.
-            const tabletState = responsive && getHomepageDividerState(params, 'tablet');
-            const mobileState = responsive && getHomepageDividerState(params, 'mobile');
-            if (responsive) {
-                const desktopShortAxis = state.shortAxis;
-                function syncShortAxis() {
-                    state.shortAxis = (desktop.matches ? null : tablet.matches ? tabletState : mobileState)?.shortAxis ?? desktopShortAxis;
-                }
-                syncShortAxis();
-                tablet.addEventListener('change', syncShortAxis);
-                desktop.addEventListener('change', syncShortAxis);
-            }
-            initializeHomepageCanvas(host, state, reducedMotion).catch(error => {
-                console.error('ShapeDividers: homepage canvas rendering failed.', error);
-            });
-            return;
-        }
-
-        function render() {
-            const key = !responsive || desktop.matches ? 'desktop' : tablet.matches ? 'tablet' : 'mobile';
-            const nextState = key === 'desktop' ? state : getHomepageDividerState(params, key) || state;
-            renderMotionPreview(host, nextState, host.id);
-        }
-
-        render();
-        if (responsive) {
-            tablet.addEventListener('change', render);
-            desktop.addEventListener('change', render);
-        }
-
-        if (host.id === 'homepage-foliage') {
-            const rawSvg = svgDividers[state.shapeIndex][state.direction];
-            const preserve = rawSvg.match(/preserveAspectRatio="([^"]+)"/i)?.[1] || 'xMidYMid meet';
-            new ResizeObserver(([entry]) => {
-                const { width, height } = entry.contentRect;
-                // Keep both the solid top and the tips visible at wide aspect ratios.
-                const aspect = width * state.animationLongAxis / height > getSvgAspectRatio(rawSvg) ? 'none' : preserve;
-                host.querySelectorAll('svg:has(> use)').forEach(svg => svg.setAttribute('preserveAspectRatio', aspect));
-            }).observe(host);
-        }
+        const tabletState = responsive && getHomepageDividerState(params, 'tablet');
+        const mobileState = responsive && getHomepageDividerState(params, 'mobile');
+        // Responsive versions of each homepage example share the same artwork.
+        const getState = () => (desktop.matches ? state : tablet.matches ? tabletState : mobileState) || state;
+        initializeHomepageCanvas(canvas, getState, reducedMotion).catch(error => {
+            console.error('ShapeDividers: homepage canvas rendering failed.', error);
+        });
     });
 }
 }

@@ -28,7 +28,7 @@ const sandbox = {DOMParser:SourceParser,svgDividers:[{bottom:fixture,top:fixture
 vm.createContext(sandbox);
 vm.runInContext(app.slice(recipeStart,recipeEnd)+'\n'+fields+'\n'+[
     'getSvgViewBoxMetrics','normalizeSvgForCanvas','replaceSvgColorsWithPaint','replaceInlineSvgColorsWithCurrentColor',
-    'namespaceInlineSvgIds','buildMotionSparksSvg','getMotionSparksLayout','buildMotionSvg','hasMotionEffects','getMotionLayout',
+    'namespaceInlineSvgIds','getMotionSparkParticles','buildMotionSparksSvg','getMotionSparksLayout','buildMotionSvg','hasMotionEffects','getMotionLayout',
     'getSvgStateDeclarations','formatDeclarationRule','addClassToInlineSvg',
     'buildMotionExportCode','getPairedStateCss','getMirroredStateCss','getOneDirectionTiming','getOneDirectionFrame','getDepthLayers'
 ].map(fn).join('\n')+'\nthis.recipes=SD_MOTION_RECIPES;this.defaults=motionFields;',sandbox);
