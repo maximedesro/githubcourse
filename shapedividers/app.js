@@ -1951,7 +1951,7 @@ function getPreviewExtraShortAxis(state) {
     return 0;
 }
 
-function getBitmapLongSide(state, bounds) {
+function getBitmapLongSide(state, bounds, extraShortAxis = getPreviewExtraShortAxis(state)) {
     const dpr = Math.min(window.devicePixelRatio || 1, 3);
     const horizontal = state.direction === 'top' || state.direction === 'bottom';
     const displayLongSide = horizontal ? bounds.width : bounds.height;
@@ -1962,7 +1962,7 @@ function getBitmapLongSide(state, bounds) {
 
     const rawSvg = svgDividers[state.shapeIndex][state.direction];
     const aspectRatio = Math.max(getSvgAspectRatio(rawSvg), 0.0001);
-    const shortAxis = Math.max(1, getDividerShortAxis(state, getPreviewExtraShortAxis(state)));
+    const shortAxis = Math.max(1, getDividerShortAxis(state, extraShortAxis));
 
     const longSideForDisplay =
         displayLongSide * dpr * requestedScale * 1.75;
@@ -2208,6 +2208,24 @@ function stopPreviewAnimation() {
     }
 }
 
+function renderMotionPreview(host, state, namespace) {
+    if (state.oneDirection || state.depthLayers) {
+        host.innerHTML = buildPairedExportCode('svg', [{...state, key: state.key || 'preview'}], namespace + '-paired');
+        return;
+    }
+    const motionId = namespace + '-motion';
+    const sparksId = motionId + '-sparks';
+    const layout = getMotionLayout(state, motionId);
+    const sparksLayout = getMotionSparksLayout(state, sparksId);
+    const withStyle = (svg, declarations) => {
+        const style = Object.entries(declarations).map(([key, value]) => key + ':' + value).join(';');
+        return svg.replace('<svg ', '<svg style="' + style + '" ');
+    };
+    host.innerHTML = '<style>' + (layout.keyframes || '') + '</style>' +
+        withStyle(buildMotionSvg(state, motionId), layout.declarations) +
+        withStyle(buildMotionSparksSvg(state, sparksId), sparksLayout.declarations);
+}
+
 let motionPreviewHost;
 async function renderCanvasPreview(state) {
     latestPreviewState = state;
@@ -2222,16 +2240,7 @@ async function renderCanvasPreview(state) {
             dividerPreviewHost.appendChild(motionPreviewHost);
         }
         motionPreviewHost.hidden = false;
-        if (state.oneDirection || state.depthLayers) {
-            motionPreviewHost.innerHTML = buildPairedExportCode('svg',[{...state,key:state.key || 'preview'}],'sd-live-paired');
-            resolveInitialPreview();
-            return;
-        }
-        const namespace = 'sd-live-motion';
-        const layout = getMotionLayout(state,namespace);
-        const style = Object.entries(layout.declarations).map(([k,v])=>k+':'+v).join(';');
-        const sparksStyle = Object.entries(getMotionSparksLayout(state,namespace+'-sparks').declarations).map(([k,v])=>k+':'+v).join(';');
-        motionPreviewHost.innerHTML = '<style>'+(layout.keyframes || '')+'</style>'+buildMotionSvg(state,namespace).replace('<svg ','<svg style="'+style+'" ')+buildMotionSparksSvg(state,namespace+'-sparks').replace('<svg ','<svg style="'+sparksStyle+'" ');
+        renderMotionPreview(motionPreviewHost, state, 'sd-live');
         resolveInitialPreview();
         return;
     }
@@ -5283,7 +5292,158 @@ function formUpdate(clicked = '', refreshUrl = true) {
 }
 
 
+    initializeHomepageDividers();
     return initialPreviewReady;
+
+function getHomepageDividerState(params, key) {
+    const prefix = key === 'desktop' ? '' : key;
+    const get = (name) => params.get(prefix ? prefix + name[0].toUpperCase() + name.slice(1) : name);
+    const shapeId = params.get({ desktop: 'si', tablet: 'tsi', mobile: 'msi' }[key]);
+    const shapeIndex = svgDividers.findIndex(shape => String(shape.si) === shapeId);
+    const direction = get('dividerDirection');
+    if (!svgDividers[shapeIndex]?.[direction]) return null;
+
+    return {
+        key,
+        shapeIndex,
+        direction,
+        color: get('shapeColor'),
+        gradient: get('gradient') === 'true',
+        gradientColor: get('gradientColor'),
+        longAxis: Number(get('longAxisValue')),
+        shortAxis: Number(get('shortAxisValue')),
+        position: Number(get('positionValue')),
+        flipped: get('flipped') === 'true',
+        animate: get('animate') === 'true',
+        animationLength: Number(get('animLength')),
+        animationLongAxis: Number(get('animLongAxis')),
+        oneDirection: get('oneDirection') === 'true',
+        mirrorLoop: get('mirrorLoop') === 'true',
+        depthLayers: get('depthLayers') === 'true',
+        effects: normalizeMotionEffects(JSON.parse(get('effects'))),
+        ratio: get('shapeRatio') === 'true'
+    };
+}
+
+async function initializeHomepageCanvas(canvas, state, reducedMotion) {
+    const context = canvas.getContext('2d', { alpha: true, desynchronized: true });
+    if (!context) return;
+    const rawSvg = svgDividers[state.shapeIndex][state.direction];
+    const preserveAspectRatio = getPreserveAspectRatio(rawSvg);
+    // The bottom surf is cropped from its solid base at the section join.
+    if (canvas.id === 'homepage-surf') preserveAspectRatio.alignY = 'Max';
+    const target = { context, preserveAspectRatio };
+    let visible = false;
+    let frameId = 0;
+    let previousFrame = null;
+    let elapsed = 0;
+
+    function resize() {
+        target.bounds = canvas.getBoundingClientRect();
+        target.extraShortAxis = window.innerWidth >= 2100 ? window.innerWidth * 0.02 : 0;
+        resizeDividerCanvas(context, target.bounds);
+    }
+
+    resize();
+    const markup = buildShapeSvgMarkup(rawSvg, state.color, state.gradient, state.gradientColor, state.direction);
+    const bitmap = await rasterizeSvg(markup, getBitmapLongSide(state, target.bounds, target.extraShortAxis), true);
+
+    function paint() {
+        drawRasterDivider(bitmap, state, reducedMotion.matches ? 0 : elapsed, target);
+    }
+
+    function tick(timestamp) {
+        if (previousFrame !== null) elapsed += (timestamp - previousFrame) / 1000;
+        previousFrame = timestamp;
+        paint();
+        frameId = requestAnimationFrame(tick);
+    }
+
+    function sync() {
+        paint();
+        if (visible && !document.hidden && state.animate && !reducedMotion.matches) {
+            if (!frameId) frameId = requestAnimationFrame(tick);
+        } else {
+            cancelAnimationFrame(frameId);
+            frameId = 0;
+            previousFrame = null;
+        }
+    }
+
+    // Paint the first frame even when the divider is below the fold.
+    resize();
+    paint();
+    new ResizeObserver(() => {
+        resize();
+        paint();
+    }).observe(canvas);
+    new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        sync();
+    }).observe(canvas);
+    reducedMotion.addEventListener('change', sync);
+    document.addEventListener('visibilitychange', sync);
+}
+
+function initializeHomepageDividers() {
+    const links = document.querySelectorAll('[data-home-divider]');
+    if (!links.length) return;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const tablet = window.matchMedia('(min-width: 768px)');
+    const desktop = window.matchMedia('(min-width: 1025px)');
+
+    links.forEach(link => {
+        const host = document.getElementById(link.dataset.homeDivider);
+        if (!host) return;
+        const params = new URL(link.href).searchParams;
+        const state = getHomepageDividerState(params, 'desktop');
+        if (!state) return;
+        const responsive = params.get('mobileReady') === 'true';
+
+        if (host instanceof HTMLCanvasElement) {
+            // Only clouds have responsive short axes among the canvas demos.
+            const tabletState = responsive && getHomepageDividerState(params, 'tablet');
+            const mobileState = responsive && getHomepageDividerState(params, 'mobile');
+            if (responsive) {
+                const desktopShortAxis = state.shortAxis;
+                function syncShortAxis() {
+                    state.shortAxis = (desktop.matches ? null : tablet.matches ? tabletState : mobileState)?.shortAxis ?? desktopShortAxis;
+                }
+                syncShortAxis();
+                tablet.addEventListener('change', syncShortAxis);
+                desktop.addEventListener('change', syncShortAxis);
+            }
+            initializeHomepageCanvas(host, state, reducedMotion).catch(error => {
+                console.error('ShapeDividers: homepage canvas rendering failed.', error);
+            });
+            return;
+        }
+
+        function render() {
+            const key = !responsive || desktop.matches ? 'desktop' : tablet.matches ? 'tablet' : 'mobile';
+            const nextState = key === 'desktop' ? state : getHomepageDividerState(params, key) || state;
+            renderMotionPreview(host, nextState, host.id);
+        }
+
+        render();
+        if (responsive) {
+            tablet.addEventListener('change', render);
+            desktop.addEventListener('change', render);
+        }
+
+        if (host.id === 'homepage-foliage') {
+            const rawSvg = svgDividers[state.shapeIndex][state.direction];
+            const preserve = rawSvg.match(/preserveAspectRatio="([^"]+)"/i)?.[1] || 'xMidYMid meet';
+            new ResizeObserver(([entry]) => {
+                const { width, height } = entry.contentRect;
+                // Keep both the solid top and the tips visible at wide aspect ratios.
+                const aspect = width * state.animationLongAxis / height > getSvgAspectRatio(rawSvg) ? 'none' : preserve;
+                host.querySelectorAll('svg:has(> use)').forEach(svg => svg.setAttribute('preserveAspectRatio', aspect));
+            }).observe(host);
+        }
+    });
+}
 }
 
 async function ensureShapeDataLoaded() {
@@ -5315,165 +5475,6 @@ async function ensureShapeDataLoaded() {
         document.head.appendChild(script);
     });
 }
-
-// Preload the raster artwork independently of the creator's shape library.
-function initializeHomepageDividers() {
-    const assetRoot = 'https://cdn.jsdelivr.net/gh/maximedesro/githubcourse@core/shapedividers/homepage-media/';
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const tablet = window.matchMedia('(min-width: 768px)');
-    const desktop = window.matchMedia('(min-width: 1025px)');
-    const artwork = {
-        'homepage-wave': {
-            file: 'wave-light', shortAxis: 140, lightPeriod: 20,
-            state: { animate: true, oneDirection: true, animationLength: 10, animationLongAxis: 4 }
-        },
-        'homepage-foliage': {
-            file: 'foliage-light', shortAxis: 136, lightPeriod: 52.78, keepFullHeight: true,
-            state: { direction: 'top', animate: true, oneDirection: true, ratio: true, animationLength: 26, animationLongAxis: 1.2 },
-            preserveAspectRatio: { none: false, alignX: 'Mid', alignY: 'Max', mode: 'slice' }
-        },
-        'homepage-surf': {
-            file: 'surf-v2', shortAxis: 51,
-            state: { animate: true, oneDirection: true, depthLayers: true, ratio: true, animationLength: 26, animationLongAxis: 2.4 },
-            // Keep the solid base at the section join when the source is cropped.
-            preserveAspectRatio: { none: false, alignX: 'Mid', alignY: 'Max', mode: 'slice' }
-        },
-        'homepage-clouds': {
-            file: 'clouds',
-            state: { animate: true, oneDirection: true, mirrorLoop: true, animationLength: 36, animationLongAxis: 1.4 }
-        }
-    };
-
-    document.querySelectorAll('canvas.landing-divider[data-home-shape]').forEach(canvas => {
-        const context = canvas.getContext('2d', { alpha: true, desynchronized: true });
-        if (!context) return;
-        const isFire = canvas.id === 'homepage-fire';
-        const art = artwork[canvas.id];
-        if (!isFire && !art) return;
-
-        const lightFrame = art?.lightPeriod ? document.createElement('canvas').getContext('2d') : null;
-        const state = { key: canvas.id, direction: 'bottom', longAxis: 100, ...art?.state };
-        const fullBitmap = { none: true };
-        const aspectRatio = art?.preserveAspectRatio || fullBitmap;
-        const target = { context, preserveAspectRatio: aspectRatio };
-
-        let visible = false;
-        let mediaFile;
-        let image;
-        let video;
-        let lightSample = -1;
-        let frameId = 0;
-        let previousFrame = 0;
-        let elapsed = 0;
-
-        function paint() {
-            if (!target.bounds.width || !target.bounds.height) return;
-            let bitmap = isFire && !reducedMotion.matches && video?.readyState >= 2 ? video : image;
-            if (!bitmap) return;
-            const time = reducedMotion.matches ? 0 : elapsed;
-            if (lightFrame) {
-                // The light cycle contains 32 samples arranged in a 4 by 8 atlas.
-                const sample = Math.floor(time * 32 / art.lightPeriod) % 32;
-                if (sample !== lightSample) {
-                    const width = bitmap.width / 4;
-                    const height = bitmap.height / 8;
-                    lightFrame.canvas.width = width;
-                    lightFrame.canvas.height = height;
-                    lightFrame.drawImage(bitmap, (sample % 4) * width, Math.floor(sample / 4) * height,
-                        width, height, 0, 0, width, height);
-                    lightSample = sample;
-                }
-                bitmap = lightFrame.canvas;
-            }
-            if (art?.keepFullHeight) {
-                // Keep both the solid join and the tips visible on wide screens.
-                const shortAxis = getDividerShortAxis(state, target.extraShortAxis);
-                target.preserveAspectRatio = target.bounds.width / shortAxis > bitmap.width / bitmap.height
-                    ? fullBitmap : aspectRatio;
-            }
-            drawRasterDivider(bitmap, state, time, target);
-        }
-
-        function tick(timestamp) {
-            if (!previousFrame) previousFrame = timestamp;
-            const delta = timestamp - previousFrame;
-            if (delta >= 1000 / 32) {
-                elapsed += delta / 1000;
-                previousFrame = timestamp;
-                paint();
-            }
-            frameId = requestAnimationFrame(tick);
-        }
-
-        function loadArtwork() {
-            const nextFile = isFire
-                ? 'fire-' + (desktop.matches ? 'desktop' : tablet.matches ? 'tablet' : 'mobile')
-                : art.file;
-            if (nextFile !== mediaFile) {
-                mediaFile = nextFile;
-                if (video) {
-                    video.pause();
-                    video.removeAttribute('src');
-                    video.load();
-                    video = undefined;
-                }
-                const poster = new Image();
-                poster.decoding = 'async';
-                poster.onload = () => {
-                    if (nextFile !== mediaFile) return;
-                    image = poster;
-                    paint();
-                };
-                poster.src = assetRoot + nextFile + '.webp';
-            }
-            if (isFire && !video && !reducedMotion.matches) {
-                video = document.createElement('video');
-                video.muted = true;
-                video.loop = true;
-                video.playsInline = true;
-                video.preload = 'auto';
-                video.src = assetRoot + nextFile + '.mp4';
-            }
-        }
-
-        function sync() {
-            loadArtwork();
-            paint();
-
-            if (!visible || document.hidden || reducedMotion.matches) {
-                cancelAnimationFrame(frameId);
-                frameId = 0;
-                previousFrame = 0;
-                video?.pause();
-                return;
-            }
-            if (video?.paused) video.play().catch(() => {
-                // The poster remains visible if playback is unavailable.
-            });
-            if (!frameId) frameId = requestAnimationFrame(tick);
-        }
-
-        function resize() {
-            const bounds = canvas.getBoundingClientRect();
-            target.bounds = bounds;
-            target.extraShortAxis = !isFire && window.innerWidth >= 2100 ? window.innerWidth * 0.02 : 0;
-            state.shortAxis = isFire ? bounds.height : art.shortAxis ?? bounds.height - window.innerWidth * 0.02;
-            resizeDividerCanvas(context, bounds, 2);
-            sync();
-        }
-
-        resize();
-        new ResizeObserver(resize).observe(canvas);
-        new IntersectionObserver(([entry]) => {
-            visible = entry.isIntersecting;
-            sync();
-        }).observe(canvas);
-        reducedMotion.addEventListener('change', sync);
-        document.addEventListener('visibilitychange', sync);
-    });
-}
-
-initializeHomepageDividers();
 
 (async function bootShapeDividersApp() {
     let loadTimeout;
