@@ -29,6 +29,7 @@ vm.createContext(sandbox);
 vm.runInContext(app.slice(recipeStart,recipeEnd)+'\n'+fields+'\n'+[
     'getSvgViewBoxMetrics','normalizeSvgForCanvas','replaceSvgColorsWithPaint','replaceInlineSvgColorsWithCurrentColor',
     'namespaceInlineSvgIds','getMotionSparkParticles','buildMotionSparksSvg','getMotionSparksLayout','buildMotionSvg','hasMotionEffects','getMotionLayout',
+    'getMaskExportRestriction','buildMaskExportCode',
     'getSvgStateDeclarations','formatDeclarationRule','addClassToInlineSvg',
     'buildMotionExportCode','getPairedStateCss','getMirrorTrackSize','getMirroredStateCss','getOneDirectionTiming','getOneDirectionFrame','getDepthLayers'
 ].map(fn).join('\n')+'\nthis.recipes=SD_MOTION_RECIPES;this.defaults=motionFields;',sandbox);
@@ -115,7 +116,7 @@ for(const direction of ['bottom','top','left','right']) {
     assert.equal(layout.declarations.transform,'none');assert.equal(layout.declarations.animation,'none');
 }
 assert.equal(sandbox.buildMotionSparksSvg({...combined,animate:false},'disabled'),'');
-// Exercise full responsive SVG and inline-mask packaging with a mixed static state.
+// Exercise full responsive SVG packaging with a mixed static state.
 sandbox.getSvgExportStates=()=>[combined,{...state,key:'tablet',animate:false,effects:defaults},{...state,key:'mobile',effects:{...defaults,motion:'css-rock'}}];
 sandbox.mobileReady=true;sandbox.shapeCSSName='shape-test';
 sandbox.getPlainExportSvg=()=>fixture;
@@ -123,13 +124,32 @@ const svgCode = sandbox.buildMotionExportCode('svg');
 assert.match(svgCode,/> :not\(\.shape-test-svg-desktop\)\{display:none\}/,'Desktop must hide the tablet selection with equal CSS specificity');
 assert.match(svgCode,/@media\(min-width:768px\)/);assert.match(svgCode,/@media\(min-width:1025px\)/);
 assert.doesNotMatch(svgCode,/<script\b|@ID@/);
+sandbox.getSvgExportStates=()=>[{...state,effects:{...defaults,motion:'none'}},{...state,key:'tablet',animate:false,effects:defaults},{...state,key:'mobile',animate:false,effects:defaults}];
 const maskCode = sandbox.buildMotionExportCode('mask');
 assert.match(maskCode,/maskUnits="userSpaceOnUse"/);assert.doesNotMatch(maskCode,/mask-image/);
 // The mask's outer paint follows exactly the same color order as static SVGs.
 sandbox.mobileReady=false;
 for(const [direction,vector] of Object.entries({bottom:'x1="0" y1="1" x2="0" y2="0"',top:'x1="0" y1="0" x2="0" y2="1"',left:'x1="0" y1="0" x2="1" y2="0"',right:'x1="1" y1="0" x2="0" y2="0"'})) {
-    sandbox.getSvgExportStates=()=>[{...state,direction,gradient:true,effects:{...defaults,motion:'css-rock'}}];
+    sandbox.getSvgExportStates=()=>[{...state,direction,gradient:true,effects:{...defaults,motion:'none'}}];
     assert.ok(sandbox.buildMotionExportCode('mask').includes('-mask-paint" '+vector+'>'));
+}
+// An animated effect on any active breakpoint can make mask export lossy.
+sandbox.usesMotionEffects=()=>sandbox.getSvgExportStates().some(sandbox.hasMotionEffects);
+for (const effects of [{motion:'side-current'}, {motion:'uneven-swells'}, {motion:'rising'}, {motion:'css-rock'}, {edge:'molten-edge'}, {light:'moving-light'}, {ribbon:true}, {sparks:true}]) {
+    const affected = {...state,key:'tablet',effects:{...defaults,...effects}};
+    sandbox.getSvgExportStates=()=>[{...state,effects:defaults},affected];
+    sandbox.preparedMaskFiles=[{fileName:'previous.svg'}];
+    assert.match(sandbox.getMaskExportRestriction(),/SVG code/);
+    assert.equal(sandbox.buildMaskExportCode(),'');
+    assert.equal(sandbox.preparedMaskFiles.length,0);
+    affected.animate=false;
+    assert.equal(sandbox.getMaskExportRestriction(),'');
+}
+sandbox.buildPairedExportCode=format=>format+'-paired';
+for (const settings of [{depthLayers:true},{oneDirection:true,mirrorLoop:true},{oneDirection:true,mirrorLoop:true,depthLayers:true}]) {
+    sandbox.getSvgExportStates=()=>[{...state,...settings,effects:defaults}];
+    assert.equal(sandbox.getMaskExportRestriction(),'');
+    assert.equal(sandbox.buildMaskExportCode(),'mask-paired');
 }
 // Surface effects must keep the paired animation geometry and depth timings.
 const litLoop={...state,oneDirection:true,mirrorLoop:false,effects:{...defaults,light:'variation-light-moon',ribbon:true,sparks:true}};

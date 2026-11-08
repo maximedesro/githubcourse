@@ -1238,8 +1238,15 @@ function hasMotionEffects(state) {
     return Boolean(state.animate && e && (e.motion !== 'scroll' || e.edge !== 'none' || e.light !== 'none' || e.ribbon || e.sparks));
 }
 function usesMotionEffects() { return getSvgExportStates().some(hasMotionEffects); }
-function hasColoredMotionEffects() {
-    return getSvgExportStates().some(s => hasMotionEffects(s) && (s.effects.light !== 'none' || s.effects.ribbon || s.effects.sparks));
+function getMaskExportRestriction() {
+    const effects = getSvgExportStates().filter(hasMotionEffects).map(state => state.effects);
+    if (effects.some(effect => effect.light !== 'none' || effect.ribbon || effect.sparks)) {
+        return 'Lighting, ribbon colors and sparks need SVG code to preserve their colors.';
+    }
+    if (effects.some(effect => !['none', 'scroll'].includes(effect.motion) || effect.edge !== 'none')) {
+        return 'Motion and edge effects need SVG code to keep their animation.';
+    }
+    return '';
 }
 function motionSelect(prefix, field, label) {
     const id = motionControlId(prefix, field);
@@ -3923,7 +3930,11 @@ function getMaskStateDeclarations(
 }
 
 function buildMaskExportCode() {
-    if (usesMotionEffects()) return hasColoredMotionEffects() ? '' : buildMotionExportCode('mask');
+    if (getMaskExportRestriction()) {
+        preparedMaskFiles = [];
+        return '';
+    }
+    if (usesMotionEffects()) return buildMotionExportCode('mask');
     if (getSvgExportStates().some((state) => state.animate && (state.oneDirection || state.depthLayers))) return buildPairedExportCode('mask');
     const wrapperClass = shapeCSSName + '-mask';
     const states = getSvgExportStates();
@@ -4160,7 +4171,7 @@ function downloadPreparedMaskFiles() {
 }
 
 function setExportTab(tabName) {
-    if ((tabName === 'css' && (usesDepthLayers() || usesMotionEffects())) || (tabName === 'mask' && hasColoredMotionEffects())) tabName = 'svg';
+    if ((tabName === 'css' && (usesDepthLayers() || usesMotionEffects())) || (tabName === 'mask' && getMaskExportRestriction())) tabName = 'svg';
     activeExportTab = tabName;
 
     exportTabs.forEach((tab) => {
@@ -4184,12 +4195,12 @@ function setExportTab(tabName) {
 function prepareExportModalCode() {
     updateShape();
     const layered = usesDepthLayers() || usesMotionEffects();
-    const colored = hasColoredMotionEffects();
+    const maskRestriction = getMaskExportRestriction();
     const maskTab = exportTabs.find(tab=>tab.dataset.exportTab === 'mask');
     if (maskTab) {
-        maskTab.disabled = colored;
-        maskTab.setAttribute('aria-disabled',String(colored));
-        setExportTooltip(maskTab, colored ? 'Lighting, ribbon colors and sparks need SVG code to preserve their colors.' : '');
+        maskTab.disabled = Boolean(maskRestriction);
+        maskTab.setAttribute('aria-disabled',String(Boolean(maskRestriction)));
+        setExportTooltip(maskTab, maskRestriction);
     }
     if (exportMaskDownloadButton) exportMaskDownloadButton.hidden = usesMotionEffects();
     const cssTab = exportTabs.find((tab) => tab.dataset.exportTab === 'css');
@@ -4207,11 +4218,9 @@ function prepareExportModalCode() {
     }
     if (depthNote) {
         depthNote.hidden = !layered;
-        depthNote.textContent = colored
-            ? 'SVG code export preserves all colors and lighting. CSS and SVG mask exports cannot preserve these colored layers.'
-            : usesMotionEffects()
+        depthNote.textContent = maskRestriction || (usesMotionEffects()
                 ? 'Animation layers need SVG elements. Choose SVG code or SVG mask. The animated mask is included inline; no extra files are needed.'
-                : 'Depth layers need extra elements. Choose SVG code or SVG mask; CSS-only export is unavailable.';
+                : 'Depth layers need extra elements. Choose SVG code or SVG mask; CSS-only export is unavailable.');
     }
     setExportTooltip(cssTab, layered ? 'Animation layers and depth layers need SVG elements. Choose SVG code.' : '');
 
