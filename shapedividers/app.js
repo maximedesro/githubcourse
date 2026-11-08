@@ -3425,6 +3425,7 @@ function getPairedStateCss(state, namespace, copy) {
 function buildPairedExportCode(format, suppliedStates = null, suppliedWrapper = null) {
     const states = suppliedStates || getSvgExportStates();
     const wrapper = suppliedWrapper || shapeCSSName + (format === 'css' ? '' : '-' + format);
+    const definitionsClass = wrapper + '__definitions';
     const ordered = !suppliedStates && mobileReady ? [states[2], states[1], states[0]] : states;
     const rules = [formatDeclarationRule('.' + wrapper, format === 'css'
         ? { position: 'relative', overflow: 'hidden' }
@@ -3464,6 +3465,7 @@ function buildPairedExportCode(format, suppliedStates = null, suppliedWrapper = 
         const group = wrapper + '__' + state.key;
         const mirrored = state.animate && state.oneDirection && state.mirrorLoop;
         const { tilePercent } = getMirrorTrackSize(state);
+        const sharedGradient = format === 'svg' && state.gradient && !hasMotionEffects(state);
         const stateRules = [];
         const minWidth = index === 1 ? 768 : 1025;
         if (format !== 'css') {
@@ -3473,6 +3475,13 @@ function buildPairedExportCode(format, suppliedStates = null, suppliedWrapper = 
             if (index) {
                 stateRules.push('.' + wrapper + ' > .' + wrapper + '__' + ordered[index - 1].key + '{display:none;}', '.' + wrapper + ' > .' + group + '{display:block;}');
             }
+        }
+        if (sharedGradient) {
+            // Stops in a shared paint server resolve variables in the definition tree.
+            stateRules.push(formatDeclarationRule('.' + definitionsClass, {
+                '--shape-gradient-color-1': '#' + state.color,
+                '--shape-gradient-color-2': '#' + state.gradientColor
+            }));
         }
         const fileName = group + '.svg';
         if (format === 'mask') {
@@ -3499,6 +3508,10 @@ function buildPairedExportCode(format, suppliedStates = null, suppliedWrapper = 
                     : '.' + layerGroup + ' > .' + className;
                 const css = getPairedStateCss(layerState, wrapper, copy);
                 const declarations = { ...css.declarations, 'z-index': '3', 'pointer-events': 'none' };
+                if (sharedGradient) {
+                    delete declarations['--shape-gradient-color-1'];
+                    delete declarations['--shape-gradient-color-2'];
+                }
                 if (format === 'css') {
                     declarations.content = "''";
                     declarations['background-image'] = mirrored && copy ? 'none' : backgroundImage;
@@ -3553,7 +3566,7 @@ function buildPairedExportCode(format, suppliedStates = null, suppliedWrapper = 
         });
     }
     const code = rules.concat([...keyframes]).join('\n\n');
-    const definitions = symbols.size ? '<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>' +
+    const definitions = symbols.size ? '<svg xmlns="http://www.w3.org/2000/svg" class="' + definitionsClass + '" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>' +
         [...symbols.values()].map((symbol) => symbol.markup).join('') + '</defs></svg>\n' : '';
     return format === 'css' ? code : '<style>\n' + code + '\n</style>\n' + definitions + '<div class="' + wrapper + '">\n' + markup.join('\n') + '\n</div>';
 }

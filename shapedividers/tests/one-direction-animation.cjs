@@ -85,6 +85,32 @@ const server = http.createServer((req, res) => {
         assert.doesNotMatch(legacy, /::after/);
         await page.locator('#one-direction-checkbox').check();
         const output = await browser.newPage({ viewport: { width: 1440, height: 1080 } });
+        await output.route('https://**/*', route => route.abort());
+        const gradientPreset = new URLSearchParams({ mobileReady: true, responsiveConfigured: true, si: 0, tsi: 0, msi: 0 });
+        const palettes = [
+            ['', 1440, 'ff0000', 'ff8800', ['rgb(255, 0, 0)', 'rgb(255, 136, 0)']],
+            ['tablet', 820, '00ff00', '008800', ['rgb(0, 255, 0)', 'rgb(0, 136, 0)']],
+            ['mobile', 390, '0000ff', '0088ff', ['rgb(0, 0, 255)', 'rgb(0, 136, 255)']]
+        ];
+        for (const [prefix, , color, gradientColor] of palettes) {
+            for (const [field, value] of Object.entries({
+                dividerDirection: 'top', animate: true, oneDirection: true, gradient: true, shapeColor: color, gradientColor
+            })) {
+                gradientPreset.set(prefix ? prefix + field[0].toUpperCase() + field.slice(1) : field, value);
+            }
+        }
+        await output.goto(url + '/?' + gradientPreset);
+        await output.waitForFunction(() => window.animationTest && !document.getElementById('sd-loader'));
+        const responsiveGradient = await output.evaluate(() => animationTest.buildSvgExportCode());
+        await output.setContent(responsiveGradient);
+        assert.equal(await output.locator('symbol').count(), 1, 'All three palettes must reuse one artwork symbol.');
+        for (const [, width, , , colors] of palettes) {
+            await output.setViewportSize({ width, height: 1080 });
+            const stops = await output.locator('symbol linearGradient stop').evaluateAll(elements =>
+                elements.map(element => getComputedStyle(element).stopColor));
+            assert.deepEqual(stops, colors, 'The shared gradient must inherit the active palette at ' + width + 'px.');
+        }
+        await output.setViewportSize({ width: 1440, height: 1080 });
         // Compare actual browser transforms and opacity against the canvas model
         // over two loops, including resets, for every edge and both aspect modes.
         for (const ratio of [false, true]) for (const direction of ['top', 'bottom', 'left', 'right']) {
