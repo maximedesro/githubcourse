@@ -2660,7 +2660,8 @@ body.sd-is-loading {
 .landing-page--showcase .landing-animations .landing-button--secondary{background:none;color:#182300;border-color:rgb(24 35 0 / .4)}
 
 /* Yellow foliage opens the library, with blue surf at its lower edge. */
-.landing-page--showcase .landing-library{--home-foliage-height:163.2px;--home-surf-height:clamp(145px,11vw,300px);padding-top:calc(112px + var(--home-foliage-height));padding-bottom:260px;background:var(--home-mint);color:var(--home-ink)}
+/* Reserve enough height for the foliage's leaves and solid top at native proportions. */
+.landing-page--showcase .landing-library{--home-foliage-height:max(163.2px,11vw);--home-surf-height:clamp(145px,11vw,300px);padding-top:calc(112px + var(--home-foliage-height));padding-bottom:260px;background:var(--home-mint);color:var(--home-ink)}
 .landing-page--showcase .landing-divider--foliage{inset:-1px 0 auto;height:var(--home-foliage-height)}
 .landing-page--showcase .landing-library .landing-kicker{color:#286950}
 .landing-page--showcase .landing-library .landing-heading--light>p:not(.landing-kicker){color:#345b4f;opacity:1}
@@ -2705,7 +2706,6 @@ body.sd-is-loading {
 @media(min-width:1800px){.landing-page--showcase .landing-library{padding-bottom:340px}}
 @media(min-width:2100px){
   .landing-page--showcase .landing-library{
-    --home-foliage-height:calc(163.2px + 2.4vw);
     /* The tallest surf layer scales its 51px base height and 2vw allowance by 2.4. */
     --home-surf-height:max(clamp(145px,11vw,300px), 122.4px + 4.8vw);
     padding-bottom:max(340px, var(--home-surf-height) + 40px);

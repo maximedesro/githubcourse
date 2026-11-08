@@ -5474,8 +5474,8 @@ async function initializeHomepageCanvas(canvas, getState, reducedMotion) {
     const advanced = hasMotionEffects(preset);
     const localMotion = advanced && preset.effects.motion !== 'scroll';
     const sampleRate = localMotion ? 20 : 8;
-    const sourceAspectRatio = getSvgAspectRatio(rawSvg);
     const preserveAspectRatio = localMotion ? { none: true } : getPreserveAspectRatio(rawSvg);
+    const isFoliage = canvas.id === 'homepage-foliage';
     // Keep the crests and the solid base when a surf layer is too wide to slice.
     if (canvas.id === 'homepage-surf') preserveAspectRatio.keepFullHeight = true;
     const particles = preset.effects.sparks ? getMotionSparkParticles(preset) : [];
@@ -5495,6 +5495,10 @@ async function initializeHomepageCanvas(canvas, getState, reducedMotion) {
     function resize() {
         target.bounds = canvas.getBoundingClientRect();
         target.extraShortAxis = !localMotion && window.innerWidth >= 2100 ? window.innerWidth * 0.02 : 0;
+        if (isFoliage) {
+            // The foliage canvas grows to fit the native proportions and its solid top edge.
+            target.extraShortAxis = Math.max(0, target.bounds.height / preset.animationLongAxis - preset.shortAxis);
+        }
         resizeDividerCanvas(context, target.bounds);
         paint();
     }
@@ -5502,10 +5506,6 @@ async function initializeHomepageCanvas(canvas, getState, reducedMotion) {
     function paint() {
         if (!bitmap) return;
         const state = getState();
-        if (canvas.id === 'homepage-foliage') {
-            const aspect = target.bounds.width / getDividerShortAxis(state, target.extraShortAxis);
-            preserveAspectRatio.none = aspect > sourceAspectRatio;
-        }
         const time = reducedMotion.matches ? 0 : elapsed;
         drawRasterDivider(bitmap, localMotion ? {...state, animate: false, flipped: false} : state, time, target);
         if (particles.length && !reducedMotion.matches) drawHomepageSparks(context, target.bounds, state, particles, time);
