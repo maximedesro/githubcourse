@@ -536,7 +536,7 @@ function drawImagePreservingSvgAspectRatio(
     let sourceWidth = bitmap.width;
     let sourceHeight = bitmap.height;
 
-    if (useWidthAsConstraint) {
+    if (useWidthAsConstraint && !preserveAspectRatio.keepFullHeight) {
         sourceHeight = bitmap.width / destinationRatio;
 
         const extraSourceY = bitmap.height - sourceHeight;
@@ -544,7 +544,7 @@ function drawImagePreservingSvgAspectRatio(
             extraSourceY,
             preserveAspectRatio.alignY
         );
-    } else {
+    } else if (!useWidthAsConstraint) {
         sourceWidth = bitmap.height * destinationRatio;
 
         const extraSourceX = bitmap.width - sourceWidth;
@@ -5413,8 +5413,8 @@ async function initializeHomepageCanvas(canvas, getState, reducedMotion) {
     const sampleRate = localMotion ? 20 : 8;
     const sourceAspectRatio = getSvgAspectRatio(rawSvg);
     const preserveAspectRatio = localMotion ? { none: true } : getPreserveAspectRatio(rawSvg);
-    // The bottom surf is cropped from its solid base at the section join.
-    if (canvas.id === 'homepage-surf') preserveAspectRatio.alignY = 'Max';
+    // Keep the crests and the solid base when a surf layer is too wide to slice.
+    if (canvas.id === 'homepage-surf') preserveAspectRatio.keepFullHeight = true;
     const particles = preset.effects.sparks ? getMotionSparkParticles(preset) : [];
     const getMarkup = advanced
         ? getHomepageMotionFrames(preset, canvas.id + '-frame')
