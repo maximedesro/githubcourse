@@ -60,7 +60,9 @@ const server = http.createServer((req, res) => {
             for (const format of ['svg', 'mask']) {
                 let code = data[format];
                 if (format === 'mask') data.files.forEach(file => { code = code.replaceAll(file.fileName, 'data:image/svg+xml,' + encodeURIComponent(file.svg)); });
-                assert.doesNotMatch(code.replace(/(?:%[0-9a-f]{2})+/gi, decodeURIComponent), /gradient/i);
+                const artworkCode = code.replace(/(?:%[0-9a-f]{2})+/gi, decodeURIComponent)
+                    .replace(/<linearGradient id="[^"]+-seams-[01]-weight"[^>]*>[\s\S]*?<\/linearGradient>/g, '');
+                assert.doesNotMatch(artworkCode, /gradient/i, 'Depth layers must not add color gradients.');
                 const className = code.match(/<div class="([^"]+)"/)[1];
                 await output.setContent('<style>html,body{margin:0}#host{position:relative;width:800px;height:400px}</style><div id="host">' + code + '</div>');
                 const actual = await output.evaluate(({ className, ms }) => {

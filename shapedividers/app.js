@@ -3288,9 +3288,13 @@ function statesAreSameShape(a, b) {
     return true;
 }
 
-function buildMirroredPairSvg(svg, direction, namespace) {
+function buildMirroredTrackSvg(svg, direction, namespace, tilePercent) {
     const horizontal = direction === 'top' || direction === 'bottom';
-    const parsed = new DOMParser().parseFromString(svg, 'image/svg+xml').documentElement;
+    const parsed = new DOMParser().parseFromString(namespaceInlineSvgIds(svg, namespace), 'image/svg+xml').documentElement;
+    const serializer = new XMLSerializer();
+    const art = parsed.ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'g');
+    art.setAttribute('id', namespace + '-art');
+    while (parsed.firstChild) art.appendChild(parsed.firstChild);
     const values = (parsed.getAttribute('viewBox') || '').trim().split(/[\s,]+/).map(Number);
     const [x, y, width, height] = values.length === 4 ? values : [0, 0, Number(parsed.getAttribute('width')) || 1, Number(parsed.getAttribute('height')) || 1];
     // Reflect in the source coordinate system, preserving its native SVG
@@ -3298,36 +3302,61 @@ function buildMirroredPairSvg(svg, direction, namespace) {
     const reflection = horizontal
         ? 'translate(' + (2 * x + width) + ' 0) scale(-1 1)'
         : 'translate(0 ' + (2 * y + height) + ') scale(1 -1)';
-    const tiles = [0, 1].map((mirrored) => {
-        const tile = parsed.cloneNode(true);
-        tile.setAttribute('x', horizontal && mirrored ? '50%' : '0');
-        tile.setAttribute('y', !horizontal && mirrored ? '50%' : '0');
-        tile.setAttribute('width', horizontal ? '50%' : '100%');
-        tile.setAttribute('height', horizontal ? '100%' : '50%');
-        // Bleed half a pixel into each neighbor to close rasterization seams.
-        // Each half is 1px wider than its cell, so adjacent mirrors overlap 1px.
-        tile.setAttribute(horizontal ? 'x' : 'y', mirrored ? 'calc(50% - 0.5px)' : '-0.5');
-        tile.setAttribute(horizontal ? 'width' : 'height', 'calc(50% + 1px)');
-        if (mirrored) {
-            const group = parsed.ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'g');
-            group.setAttribute('transform', reflection);
-            while (tile.firstChild) group.appendChild(tile.firstChild);
-            tile.appendChild(group);
+    // Cross the tile boundary with complementary alpha weights. Adding the
+    // masked layers in isolation preserves the original opacity through the join.
+    const ramp = tilePercent * 0.02;
+    const maskId = (side) => namespace + '-seams-' + side;
+    const masks = [0, 1].map(side => {
+        let visible = side === 0;
+        const stop = (offset) => '<stop offset="' + offset + '%" stop-color="white" stop-opacity="' + Number(visible) + '"/>';
+        let stops = stop(0);
+        for (let seam = 1; seam < 3; seam++) {
+            stops += stop(seam * tilePercent - ramp);
+            visible = !visible;
+            stops += stop(seam * tilePercent + ramp);
         }
-        return namespaceInlineSvgIds(new XMLSerializer().serializeToString(tile), namespace + '-' + mirrored);
+        stops += stop(100);
+        const id = maskId(side);
+        return '<linearGradient id="' + id + '-weight" gradientUnits="userSpaceOnUse" x2="' + (horizontal ? '100%' : '0') + '" y2="' + (horizontal ? '0' : '100%') + '">' + stops + '</linearGradient>' +
+            '<mask id="' + id + '" maskUnits="userSpaceOnUse" x="0" y="0" width="100%" height="100%" style="mask-type:alpha"><rect width="100%" height="100%" fill="url(#' + id + '-weight)"/></mask>';
+    }).join('');
+    // Two tiles make a full period. One more covers the viewport during travel.
+    const bleed = ramp * 1.5;
+    const tiles = Array.from({ length: 3 }, (_, index) => {
+        const mirrored = index % 2;
+        const tile = parsed.cloneNode(true);
+        const offset = (index * tilePercent - bleed) + '%';
+        const length = (tilePercent + 2 * bleed) + '%';
+        tile.setAttribute('x', horizontal ? offset : '0');
+        tile.setAttribute('y', horizontal ? '0' : offset);
+        tile.setAttribute('width', horizontal ? length : '100%');
+        tile.setAttribute('height', horizontal ? '100%' : length);
+        const instance = parsed.ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'use');
+        instance.setAttribute('href', '#' + art.id);
+        if (mirrored) instance.setAttribute('transform', reflection);
+        tile.appendChild(instance);
+        return serializer.serializeToString(tile);
     });
+    // Give both masked layers the same bounds so their weights line up.
+    const layers = [0, 1].map(side => '<g style="mix-blend-mode:plus-lighter" mask="url(#' + maskId(side) + ')"><rect width="100%" height="100%" fill="transparent"/>' +
+        tiles.filter((_, index) => index % 2 === side).join('') + '</g>').join('');
     // No outer viewBox: nested viewports retain their physical aspect ratios.
-    return '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" overflow="visible" aria-hidden="true" focusable="false">' + tiles.join('') + '</svg>';
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" aria-hidden="true" focusable="false"><defs>' +
+        masks + serializer.serializeToString(art) + '</defs><g style="isolation:isolate">' + layers + '</g></svg>';
+}
+
+function getMirrorTrackSize(state) {
+    const scale = Math.max(1, Number(state.animationLongAxis) || 1);
+    const trackScale = 2 * scale + 1;
+    return { scale, trackScale, tilePercent: 100 * scale / trackScale };
 }
 
 function getMirroredStateCss(state, namespace, copy) {
     const horizontal = state.direction === 'top' || state.direction === 'bottom';
-    const scale = Math.max(1, Number(state.animationLongAxis) || 1);
-    const trackScale = 2 * scale + 1;
-    const pairPercent = 100 * 2 * scale / trackScale;
+    const { scale, trackScale, tilePercent } = getMirrorTrackSize(state);
     const shortAxis = (Number(state.shortAxis) || 0) * (state.ratio ? scale : 1);
     const name = namespace + '-' + state.key + '-mirror-loop';
-    const transform = 'translate' + (horizontal ? 'X' : 'Y') + '(calc(-' + pairPercent + '% + 2px))';
+    const transform = 'translate' + (horizontal ? 'X' : 'Y') + '(-' + (2 * tilePercent) + '%)';
     const { cycleDuration } = getOneDirectionTiming(state);
     return {
         declarations: {
@@ -3434,10 +3463,7 @@ function buildPairedExportCode(format, suppliedStates = null, suppliedWrapper = 
     ordered.forEach((state, index) => {
         const group = wrapper + '__' + state.key;
         const mirrored = state.animate && state.oneDirection && state.mirrorLoop;
-        const horizontal = state.direction === 'top' || state.direction === 'bottom';
-        const scale = Math.max(1, Number(state.animationLongAxis) || 1);
-        const pairPercent = 100 * 2 * scale / (2 * scale + 1);
-        const pairSize = 'calc(' + pairPercent + '% - 2px)';
+        const { tilePercent } = getMirrorTrackSize(state);
         const stateRules = [];
         const minWidth = index === 1 ? 768 : 1025;
         if (format !== 'css') {
@@ -3451,14 +3477,14 @@ function buildPairedExportCode(format, suppliedStates = null, suppliedWrapper = 
         const fileName = group + '.svg';
         if (format === 'mask') {
             const svg = getMaskSvg(state.shapeIndex, state.direction);
-            preparedMaskFiles.push({ fileName, svg: mirrored ? buildMirroredPairSvg(svg, state.direction, group) : svg });
+            preparedMaskFiles.push({ fileName, svg: mirrored ? buildMirroredTrackSvg(svg, state.direction, group, tilePercent) : svg });
         }
         let backgroundImage;
         if (format === 'css') {
             const svg = buildShapeSvgMarkup(
                 svgDividers[state.shapeIndex][state.direction], state.color, state.gradient, state.gradientColor, state.direction
             );
-            backgroundImage = 'url("data:image/svg+xml;charset=utf8,' + encodeURIComponent(mirrored ? buildMirroredPairSvg(svg, state.direction, group) : svg) + '")';
+            backgroundImage = 'url("data:image/svg+xml;charset=utf8,' + encodeURIComponent(mirrored ? buildMirroredTrackSvg(svg, state.direction, group, tilePercent) : svg) + '")';
         }
         const layerMarkup = [];
         const layered = state.animate && state.depthLayers;
@@ -3476,27 +3502,23 @@ function buildPairedExportCode(format, suppliedStates = null, suppliedWrapper = 
                 if (format === 'css') {
                     declarations.content = "''";
                     declarations['background-image'] = mirrored && copy ? 'none' : backgroundImage;
-                    declarations['background-repeat'] = mirrored ? (horizontal ? 'repeat-x' : 'repeat-y') : 'no-repeat';
-                    declarations['background-size'] = mirrored ? (horizontal ? pairSize + ' 100%' : '100% ' + pairSize) : '100% 100%';
+                    declarations['background-repeat'] = 'no-repeat';
+                    declarations['background-size'] = '100% 100%';
                 } else if (format === 'mask') {
                     Object.assign(declarations, {
                         background: getMaskBackground(layerState),
                         '-webkit-mask-image': 'url("' + fileName + '")', 'mask-image': 'url("' + fileName + '")',
-                        '-webkit-mask-repeat': mirrored ? (horizontal ? 'repeat-x' : 'repeat-y') : 'no-repeat',
-                        'mask-repeat': mirrored ? (horizontal ? 'repeat-x' : 'repeat-y') : 'no-repeat',
-                        '-webkit-mask-size': mirrored ? (horizontal ? pairSize + ' 100%' : '100% ' + pairSize) : '100% 100%',
-                        'mask-size': mirrored ? (horizontal ? pairSize + ' 100%' : '100% ' + pairSize) : '100% 100%'
+                        '-webkit-mask-repeat': 'no-repeat',
+                        'mask-repeat': 'no-repeat',
+                        '-webkit-mask-size': '100% 100%',
+                        'mask-size': '100% 100%'
                     });
                     copies.push('<div class="' + className + '"></div>');
                 } else {
                     const svg = getSvgInstance({...layerState,animationLength:state.animationLength}, className);
                     if (mirrored) {
-                        const pairs = copy ? '' : [0, 1].map((tile) => buildMirroredPairSvg(svg, layerState.direction, className + '-' + tile).replace(
-                            '<svg ', '<svg style="position:absolute;overflow:visible;' + (horizontal
-                                ? 'width:' + pairSize + ';height:100%;left:' + (tile ? pairSize : '0') + ';top:0;'
-                                : 'width:100%;height:' + pairSize + ';left:0;top:' + (tile ? pairSize : '0') + ';') + '" '
-                        )).join('');
-                        copies.push('<div class="' + className + '">' + pairs + '</div>');
+                        const track = copy ? '' : buildMirroredTrackSvg(svg, layerState.direction, className, tilePercent);
+                        copies.push('<div class="' + className + '">' + track + '</div>');
                     } else copies.push(svg);
                 }
                 stateRules.push(formatDeclarationRule(selector, declarations));

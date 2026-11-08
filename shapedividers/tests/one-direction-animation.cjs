@@ -10,6 +10,10 @@ const fixtures = ['FALSE', 'TRUE', 'FALSE', 'TRUE'].map((ratio, si) => {
     const markup = si < 2 ? svg : svg.replace('fill="#000"', 'fill="#000" opacity="0.5"');
     return { si, ratio, category: 'Test', top: markup, bottom: markup, left: markup, right: markup };
 });
+// Ignore only the internal alpha weights for mirror joins when checking color gradients.
+function withoutMirrorWeights(markup) {
+    return markup.replace(/<linearGradient id="[^"]+-seams-[01]-weight"[^>]*>[\s\S]*?<\/linearGradient>/g, '');
+}
 const server = http.createServer((req, res) => {
     const name = new URL(req.url, 'http://localhost').pathname;
     if (name === '/') {
@@ -64,10 +68,10 @@ const server = http.createServer((req, res) => {
                 for (const format of ['css', 'svg', 'mask']) {
                     const code = exports[format].replace(/(?:%[0-9a-f]{2})+/gi, decodeURIComponent);
                     const context = JSON.stringify({ responsive, mode, gradient, format });
-                    if (gradient) assert.match(code, /gradient/i, context);
-                    else assert.doesNotMatch(code, /gradient|<stop\b/i, context);
+                    if (gradient) assert.match(withoutMirrorWeights(code), /gradient/i, context);
+                    else assert.doesNotMatch(withoutMirrorWeights(code), /gradient|<stop\b/i, context);
                 }
-                assert.doesNotMatch(exports.files, /gradient|<stop\b/i, 'Mask geometry must not contain generated gradients.');
+                assert.doesNotMatch(withoutMirrorWeights(exports.files), /gradient|<stop\b/i, 'Mask geometry must not contain color gradients.');
             }
         }
         await page.evaluate(() => {
@@ -236,8 +240,7 @@ const server = http.createServer((req, res) => {
         });
         assert.deepEqual(seamAlpha, { min: 128, max: 128 }, 'Canvas mirror joins must preserve the original alpha at fractional positions.');
 
-        // Mirror snapshots must repeat after a pair. Markup exports still use
-        // the one-pixel overlap to guard separately rendered tiles from gaps.
+        // The animation must repeat after a pair in the canvas and every export.
         await output.setViewportSize({ width: 1440, height: 800 });
         for (const scale of [1, 1.3]) for (const shape of [0, 1, 2, 3]) for (const direction of ['top', 'bottom', 'left', 'right']) {
             await page.goto(url + '/?dividerDirection=' + direction + '&si=' + shape + '&animate=true&oneDirection=true&mirrorLoop=true&animLength=10&animLongAxis=' + scale);
@@ -253,10 +256,10 @@ const server = http.createServer((req, res) => {
             assert.match(data.share, /mirrorLoop=true/);
             assert.equal((data.svg.match(/<symbol\b/g) || []).length, 1, 'Mirror geometry must be defined only once.');
             assert.equal((data.svg.match(/<path\b/g) || []).length, 1, 'Mirror instances must reuse the path markup.');
-            assert.equal((data.svg.match(/<use\b/g) || []).length, 4, 'Both mirrored pairs must reference the shared symbol.');
+            assert.equal((data.svg.match(/<use\b/g) || []).length, 4, 'The mirrored track must reference the shared symbol.');
             assert.doesNotMatch(data.css, /opacity:0|alternate/);
-            assert.match(data.css, /background-size:calc\([^;]+% - 2px\)|background-size:100% calc\([^;]+% - 2px\)/, 'Pair size must include both 1px join adjustments.');
-            assert.match(data.css, /translate[XY]\(calc\(-[^)]+% \+ 2px\)\)/, 'Animation travel must match the shorter pair period.');
+            assert.match(data.css, /background-repeat:no-repeat/, 'The background must paint the whole track as one image.');
+            assert.match(data.css, /translate[XY]\(-[\d.]+%\)/, 'Animation travel must match the full pair period.');
             for (const format of ['css', 'svg', 'mask']) {
                 let code = data[format];
                 if (format === 'mask') data.files.forEach(file => { code = code.replaceAll(file.fileName, 'data:image/svg+xml,' + encodeURIComponent(file.svg)); });
@@ -290,10 +293,9 @@ const server = http.createServer((req, res) => {
                     return { maxAlpha, columns, rows };
                 }, middle.toString('base64'));
                 assert.ok(pixels.maxAlpha > 0, format + ' must render visible shape pixels.');
-                if (shape >= 2) assert.ok(pixels.maxAlpha <= 192, format + ' must limit alpha buildup to the requested 1px overlap.');
+                if (shape >= 2) assert.ok(pixels.maxAlpha <= 129, format + ' must preserve source opacity through the mirror join.');
                 const axis = ['top', 'bottom'].includes(direction) ? pixels.columns : pixels.rows;
-                if (shape >= 2) assert.ok(axis.filter(alpha => alpha > 128).length <= 3, format + ' must confine alpha buildup to the 1px overlap and its antialiased edges.');
-                const seam = Math.round(axis.length * scale / 2 - 1);
+                const seam = Math.round(axis.length * scale / 2);
                 assert.ok(axis[seam - 1] >= (shape >= 2 ? 127 : 254) && axis[seam] >= (shape >= 2 ? 127 : 254), JSON.stringify({ format, shape, scale, direction, seam, alpha: axis.slice(seam - 3, seam + 4) }));
             }
         }

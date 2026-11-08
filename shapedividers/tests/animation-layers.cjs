@@ -30,7 +30,7 @@ vm.runInContext(app.slice(recipeStart,recipeEnd)+'\n'+fields+'\n'+[
     'getSvgViewBoxMetrics','normalizeSvgForCanvas','replaceSvgColorsWithPaint','replaceInlineSvgColorsWithCurrentColor',
     'namespaceInlineSvgIds','getMotionSparkParticles','buildMotionSparksSvg','getMotionSparksLayout','buildMotionSvg','hasMotionEffects','getMotionLayout',
     'getSvgStateDeclarations','formatDeclarationRule','addClassToInlineSvg',
-    'buildMotionExportCode','getPairedStateCss','getMirroredStateCss','getOneDirectionTiming','getOneDirectionFrame','getDepthLayers'
+    'buildMotionExportCode','getPairedStateCss','getMirrorTrackSize','getMirroredStateCss','getOneDirectionTiming','getOneDirectionFrame','getDepthLayers'
 ].map(fn).join('\n')+'\nthis.recipes=SD_MOTION_RECIPES;this.defaults=motionFields;',sandbox);
 const defaults = sandbox.defaults;
 assert.equal(Object.keys(sandbox.recipes).length,15);
