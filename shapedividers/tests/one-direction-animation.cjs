@@ -198,9 +198,46 @@ const server = http.createServer((req, res) => {
         assert.equal((reusedFadeSvg.match(/<symbol\b/g) || []).length, 1, 'Responsive copies of the same shape must share a symbol.');
         assert.equal((reusedFadeSvg.match(/<path\b/g) || []).length, 1, 'One-direction geometry must not be duplicated.');
         assert.match(cadence.code, /60%\{transform:/);
-        // Test the mirror strategy independently of the fade strategy. Pixel
-        // snapshots must repeat exactly after a pair, with alpha buildup confined
-        // to the requested one-pixel seam overlap.
+        // A uniform translucent tile makes both a gap and an overlap measurable.
+        const seamAlpha = await page.evaluate(() => {
+            const bitmap = document.createElement('canvas');
+            bitmap.width = 241;
+            bitmap.height = 99;
+            const source = bitmap.getContext('2d');
+            source.fillStyle = '#ffffff80';
+            source.fillRect(0, 0, bitmap.width, bitmap.height);
+
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d', { willReadFrequently: true });
+            let min = 255;
+            let max = 0;
+            for (const scale of [1, 1.25, 2]) for (const direction of ['bottom', 'right']) {
+                const horizontal = direction === 'bottom';
+                const bounds = horizontal ? { width: 333.5, height: 81.625 } : { width: 81.625, height: 333.5 };
+                canvas.width = Math.round(bounds.width * scale);
+                canvas.height = Math.round(bounds.height * scale);
+                context.setTransform(canvas.width / bounds.width, 0, 0, canvas.height / bounds.height, 0, 0);
+                const state = { direction, animate: true, oneDirection: true, mirrorLoop: true,
+                    animationLength: 10, animationLongAxis: 1.4, shortAxis: 37.25 };
+                const target = { context, bounds, preserveAspectRatio: { none: true } };
+                const inset = Math.round(15 * scale);
+                for (let frame = 0; frame < 40; frame++) {
+                    drawRasterDivider(bitmap, state, frame / 2, target);
+                    const { data } = horizontal
+                        ? context.getImageData(0, canvas.height - inset, canvas.width, 1)
+                        : context.getImageData(canvas.width - inset, 0, 1, canvas.height);
+                    for (let i = 3; i < data.length; i += 4) {
+                        min = Math.min(min, data[i]);
+                        max = Math.max(max, data[i]);
+                    }
+                }
+            }
+            return { min, max };
+        });
+        assert.deepEqual(seamAlpha, { min: 128, max: 128 }, 'Canvas mirror joins must preserve the original alpha at fractional positions.');
+
+        // Mirror snapshots must repeat after a pair. Markup exports still use
+        // the one-pixel overlap to guard separately rendered tiles from gaps.
         await output.setViewportSize({ width: 1440, height: 800 });
         for (const scale of [1, 1.3]) for (const shape of [0, 1, 2, 3]) for (const direction of ['top', 'bottom', 'left', 'right']) {
             await page.goto(url + '/?dividerDirection=' + direction + '&si=' + shape + '&animate=true&oneDirection=true&mirrorLoop=true&animLength=10&animLongAxis=' + scale);

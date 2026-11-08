@@ -641,6 +641,63 @@ function drawDepthLayers(bitmap, state, elapsedSeconds, target) {
     });
 }
 
+const dividerMirrorPatterns = new WeakMap();
+
+function drawMirroredDivider(bitmap, state, elapsedSeconds, target, tile) {
+    const { context, bounds, preserveAspectRatio } = target;
+    const horizontal = state.direction === 'top' || state.direction === 'bottom';
+    const period = 2 * (horizontal ? tile.width : tile.height);
+    if (tile.width <= 0 || tile.height <= 0) return;
+
+    let patterns = dividerMirrorPatterns.get(context.canvas);
+    if (!patterns) {
+        patterns = new Map();
+        dividerMirrorPatterns.set(context.canvas, patterns);
+    }
+    const transform = context.getTransform();
+    const density = Math.min(transform.a, transform.d,
+        BITMAP_MAX_LONG_SIDE / Math.max(period, tile.width, tile.height),
+        Math.sqrt(8_000_000 / (2 * tile.width * tile.height)));
+    const pixelWidth = Math.max(1, Math.floor(tile.width * density));
+    const pixelHeight = Math.max(1, Math.floor(tile.height * density));
+    const key = [horizontal, tile.width, tile.height, pixelWidth, pixelHeight,
+        preserveAspectRatio.none, preserveAspectRatio.mode, preserveAspectRatio.alignX,
+        preserveAspectRatio.alignY, preserveAspectRatio.keepFullHeight].join('|');
+    const layer = state.depthScale || 1;
+    let entry = patterns.get(layer);
+    if (entry?.bitmap !== bitmap || entry.key !== key) {
+        // Join the copies on an integer bitmap boundary, then sample them as
+        // one texture. The moving seam never composites two translucent edges.
+        const strip = document.createElement('canvas');
+        strip.width = pixelWidth * (horizontal ? 2 : 1);
+        strip.height = pixelHeight * (horizontal ? 1 : 2);
+        const stripContext = strip.getContext('2d');
+        stripContext.imageSmoothingQuality = 'high';
+        stripContext.scale(pixelWidth / tile.width, pixelHeight / tile.height);
+        drawImagePreservingSvgAspectRatio(stripContext, bitmap, 0, 0, tile.width, tile.height, preserveAspectRatio);
+        stripContext.setTransform(
+            (horizontal ? -1 : 1) * pixelWidth / tile.width, 0,
+            0, (horizontal ? 1 : -1) * pixelHeight / tile.height,
+            horizontal ? strip.width : 0, horizontal ? 0 : strip.height
+        );
+        drawImagePreservingSvgAspectRatio(stripContext, bitmap, 0, 0, tile.width, tile.height, preserveAspectRatio);
+        const pattern = context.createPattern(strip, horizontal ? 'repeat-x' : 'repeat-y');
+        if (!pattern) return;
+        entry = { bitmap, key, pattern };
+        patterns.set(layer, entry);
+    }
+
+    const { cycleDuration } = getOneDirectionTiming(state);
+    const offset = period * ((elapsedSeconds % cycleDuration) / cycleDuration);
+    entry.pattern.setTransform({
+        a: tile.width / pixelWidth, d: tile.height / pixelHeight,
+        e: horizontal ? offset : tile.x, f: horizontal ? tile.y : offset
+    });
+    context.fillStyle = entry.pattern;
+    context.fillRect(horizontal ? 0 : tile.x, horizontal ? tile.y : 0,
+        horizontal ? bounds.width : tile.width, horizontal ? tile.height : bounds.height);
+}
+
 function drawRasterDivider(bitmap, state, elapsedSeconds, target) {
     const { context, bounds, preserveAspectRatio, extraShortAxis = 0 } = target;
     const width = bounds.width;
@@ -706,23 +763,7 @@ function drawRasterDivider(bitmap, state, elapsedSeconds, target) {
     }
 
     if (state.animate && state.oneDirection && state.mirrorLoop) {
-        const tileLength = horizontal ? drawWidth : drawHeight;
-        const tileStep = Math.max(1, tileLength - 1);
-        const { cycleDuration } = getOneDirectionTiming(state);
-        const phase = ((elapsedSeconds / cycleDuration) % 1 + 1) % 1;
-        const offset = -2 * tileStep + 2 * tileStep * phase;
-        for (let tile = 0; tile < 4; tile++) {
-            const start = offset + tile * tileStep - 0.5;
-            if (start >= (horizontal ? width : height) || start + tileLength <= 0) continue;
-            context.save();
-            context.translate(horizontal ? start : x, horizontal ? y : start);
-            if (tile % 2) {
-                context.translate(horizontal ? drawWidth : 0, horizontal ? 0 : drawHeight);
-                context.scale(horizontal ? -1 : 1, horizontal ? 1 : -1);
-            }
-            drawImagePreservingSvgAspectRatio(context, bitmap, 0, 0, drawWidth, drawHeight, preserveAspectRatio);
-            context.restore();
-        }
+        drawMirroredDivider(bitmap, state, elapsedSeconds, target, { x, y, width: drawWidth, height: drawHeight });
         context.restore();
         return;
     }
