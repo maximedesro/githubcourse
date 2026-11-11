@@ -5347,14 +5347,14 @@ let formShapeIsPremium = document.getElementById('form-field-shapeispremium');
 
 function getSubmissionBrowser() {
     const ua = navigator.userAgent;
-    // Check branded Chromium variants before the generic Chrome signature.
+    // Check branded Chromium variants before generic Chrome detection.
     const candidates = [
-        ['Microsoft Edge', /(?:Edg|EdgiOS|Edge)\\/(\\d+)/],
-        ['Opera', /(?:OPR|OPiOS)\\/(\\d+)/],
-        ['Samsung Internet', /SamsungBrowser\\/(\\d+)/],
-        ['Google Chrome', /(?:Chrome|CriOS)\\/(\\d+)/],
-        ['Mozilla Firefox', /(?:Firefox|FxiOS)\\/(\\d+)/],
-        ['Safari', /Version\\/(\\d+)[^]*Safari\\//]
+        ['Microsoft Edge', /(?:Edg|EdgiOS|Edge)\/(\d+)/],
+        ['Opera', /(?:OPR|OPiOS)\/(\d+)/],
+        ['Samsung Internet', /SamsungBrowser\/(\d+)/],
+        ['Google Chrome', /(?:Chrome|CriOS)\/(\d+)/],
+        ['Mozilla Firefox', /(?:Firefox|FxiOS)\/(\d+)/],
+        ['Safari', /Version\/(\d+).*Safari\//]
     ];
     for (const [name, pattern] of candidates) {
         const match = ua.match(pattern);
