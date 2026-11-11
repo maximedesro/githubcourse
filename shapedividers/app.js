@@ -5339,8 +5339,37 @@ let formMsi = document.getElementById('form-field-msi');
 let formMobileReady = document.getElementById('form-field-mobileready');
 let formAnimated = document.getElementById('form-field-animated');
 let formGradient = document.getElementById('form-field-gradient');
+let formBrowser = document.getElementById('form-field-browser');
+let formDate = document.getElementById('form-field-date');
 let formHasPremium = document.getElementById('form-field-haspremium');
 let formShapeIsPremium = document.getElementById('form-field-shapeispremium');
+
+
+function getSubmissionBrowser() {
+    const ua = navigator.userAgent;
+    // Check branded Chromium variants before the generic Chrome signature.
+    const candidates = [
+        ['Microsoft Edge', /(?:Edg|EdgiOS|Edge)\\/(\\d+)/],
+        ['Opera', /(?:OPR|OPiOS)\\/(\\d+)/],
+        ['Samsung Internet', /SamsungBrowser\\/(\\d+)/],
+        ['Google Chrome', /(?:Chrome|CriOS)\\/(\\d+)/],
+        ['Mozilla Firefox', /(?:Firefox|FxiOS)\\/(\\d+)/],
+        ['Safari', /Version\\/(\\d+)[^]*Safari\\//]
+    ];
+    for (const [name, pattern] of candidates) {
+        const match = ua.match(pattern);
+        if (match) return name + ' ' + match[1];
+    }
+    return 'Unknown browser';
+}
+
+function getSubmissionLocalDate() {
+    const now = new Date();
+    const pad = (value) => String(value).padStart(2, '0');
+    return now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' +
+        pad(now.getDate()) + ' ' + pad(now.getHours()) + ':' +
+        pad(now.getMinutes());
+}
 
 
 function formUpdate(clicked = '', refreshUrl = true) {
@@ -5356,6 +5385,8 @@ function formUpdate(clicked = '', refreshUrl = true) {
         !formMobileReady ||
         !formAnimated ||
         !formGradient ||
+        !formBrowser ||
+        !formDate ||
         !formHasPremium ||
         !formShapeIsPremium
     ) {
@@ -5370,6 +5401,8 @@ function formUpdate(clicked = '', refreshUrl = true) {
     formMobileReady.value = mobileReady;
     formAnimated.value = animate || (mobileReady && (tabletAnimate || mobileAnimate));
     formGradient.value = (gradient || (mobileReady && (tabletGradient || mobileGradient))) ? 'TRUE' : 'FALSE';
+    formBrowser.value = getSubmissionBrowser();
+    formDate.value = getSubmissionLocalDate();
     formHasPremium.value = hasPremiumAccess();
     formShapeIsPremium.value = Boolean(
         svgDividers[shapeIndex].pro ||
