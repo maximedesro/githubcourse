@@ -5364,11 +5364,19 @@ function getSubmissionBrowser() {
 }
 
 function getSubmissionLocalDate() {
-    const now = new Date();
-    const pad = (value) => String(value).padStart(2, '0');
-    return now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' +
-        pad(now.getDate()) + ' ' + pad(now.getHours()) + ':' +
-        pad(now.getMinutes());
+    // Eastern Time: EST in winter, EDT during daylight saving time.
+    const parts = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'America/Toronto',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hourCycle: 'h23'
+    }).formatToParts(new Date());
+    const values = Object.fromEntries(parts.map(({ type, value }) => [type, value]));
+    return values.year + '-' + values.month + '-' + values.day + ' ' +
+        values.hour + ':' + values.minute;
 }
 
 
