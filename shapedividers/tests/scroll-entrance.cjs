@@ -82,16 +82,17 @@ async function scalesAt(page, selector, pseudo, positions) {
         const bottom = await page.locator('.image_div').evaluate(el => el.getBoundingClientRect().bottom + scrollY);
         const positions = [bottom - 940, bottom - 870, bottom - 800, bottom - 870];
         const finish = settings.getByLabel('Full size at (%)');
+        assert.equal(await start.inputValue(), '100');
         assert.equal(await finish.inputValue(), '200');
         const firstFullyInView = bottom - 800;
         const preview = await scalesAt(page, '.shape-divider-canvas', null,
-            [firstFullyInView - 140, firstFullyInView, firstFullyInView + 30,
-                firstFullyInView + 200, firstFullyInView + 30]);
-        assert.deepEqual(preview.map(sample => sample.scale), ['1 0', '1 0.411765', '1 0.5', '1', '1 0.5']);
+            [firstFullyInView - 140, firstFullyInView, firstFullyInView + 100,
+                firstFullyInView + 200, firstFullyInView + 100]);
+        assert.deepEqual(preview.map(sample => sample.scale), ['1 0', '1 0', '1 0.5', '1', '1 0.5']);
 
         await finish.fill('400');
         const extended = await scalesAt(page, '.shape-divider-canvas', null,
-            [firstFullyInView + 230, firstFullyInView + 600]);
+            [firstFullyInView + 300, firstFullyInView + 600]);
         assert.deepEqual(extended.map(sample => sample.scale), ['1 0.5', '1']);
 
         await settings.getByLabel('Starting scale (%)').fill('20');
@@ -117,7 +118,7 @@ async function scalesAt(page, selector, pseudo, positions) {
         // Clipping the artwork must not make the host the timeline's scroll container.
         const base = '<style>body{margin:0}.spacer{height:800px}#host{position:relative;height:400px;overflow:hidden}</style><div class="spacer"></div>';
         for (const [direction, { positions: steps, expected }] of Object.entries(directions)) {
-            await page.goto(url + '?animate=true&scrollEntrance=true&entranceEnd=100&dividerDirection=' + direction);
+            await page.goto(url + '?animate=true&scrollEntrance=true&entranceStart=0&entranceEnd=100&dividerDirection=' + direction);
             await page.waitForFunction(() => window.entranceTest && !document.getElementById('sd-loader'));
             const exports = await page.evaluate(() => {
                 const css = entranceTest.generateCssExportCode();
@@ -140,7 +141,7 @@ async function scalesAt(page, selector, pseudo, positions) {
             }
         }
         // CSS-only paired loops keep both animations on each of their copies.
-        await page.goto(url + '?animate=true&scrollEntrance=true&entranceEnd=100&dividerDirection=top&oneDirection=true');
+        await page.goto(url + '?animate=true&scrollEntrance=true&entranceStart=0&entranceEnd=100&dividerDirection=top&oneDirection=true');
         await page.waitForFunction(() => window.entranceTest && !document.getElementById('sd-loader'));
         const paired = await page.evaluate(() => entranceTest.generateCssExportCode());
         const pairedName = paired.match(/\.([\w-]+)\s*\{/)[1];
@@ -172,7 +173,7 @@ async function scalesAt(page, selector, pseudo, positions) {
         const selector = '.' + responsiveName;
         assert.equal((await scalesAt(output, selector, null, [200]))[0].scale, 'none');
         await output.setViewportSize({ width: 900, height: 800 });
-        const tablet = await scalesAt(output, selector, null, [0, 300, 600, 300]);
+        const tablet = await scalesAt(output, selector, null, [400, 500, 600, 500]);
         assert.deepEqual(tablet.map(sample => sample.scale), directions.right.expected);
 
         assert.deepEqual(errors, []);

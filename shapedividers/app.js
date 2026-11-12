@@ -1648,6 +1648,8 @@ function buildMotionExportCode(format) {
     return '<style>\n'+rules.join('\n')+'\n</style>\n<div class="'+wrapper+'">'+markup.join('\n')+'</div>';
 }
 
+const defaultEntranceStart = 100;
+const maxEntranceStart = 100;
 const defaultEntranceEnd = 200;
 const maxEntranceEnd = 400;
 
@@ -1663,7 +1665,7 @@ function mountEntranceControls(prefix) {
         '"> Enable Scroll Based Entrance Animation</label>' +
         '<div id="' + id('entrance-settings') + '" class="sd-entrance-settings" hidden>' +
         numberField('entrance-scale', 'Starting scale (%)', 0, 0, 100) +
-        numberField('entrance-start', 'Start of entrance (%)', 0, 0, 99) +
+        numberField('entrance-start', 'Start of entrance (%)', defaultEntranceStart, 0, maxEntranceStart) +
         numberField('entrance-end', 'Full size at (%)', defaultEntranceEnd, 1, maxEntranceEnd) +
         '<p>0% is when the divider enters the viewport. 100% is when it is fully in view. ' +
         'Every 100% beyond that adds a quarter of the viewport in scroll distance. ' +
@@ -1698,7 +1700,7 @@ function readScrollEntrance(prefix) {
     return {
         enabled: input('scroll-entrance').checked,
         scale: number('entrance-scale', 0, 0, 100) / 100,
-        start: number('entrance-start', 0, 0, end - 1),
+        start: Math.min(end - 1, number('entrance-start', defaultEntranceStart, 0, maxEntranceStart)),
         end,
         origin: input('entrance-origin').value
     };
