@@ -837,7 +837,6 @@ function buildShareUrl() {
         'entrance-scale':['entranceScale','EntranceScale'],
         'entrance-start':['entranceStart','EntranceStart'],
         'entrance-end':['entranceEnd','EntranceEnd'],
-        'entrance-origin':['entranceOrigin','EntranceOrigin'],
         animation_length:['animLength','AnimLength'],
         animation_long_axis:['animLongAxis','AnimLongAxis'],
         'one-direction-checkbox':['oneDirection','OneDirection'],
@@ -952,7 +951,6 @@ function restoreViewportFromURL(prefix, paramPrefix, shapeParam) {
     setInputValueFromParam(prefixedId(prefix, 'entrance-scale'), key('entranceScale', 'EntranceScale'));
     setInputValueFromParam(prefixedId(prefix, 'entrance-start'), key('entranceStart', 'EntranceStart'));
     setInputValueFromParam(prefixedId(prefix, 'entrance-end'), key('entranceEnd', 'EntranceEnd'));
-    setInputValueFromParam(prefixedId(prefix, 'entrance-origin'), key('entranceOrigin', 'EntranceOrigin'));
     setCheckboxFromParam(prefixedId(prefix, 'depth-layers-checkbox'), key('depthLayers', 'DepthLayers'));
     setCheckboxFromParam(prefixedId(prefix, 'mirror-loop-checkbox'), key('mirrorLoop', 'MirrorLoop'));
     setCheckboxFromParam(
@@ -1669,11 +1667,7 @@ function mountEntranceControls(prefix) {
         numberField('entrance-end', 'Full size at (%)', defaultEntranceEnd, 1, maxEntranceEnd) +
         '<p>0% is when the divider enters the viewport. 100% is when it is fully in view. ' +
         'Every 100% beyond that adds a quarter of the viewport in scroll distance. ' +
-        'Scroll outside this panel to test.</p>' +
-        '<label>Scale origin <select id="' + id('entrance-origin') + '">' +
-        '<option value="seam">Section edge</option><option value="center">Divider center</option>' +
-        '<option value="outer">Outer edge</option></select></label></div></div>');
-    document.getElementById(id('entrance-origin')).addEventListener('change', updateShape);
+        'Scroll outside this panel to test.</p></div></div>');
     const start = document.getElementById(id('entrance-start'));
     const end = document.getElementById(id('entrance-end'));
     start.addEventListener('change', () => {
@@ -1701,8 +1695,7 @@ function readScrollEntrance(prefix) {
         enabled: input('scroll-entrance').checked,
         scale: number('entrance-scale', 0, 0, 100) / 100,
         start: Math.min(end - 1, number('entrance-start', defaultEntranceStart, 0, maxEntranceStart)),
-        end,
-        origin: input('entrance-origin').value
+        end
     };
 }
 
@@ -1812,7 +1805,7 @@ if (!dividerPreviewHost) {
 
 const entranceExportSupport = '@supports (view-timeline-name: --entrance)';
 const entrancePreviewSupport = entranceExportSupport + ' and (animation-timeline: --entrance) and ' +
-    '(animation-range: entry-crossing 0% entry-crossing 100%) and (scale: 1 0) and (translate: 0 0) and (overflow: clip) {\n';
+    '(animation-range: entry-crossing 0% entry-crossing 100%) and (scale: 1 0) and (overflow: clip) {\n';
 
 const entranceStage = dividerPreviewHost.closest('.tool-stage') || previewHost;
 const entranceSpacer = document.createElement('div');
@@ -2593,7 +2586,7 @@ function syncResponsiveControlsFromDesktop() {
         document.getElementById(prefixedId(prefix, 'animation_long_axis')).value =
             document.getElementById('animation_long_axis').value;
 
-        for (const field of ['scroll-entrance', 'entrance-scale', 'entrance-start', 'entrance-end', 'entrance-origin']) {
+        for (const field of ['scroll-entrance', 'entrance-scale', 'entrance-start', 'entrance-end']) {
             const from = document.getElementById(prefixedId('', field));
             const to = document.getElementById(prefixedId(prefix, field));
             if (from.type === 'checkbox') to.checked = from.checked;
@@ -3057,20 +3050,12 @@ function getEntranceCss(state, name, source, target, thickness, {
     const horizontal = direction === 'top' || direction === 'bottom';
     const from = horizontal ? '1 ' + entrance.scale : entrance.scale + ' 1';
     const edgeOrigin = {top:'100% 0', bottom:'100% 100%', left:'0 100%', right:'100% 100%'}[direction];
-    const originFraction = {center:0.5, outer:1}[entrance.origin] || 0;
-    const inward = direction === 'bottom' || direction === 'right' ? -1 : 1;
-    // Keep the existing transform origin for the motion animation. Offset the
-    // individual scale by the amount needed to pivot around the selected edge.
-    const distance = inward * originFraction * (1 - entrance.scale);
-    const offset = 'calc(' + thickness + ' * ' + distance + ')';
-    const translation = distance ? 'translate:' + (horizontal ? '0 ' + offset : offset + ' 0') + ';' : '';
     const animation = existingAnimation ? 'var(--' + name + '-motion, none), ' : '';
     const range = existingAnimation ? 'normal, ' : '';
     const timelines = existingAnimation ? 'auto, ' : '';
     return supportRule +
         '@media (prefers-reduced-motion: no-preference) {\n' +
-        '@keyframes ' + name + '{from{scale:' + from + ';' + translation + '}to{scale:1 1;' +
-        (translation ? 'translate:0 0;' : '') + '}}\n' +
+        '@keyframes ' + name + '{from{scale:' + from + ';}to{scale:1 1;}}\n' +
         source + '{view-timeline-name:' + timeline + ';view-timeline-axis:block;view-timeline-inset:0;}\n' +
         target + '{transform-origin:' + edgeOrigin + ';animation:' + animation + name + ' auto linear both;' +
         'animation-timeline:' + timelines + timeline + ';animation-range:' + range +

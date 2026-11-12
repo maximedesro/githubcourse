@@ -98,7 +98,6 @@ async function scalesAt(page, selector, pseudo, positions) {
         await settings.getByLabel('Starting scale (%)').fill('20');
         await start.fill('25');
         await finish.fill('75');
-        await settings.getByLabel('Scale origin').selectOption('center');
         const adjusted = await scalesAt(page, '.shape-divider-canvas', null, positions);
         assert.deepEqual(adjusted.map(sample => sample.scale), ['1 0.2', '1 0.6', '1', '1 0.6']);
 

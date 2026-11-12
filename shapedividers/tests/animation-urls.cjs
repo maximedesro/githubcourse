@@ -16,7 +16,7 @@ function resetControls() {
     elements = new Map();groups = {};
     ['', 'tablet','mobile'].forEach(prefix=> {
         const id = key=>prefixedId(prefix,key);
-        const values = {long_axis:'100',short_axis:'140',position:'50','entrance-scale':'0','entrance-start':'0','entrance-end':'100','entrance-origin':'seam',animation_length:'10',animation_long_axis:'4','shape-color':'#fbd8c2','gradient-color':'#fe6da8','shape-color-code':'#fbd8c2','gradient-color-code':'#fe6da8'};
+        const values = {long_axis:'100',short_axis:'140',position:'50','entrance-scale':'0','entrance-start':'0','entrance-end':'100',animation_length:'10',animation_long_axis:'4','shape-color':'#fbd8c2','gradient-color':'#fe6da8','shape-color-code':'#fbd8c2','gradient-color-code':'#fe6da8'};
         for(const [key,value] of Object.entries(values)) elements.set(id(key),{value,type:key.endsWith('-color') ? 'color' : 'text'});
         for(const key of ['flipped-checkbox','animate-checkbox','scroll-entrance','one-direction-checkbox','mirror-loop-checkbox','depth-layers-checkbox','gradient-checkbox']) elements.set(id(key),{type:'checkbox',checked:false});
         groups[prefix ? prefix+'dividerdirection' : 'dividerdirection'] = ['top','bottom','left','right'].map(value=>({value,checked:value==='bottom'}));
@@ -66,7 +66,6 @@ const stacks = [
     elements.get(prefixedId(prefix,'entrance-scale')).value=String(index*15);
     elements.get(prefixedId(prefix,'entrance-start')).value=String(index*5);
     elements.get(prefixedId(prefix,'entrance-end')).value=String(100-index*10);
-    elements.get(prefixedId(prefix,'entrance-origin')).value=['seam','center','outer'][index];
     groups[prefix ? prefix+'dividerdirection' : 'dividerdirection'].forEach(r=>r.checked=r.value===['bottom','left','top'][index]);
 });
 const full = sandbox.buildShareUrl();
@@ -77,6 +76,8 @@ assert.deepEqual(JSON.parse(params.get('background')),sandbox.previewBackgroundS
 for(const [index,prefix] of ['','tablet','mobile'].entries()) assert.equal(JSON.stringify(JSON.parse(params.get(prefix ? prefix+'Effects':'effects'))),JSON.stringify(Object.fromEntries(Object.entries(stacks[index]).filter(([key,value])=>value!==sandbox.defaults[key]))));
 // Restore independent controls, colors, checkboxes and the selected editor view.
 resetControls();sandbox.shapeIndex=2;sandbox.tabletShapeIndex=0;sandbox.mobileShapeIndex=0;
+assert.equal(params.has('entranceOrigin'), false);
+params.set('entranceOrigin', 'center'); // Legacy links still restore the other settings.
 sandbox.urlParams=params;sandbox.updateSettingsfromURL();
 ['','tablet','mobile'].forEach((prefix,index)=> {
     assert.equal(JSON.stringify(sandbox.readMotionEffects(prefix,{effective:false})),JSON.stringify({...sandbox.defaults,...stacks[index]}));
@@ -85,7 +86,6 @@ sandbox.urlParams=params;sandbox.updateSettingsfromURL();
     assert.equal(elements.get(prefixedId(prefix,'entrance-scale')).value,String(index*15));
     assert.equal(elements.get(prefixedId(prefix,'entrance-start')).value,String(index*5));
     assert.equal(elements.get(prefixedId(prefix,'entrance-end')).value,String(100-index*10));
-    assert.equal(elements.get(prefixedId(prefix,'entrance-origin')).value,['seam','center','outer'][index]);
     for(const color of ['lightColor','ribbonA','ribbonB','ribbonC','sparkColor']) assert.equal(elements.get(prefixedId(prefix,'motion-'+color+'-hex')).value,stacks[index][color]);
 });
 assert.deepEqual([sandbox.shapeIndex,sandbox.tabletShapeIndex,sandbox.mobileShapeIndex],[0,1,2]);
