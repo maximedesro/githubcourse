@@ -3046,8 +3046,11 @@ function getEntranceThickness(state, extra = '0px') {
     return 'calc((' + (Number(state.shortAxis) || 0) + 'px + ' + extra + ') * ' + scale + ')';
 }
 
-function getEntranceCss(state, name, source, target, thickness, existingAnimation = false,
-    supportRule = entranceExportSupport + ' {\n') {
+function getEntranceCss(state, name, source, target, thickness, {
+    existingAnimation = false,
+    supportRule = entranceExportSupport + ' {\n',
+    timeline = '--' + name
+} = {}) {
     const {direction, entrance} = state;
     const horizontal = direction === 'top' || direction === 'bottom';
     const from = horizontal ? '1 ' + entrance.scale : entrance.scale + ' 1';
@@ -3059,7 +3062,6 @@ function getEntranceCss(state, name, source, target, thickness, existingAnimatio
     const distance = inward * originFraction * (1 - entrance.scale);
     const offset = 'calc(' + thickness + ' * ' + distance + ')';
     const translation = distance ? 'translate:' + (horizontal ? '0 ' + offset : offset + ' 0') + ';' : '';
-    const timeline = '--' + name;
     const animation = existingAnimation ? 'var(--' + name + '-motion, none), ' : '';
     const range = existingAnimation ? 'normal, ' : '';
     const timelines = existingAnimation ? 'auto, ' : '';
@@ -3076,11 +3078,16 @@ function getEntranceCss(state, name, source, target, thickness, existingAnimatio
 function buildEntranceExportCss(states, wrapper, format, paired = false) {
     const name = wrapper + '-entrance';
     const cssOnly = format === 'css';
-    const source = '.' + wrapper;
-    const target = cssOnly ? source + '::before' + (paired ? ', ' + source + '::after' : '') : source;
+    const divider = '.' + wrapper;
+    const host = cssOnly ? divider : ':has(> ' + divider + ')';
+    const target = cssOnly ? divider + '::before' + (paired ? ', ' + divider + '::after' : '') : divider;
     return states.map(state => {
         if (!state.animate || !state.entrance?.enabled) return '';
-        const rule = extra => getEntranceCss(state, name, source, target, getEntranceThickness(state, extra), cssOnly);
+        // A host can contain multiple dividers, which all share its view timeline.
+        const rule = extra => getEntranceCss(state, name, host, target, getEntranceThickness(state, extra), {
+            existingAnimation: cssOnly,
+            timeline: '--shapedividers-entrance'
+        });
         let css = rule();
         const horizontal = state.direction === 'top' || state.direction === 'bottom';
         if (state.key === 'desktop' && horizontal && (format !== 'motion')) {
@@ -3105,7 +3112,7 @@ function updateEntrancePreview(state) {
         return;
     }
     const rule = extra => getEntranceCss(state, 'sd-preview-entrance', '#previewer > .image_div',
-        '#previewer .shape-divider-canvas, #previewer .sd-motion-preview', getEntranceThickness(state, extra), false, entrancePreviewSupport);
+        '#previewer .shape-divider-canvas, #previewer .sd-motion-preview', getEntranceThickness(state, extra), { supportRule: entrancePreviewSupport });
     const horizontal = state.direction === 'top' || state.direction === 'bottom';
     // Keep the spacer and scroll container rules with the preview animation.
     // WordPress can serve the script and stylesheet from different caches.

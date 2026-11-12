@@ -114,7 +114,8 @@ async function scalesAt(page, selector, pseudo, positions) {
             left: { positions: [0, 200, 400, 200], expected: ['0 1', '0.5 1', '1', '0.5 1'] },
             right: { positions: [0, 200, 400, 200], expected: ['0 1', '0.5 1', '1', '0.5 1'] }
         };
-        const base = '<style>body{margin:0}.spacer{height:800px}#host{position:relative;height:400px}</style><div class="spacer"></div>';
+        // Clipping the artwork must not make the host the timeline's scroll container.
+        const base = '<style>body{margin:0}.spacer{height:800px}#host{position:relative;height:400px;overflow:hidden}</style><div class="spacer"></div>';
         for (const [direction, { positions: steps, expected }] of Object.entries(directions)) {
             await page.goto(url + '?animate=true&scrollEntrance=true&entranceEnd=100&dividerDirection=' + direction);
             await page.waitForFunction(() => window.entranceTest && !document.getElementById('sd-loader'));
