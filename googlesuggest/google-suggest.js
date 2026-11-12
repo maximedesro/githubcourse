@@ -6,8 +6,8 @@
   "use strict";
 
   const CONFIG = {
-    keywords: ["elementor woocommerce"],
-    requiredTerms: ["woocommerce"], // All terms must be present; [] disables this filter.
+    keywords: ["elementor"],
+    requiredTerms: ["elementor"], // All terms must be present; [] disables this filter.
     strictSeedMatch: true,          // Also require one full original seed phrase.
     alphabet: "abcdefghijklmnopqrstuvwxyz".split(""),
     numbers: Array.from({ length: 23 }, (_, i) => String(i)),
