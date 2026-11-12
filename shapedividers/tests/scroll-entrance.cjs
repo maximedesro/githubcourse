@@ -123,6 +123,7 @@ async function scalesAt(page, selector, pseudo, positions) {
                 return { css, svg: entranceTest.buildSvgExportCode(), mask: entranceTest.buildMaskExportCode() };
             });
             for (const [format, code] of Object.entries(exports)) {
+                assert.match(code, /@supports \(view-timeline-name: --entrance\) \{/);
                 const cssOnly = format === 'css';
                 const name = code.match(cssOnly ? /\.([\w-]+)\{/ : /<div class="([^"]+)"/)[1];
                 const markup = cssOnly
@@ -151,7 +152,7 @@ async function scalesAt(page, selector, pseudo, positions) {
         }
 
         // Force the feature query to fail and verify the original loop remains.
-        const fallback = paired.replaceAll('(scale: 1 0)', '(unsupported-entrance-test: true)');
+        const fallback = paired.replaceAll('(view-timeline-name: --entrance)', '(unsupported-entrance-test: true)');
         await output.setContent(base + '<style>' + fallback + '</style><div id="host" class="' + pairedName +
             '"></div><div class="spacer"></div>');
         const [fallbackSample] = await scalesAt(output, '.' + pairedName, '::before', [70]);

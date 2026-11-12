@@ -1808,7 +1808,8 @@ if (!dividerPreviewHost) {
     return;
 }
 
-const entranceSupportRule = '@supports (view-timeline-name: --entrance) and (animation-timeline: --entrance) and ' +
+const entranceExportSupport = '@supports (view-timeline-name: --entrance)';
+const entrancePreviewSupport = entranceExportSupport + ' and (animation-timeline: --entrance) and ' +
     '(animation-range: entry-crossing 0% entry-crossing 100%) and (scale: 1 0) and (translate: 0 0) and (overflow: clip) {\n';
 
 const entranceStage = dividerPreviewHost.closest('.tool-stage') || previewHost;
@@ -3045,7 +3046,8 @@ function getEntranceThickness(state, extra = '0px') {
     return 'calc((' + (Number(state.shortAxis) || 0) + 'px + ' + extra + ') * ' + scale + ')';
 }
 
-function getEntranceCss(state, name, source, target, thickness, existingAnimation = false) {
+function getEntranceCss(state, name, source, target, thickness, existingAnimation = false,
+    supportRule = entranceExportSupport + ' {\n') {
     const {direction, entrance} = state;
     const horizontal = direction === 'top' || direction === 'bottom';
     const from = horizontal ? '1 ' + entrance.scale : entrance.scale + ' 1';
@@ -3061,7 +3063,7 @@ function getEntranceCss(state, name, source, target, thickness, existingAnimatio
     const animation = existingAnimation ? 'var(--' + name + '-motion, none), ' : '';
     const range = existingAnimation ? 'normal, ' : '';
     const timelines = existingAnimation ? 'auto, ' : '';
-    return entranceSupportRule +
+    return supportRule +
         '@media (prefers-reduced-motion: no-preference) {\n' +
         '@keyframes ' + name + '{from{scale:' + from + ';' + translation + '}to{scale:1 1;' +
         (translation ? 'translate:0 0;' : '') + '}}\n' +
@@ -3103,11 +3105,11 @@ function updateEntrancePreview(state) {
         return;
     }
     const rule = extra => getEntranceCss(state, 'sd-preview-entrance', '#previewer > .image_div',
-        '#previewer .shape-divider-canvas, #previewer .sd-motion-preview', getEntranceThickness(state, extra));
+        '#previewer .shape-divider-canvas, #previewer .sd-motion-preview', getEntranceThickness(state, extra), false, entrancePreviewSupport);
     const horizontal = state.direction === 'top' || state.direction === 'bottom';
     // Keep the spacer and scroll container rules with the preview animation.
     // WordPress can serve the script and stylesheet from different caches.
-    const previewLayout = entranceSupportRule + `
+    const previewLayout = entrancePreviewSupport + `
         @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
             .sd-entrance-spacer:not([hidden]) {
                 display: grid;
