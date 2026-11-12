@@ -1631,7 +1631,7 @@ margin-bottom:8px;
   }
 
   .tool-stage,
-  body > .container,
+  .tool-stage > .container,
   .hover-here-hint,
   .preview {
     display: none !important;
@@ -2787,7 +2787,6 @@ body.sd-is-loading {
 @media(max-width:1024px){.landing-page--showcase .landing-shape-edit{right:32px}}
 @media(max-width:767px){.landing-page--showcase .landing-shape-edit{right:20px;font-size:11px}}
 
-.sd-entrance-spacer,
 .sd-entrance-settings[hidden] {
   display: none;
 }
@@ -2823,24 +2822,4 @@ body.sd-is-loading {
 .sd-entrance-settings p {
   margin: 6px 0;
   font-size: 12px;
-}
-
-@supports (view-timeline-name: --entrance) and (animation-timeline: --entrance) and
-  (animation-range: entry-crossing 0% entry-crossing 100%) and (scale: 1 0) and (translate: 0 0) and (overflow: clip) {
-  @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
-    .sd-entrance-spacer:not([hidden]) {
-      display: grid;
-      place-items: center;
-      height: 100vh;
-      padding: 16px;
-      box-sizing: border-box;
-      background: var(--sd-paper, white);
-      color: var(--sd-ink, #153b36);
-      text-align: center;
-    }
-
-    .tool-stage.sd-entrance-stage {
-      overflow: clip;
-    }
-  }
 }

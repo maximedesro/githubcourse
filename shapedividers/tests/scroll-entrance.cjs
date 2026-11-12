@@ -72,6 +72,13 @@ async function scalesAt(page, selector, pseudo, positions) {
         assert.equal(await page.locator('.sd-entrance-spacer').evaluate(el => el.offsetHeight), 800);
         assert.equal(await page.locator('.sd-entrance-spacer').textContent(), 'You can now scroll up and down to test.');
 
+        const overlayOffsets = await page.locator('.tool-stage').evaluate(stage => {
+            const top = stage.getBoundingClientRect().top;
+            return ['.container', '.hover-here-hint'].map(selector =>
+                stage.querySelector(selector).getBoundingClientRect().top - top);
+        });
+        assert.ok(overlayOffsets.every(offset => offset >= 0 && offset < 800));
+
         const bottom = await page.locator('.image_div').evaluate(el => el.getBoundingClientRect().bottom + scrollY);
         const positions = [bottom - 940, bottom - 870, bottom - 800, bottom - 870];
         const preview = await scalesAt(page, '.shape-divider-canvas', null, positions);

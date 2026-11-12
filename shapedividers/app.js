@@ -1662,7 +1662,8 @@ function mountEntranceControls(prefix) {
         numberField('entrance-scale', 'Starting scale (%)', 0, 0, 100) +
         numberField('entrance-start', 'Start of entrance (%)', 0, 0, 99) +
         numberField('entrance-end', 'Full size at (%)', 100, 1, 100) +
-        '<p>0% is when the divider enters the viewport. 100% is when it is fully in view.</p>' +
+        '<p>0% is when the divider enters the viewport. 100% is when it is fully in view. ' +
+        'Scroll outside this panel to test.</p>' +
         '<label>Scale origin <select id="' + id('entrance-origin') + '">' +
         '<option value="seam">Section edge</option><option value="center">Divider center</option>' +
         '<option value="outer">Outer edge</option></select></label></div></div>');
@@ -1802,6 +1803,9 @@ if (!dividerPreviewHost) {
     console.error('ShapeDividers: .image_div preview host was not found.');
     return;
 }
+
+const entranceSupportRule = '@supports (view-timeline-name: --entrance) and (animation-timeline: --entrance) and ' +
+    '(animation-range: entry-crossing 0% entry-crossing 100%) and (scale: 1 0) and (translate: 0 0) and (overflow: clip) {\n';
 
 const entranceStage = dividerPreviewHost.closest('.tool-stage') || previewHost;
 const entranceSpacer = document.createElement('div');
@@ -3045,8 +3049,7 @@ function getEntranceCss(state, name, source, target, thickness, existingAnimatio
     const animation = existingAnimation ? 'var(--' + name + '-motion, none), ' : '';
     const range = existingAnimation ? 'normal, ' : '';
     const timelines = existingAnimation ? 'auto, ' : '';
-    return '@supports (view-timeline-name: --entrance) and (animation-timeline: --entrance) and ' +
-        '(animation-range: entry-crossing 0% entry-crossing 100%) and (scale: 1 0) and (translate: 0 0) and (overflow: clip) {\n' +
+    return entranceSupportRule +
         '@media (prefers-reduced-motion: no-preference) {\n' +
         '@keyframes ' + name + '{from{scale:' + from + ';' + translation + '}to{scale:1 1;' +
         (translation ? 'translate:0 0;' : '') + '}}\n' +
@@ -3090,7 +3093,25 @@ function updateEntrancePreview(state) {
     const rule = extra => getEntranceCss(state, 'sd-preview-entrance', '#previewer > .image_div',
         '#previewer .shape-divider-canvas, #previewer .sd-motion-preview', getEntranceThickness(state, extra));
     const horizontal = state.direction === 'top' || state.direction === 'bottom';
-    entrancePreviewStyle.textContent = rule() + (getActiveViewIndex() <= 0 && horizontal && !hasMotionEffects(state)
+    // Keep the spacer and scroll container rules with the preview animation.
+    // WordPress can serve the script and stylesheet from different caches.
+    const previewLayout = entranceSupportRule + `
+        @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+            .sd-entrance-spacer:not([hidden]) {
+                display: grid;
+                place-items: center;
+                height: 100vh;
+                padding: 16px;
+                box-sizing: border-box;
+                background: var(--sd-paper, white);
+                color: var(--sd-ink, #153b36);
+                text-align: center;
+            }
+            .sd-entrance-stage { overflow: clip; }
+        }
+    }`;
+    entrancePreviewStyle.textContent = '.sd-entrance-spacer { display: none; }' +
+        previewLayout + rule() + (getActiveViewIndex() <= 0 && horizontal && !hasMotionEffects(state)
         ? '\n@media (min-width:2100px){\n' + rule('2vw') + '\n}'
         : '');
 }
@@ -4766,12 +4787,13 @@ updateShape();
 const shapePicker = document.createElement('div');
 shapePicker.className = 'container';
 shapePicker.style.overflowAnchor = 'none';
-document.body.appendChild(shapePicker);
+const pickerHost = dividerPreviewHost.closest('.tool-stage') || document.body;
+pickerHost.appendChild(shapePicker);
 
 let hoverHereHint = document.createElement('div');
 hoverHereHint.className = 'hover-here-hint';
 hoverHereHint.textContent = 'Hover here';
-document.body.appendChild(hoverHereHint);
+pickerHost.appendChild(hoverHereHint);
 
 let hoverHintTimer = null;
 
