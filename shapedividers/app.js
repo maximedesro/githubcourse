@@ -833,6 +833,11 @@ function buildShareUrl() {
         position:['positionValue','PositionValue'],
         'flipped-checkbox':['flipped','Flipped'],
         'animate-checkbox':['animate','Animate'],
+        'scroll-entrance':['scrollEntrance','ScrollEntrance'],
+        'entrance-scale':['entranceScale','EntranceScale'],
+        'entrance-start':['entranceStart','EntranceStart'],
+        'entrance-end':['entranceEnd','EntranceEnd'],
+        'entrance-origin':['entranceOrigin','EntranceOrigin'],
         animation_length:['animLength','AnimLength'],
         animation_long_axis:['animLongAxis','AnimLongAxis'],
         'one-direction-checkbox':['oneDirection','OneDirection'],
@@ -943,6 +948,11 @@ function restoreViewportFromURL(prefix, paramPrefix, shapeParam) {
         prefixedId(prefix, 'animate-checkbox'),
         key('animate', 'Animate')
     );
+    setCheckboxFromParam(prefixedId(prefix, 'scroll-entrance'), key('scrollEntrance', 'ScrollEntrance'));
+    setInputValueFromParam(prefixedId(prefix, 'entrance-scale'), key('entranceScale', 'EntranceScale'));
+    setInputValueFromParam(prefixedId(prefix, 'entrance-start'), key('entranceStart', 'EntranceStart'));
+    setInputValueFromParam(prefixedId(prefix, 'entrance-end'), key('entranceEnd', 'EntranceEnd'));
+    setInputValueFromParam(prefixedId(prefix, 'entrance-origin'), key('entranceOrigin', 'EntranceOrigin'));
     setCheckboxFromParam(prefixedId(prefix, 'depth-layers-checkbox'), key('depthLayers', 'DepthLayers'));
     setCheckboxFromParam(prefixedId(prefix, 'mirror-loop-checkbox'), key('mirrorLoop', 'MirrorLoop'));
     setCheckboxFromParam(
@@ -1410,6 +1420,7 @@ function syncMotionControls(prefix, state) {
     const legacy = state.oneDirection || state.depthLayers;
     const reason = 'Loop and depth modes use Scrolling. Lighting, ribbons and sparks remain available. Turn off One direction and Depth layers to use a different motion or an edge treatment.';
     stack.querySelectorAll('select,input:not(.choices__input)').forEach(input => {
+        if (input.closest('.sd-entrance-controls')) return;
         const field = input.dataset.motionField;
         input.disabled = legacy && (field === 'motion' || field === 'edge');
         input.removeAttribute('title');
@@ -1631,10 +1642,67 @@ function buildMotionExportCode(format) {
         markup.push('<div class="'+id+'">'+svg+sparks+'</div>');
     });
     rules.push('@media(prefers-reduced-motion:reduce){.'+wrapper+' svg{animation:none!important;transform:none!important}}');
+    if (states.some(state => state.animate && state.entrance?.enabled)) {
+        rules.push(buildEntranceExportCss(states, wrapper, 'motion'));
+    }
     return '<style>\n'+rules.join('\n')+'\n</style>\n<div class="'+wrapper+'">'+markup.join('\n')+'</div>';
 }
 
-['', 'tablet', 'mobile'].forEach(mountMotionControls);
+function mountEntranceControls(prefix) {
+    const id = field => prefixedId(prefix, field);
+    const stack = document.getElementById(id('motion-stack'));
+    const numberField = (field, label, value, min, max) =>
+        '<label>' + label + ' <input type="number" id="' + id(field) +
+        '" value="' + value + '" min="' + min + '" max="' + max + '" step="1"></label>';
+    stack.insertAdjacentHTML('beforeend',
+        '<div class="sd-entrance-controls"><label class="sd-motion-check"><input type="checkbox" id="' +
+        id('scroll-entrance') + '" aria-controls="' + id('entrance-settings') +
+        '"> Enable Scroll Based Entrance Animation</label>' +
+        '<div id="' + id('entrance-settings') + '" class="sd-entrance-settings" hidden>' +
+        numberField('entrance-scale', 'Starting scale (%)', 0, 0, 100) +
+        numberField('entrance-start', 'Start of entrance (%)', 0, 0, 99) +
+        numberField('entrance-end', 'Full size at (%)', 100, 1, 100) +
+        '<p>0% is when the divider enters the viewport. 100% is when it is fully in view.</p>' +
+        '<label>Scale origin <select id="' + id('entrance-origin') + '">' +
+        '<option value="seam">Section edge</option><option value="center">Divider center</option>' +
+        '<option value="outer">Outer edge</option></select></label></div></div>');
+    document.getElementById(id('entrance-origin')).addEventListener('change', updateShape);
+    const start = document.getElementById(id('entrance-start'));
+    const end = document.getElementById(id('entrance-end'));
+    start.addEventListener('change', () => {
+        start.value = readScrollEntrance(prefix).start;
+    });
+    end.addEventListener('change', () => {
+        const entrance = readScrollEntrance(prefix);
+        end.value = entrance.end;
+        start.value = entrance.start;
+    });
+    const scale = document.getElementById(id('entrance-scale'));
+    scale.addEventListener('change', () => {
+        scale.value = Math.round(readScrollEntrance(prefix).scale * 100);
+    });
+}
+
+function readScrollEntrance(prefix) {
+    const input = field => document.getElementById(prefixedId(prefix, field));
+    const number = (field, fallback, min, max) => {
+        const value = input(field).valueAsNumber;
+        return Number.isFinite(value) ? Math.min(max, Math.max(min, Math.round(value))) : fallback;
+    };
+    const end = number('entrance-end', 100, 1, 100);
+    return {
+        enabled: input('scroll-entrance').checked,
+        scale: number('entrance-scale', 0, 0, 100) / 100,
+        start: number('entrance-start', 0, 0, end - 1),
+        end,
+        origin: input('entrance-origin').value
+    };
+}
+
+['', 'tablet', 'mobile'].forEach(prefix => {
+    mountMotionControls(prefix);
+    mountEntranceControls(prefix);
+});
 const formEntries = document.querySelectorAll("#genform input");
 const directionEntry = document.querySelectorAll(".row.radio input");
 
@@ -1734,6 +1802,15 @@ if (!dividerPreviewHost) {
     console.error('ShapeDividers: .image_div preview host was not found.');
     return;
 }
+
+const entranceStage = dividerPreviewHost.closest('.tool-stage') || previewHost;
+const entranceSpacer = document.createElement('div');
+entranceSpacer.className = 'sd-entrance-spacer';
+entranceSpacer.hidden = true;
+entranceSpacer.textContent = 'You can now scroll up and down to test.';
+entranceStage.before(entranceSpacer);
+const entrancePreviewStyle = document.createElement('style');
+entranceStage.appendChild(entrancePreviewStyle);
 
 const previewCanvas = document.createElement('canvas');
 previewCanvas.className = 'shape-divider-canvas';
@@ -2375,6 +2452,7 @@ function getActiveCanvasState() {
             mirrorLoop: document.getElementById(prefixedId('', 'mirror-loop-checkbox')).checked,
             depthLayers: document.getElementById(prefixedId('', 'depth-layers-checkbox')).checked,
             effects: readMotionEffects(''),
+            entrance: readScrollEntrance(''),
             ratio: shapeRatio
         };
     }
@@ -2397,6 +2475,7 @@ function getActiveCanvasState() {
             mirrorLoop: document.getElementById(prefixedId('tablet', 'mirror-loop-checkbox')).checked,
             depthLayers: document.getElementById(prefixedId('tablet', 'depth-layers-checkbox')).checked,
             effects: readMotionEffects('tablet'),
+            entrance: readScrollEntrance('tablet'),
             ratio: tabletShapeRatio
         };
     }
@@ -2417,7 +2496,8 @@ function getActiveCanvasState() {
         oneDirection: mobileOneDirection,
         mirrorLoop: document.getElementById(prefixedId('mobile', 'mirror-loop-checkbox')).checked,
         depthLayers: document.getElementById(prefixedId('mobile', 'depth-layers-checkbox')).checked,
-            effects: readMotionEffects('mobile'),
+        effects: readMotionEffects('mobile'),
+        entrance: readScrollEntrance('mobile'),
         ratio: mobileShapeRatio
     };
 }
@@ -2501,6 +2581,13 @@ function syncResponsiveControlsFromDesktop() {
             document.getElementById('animation_length').value;
         document.getElementById(prefixedId(prefix, 'animation_long_axis')).value =
             document.getElementById('animation_long_axis').value;
+
+        for (const field of ['scroll-entrance', 'entrance-scale', 'entrance-start', 'entrance-end', 'entrance-origin']) {
+            const from = document.getElementById(prefixedId('', field));
+            const to = document.getElementById(prefixedId(prefix, field));
+            if (from.type === 'checkbox') to.checked = from.checked;
+            else to.value = from.value;
+        }
 
         Object.entries(motionFields).forEach(([field,fallback]) => {
             const from = document.getElementById(motionControlId('',field));
@@ -2756,6 +2843,8 @@ function updateViewportControlVisibility(viewIndex, state) {
     const animated = state.animate;
     const prefix = ['', 'tablet', 'mobile'][viewIndex];
     syncMotionControls(prefix, state);
+    document.getElementById(prefixedId(prefix, 'entrance-settings')).hidden =
+        !document.getElementById(prefixedId(prefix, 'scroll-entrance')).checked;
     const scrolling = animated && (!hasMotionEffects(state) || state.effects.motion === 'scroll');
 
     longAxisContainers[viewIndex].style.display = scrolling ? 'none' : 'block';
@@ -2862,6 +2951,7 @@ function updateShape() {
     colorDiv.style.backgroundColor = '#' + activeState.color;
     previewer.className = 'previewer ' + activeState.direction;
 
+    updateEntrancePreview(activeState);
     renderCanvasPreview(activeState);
     premiumCheck();
 }
@@ -2912,6 +3002,99 @@ function getPremiumExportMessage() {
     );
 }
 
+// entry-crossing measures the entire source box crossing the bottom of the
+// scrollport. Use the divider strip within that box for horizontal dividers.
+function getEntranceRange(state, thickness) {
+    const {start, end} = state.entrance;
+    if (state.direction === 'left' || state.direction === 'right') {
+        const length = Math.min(100, Number(state.longAxis) || 100);
+        if (length === 100 || !state.effects || state.effects.motion === 'scroll') {
+            return 'entry ' + start + '% entry ' + end + '%';
+        }
+        const leadingEdge = (Number(state.position) || 0) * (1 - length / 100);
+        const offset = progress => (leadingEdge + length * progress / 100) + '%';
+        return 'entry-crossing ' + offset(start) + ' entry-crossing ' + offset(end);
+    }
+    const offset = progress => state.direction === 'top'
+        ? 'min(100%, calc(' + thickness + ' * ' + progress / 100 + '))'
+        : 'max(0%, calc(100% - ' + thickness + ' * ' + (100 - progress) / 100 + '))';
+    return 'entry-crossing ' + offset(start) + ' entry-crossing ' + offset(end);
+}
+
+function getEntranceThickness(state, extra = '0px') {
+    const scrolling = !state.effects || state.effects.motion === 'scroll';
+    const scale = state.ratio && (scrolling || state.oneDirection || state.depthLayers)
+        ? Math.max(1, Number(state.animationLongAxis) || 1)
+        : 1;
+    return 'calc((' + (Number(state.shortAxis) || 0) + 'px + ' + extra + ') * ' + scale + ')';
+}
+
+function getEntranceCss(state, name, source, target, thickness, existingAnimation = false) {
+    const {direction, entrance} = state;
+    const horizontal = direction === 'top' || direction === 'bottom';
+    const from = horizontal ? '1 ' + entrance.scale : entrance.scale + ' 1';
+    const edgeOrigin = {top:'100% 0', bottom:'100% 100%', left:'0 100%', right:'100% 100%'}[direction];
+    const originFraction = {center:0.5, outer:1}[entrance.origin] || 0;
+    const inward = direction === 'bottom' || direction === 'right' ? -1 : 1;
+    // Keep the existing transform origin for the motion animation. Offset the
+    // individual scale by the amount needed to pivot around the selected edge.
+    const distance = inward * originFraction * (1 - entrance.scale);
+    const offset = 'calc(' + thickness + ' * ' + distance + ')';
+    const translation = distance ? 'translate:' + (horizontal ? '0 ' + offset : offset + ' 0') + ';' : '';
+    const timeline = '--' + name;
+    const animation = existingAnimation ? 'var(--' + name + '-motion, none), ' : '';
+    const range = existingAnimation ? 'normal, ' : '';
+    const timelines = existingAnimation ? 'auto, ' : '';
+    return '@supports (view-timeline-name: --entrance) and (animation-timeline: --entrance) and ' +
+        '(animation-range: entry-crossing 0% entry-crossing 100%) and (scale: 1 0) and (translate: 0 0) and (overflow: clip) {\n' +
+        '@media (prefers-reduced-motion: no-preference) {\n' +
+        '@keyframes ' + name + '{from{scale:' + from + ';' + translation + '}to{scale:1 1;' +
+        (translation ? 'translate:0 0;' : '') + '}}\n' +
+        source + '{view-timeline-name:' + timeline + ';view-timeline-axis:block;view-timeline-inset:0;}\n' +
+        target + '{transform-origin:' + edgeOrigin + ';animation:' + animation + name + ' auto linear both;' +
+        'animation-timeline:' + timelines + timeline + ';animation-range:' + range +
+        getEntranceRange(state, thickness) + ';}\n}}';
+}
+
+function buildEntranceExportCss(states, wrapper, format, paired = false) {
+    const name = wrapper + '-entrance';
+    const cssOnly = format === 'css';
+    const source = '.' + wrapper;
+    const target = cssOnly ? source + '::before' + (paired ? ', ' + source + '::after' : '') : source;
+    return states.map(state => {
+        if (!state.animate || !state.entrance?.enabled) return '';
+        const rule = extra => getEntranceCss(state, name, source, target, getEntranceThickness(state, extra), cssOnly);
+        let css = rule();
+        const horizontal = state.direction === 'top' || state.direction === 'bottom';
+        if (state.key === 'desktop' && horizontal && (format !== 'motion')) {
+            css += '\n@media (min-width:2100px){\n' + rule('2vw') + '\n}';
+        }
+        if (states.length === 1) return css;
+        const breakpoint = {
+            mobile: '(width < 768px)',
+            tablet: '(768px <= width < 1025px)',
+            desktop: '(width >= 1025px)'
+        }[state.key];
+        return '@media ' + breakpoint + '{\n' + css + '\n}';
+    }).filter(Boolean).join('\n');
+}
+
+function updateEntrancePreview(state) {
+    const enabled = state.animate && state.entrance.enabled;
+    entranceSpacer.hidden = !enabled;
+    entranceStage.classList.toggle('sd-entrance-stage', enabled);
+    if (!enabled) {
+        entrancePreviewStyle.textContent = '';
+        return;
+    }
+    const rule = extra => getEntranceCss(state, 'sd-preview-entrance', '#previewer > .image_div',
+        '#previewer .shape-divider-canvas, #previewer .sd-motion-preview', getEntranceThickness(state, extra));
+    const horizontal = state.direction === 'top' || state.direction === 'bottom';
+    entrancePreviewStyle.textContent = rule() + (getActiveViewIndex() <= 0 && horizontal && !hasMotionEffects(state)
+        ? '\n@media (min-width:2100px){\n' + rule('2vw') + '\n}'
+        : '');
+}
+
 function generateCssExportCode({ renewClassName = true } = {}) {
     if (requiresPremiumFeatures() && !hasPremiumAccess()) {
         return null;
@@ -2923,15 +3106,15 @@ function generateCssExportCode({ renewClassName = true } = {}) {
 
     if (usesDepthLayers() || usesMotionEffects()) return null;
 
-    if (getSvgExportStates().some((state) => state.animate && state.oneDirection)) {
+    const states = getSvgExportStates();
+    if (states.some((state) => state.animate && state.oneDirection)) {
         return buildPairedExportCode('css');
     }
 
     copyRightCode();
 
-    return mobileReady
-        ? mobileShapeDiv + tabletShapeDiv + shapeDiv
-        : shapeDiv;
+    const css = mobileReady ? mobileShapeDiv + tabletShapeDiv + shapeDiv : shapeDiv;
+    return css + buildEntranceExportCss(states, shapeCSSName, 'css');
 }
 
 
@@ -2997,6 +3180,7 @@ function getSvgExportStates() {
             mirrorLoop: document.getElementById(prefixedId('', 'mirror-loop-checkbox')).checked,
             depthLayers: document.getElementById(prefixedId('', 'depth-layers-checkbox')).checked,
             effects: readMotionEffects(''),
+            entrance: readScrollEntrance(''),
             ratio: shapeRatio
         }
     ];
@@ -3020,7 +3204,8 @@ function getSvgExportStates() {
                 oneDirection: tabletOneDirection,
                 mirrorLoop: document.getElementById(prefixedId('tablet', 'mirror-loop-checkbox')).checked,
                 depthLayers: document.getElementById(prefixedId('tablet', 'depth-layers-checkbox')).checked,
-            effects: readMotionEffects('tablet'),
+                effects: readMotionEffects('tablet'),
+                entrance: readScrollEntrance('tablet'),
                 ratio: tabletShapeRatio
             },
             {
@@ -3040,7 +3225,8 @@ function getSvgExportStates() {
                 oneDirection: mobileOneDirection,
                 mirrorLoop: document.getElementById(prefixedId('mobile', 'mirror-loop-checkbox')).checked,
                 depthLayers: document.getElementById(prefixedId('mobile', 'depth-layers-checkbox')).checked,
-            effects: readMotionEffects('mobile'),
+                effects: readMotionEffects('mobile'),
+                entrance: readScrollEntrance('mobile'),
                 ratio: mobileShapeRatio
             }
         );
@@ -3520,6 +3706,9 @@ function buildPairedExportCode(format, suppliedStates = null, suppliedWrapper = 
                     delete declarations['--shape-gradient-color-2'];
                 }
                 if (format === 'css') {
+                    if (state.animate && state.entrance?.enabled) {
+                        declarations['--' + wrapper + '-entrance-motion'] = declarations.animation || 'none';
+                    }
                     declarations.content = "''";
                     declarations['background-image'] = mirrored && copy ? 'none' : backgroundImage;
                     declarations['background-repeat'] = 'no-repeat';
@@ -3571,6 +3760,9 @@ function buildPairedExportCode(format, suppliedStates = null, suppliedWrapper = 
                 height: 'calc(' + (2 * shortScale * layer.scale) + 'vw + ' + ((Number(layer.state.shortAxis) || 0) * shortScale) + 'px)'
             }) + '\n}');
         });
+    }
+    if (!suppliedStates && states.some(state => state.animate && state.entrance?.enabled)) {
+        rules.push(buildEntranceExportCss(states, wrapper, format, true));
     }
     const code = rules.concat([...keyframes]).join('\n\n');
     const definitions = symbols.size ? '<svg xmlns="http://www.w3.org/2000/svg" class="' + definitionsClass + '" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>' +
@@ -3764,6 +3956,10 @@ function buildSvgExportCode() {
             entry.state.gradientColor
         )
     );
+
+    if (states.some(state => state.animate && state.entrance?.enabled)) {
+        rules.push(buildEntranceExportCss(states, wrapperClass, 'svg'));
+    }
 
     const styleCode = rules
         .filter(Boolean)
@@ -4131,6 +4327,10 @@ function buildMaskExportCode() {
             .join('\n') +
         '\n</div>';
 
+    if (states.some(state => state.animate && state.entrance?.enabled)) {
+        rules.push(buildEntranceExportCss(states, wrapperClass, 'mask'));
+    }
+
     const styleCode = rules
         .filter(Boolean)
         .concat([...new Set(keyframes)])
@@ -4332,6 +4532,13 @@ document.addEventListener('keydown', (event) => {
 
 
 
+function getCssMotionDeclaration(prefix, animation) {
+    const declaration = 'animation: ' + animation + ';';
+    return readScrollEntrance(prefix).enabled
+        ? declaration + '\n--' + shapeCSSName + '-entrance-motion:' + animation + ';'
+        : declaration;
+}
+
 function copyRightCode(){
     
 shapeDiv = `
@@ -4352,7 +4559,7 @@ right: -0.1vw;
 top: -0.1vw; ${animate? `
 transform:${(dividerDirection === 'top' || dividerDirection === 'bottom')? `scale${shapeRatio? '' : 'X'}(${animLongAxis});` : `scale${shapeRatio? '' : 'Y'}(${animLongAxis});`}
 transform-origin: ${dividerDirection === 'top' ? '100% 0;' : dividerDirection === 'bottom' ? '100% 100%;' : dividerDirection === 'right' ? '100% 100%;' : dividerDirection === 'left' ? '0 100%;' : ''}
-animation: ${animLength}s infinite alternate ${(mobileDividerDirection != dividerDirection || mobileShapeRatio != shapeRatio || mobileAnimLongAxis != animLongAxis || !mobileReady || !mobileAnimate)? `${(dividerDirection === 'top' || dividerDirection === 'bottom')? `${animHorName}` : `${animVerName}`} ` : `${(dividerDirection === 'top' || dividerDirection === 'bottom')? `${animHorName}-mobile` : `${animVerName}-mobile`} `} linear;
+${getCssMotionDeclaration('', `${animLength}s infinite alternate ${(mobileDividerDirection != dividerDirection || mobileShapeRatio != shapeRatio || mobileAnimLongAxis != animLongAxis || !mobileReady || !mobileAnimate)? `${(dividerDirection === 'top' || dividerDirection === 'bottom')? `${animHorName}` : `${animVerName}`} ` : `${(dividerDirection === 'top' || dividerDirection === 'bottom')? `${animHorName}-mobile` : `${animVerName}-mobile`} `} linear`)}
 background-size: ${(dividerDirection === 'top' || dividerDirection === 'bottom')? '100%' : shortAxisValue + 'px'} ${(dividerDirection === 'top' || dividerDirection === 'bottom')? shortAxisValue + 'px' : '100%'};` : `${(!flipped && mobileReady && (tabletAnimate || tabletFlipped || mobileAnimate || mobileFlipped)) ? `
 transform:none;` : ''}${(flipped && mobileReady && (tabletAnimate || mobileAnimate)) ? `
 transform-origin:initial;` : ''}${(mobileAnimate || tabletAnimate)? `
@@ -4408,7 +4615,7 @@ tabletShapeDiv = `@media (min-width:768px){
 .${shapeCSSName}::before{${tabletAnimate? `
 transform:${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? `scale${tabletShapeRatio? '' : 'X'}(${tabletAnimLongAxis});` : `scale${tabletShapeRatio? '' : 'Y'}(${tabletAnimLongAxis});`}
 transform-origin: ${tabletDividerDirection === 'top' ? '100% 0;' : tabletDividerDirection === 'bottom' ? '100% 100%;' : tabletDividerDirection === 'right' ? '100% 100%;' : tabletDividerDirection === 'left' ? '0 100%;' : ''}
-animation: ${tabletAnimLength}s infinite alternate ${(mobileDividerDirection != tabletDividerDirection || mobileShapeRatio != tabletShapeRatio || mobileAnimLongAxis != tabletAnimLongAxis || !mobileAnimate)? `${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? `${animHorName}-tablet` : `${animVerName}-tablet`}` : `${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? `${animHorName}-mobile` : `${animVerName}-mobile`}`} linear;
+${getCssMotionDeclaration('tablet', `${tabletAnimLength}s infinite alternate ${(mobileDividerDirection != tabletDividerDirection || mobileShapeRatio != tabletShapeRatio || mobileAnimLongAxis != tabletAnimLongAxis || !mobileAnimate)? `${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? `${animHorName}-tablet` : `${animVerName}-tablet`}` : `${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? `${animHorName}-mobile` : `${animVerName}-mobile`}`} linear`)}
 background-size: ${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? '100%' : tabletShortAxisValue + 'px'} ${(tabletDividerDirection === 'top' || tabletDividerDirection === 'bottom')? tabletShortAxisValue + 'px' : '100%'};` : `${(!tabletFlipped && (mobileAnimate || mobileFlipped)) ? `
 transform:none;` : ''}${(tabletFlipped && mobileAnimate) ? `
 transform-origin:initial;` : ''}${mobileAnimate ? `
@@ -4468,7 +4675,7 @@ pointer-events: none;
 background-repeat: no-repeat; ${mobileAnimate? `
 transform:${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? `scale${mobileShapeRatio? '' : 'X'}(${mobileAnimLongAxis});` : `scale${mobileShapeRatio? '' : 'Y'}(${mobileAnimLongAxis});`}
 transform-origin: ${mobileDividerDirection === 'top' ? '100% 0;' : mobileDividerDirection === 'bottom' ? '100% 100%;' : mobileDividerDirection === 'right' ? '100% 100%;' : mobileDividerDirection === 'left' ? '0 100%;' : ''}
-animation: ${mobileAnimLength}s infinite alternate ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? `${animHorName}-mobile` : `${animVerName}-mobile`} linear;
+${getCssMotionDeclaration('mobile', `${mobileAnimLength}s infinite alternate ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? `${animHorName}-mobile` : `${animVerName}-mobile`} linear`)}
 background-size: ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? '100%' : mobileShortAxisValue + 'px'} ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? mobileShortAxisValue + 'px' : '100%'};` : `
 background-size: ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? mobileLongAxisValue + '%' : mobileShortAxisValue + 'px'} ${(mobileDividerDirection === 'top' || mobileDividerDirection === 'bottom')? mobileShortAxisValue + 'px' : mobileLongAxisValue + '%'};`}
 background-position: ${mobileDividerDirection === 'left'? 0 : mobileDividerDirection === 'right'? 100 : mobilePositionValue}% ${mobileDividerDirection === 'top'? 0 : mobileDividerDirection === 'bottom'? 100 : mobilePositionValue }%;    ${(mobileFlipped && !mobileAnimate) ? `

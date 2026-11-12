@@ -16,9 +16,9 @@ function resetControls() {
     elements = new Map();groups = {};
     ['', 'tablet','mobile'].forEach(prefix=> {
         const id = key=>prefixedId(prefix,key);
-        const values = {long_axis:'100',short_axis:'140',position:'50',animation_length:'10',animation_long_axis:'4','shape-color':'#fbd8c2','gradient-color':'#fe6da8','shape-color-code':'#fbd8c2','gradient-color-code':'#fe6da8'};
+        const values = {long_axis:'100',short_axis:'140',position:'50','entrance-scale':'0','entrance-start':'0','entrance-end':'100','entrance-origin':'seam',animation_length:'10',animation_long_axis:'4','shape-color':'#fbd8c2','gradient-color':'#fe6da8','shape-color-code':'#fbd8c2','gradient-color-code':'#fe6da8'};
         for(const [key,value] of Object.entries(values)) elements.set(id(key),{value,type:key.endsWith('-color') ? 'color' : 'text'});
-        for(const key of ['flipped-checkbox','animate-checkbox','one-direction-checkbox','mirror-loop-checkbox','depth-layers-checkbox','gradient-checkbox']) elements.set(id(key),{type:'checkbox',checked:false});
+        for(const key of ['flipped-checkbox','animate-checkbox','scroll-entrance','one-direction-checkbox','mirror-loop-checkbox','depth-layers-checkbox','gradient-checkbox']) elements.set(id(key),{type:'checkbox',checked:false});
         groups[prefix ? prefix+'dividerdirection' : 'dividerdirection'] = ['top','bottom','left','right'].map(value=>({value,checked:value==='bottom'}));
         for(const [field,value] of Object.entries(sandbox.defaults)) {
             elements.set(id('motion-'+field),{value,checked:value===true,type:typeof value === 'boolean' ? 'checkbox' : 'text',tagName:['motion','edge','light','intensity'].includes(field)?'SELECT':'INPUT'});
@@ -33,6 +33,7 @@ const sandbox = {URLSearchParams,prefixedId,console,document:{getElementById:id=
     urlParams:new URLSearchParams(),urlStylesLoaded:false,previewBackgroundState:{mode:'image',image:0,color:'#151a21'},
     shapeIndex:0,tabletShapeIndex:1,mobileShapeIndex:2,alreadyChangedView:true,
     svgDividers:[{si:267,ratio:'FALSE'},{si:301,ratio:'TRUE'},{si:302,ratio:'FALSE'}],
+    getSubmissionBrowser:()=> 'Test browser',getSubmissionLocalDate:()=> '2026-11-12 12:00',
     getActiveViewIndex:()=>2,syncGradientControl:()=>{},syncMotionChoice:()=>{},refreshRangeSliders:()=>{},
     viewsSelect:{style:{}},previewerFrame:{},previewClasses:['desktop-frame','tablet-frame','mobile-frame'],
     views:[0,1,2].map(()=>({classList:{toggle(name,value){this[name]=value;}}})),viewsSettings:[0,1,2].map(()=>({style:{}}))};
@@ -61,6 +62,11 @@ const stacks = [
     Object.entries(stacks[index]).forEach(([field,value])=>{const input=elements.get(prefixedId(prefix,'motion-'+field));if(typeof value==='boolean')input.checked=value;else input.value=value;});
     elements.get(prefixedId(prefix,'animation_length')).value=['12','31','77'][index];
     elements.get(prefixedId(prefix,'animate-checkbox')).checked=index!==2;
+    elements.get(prefixedId(prefix,'scroll-entrance')).checked=index!==1;
+    elements.get(prefixedId(prefix,'entrance-scale')).value=String(index*15);
+    elements.get(prefixedId(prefix,'entrance-start')).value=String(index*5);
+    elements.get(prefixedId(prefix,'entrance-end')).value=String(100-index*10);
+    elements.get(prefixedId(prefix,'entrance-origin')).value=['seam','center','outer'][index];
     groups[prefix ? prefix+'dividerdirection' : 'dividerdirection'].forEach(r=>r.checked=r.value===['bottom','left','top'][index]);
 });
 const full = sandbox.buildShareUrl();
@@ -75,6 +81,11 @@ sandbox.urlParams=params;sandbox.updateSettingsfromURL();
 ['','tablet','mobile'].forEach((prefix,index)=> {
     assert.equal(JSON.stringify(sandbox.readMotionEffects(prefix,{effective:false})),JSON.stringify({...sandbox.defaults,...stacks[index]}));
     assert.equal(elements.get(prefixedId(prefix,'animation_length')).value,['12','31','77'][index]);
+    assert.equal(elements.get(prefixedId(prefix,'scroll-entrance')).checked,index!==1);
+    assert.equal(elements.get(prefixedId(prefix,'entrance-scale')).value,String(index*15));
+    assert.equal(elements.get(prefixedId(prefix,'entrance-start')).value,String(index*5));
+    assert.equal(elements.get(prefixedId(prefix,'entrance-end')).value,String(100-index*10));
+    assert.equal(elements.get(prefixedId(prefix,'entrance-origin')).value,['seam','center','outer'][index]);
     for(const color of ['lightColor','ribbonA','ribbonB','ribbonC','sparkColor']) assert.equal(elements.get(prefixedId(prefix,'motion-'+color+'-hex')).value,stacks[index][color]);
 });
 assert.deepEqual([sandbox.shapeIndex,sandbox.tabletShapeIndex,sandbox.mobileShapeIndex],[0,1,2]);
@@ -109,7 +120,7 @@ assert.equal(historyUpdates,1,'Copy Code/Premium still refresh the URL without a
 assert.equal(new URLSearchParams(historyUrl.split('?')[1].split('#')[0]).get('animLength'),'65');
 let submissions=0;
 const submittedActions=[];
-for(const key of ['formClicked','formCreatedShape','formSi','formTsi','formMsi','formMobileReady','formAnimated','formGradient','formHasPremium','formShapeIsPremium']) sandbox[key]={value:''};
+for(const key of ['formClicked','formCreatedShape','formSi','formTsi','formMsi','formMobileReady','formAnimated','formGradient','formBrowser','formDate','formHasPremium','formShapeIsPremium']) sandbox[key]={value:''};
 sandbox.formElement={querySelector:()=>({click(){assert.equal(sandbox.formCreatedShape.value,sandbox.window.location.href);submittedActions.push(sandbox.formClicked.value);submissions++;}})};
 Object.assign(sandbox,{mobileReady:false,animate:true,tabletAnimate:false,mobileAnimate:false,gradient:false,tabletGradient:false,mobileGradient:false,hasPremiumAccess:()=>true});
 const handlers={};
@@ -146,7 +157,7 @@ vm.runInContext(app.slice(shareStart,app.indexOf('\n});',shareStart)+4),sandbox)
     for(const prefix of ['','tablet','mobile']) {
         const controls=['motion','edge','light','intensity','ribbon','sparks','lightColor','ribbonA','ribbonB','ribbonC','sparkColor'].map(field=>{
             const input=elements.get(prefixedId(prefix,'motion-'+field));
-            input.dataset={motionField:field};input.removeAttribute=()=>{};input.closest=()=>({});return input;
+            input.dataset={motionField:field};input.removeAttribute=()=>{};input.closest=selector=>selector === '.sd-entrance-controls' ? null : {};return input;
         });
         const row={removeAttribute(){},querySelector(){return null;}};
         for(const field of ['one-direction-checkbox','mirror-loop-checkbox','depth-layers-checkbox']) elements.get(prefixedId(prefix,field)).closest=()=>row;
