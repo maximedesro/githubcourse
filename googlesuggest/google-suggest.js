@@ -11,16 +11,16 @@
     strictSeedMatch: true,          // Also require one full original seed phrase.
     alphabet: "abcdefghijklmnopqrstuvwxyz".split(""),
     numbers: Array.from({ length: 23 }, (_, i) => String(i)),
-    years: ["2021", "2022", "2023"],
-    preModifiers: [],               // e.g. ["why", "what"]
-    postModifiers: [],              // e.g. ["how to", "how many"]
+    years: ["2025", "2026", "2027"],
+    preModifiers: ["why", "what"],               // e.g. ["why", "what"]
+    postModifiers: ["how to", "how many"],              // e.g. ["how to", "how many"]
     minDelay: 250,                 // Initial delay AFTER each query, in milliseconds.
     settleDelay: 250,              // Wait for autocomplete DOM to settle.
-    timeout: 4000,
+    timeout: 10000,
     maxRetries: 3,
-    retryDelay: 500,
+    retryDelay: 900,
     backoffMultiplier: 1.7,
-    maxDelay: 10000,
+    maxDelay: 30000,
     recoveryAfter: 15,
     checkpointEvery: 5,
     autoExport: true,
