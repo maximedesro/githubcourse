@@ -90,10 +90,14 @@ async function scalesAt(page, selector, pseudo, positions) {
                 firstFullyInView + 200, firstFullyInView + 100]);
         assert.deepEqual(preview.map(sample => sample.scale), ['1 0', '1 0', '1 0.5', '1', '1 0.5']);
 
+        await start.fill('200');
+        await start.blur();
+        assert.equal(await start.inputValue(), '200');
+        assert.equal(await finish.inputValue(), '201');
         await finish.fill('400');
         const extended = await scalesAt(page, '.shape-divider-canvas', null,
-            [firstFullyInView + 300, firstFullyInView + 600]);
-        assert.deepEqual(extended.map(sample => sample.scale), ['1 0.5', '1']);
+            [firstFullyInView + 200, firstFullyInView + 400, firstFullyInView + 600]);
+        assert.deepEqual(extended.map(sample => sample.scale), ['1 0', '1 0.5', '1']);
 
         await settings.getByLabel('Starting scale (%)').fill('20');
         await start.fill('25');

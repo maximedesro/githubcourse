@@ -1647,7 +1647,7 @@ function buildMotionExportCode(format) {
 }
 
 const defaultEntranceStart = 100;
-const maxEntranceStart = 100;
+const maxEntranceStart = 200;
 const defaultEntranceEnd = 200;
 const maxEntranceEnd = 400;
 
@@ -1671,7 +1671,10 @@ function mountEntranceControls(prefix) {
     const start = document.getElementById(id('entrance-start'));
     const end = document.getElementById(id('entrance-end'));
     start.addEventListener('change', () => {
-        start.value = readScrollEntrance(prefix).start;
+        const entrance = readScrollEntrance(prefix, { adjustEnd: true });
+        start.value = entrance.start;
+        end.value = entrance.end;
+        updateShape();
     });
     end.addEventListener('change', () => {
         const entrance = readScrollEntrance(prefix);
@@ -1684,17 +1687,19 @@ function mountEntranceControls(prefix) {
     });
 }
 
-function readScrollEntrance(prefix) {
+function readScrollEntrance(prefix, { adjustEnd = false } = {}) {
     const input = field => document.getElementById(prefixedId(prefix, field));
     const number = (field, fallback, min, max) => {
         const value = input(field).valueAsNumber;
         return Number.isFinite(value) ? Math.min(max, Math.max(min, Math.round(value))) : fallback;
     };
-    const end = number('entrance-end', defaultEntranceEnd, 1, maxEntranceEnd);
+    const start = number('entrance-start', defaultEntranceStart, 0, maxEntranceStart);
+    const finish = number('entrance-end', defaultEntranceEnd, 1, maxEntranceEnd);
+    const end = adjustEnd ? Math.max(finish, start + 1) : finish;
     return {
         enabled: input('scroll-entrance').checked,
         scale: number('entrance-scale', 0, 0, 100) / 100,
-        start: Math.min(end - 1, number('entrance-start', defaultEntranceStart, 0, maxEntranceStart)),
+        start: Math.min(end - 1, start),
         end
     };
 }
@@ -3013,10 +3018,10 @@ function getEntranceRange(state, thickness) {
     const range = (name, offset) => {
         // Extend from full visibility by a viewport distance so even a thin
         // divider has time to grow on screen.
-        const endOffset = end > 100
-            ? 'calc(' + offset(100) + ' + ' + (end - 100) / 4 + 'vh)'
-            : offset(end);
-        return name + ' ' + offset(start) + ' ' + name + ' ' + endOffset;
+        const extendedOffset = progress => progress > 100
+            ? 'calc(' + offset(100) + ' + ' + (progress - 100) / 4 + 'vh)'
+            : offset(progress);
+        return name + ' ' + extendedOffset(start) + ' ' + name + ' ' + extendedOffset(end);
     };
     if (state.direction === 'left' || state.direction === 'right') {
         const length = Math.min(100, Number(state.longAxis) || 100);
