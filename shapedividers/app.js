@@ -1648,6 +1648,9 @@ function buildMotionExportCode(format) {
     return '<style>\n'+rules.join('\n')+'\n</style>\n<div class="'+wrapper+'">'+markup.join('\n')+'</div>';
 }
 
+const defaultEntranceEnd = 200;
+const maxEntranceEnd = 400;
+
 function mountEntranceControls(prefix) {
     const id = field => prefixedId(prefix, field);
     const stack = document.getElementById(id('motion-stack'));
@@ -1661,8 +1664,9 @@ function mountEntranceControls(prefix) {
         '<div id="' + id('entrance-settings') + '" class="sd-entrance-settings" hidden>' +
         numberField('entrance-scale', 'Starting scale (%)', 0, 0, 100) +
         numberField('entrance-start', 'Start of entrance (%)', 0, 0, 99) +
-        numberField('entrance-end', 'Full size at (%)', 100, 1, 100) +
+        numberField('entrance-end', 'Full size at (%)', defaultEntranceEnd, 1, maxEntranceEnd) +
         '<p>0% is when the divider enters the viewport. 100% is when it is fully in view. ' +
+        'Every 100% beyond that adds a quarter of the viewport in scroll distance. ' +
         'Scroll outside this panel to test.</p>' +
         '<label>Scale origin <select id="' + id('entrance-origin') + '">' +
         '<option value="seam">Section edge</option><option value="center">Divider center</option>' +
@@ -1690,7 +1694,7 @@ function readScrollEntrance(prefix) {
         const value = input(field).valueAsNumber;
         return Number.isFinite(value) ? Math.min(max, Math.max(min, Math.round(value))) : fallback;
     };
-    const end = number('entrance-end', 100, 1, 100);
+    const end = number('entrance-end', defaultEntranceEnd, 1, maxEntranceEnd);
     return {
         enabled: input('scroll-entrance').checked,
         scale: number('entrance-scale', 0, 0, 100) / 100,
@@ -3010,19 +3014,27 @@ function getPremiumExportMessage() {
 // scrollport. Use the divider strip within that box for horizontal dividers.
 function getEntranceRange(state, thickness) {
     const {start, end} = state.entrance;
+    const range = (name, offset) => {
+        // Extend from full visibility by a viewport distance so even a thin
+        // divider has time to grow on screen.
+        const endOffset = end > 100
+            ? 'calc(' + offset(100) + ' + ' + (end - 100) / 4 + 'vh)'
+            : offset(end);
+        return name + ' ' + offset(start) + ' ' + name + ' ' + endOffset;
+    };
     if (state.direction === 'left' || state.direction === 'right') {
         const length = Math.min(100, Number(state.longAxis) || 100);
         if (length === 100 || !state.effects || state.effects.motion === 'scroll') {
-            return 'entry ' + start + '% entry ' + end + '%';
+            return range('entry', progress => progress + '%');
         }
         const leadingEdge = (Number(state.position) || 0) * (1 - length / 100);
         const offset = progress => (leadingEdge + length * progress / 100) + '%';
-        return 'entry-crossing ' + offset(start) + ' entry-crossing ' + offset(end);
+        return range('entry-crossing', offset);
     }
     const offset = progress => state.direction === 'top'
         ? 'min(100%, calc(' + thickness + ' * ' + progress / 100 + '))'
         : 'max(0%, calc(100% - ' + thickness + ' * ' + (100 - progress) / 100 + '))';
-    return 'entry-crossing ' + offset(start) + ' entry-crossing ' + offset(end);
+    return range('entry-crossing', offset);
 }
 
 function getEntranceThickness(state, extra = '0px') {
