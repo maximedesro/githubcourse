@@ -1656,9 +1656,8 @@ function mountEntranceControls(prefix) {
     const stack = document.getElementById(id('motion-stack'));
     const scrollRangeHelp = '0% is first visible, 100% is fully in view. Each extra 100% adds a quarter of the viewport in scroll distance.';
     const numberField = (field, label, value, min, max, tooltip) =>
-        '<label>' + label + ' <input type="number" id="' + id(field) +
-        '" value="' + value + '" min="' + min + '" max="' + max + '" step="1" data-sd-tooltip="' +
-        tooltip + '"></label>';
+        '<label data-sd-tooltip="' + tooltip + '">' + label + ' <input type="number" id="' + id(field) +
+        '" value="' + value + '" min="' + min + '" max="' + max + '" step="1"></label>';
     stack.insertAdjacentHTML('beforeend',
         '<div class="sd-entrance-controls"><label class="sd-motion-check"><input type="checkbox" id="' +
         id('scroll-entrance') + '" aria-controls="' + id('entrance-settings') +
