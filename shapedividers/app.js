@@ -1654,20 +1654,23 @@ const maxEntranceEnd = 400;
 function mountEntranceControls(prefix) {
     const id = field => prefixedId(prefix, field);
     const stack = document.getElementById(id('motion-stack'));
-    const numberField = (field, label, value, min, max) =>
+    const scrollRangeHelp = '0% is first visible, 100% is fully in view. Each extra 100% adds a quarter of the viewport in scroll distance.';
+    const numberField = (field, label, value, min, max, tooltip) =>
         '<label>' + label + ' <input type="number" id="' + id(field) +
-        '" value="' + value + '" min="' + min + '" max="' + max + '" step="1"></label>';
+        '" value="' + value + '" min="' + min + '" max="' + max + '" step="1" data-sd-tooltip="' +
+        tooltip + '"></label>';
     stack.insertAdjacentHTML('beforeend',
         '<div class="sd-entrance-controls"><label class="sd-motion-check"><input type="checkbox" id="' +
         id('scroll-entrance') + '" aria-controls="' + id('entrance-settings') +
         '"> Enable Scroll Based Entrance Animation</label>' +
         '<div id="' + id('entrance-settings') + '" class="sd-entrance-settings" hidden>' +
-        numberField('entrance-scale', 'Starting scale (%)', 0, 0, 100) +
-        numberField('entrance-start', 'Start of entrance (%)', defaultEntranceStart, 0, maxEntranceStart) +
-        numberField('entrance-end', 'Full size at (%)', defaultEntranceEnd, 1, maxEntranceEnd) +
-        '<p>0% is when the divider enters the viewport. 100% is when it is fully in view. ' +
-        'Every 100% beyond that adds a quarter of the viewport in scroll distance. ' +
-        'Scroll outside this panel to test.</p></div></div>');
+        numberField('entrance-scale', 'Starting scale (%)', 0, 0, 100,
+            'Divider size before the entrance begins. 0% is hidden, 100% is full size.') +
+        numberField('entrance-start', 'Start of entrance (%)', defaultEntranceStart, 0, maxEntranceStart,
+            'Scroll position where the divider starts growing. ' + scrollRangeHelp) +
+        numberField('entrance-end', 'Full size at (%)', defaultEntranceEnd, 1, maxEntranceEnd,
+            'Scroll position where the divider reaches full size. ' + scrollRangeHelp) +
+        '</div></div>');
     const start = document.getElementById(id('entrance-start'));
     const end = document.getElementById(id('entrance-end'));
     start.addEventListener('change', () => {

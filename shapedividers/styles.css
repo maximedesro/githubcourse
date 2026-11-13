@@ -2818,8 +2818,3 @@ body.sd-is-loading {
 .sd-entrance-settings input {
   width: 5em;
 }
-
-.sd-entrance-settings p {
-  margin: 6px 0;
-  font-size: 12px;
-}
