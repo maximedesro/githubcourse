@@ -1659,7 +1659,9 @@ function mountEntranceControls(prefix) {
         '<label data-sd-tooltip="' + tooltip + '">' + label + ' <input type="number" id="' + id(field) +
         '" value="' + value + '" min="' + min + '" max="' + max + '" step="1"></label>';
     stack.insertAdjacentHTML('beforeend',
-        '<div class="sd-entrance-controls"><label class="sd-motion-check"><input type="checkbox" id="' +
+        '<div class="sd-entrance-controls"><label class="sd-motion-check" ' +
+        'data-sd-tooltip="The Shape Divider will go from flat to full size based on scroll position">' +
+        '<input type="checkbox" id="' +
         id('scroll-entrance') + '" aria-controls="' + id('entrance-settings') +
         '"> Enable Scroll Based Entrance Animation</label>' +
         '<div id="' + id('entrance-settings') + '" class="sd-entrance-settings" hidden>' +
