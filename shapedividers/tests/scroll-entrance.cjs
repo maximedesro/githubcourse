@@ -135,6 +135,14 @@ async function scalesAt(page, selector, pseudo, positions) {
                     ? '<style>' + code + '</style><div id="host" class="' + name + '"></div>'
                     : '<div id="host">' + code + '</div>';
                 await output.setContent(base + markup + '<div class="spacer"></div>');
+                if (cssOnly) {
+                    assert.doesNotMatch(code, /(?:top|bottom|left|right):-2px;/);
+                } else {
+                    const inset = await output.locator('.' + name).evaluate(
+                        (el, edge) => getComputedStyle(el).getPropertyValue(edge), direction
+                    );
+                    assert.equal(inset, '-2px', format + ' ' + direction + ' overlap');
+                }
                 const samples = await scalesAt(output, '.' + name, cssOnly ? '::before' : null, steps);
                 assert.deepEqual(samples.map(sample => sample.scale), expected, format + ' ' + direction);
                 if (cssOnly) {
@@ -175,9 +183,13 @@ async function scalesAt(page, selector, pseudo, positions) {
         await output.setContent(base + '<div id="host">' + responsive + '</div><div class="spacer"></div>');
         const selector = '.' + responsiveName;
         assert.equal((await scalesAt(output, selector, null, [200]))[0].scale, 'none');
+        assert.equal(await output.locator(selector).evaluate(el => getComputedStyle(el).right), '0px');
         await output.setViewportSize({ width: 900, height: 800 });
         const tablet = await scalesAt(output, selector, null, [400, 500, 600, 500]);
         assert.deepEqual(tablet.map(sample => sample.scale), directions.right.expected);
+        assert.equal(await output.locator(selector).evaluate(el => getComputedStyle(el).right), '-2px');
+        await output.emulateMedia({ reducedMotion: 'reduce' });
+        assert.equal(await output.locator(selector).evaluate(el => getComputedStyle(el).right), '0px');
 
         assert.deepEqual(errors, []);
         console.log('Passed scroll entrance controls, preview, reduced motion, reversal, and CSS/SVG/mask export checks.');

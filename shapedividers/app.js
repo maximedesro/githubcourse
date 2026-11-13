@@ -3049,12 +3049,15 @@ function getEntranceThickness(state, extra = '0px') {
 function getEntranceCss(state, name, source, target, thickness, {
     existingAnimation = false,
     supportRule = entranceExportSupport + ' {\n',
-    timeline = '--' + name
+    timeline = '--' + name,
+    edgeOverlap = false
 } = {}) {
     const {direction, entrance} = state;
     const horizontal = direction === 'top' || direction === 'bottom';
     const from = horizontal ? '1 ' + entrance.scale : entrance.scale + ' 1';
     const edgeOrigin = {top:'100% 0', bottom:'100% 100%', left:'0 100%', right:'100% 100%'}[direction];
+    // Let the wrapper clip the artwork just past the seam to cover pixel rounding.
+    const overlap = edgeOverlap ? direction + ':-2px;' : '';
     const animation = existingAnimation ? 'var(--' + name + '-motion, none), ' : '';
     const range = existingAnimation ? 'normal, ' : '';
     const timelines = existingAnimation ? 'auto, ' : '';
@@ -3062,7 +3065,7 @@ function getEntranceCss(state, name, source, target, thickness, {
         '@media (prefers-reduced-motion: no-preference) {\n' +
         '@keyframes ' + name + '{from{scale:' + from + ';}to{scale:1 1;}}\n' +
         source + '{view-timeline-name:' + timeline + ';view-timeline-axis:block;view-timeline-inset:0;}\n' +
-        target + '{transform-origin:' + edgeOrigin + ';animation:' + animation + name + ' auto linear both;' +
+        target + '{' + overlap + 'transform-origin:' + edgeOrigin + ';animation:' + animation + name + ' auto linear both;' +
         'animation-timeline:' + timelines + timeline + ';animation-range:' + range +
         getEntranceRange(state, thickness) + ';}\n}}';
 }
@@ -3078,7 +3081,8 @@ function buildEntranceExportCss(states, wrapper, format, paired = false) {
         // A host can contain multiple dividers, which all share its view timeline.
         const rule = extra => getEntranceCss(state, name, host, target, getEntranceThickness(state, extra), {
             existingAnimation: cssOnly,
-            timeline: '--shapedividers-entrance'
+            timeline: '--shapedividers-entrance',
+            edgeOverlap: !cssOnly
         });
         let css = rule();
         const horizontal = state.direction === 'top' || state.direction === 'bottom';
